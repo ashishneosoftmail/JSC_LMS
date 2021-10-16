@@ -1,5 +1,160 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - JSC-LMS</title>
+
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link href="~/lib/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/bower_components/Ionicons/css/ionicons.min.css" rel="stylesheet" />
+    @*<link href="~/Content/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" />*@
+    <link href="~/Content/AdminLTE/dist/css/AdminLTE.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <style type="text/css">
+        a:hover{
+            text-decoration:none;
+        }
+    </style>
+
+</head>
+<body class="hold-transition skin-blue fixed sidebar-mini">
+    <!-- Site wrapper -->
+    <div class="wrapper">
+
+        <header class="main-header">
+            <a href="~/Home/Index" class="logo">
+                @*<img src="~/Content/Images/lms-logo.jpg" style="height:40px !important; width:125px" alt="logo" class="img-responsive logo">*@
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini">
+                    <img src="~/Content/Images/lms-logo.jpg" style="background-color: #1e282c;width: 54px;height: 50px; padding: 0px;" alt="logo" class="img-responsive logo">
+                </span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>JSC-LMS</b></span>
+            </a>
+
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                @{
+                                    //var name = Context.Session.GetString("FullName");
+                                    var firstName = Context.Request.Cookies["FirstName"];
+                                    <span class="hidden-xs"> <i> Welcome! @firstName</i></span>
+                                }
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>
+                                <a asp-action="index" asp-controller="farmer" class="dropdown-item">Farmer List</a>
+                                <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
+                                <div class="dropdown-divider"></div>
+                                <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </header>
+
+        <!-- =============================================== -->
+        <!-- Left side column. contains the sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                @*@{Html.RenderAction("Menu", "Layout");}*@
+
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN NAVIGATION</li>
+
+                  
+
+                    <li>
+                        <a href="~/Crop/Index">
+                            <i class="fa fa-circle-o"></i> <span>Crop</span>
+                        </a>
+                    </li>
+                   
+                </ul>
+              
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    @RenderBody()
+                </div>
+
+                <!-- modal Popup start -->
+                <div class="row">
+                    <div class="modal modal-default fade" id="modalLayout">
+                        <div class="modal-dialog">
+
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+                </div>
+                <!-- modal Popup end -->
+
+            </section>
+            <!-- /.content -->
+        </div>
+
+        <div style="padding-bottom:20px">
+
+        </div>
+        <footer class="border-top footer text-center text-white">
+            <div class="container">
+                &copy; 2021 - JSC-LMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+
+    @*<script src="~/js/site.js" asp-append-version="true"></script>*@
+    @RenderSection("Scripts", required: false)
+
+    <script src="~/lib/JqueryUI/jquery-ui.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/Content/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+    <script src="~/Content/AdminLTE/dist/js/demo.js"></script>
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $(".dropdown-toggle").dropdown();
+        });
+
+    </script>
+
+</body>
+</html>
