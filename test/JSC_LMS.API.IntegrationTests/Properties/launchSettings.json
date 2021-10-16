@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "JSC_LMS.API.IntegrationTests": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

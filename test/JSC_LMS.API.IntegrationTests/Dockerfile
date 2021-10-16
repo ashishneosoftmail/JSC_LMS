@@ -1,0 +1,26 @@
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+FROM mcr.microsoft.com/dotnet/runtime:3.1 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
+WORKDIR /src
+COPY ["test/JSC_LMS.API.IntegrationTests/JSC_LMS.API.IntegrationTests.csproj", "test/JSC_LMS.API.IntegrationTests/"]
+COPY ["src/Infrastructure/JSC_LMS.Persistence/JSC_LMS.Persistence.csproj", "src/Infrastructure/JSC_LMS.Persistence/"]
+COPY ["src/Core/JSC_LMS.Application/JSC_LMS.Application.csproj", "src/Core/JSC_LMS.Application/"]
+COPY ["src/Core/JSC_LMS.Domain/JSC_LMS.Domain.csproj", "src/Core/JSC_LMS.Domain/"]
+COPY ["src/API/JSC_LMS.Api/JSC_LMS.Api.csproj", "src/API/JSC_LMS.Api/"]
+COPY ["src/Infrastructure/JSC_LMS.Infrastructure/JSC_LMS.Infrastructure.csproj", "src/Infrastructure/JSC_LMS.Infrastructure/"]
+COPY ["src/Infrastructure/JSC_LMS.Identity/JSC_LMS.Identity.csproj", "src/Infrastructure/JSC_LMS.Identity/"]
+RUN dotnet restore "test/JSC_LMS.API.IntegrationTests/JSC_LMS.API.IntegrationTests.csproj"
+COPY . .
+WORKDIR "/src/test/JSC_LMS.API.IntegrationTests"
+RUN dotnet build "JSC_LMS.API.IntegrationTests.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "JSC_LMS.API.IntegrationTests.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "JSC_LMS.API.IntegrationTests.dll"]
