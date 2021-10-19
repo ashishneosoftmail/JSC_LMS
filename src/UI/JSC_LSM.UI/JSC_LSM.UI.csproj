@@ -650,7 +650,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\Content\Images\" />
   </ItemGroup>
