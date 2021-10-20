@@ -14,10 +14,11 @@
     <link href="~/Content/AdminLTE/dist/css/AdminLTE.css" rel="stylesheet" />
     <link href="~/Content/AdminLTE/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
     <link href="~/Content/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+   
     <style type="text/css">
-        a:hover{
-            text-decoration:none;
+        a:hover {
+            text-decoration: none;
         }
     </style>
 
@@ -82,16 +83,16 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
 
-                  
+
 
                     <li>
                         <a href="~/Crop/Index">
                             <i class="fa fa-circle-o"></i> <span>Crop</span>
                         </a>
                     </li>
-                   
+
                 </ul>
-              
+
             </section>
             <!-- /.sidebar -->
         </aside>
@@ -101,11 +102,11 @@
         <div class="content-wrapper">
 
             <!-- Main content -->
-            
+
             <section class="content">
                 <div class="row">
 
-                    
+
 
                     @RenderBody()
                 </div>
@@ -136,14 +137,13 @@
         </footer>
     </div>
     <script src="~/lib/jquery/jquery.min.js"></script>
-
     @*<script src="~/js/site.js" asp-append-version="true"></script>*@
     @RenderSection("Scripts", required: false)
 
     <script src="~/lib/JqueryUI/jquery-ui.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
@@ -153,11 +153,9 @@
 
 
     <script type="text/javascript">
-
         $(document).ready(function () {
             $(".dropdown-toggle").dropdown();
         });
-
     </script>
 
 </body>
