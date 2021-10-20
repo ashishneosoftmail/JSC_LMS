@@ -1,0 +1,46 @@
+﻿::-webkit-scrollbar {
+    display: block;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.login-page {
+    background-color: #EBF1F5;
+}
+
+.login-box {
+    border-top-color: #0069d9;
+    border-top-style: solid;
+    border-radius: 5px;
+    border-top-width: 3px;
+}
+
+    .login-box .noUnderline {
+        text-decoration: none;
+        color: black;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+        .login-box .noUnderline:hover {
+            text-decoration: none;
+            color: #0056b3;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        }
+
+.submitButtonStyle {
+    width: 100%;
+    background-color: #0069d9;
+}
+
+    .submitButtonStyle:hover {
+        width: 100%;
+        background-color: #0056b3;
+    }
+
+p {
+    font-size: 17px;
+}
+
+.card-body {
+    height: 300px;
+}
