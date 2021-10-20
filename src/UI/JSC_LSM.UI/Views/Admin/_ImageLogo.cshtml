@@ -1,31 +1,62 @@
-﻿
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset=utf-8 />
+    <title>JS Bin</title>
+    <!--[if IE]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <style>
+        article, aside, figure, footer, header, hgroup,
+        menu, nav, section {
+            display: block;
+        }
 
-<div class="container p-3 my-3 border" id="div3">
-    <h1>Image and Logo</h1>
-    <br />
-    <br />
-    <div class="form-group row ">
-        <label for="inputLogo" class="col-sm-2 col-form-label">Logo</label>
-        <div class="col-sm-6">
-            <input type="file" class="form-control" id="logo_img">
-            <br />
-            <button type="submit" class="btn btn-primary">Change/Upload</button>
-        </div>
+        #div3 {
+            width: 620px;
+            height: 420px;
+            display: inline-block;
+            padding: 15px;
+            text-align: center;
+            border-style: solid;
+            border-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(100)
+                        .height(100);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+    <div class="container p-3 my-3" id="div3">
+        <h3>Image and Logo</h3>
+        <br />
+        <br />
+        <label><h6>Logo</h6></label> <input type='file' onchange="readURL(this);" />
+        <img id="blah" src="#" alt="Preview image" />
+        <button type="submit" class="btn btn-primary">Save</button>
+        <br />
+       <br />
+        <br />
+        <label><h6>Login Image</h6></label> <input type='file' onchange="readURL(this);" />
+        <img id="blah" src="#" alt="Preview image" />
+        <button type="submit" class="btn btn-primary">Save</button>
     </div>
-    <br />
-
-
-    <div class="form-group row ">
-        <label for="inputLogin" class="col-sm-2 col-form-label">Login Image</label>
-        <div class="col-sm-6">
-            <input type="file" class="form-control" id="login_img">
-            <br />
-            <button type="submit" class="btn btn-primary">Change/Upload</button>
-        </div>
-
-    </div>
-    <br />
-    <br />
-
-    <button type="submit" class="btn btn-primary">Save</button>
-</div>
+</body>
+</html>

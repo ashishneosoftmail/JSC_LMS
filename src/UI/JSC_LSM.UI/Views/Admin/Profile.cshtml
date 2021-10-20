@@ -4,10 +4,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    #div6 {
+       
+        height: 900px;
+        display: inline-block;
+        border-style: solid;
+        border-color: black;
+    }
+</style>
+
 <h2>Manage Profile</h2>
 
-
-@{ Html.RenderPartial("_Profile"); }
-@{ Html.RenderPartial("_ImageLogo"); }
-@{ Html.RenderPartial("_ChangePassword"); }
-
+<div class="container" id="div6">
+    @{ Html.RenderPartial("_Profile"); }
+    @{ Html.RenderPartial("_ChangePassword"); }
+    @{ Html.RenderPartial("_ImageLogo"); }
+</div>

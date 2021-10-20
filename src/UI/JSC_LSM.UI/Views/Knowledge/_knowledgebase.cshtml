@@ -1,0 +1,257 @@
+﻿
+
+
+<style>
+
+    form {
+        padding: inherit;
+        margin: 5px 5px 5px 5px;
+        border: 2px solid black;
+    }
+
+    #inputSlug {
+        margin: left;
+        padding: left;
+        width: 850px;
+    }
+
+
+
+    button {
+        margin: 40px;
+        padding: 70px;
+    }
+
+
+    #requestacallform {
+        width: 200px;
+    }
+
+    #editor {
+        width: 100%;
+        height: 200px;
+    }
+</style>
+
+
+<div class="container p-3 my-3 border fixed" id="div1">
+
+    <form>
+        <div class="row">
+            <div class="col">
+
+
+                <div class="form-group row">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputCategory" placeholder="select Category">
+
+
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Doc Title</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title">
+                    </div>
+                </div>
+                <br />
+
+
+                <br />
+                <br />
+
+            </div>
+            <div class="col">
+
+
+
+
+
+                <a href="" data-toggle="modal" data-target=".bannerformmodal">+Add Category</a>
+
+                <div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-content">
+                                <div class="modal-header">
+
+                                    <h4 class="modal-title" id="myModalLabel">Category Name</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="requestacallform" method="POST" name="requestacallform">
+
+                                        <div class="form-group">
+                                            <label>Add Category</label>
+                                            <div class="input-group">
+
+                                                <input id="first_name" type="text" class="form-control" placeholder="Category Name" />
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-primary">Submit</button>
+
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Sub Title</label><br />
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title">
+                    </div>
+                </div>
+                <br />
+
+
+            </div>
+
+
+            <div class="form-group row">
+                <label for="inputKnow" class="col-sm-1 col-form-label">Slug Url</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url">
+                </div>
+            </div>
+            <br />
+
+            <br /><br /><br />
+
+            <div class="form-group row">
+
+                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content</label>
+                <div class="col-sm-7">
+
+                    <textarea id="editor" placeholder="Add Content"></textarea>
+
+
+                    @*<textarea class="text-input textarea" id="inputContent" placeholder="Add Content" rows="10" cols="75"></textarea>*@
+                </div>
+            </div>
+            <br /><br /><br />
+
+
+            <!--  <div class="container">
+                  <h2>Modal Example</h2>
+
+                  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+
+                  <div class="modal fade" id="myModal" role="dialog">
+                      <div class="modal-dialog">
+
+
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  <h4 class="modal-title">Modal Header</h4>
+                              </div>
+                              <div class="modal-body">
+                                  <p>Some text in the modal.</p>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+
+              </div> -->
+
+
+
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col">
+
+                                </div>
+
+                                <div class="col-5">
+
+                                </div>
+
+                                <div class="col">
+
+                                    <button type="button" class="btn btn-primary">Save</button>
+
+                                    <button type="button" class="btn btn-danger">Cancel</button>
+
+
+
+                                </div>
+                            </div>
+
+
+                            @*<div class="container mt-4 mb-4">
+            <div class="row justify-content-md-center">
+                <div class="col-md-12 col-lg-8">
+                    <h1 class="h2 mb-4">Submit issue</h1>
+                    <label>Describe the issue in detail</label>
+                    <div class="form-group">
+                        <textarea id="editor"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>*@
+
+
+
+
+
+
+
+
+
+
+</form>
+</div>
+
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+        menubar: false
+    });
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
