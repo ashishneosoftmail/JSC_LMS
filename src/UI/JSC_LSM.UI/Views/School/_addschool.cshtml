@@ -1,0 +1,222 @@
+﻿<style>
+    #Zip,#City,#State,#Insti{
+        width:300px;
+        height:40px;
+    }
+    form{
+        padding:inherit;
+        margin: 5px 5px 5px 5px;
+        border:2px solid black;
+    }
+
+
+    button {
+        margin: 30px;
+        padding: 50px;
+    }
+
+   
+
+
+</style>
+
+<div class="container p-3 my-3 border fixed" id="div1">
+  
+    <form>
+        <div class="row">
+            <div class="col">
+
+
+
+                <!-- <div class="form-group row">
+                <label for="Insti">Institute Name</label>
+                <select id="Insti" name="Insti">
+                    <option value="1">Select Institute</option>
+                    <option value="2">Chicago Public School</option>
+                </select>
+
+            </div>
+            <br /> -->
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Institute Name</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputInsti" placeholder="Institute">
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Address1</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputAddress" placeholder="Address1">
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Address2</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputAddress2" placeholder="Address2">
+                    </div>
+                </div>
+                <br />
+
+
+                <!--  <div class="form-group row">
+                   <label for="City">City</label>
+                   <select id="City" name="City">
+                       <option value="1">Select City</option>
+                       <option value="2">Delhi</option>
+                       <option value="3">Pune</option>
+                   </select>
+
+               </div>
+               <br />
+
+
+                <div class="form-group row">
+                <label for="State">State</label>
+                <select id="State" name="State">
+                    <option value="1">Select State</option>
+                    <option value="2">Maharashtra</option>
+                    <option value="3">Gujarat</option>
+                </select>
+
+            </div>
+            <br /> -->
+
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">City</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputCity" placeholder="City">
+                    </div>
+                </div>
+                <br />
+
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">State</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputState" placeholder="State">
+                    </div>
+                </div>
+              
+
+                <!--   <b>Status </b><br />
+            <span>Active</span>
+            <input checked="checked" id="Tea" name="Tea" type="checkbox" value="true" />
+            <input name="Tea" type="hidden" value="false" />
+
+            <span> Inactive</span>
+            <input checked="checked" id="Loundry" name="Loundry" type="checkbox" value="true" />
+            <input name="Loundry" type="hidden" value="false" />
+
+            <br /><br /> -->
+
+                <label id="status1">Status</label>
+
+                <div class="form-check form-check-inline" style="margin:30px; padding:30px;" >
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                    <label class="form-check-label" for="inlineRadio1">Active</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                    <label class="form-check-label" for="inlineRadio2">Inactive</label>
+                </div>
+
+                <br />
+                
+
+            </div>
+            <div class="col">
+
+
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School Name</label><br />
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputSchoolname" placeholder="Schoolname">
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Contact Person</label><br />
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputContact" placeholder="Contact">
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-7">
+                        <input type="email" class="form-control" id="inputEmail" placeholder="Admin@example.com">
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Mobile</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputMobile" placeholder="Mobile">
+                    </div>
+                </div>
+                <br />
+
+
+
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Zip</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputZip" placeholder="Zip">
+                    </div>
+                </div>
+                <br />
+
+            </div>
+        </div>
+
+        <!--<div class="form-group row">
+        <label for="Zip">Zip</label>
+        <select id="Zip" name="Zip">
+            <option value="1">Select Zipcode</option>
+            <option value="2">444333</option>
+            <option value="3">555555</option>
+        </select>
+
+    </div>
+    <br />-->
+
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+
+                </div>
+
+                <div class="col-5">
+
+                </div>
+
+                <div class="col">
+
+
+                    <button type="button" class="btn btn-primary">Save</button>
+
+                    <button type="button" class="btn btn-danger">Cancel</button>
+
+
+                </div>
+            </div>
+
+
+
+
+
+</form>
+</div>
