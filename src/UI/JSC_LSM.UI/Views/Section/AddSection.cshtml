@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "AddSection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<h2>Add Section</h2>
+<br />
+
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<div class="container">
+    <h2>Create Section Only Popup</h2>
+    <!-- Button to Open the Modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        create Section
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Create Section</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">School Name:</label>
+                            <select id="inputState" class="form-control">
+                                <option value="john">Select Shool Name</option>
+                                <option value="adam">School1</option>
+                                <option value="marcus">School2</option>
+                                <option value="anthony">School 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Class Name:</label>
+                            <select id="inputClass" class="form-control">
+                                <option value="john">Select Class Name</option>
+                                <option value="adam">Class</option>
+                                <option value="marcus">Class</option>
+                                <option value="anthony">Class 4</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="col-form-label">Section Name:</label>
+                            <input class="form-control" type="text" />
+                        </div>
+
+
+
+                        <label for="message-text" class="col-form-label">Status:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                            <label class="form-check-label" for="inlineCheckbox1">Active</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                            <label class="form-check-label" for="inlineCheckbox2">Inactive</label>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+
+    $(document).ready(function () {
+        $('#inputState').on('change', function () {
+            $('#message-text').val($('#inputState').val())
+        })
+    })
+</script>
+
+
+
+
+
+
+

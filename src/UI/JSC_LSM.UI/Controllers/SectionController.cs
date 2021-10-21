@@ -6,19 +6,11 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Controllers
 {
-    public class AdminController : Controller
+    public class SectionController : Controller
     {
-        public IActionResult Index()
+        public IActionResult AddSection()
         {
             return View();
         }
-
-        public IActionResult Profile()
-        {
-            return View();
-        }
-      
-     
-      
     }
 }
