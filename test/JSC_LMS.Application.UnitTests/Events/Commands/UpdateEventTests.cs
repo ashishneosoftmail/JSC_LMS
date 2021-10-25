@@ -17,7 +17,7 @@ namespace JSC_LMS.Application.UnitTests.Events.Commands
         private readonly IMapper _mapper;
         private readonly Mock<IEventRepository> _mockEventRepository;
 
-        public UpdateEventTests()
+        /*public UpdateEventTests()
         {
             _mockEventRepository = EventRepositoryMocks.GetEventRepository();
             var configurationProvider = new MapperConfiguration(cfg =>
@@ -62,6 +62,6 @@ namespace JSC_LMS.Application.UnitTests.Events.Commands
             allEvents.Count.ShouldBe(2);
             allEvents.ShouldContain(oldEvent);
             oldEvent.ShouldBeEquivalentTo(newEvent);
-        }
+        }*/
     }
 }

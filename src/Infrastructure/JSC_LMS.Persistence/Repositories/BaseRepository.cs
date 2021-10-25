@@ -17,7 +17,7 @@ namespace JSC_LMS.Persistence.Repositories
             _dbContext = dbContext; _logger = logger;
         }
 
-        public virtual async Task<T> GetByIdAsync(Guid id)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

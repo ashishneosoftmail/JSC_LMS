@@ -15,9 +15,12 @@ namespace JSC_LMS.Persistence
                 options.UseSqlServer(configuration.GetConnectionString("ApplicationConnectionString")));
 
             services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IEventRepository, EventRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IStateRepository, StateRepository>();
 
             return services;
         }

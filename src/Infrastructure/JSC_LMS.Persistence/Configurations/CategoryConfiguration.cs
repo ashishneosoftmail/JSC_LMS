@@ -10,20 +10,38 @@ namespace Scrum.Demo.Persistence.Configurations
         {
             //Not necessary if naming conventions are followed in model
             builder
-                .HasKey(b => b.CategoryId);
+                .HasKey(b => b.Id);
+
 
             builder
-                .Property(b => b.CreatedBy)
-                .HasColumnType("nvarchar(450)");
+                .Property(b => b.CategoryName)
+                .IsRequired()
+                .HasColumnType("nvarchar(50)");
+            builder
+                .Property(b => b.IsActive)
+                .IsRequired()
+                .HasColumnType("bit");
+            builder
+                 .Property(b => b.CreatedBy)
+                 .HasColumnType("int");
 
             builder
                 .Property(b => b.LastModifiedBy)
-                .HasColumnType("nvarchar(450)");
+                .HasColumnType("int");
 
             builder
-                .Property(b => b.Name)
-                .IsRequired()
-                .HasColumnType("nvarchar(50)");
+                .Property(b => b.DeletedBy)
+                .HasColumnType("int");
+            builder
+                .Property(b => b.CreatedDate)
+                .HasColumnType("datetime");
+
+            builder
+                .Property(b => b.LastModifiedDate)
+                .HasColumnType("datetime");
+            builder
+              .Property(b => b.DeletedDate)
+              .HasColumnType("datetime");
         }
     }
 }

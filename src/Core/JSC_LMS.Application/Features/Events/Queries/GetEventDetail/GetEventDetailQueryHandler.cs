@@ -28,21 +28,22 @@ namespace JSC_LMS.Application.Features.Events.Queries.GetEventDetail
 
         public async Task<Response<EventDetailVm>> Handle(GetEventDetailQuery request, CancellationToken cancellationToken)
         {
-            string id = _protector.Unprotect(request.Id);
+            /* string id = _protector.Unprotect(request.Id);
 
-            var @event = await _eventRepository.GetByIdAsync(new Guid(id));
-            var eventDetailDto = _mapper.Map<EventDetailVm>(@event);
+             var @event = await _eventRepository.GetByIdAsync(new Guid(id));
+             var eventDetailDto = _mapper.Map<EventDetailVm>(@event);
 
-            var category = await _categoryRepository.GetByIdAsync(@event.CategoryId);
+             var category = await _categoryRepository.GetByIdAsync(@event.CategoryId);
 
-            if (category == null)
-            {
-                throw new NotFoundException(nameof(Event), request.Id);
-            }
-            eventDetailDto.Category = _mapper.Map<CategoryDto>(category);
+             if (category == null)
+             {
+                 throw new NotFoundException(nameof(Event), request.Id);
+             }
+             eventDetailDto.Category = _mapper.Map<CategoryDto>(category);
 
-            var response = new Response<EventDetailVm>(eventDetailDto);
-            return response;
+             var response = new Response<EventDetailVm>(eventDetailDto);
+             return response;*/
+            return null;
         }
     }
 }

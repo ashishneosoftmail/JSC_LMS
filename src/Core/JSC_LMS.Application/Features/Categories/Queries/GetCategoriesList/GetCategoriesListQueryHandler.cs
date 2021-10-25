@@ -26,14 +26,11 @@ namespace JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList
         public async Task<Response<IEnumerable<CategoryListVm>>> Handle(GetCategoriesListQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handle Initiated");
-            var allCategories = (await _categoryRepository.ListAllAsync()).OrderBy(x => x.Name);
+            var allCategories = await _categoryRepository.ListAllAsync();
             var category = _mapper.Map<IEnumerable<CategoryListVm>>(allCategories);
             _logger.LogInformation("Hanlde Completed");
             return new Response<IEnumerable<CategoryListVm>>(category, "success");
         }
 
     }
-
-
-
 }
