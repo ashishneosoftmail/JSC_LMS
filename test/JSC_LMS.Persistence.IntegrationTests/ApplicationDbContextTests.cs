@@ -29,12 +29,12 @@ namespace JSC_LMS.Persistence.IntegrationTests
         // [Fact]
         public async void Save_SetCreatedByProperty()
         {
-            var ev = new Event() { EventId = Guid.NewGuid(), Name = "Test event" };
+            /*  var ev = new Event() { EventId = Guid.NewGuid(), Name = "Test event" };
 
-            _globoTicketDbContext.Events.Add(ev);
-            await _globoTicketDbContext.SaveChangesAsync();
+              _globoTicketDbContext.Events.Add(ev);
+              await _globoTicketDbContext.SaveChangesAsync();
 
-            ev.CreatedBy.ShouldBe(_loggedInUserId);
+              ev.CreatedBy.ShouldBe(_loggedInUserId);*/
         }
     }
 }

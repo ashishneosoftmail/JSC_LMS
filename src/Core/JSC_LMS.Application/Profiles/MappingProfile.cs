@@ -2,6 +2,13 @@ using AutoMapper;
 using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
+using JSC_LMS.Application.Features.Common.Categories.Queries.GetCategoriesList;
+using JSC_LMS.Application.Features.Common.Cities.Queries.GetCitiesListWithStateId;
+using JSC_LMS.Application.Features.Common.Roles.Commands.CreateRole;
+using JSC_LMS.Application.Features.Common.Roles.Commands.UpdateRole;
+using JSC_LMS.Application.Features.Common.Roles.Queries.GetRoleById;
+using JSC_LMS.Application.Features.Common.Roles.Queries.GetRolesList;
+using JSC_LMS.Application.Features.Common.States.Queries.GetStatesList;
 using JSC_LMS.Application.Features.Events.Commands.CreateEvent;
 using JSC_LMS.Application.Features.Events.Commands.UpdateEvent;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
@@ -31,6 +38,23 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Order, OrdersForMonthDto>();
 
             CreateMap<Event, EventListVm>().ConvertUsing<EventVmCustomMapper>();
+
+            //Roles Mapper
+            //CreateMap<Role, RolesListVm>();
+            // CreateMap<Role, RolesListVm>().ReverseMap();
+            CreateMap<Role, CreateRoleCommand>().ReverseMap();
+            CreateMap<Role, UpdateRoleCommand>().ReverseMap();
+            CreateMap<Role, RoleListVm>().ReverseMap();
+
+            /* //Categories Mapper
+             CreateMap<Category, CategoriesListVm>();
+
+             //State Mapper
+             CreateMap<State, StatesListVm>();
+
+             //Cities Mapper
+             CreateMap<City, CitiesListVm>();*/
+
         }
     }
 }

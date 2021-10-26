@@ -21,9 +21,10 @@ namespace JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithE
 
         public async Task<Response<IEnumerable<CategoryEventListVm>>> Handle(GetCategoriesListWithEventsQuery request, CancellationToken cancellationToken)
         {
-            var list = await _categoryRepository.GetCategoriesWithEvents(request.IncludeHistory);
-            var categoryEventList = _mapper.Map<IEnumerable<CategoryEventListVm>>(list);
-            return new Response<IEnumerable<CategoryEventListVm>>(categoryEventList, "success");
+            /* var list = await _categoryRepository.GetCategoriesWithEvents(request.IncludeHistory);
+             var categoryEventList = _mapper.Map<IEnumerable<CategoryEventListVm>>(list);
+             return new Response<IEnumerable<CategoryEventListVm>>(categoryEventList, "success");*/
+            return null;
         }
 
 

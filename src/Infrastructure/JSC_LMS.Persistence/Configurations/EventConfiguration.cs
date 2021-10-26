@@ -40,12 +40,6 @@ namespace Scrum.Demo.Persistence.Configurations
                 .HasColumnType("nvarchar(200)")
                 .IsRequired();
 
-            //Not necessary if relationship conventions are followed in model(Cascade is the default behaviour)
-            builder
-                .HasOne(b => b.Category)
-                .WithMany(b => b.Events)
-                .HasForeignKey(b => b.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

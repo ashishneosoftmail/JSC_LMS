@@ -4,9 +4,11 @@ namespace JSC_LMS.Domain.Common
 {
     public class AuditableEntity
     {
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string LastModifiedBy { get; set; }
+        public int? CreatedBy { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int? LastModifiedBy { get; set; }
         public DateTime? LastModifiedDate { get; set; }
+        public int? DeletedBy { get; set; }
+        public DateTime? DeletedDate { get; set; }
     }
 }

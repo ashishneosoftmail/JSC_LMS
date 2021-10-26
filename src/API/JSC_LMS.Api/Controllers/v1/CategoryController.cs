@@ -1,6 +1,7 @@
 using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
+using JSC_LMS.Application.Features.Common.Roles.Commands.DeleteRole;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -56,5 +57,6 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(createCategoryCommand);
             return Ok(response);
         }
+        
     }
 }
