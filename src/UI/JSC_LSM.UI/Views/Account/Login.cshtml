@@ -1,0 +1,139 @@
+﻿@model JSC_LSM.UI.Models.Login
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login </title>
+
+
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+    <link href="~/lib/JqueryUI/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/bower_components/Ionicons/css/ionicons.min.css" rel="stylesheet" />
+    @*<link href="~/Content/AdminLTE/dist/css/AdminLTE.min.css" rel="stylesheet" />*@
+    <link href="~/Content/AdminLTE/dist/css/AdminLTE.css" rel="stylesheet" />
+    <link href="~/Content/AdminLTE/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
+
+    <link href="~/Content/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+
+    <style>
+        .box {
+            border-top: solid 3px #24a0ed;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .button2 {
+            background-color: #24a0ed;
+        }
+
+        .para {
+            text-align: right;
+        }
+
+        .wrap {
+            width: 150px;
+            margin-left: 0px;
+            margin-top: 5px;
+            background: #fff;
+            padding: 10px;
+            border: 2px solid #aaa;
+            border-radius: 15px;
+            background-clip: padding-box;
+            text-align: left;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 2px;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            padding: 5px 10px;
+            border: 1px solid #aaa;
+            background-color: #eee;
+            background-image: linear-gradient(top, #fff, #f0f0f0);
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+            color: #666;
+            text-decoration: none;
+            text-shadow: 0 1px 0 #fff;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            border-color: #999;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+            width: 120px;
+        }
+    </style>
+
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box box">
+
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="" style="text-decoration:none" class="h2 text-black"><b>LOGIN</b></a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+
+                <form action="" method="post">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Email">
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" placeholder="Password">
+
+                    </div>
+                    <p class="mb-1 para">
+                        <a class="text-primary" style="text-decoration:none" href=""> Forgot password ?</a>
+                    </p>
+                    <div class="row">
+
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="button" class="btn btn-primary button2" id="signInButton">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+                <div id="wrapper">
+
+                </div>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/AdminLTE/bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/Content/AdminLTE/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
+    <script src="~/Content/AdminLTE/dist/js/demo.js"></script>
+
+    <script type="text/javascript">
+            const targetDiv = document.getElementById("wrapper");
+            const btn = document.getElementById("signInButton");
+            let list = ["Super Admin", "Institute Admin", "Principal", "Teacher", "Student", "Parents"];
+            btn.onclick = function () {
+                targetDiv.className += "wrap";
+                list.forEach(addRoles)
+            };
+            function addRoles(item) {
+                var role = document.createElement("a");
+                role.innerHTML = item;
+                role.className += "button";
+                targetDiv.appendChild(role);
+            }
+    </script>
+
+</body>
+</html>
