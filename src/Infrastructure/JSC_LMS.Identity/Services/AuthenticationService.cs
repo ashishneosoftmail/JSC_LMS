@@ -19,16 +19,19 @@ namespace JSC_LMS.Identity.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
         private readonly IdentityDbContext _context;
 
         public AuthenticationService(UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
             IdentityDbContext context)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _jwtSettings = jwtSettings.Value;
             _signInManager = signInManager;
             _context = context;
@@ -70,7 +73,8 @@ namespace JSC_LMS.Identity.Services
                 _context.Update(user);
                 _context.SaveChanges();
             }
-            var roles = await _userManager.GetRolesAsync(user);
+            var roleName = await _userManager.GetRolesAsync(user);
+            var roleId = await _roleManager.FindByNameAsync(roleName[0]);
             response.Message = "succeeded";
             response.IsAuthenticated = true;
             response.UserDetails = new User()
@@ -81,7 +85,7 @@ namespace JSC_LMS.Identity.Services
                 Id = user.Id,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                Role = new Role() { RoleName = roles[0] }
+                Role = new Role() { RoleId = roleId.Id.ToString(), RoleName = roleName[0] }
             };
             response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
 

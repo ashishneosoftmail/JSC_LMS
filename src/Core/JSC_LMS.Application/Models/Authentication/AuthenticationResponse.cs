@@ -28,6 +28,7 @@ namespace JSC_LMS.Application.Models.Authentication
     }
     public class Role
     {
+        public string RoleId { get; set; }
         public string RoleName { get; set; }
     }
 }
