@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "ManageStudentUsers ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h4 class="m-3">Manage Student Users </h4>
+<div class="row m-3">
+    
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="className" class="col-sm-5 col-form-label">Class Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="className">
+                    <option disabled selected hidden>Select Class</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="section" class="col-sm-4 col-form-label">Section</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="section">
+                    <option disabled selected hidden>Select Section</option>
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="status" class="col-sm-4 col-form-label">Status</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="status">
+                    <option disabled selected hidden>Select Status</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="date" class="col-sm-4 col-form-label">Date</label>
+            <div class="col-sm-7">
+                <input type="date" value="" class="form-control" id="date" />
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+    <div class="col-sm-6">
+        <div class="form-group row">
+            <label for="student" class="col-sm-3 col-form-label">Student Name</label>
+            <div class="col-sm-6">
+                <select class="form-control" id="student">
+                    <option disabled selected hidden>Select Student</option>
+                    <option>John</option>
+                    <option>Raj</option>
+                </select>
+            </div>
+        </div>
+    </div>
+        </div>
+    
+</div>
+<div class="row m-3">
+    <div class="col-sm-12 d-flex flex-row justify-content-between">
+        <div class="col-sm-1">
+            <div class="form-group row">
+                <button class="btn btn-primary ">Search</button>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <button class="btn btn-sm btn-primary pull-right">Export</button>
+
+        </div>
+       
+        
+    </div>
+</div>
+<h5 class="m-3">Users List</h5>
+<div id="wrap" class="m-3">
+    <div class="container">
+        <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover table-responsive ">
+            <thead>
+                <tr>
+                    <th>#</th>
+
+                    <th>Class Name</th>
+                    <th>Section Name</th>
+                    <th>Student Name</th>
+                    <th>Created Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>XYZ</td>
+                    <td>A</td>
+                    <td>Peter</td>
+                    <td>19 - Jul - 2021</td>
+                    <td>Active</td>
+                    <td>
+                        
+                        <a class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal">Edit</a>
+
+                        
+                        @*<div class="modal fade" id="myModal" role="dialog">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        
+                                        <h4 class="modal-title text-center">Edit User</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label class="mr-3" for="studentName">Student Name</label><input id="studentName" /><br />
+                                        <label class="mr-3" for="class">Class</label><input id="class" /><br />
+                                        <label class="mr-3" for="section">Section</label><input id="section" /><br />
+                                        <label class="mr-3" for="subject">Subject</label><input id="subject" /><br />
+                                        <label class="mr-3" for="email">Email</label><input id="email" /><br />
+                                        <label class="mr-3" for="npass">New Password</label><input id="npass" /><br />
+                                        <label class="mr-3" for="cpass">Confirm Password</label><input id="cpass" /><br />
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Update</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>YFR</td>
+                    <td>B</td>
+                    <td>Peter</td>
+                    <td>19 - Jul - 2021</td>
+                    <td>Active</td>
+                    <td>
+                       <a href="" class="btn btn-link btn-sm">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>PQW</td>
+                    <td>A</td>
+                    <td>Peter</td>
+                    <td>19 - Jul - 2021</td>
+                    <td>Active</td>
+                    <td>
+                        <a href="" class="btn btn-link btn-sm">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>XYZ</td>
+                    <td>A</td>
+                    <td>Peter</td>
+                    <td>19 - Jul - 2021</td>
+                    <td>Active</td>
+                    <td>
+                        <a href="" class="btn btn-link btn-sm">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>XYZ</td>
+                    <td>A</td>
+                    <td>Peter</td>
+                    <td>19 - Jul - 2021</td>
+                    <td>Active</td>
+                    <td>
+                        <a href="" class="btn btn-link btn-sm">Edit</a>
+                    </td>
+                </tr>             
+            </tbody>
+        </table>
+    </div>
+</div>
+ 
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+            searching: false,
+            "oLanguage": {
+                "sLengthMenu": "Rows_Per_Page _MENU_",
+            },
+            @*"dom": '<"top"i>rt<"bottom"flp><"clear">'*@
+        });
+        $('.datatable').each(function () {
+            var datatable = $(this);
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-lg');
+        });
+    });
+</script>
