@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Controllers
 {
-    public class ClassController : Controller
+    public class SuperAdmin : Controller
     {
-        public IActionResult AddClass()
+        public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult ManageClass()
+        public IActionResult ManagesSchools()
         {
             return View();
         }
-
     }
 }

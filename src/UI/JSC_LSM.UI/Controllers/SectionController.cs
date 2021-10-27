@@ -12,5 +12,9 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
+        public IActionResult ManageSection()
+        {
+            return View();
+        }
     }
 }

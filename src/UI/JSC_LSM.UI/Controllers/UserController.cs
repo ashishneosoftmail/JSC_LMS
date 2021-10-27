@@ -25,5 +25,11 @@ namespace JSC_LSM.UI.Controllers
             return View();
 
         }
+        public IActionResult ManageTeacherUsers()
+        {
+            return View();
+
+        }
+
     }
 }
