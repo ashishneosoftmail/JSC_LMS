@@ -1,6 +1,6 @@
 ﻿namespace JSC_LMS.Domain.Entities
 {
-    public internal interface ApplicationUser
+    /*public internal interface ApplicationUser
     {
-    }
+    }*/
 }
