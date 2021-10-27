@@ -29,6 +29,7 @@ namespace JSC_LMS.Persistence
         public DbSet<Role> Roles { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
+        public DbSet<Zip> ZipCode { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

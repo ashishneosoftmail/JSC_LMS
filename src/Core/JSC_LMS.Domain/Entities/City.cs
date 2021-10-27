@@ -15,5 +15,6 @@ namespace JSC_LMS.Domain.Entities
         public bool IsActive { get; set; }
         public int StateId { get; set; }
         public State State { get; set; }
+        public ICollection<Zip> Zip { get; set; }
     }
 }
