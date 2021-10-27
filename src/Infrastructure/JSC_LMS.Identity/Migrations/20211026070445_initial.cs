@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JSC_LMS.Identity.Migrations
@@ -180,12 +180,15 @@ namespace JSC_LMS.Identity.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "95e91b0c-bd15-471f-b5bc-6c35bb7f5884", "d7be5d6a-8031-4488-b76b-5fc0bc4adff8", "Viewer", "VIEWER" });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "0b4d3dd5-6956-4c2d-8cd6-dae4e0ed991c", "c74f2084-b730-4a80-93e7-56fc1af42f18", "Administrator", "ADMINISTRATOR" });
+                values: new object[,]
+                {
+                    { "aab8c143-91a2-4a36-bb30-92cad1a925ee", "213fb46d-7363-4117-b773-58a5d5ea0615", "Parent", "PARENT" },
+                    { "a303e5f7-6c38-4066-ae1a-c77649b17c2d", "b39f5cae-2d16-4bbd-94c3-6365e0b210f1", "Student", "STUDENT" },
+                    { "af2d5413-4063-4c35-80da-79653fd9b0e4", "4ce7c4e3-4184-449d-b65d-b9b502703f12", "Teacher", "TEACHER" },
+                    { "d2fef1bb-abc7-42ca-9aac-ed5dfd6373ee", "e578c7a0-346b-4ef9-bf03-25750ecd5781", "Principal", "PRINCIPAL" },
+                    { "a148e1df-29e5-441e-8dc3-fe4f2ae16a79", "7c16956e-014c-4c34-ad6c-d71dac3907b5", "Institute Admin", "INSTITUTE ADMIN" },
+                    { "418b7c3e-4439-42e2-ac14-38877dfd48ea", "886a3ffc-29e8-4712-abd8-4cb6d9296d8f", "Super administrator", "SUPER ADMINISTRATOR" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace JSC_LMS.Domain.Entities
 {
-    public class State : AuditableEntity
+    public class State : AuditableEntity,ApplicationUser
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

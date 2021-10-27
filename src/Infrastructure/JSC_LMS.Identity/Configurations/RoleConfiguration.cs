@@ -12,14 +12,34 @@ namespace JSC_LMS.Identity.Configurations
             builder.HasData(
                 new IdentityRole
                 {
-                    Name = "Viewer",
-                    NormalizedName = "VIEWER"
+                    Name = "Parent",
+                    NormalizedName = "PARENT"
                 },
                 new IdentityRole
                 {
-                    Name = "Administrator",
-                    NormalizedName = "ADMINISTRATOR"
-                }
+                    Name = "Student",
+                    NormalizedName = "STUDENT"
+                },
+                new IdentityRole
+                {
+                    Name = "Teacher",
+                    NormalizedName = "TEACHER"
+                },
+                new IdentityRole
+                {
+                    Name = "Principal",
+                    NormalizedName = "PRINCIPAL"
+                },
+                new IdentityRole
+                {
+                    Name = "Institute Admin",
+                    NormalizedName = "INSTITUTE ADMIN"
+                },
+                 new IdentityRole
+                 {
+                     Name = "Super administrator",
+                     NormalizedName = "SUPER ADMINISTRATOR"
+                 }
             );
         }
     }

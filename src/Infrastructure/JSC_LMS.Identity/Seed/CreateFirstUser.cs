@@ -21,7 +21,7 @@ namespace JSC_LMS.Identity.Seed
             if (user == null)
             {
                 await userManager.CreateAsync(applicationUser, "User123!@#");
-                await userManager.AddToRoleAsync(applicationUser, "Administrator");
+                await userManager.AddToRoleAsync(applicationUser, "Student");
             }
         }
     }

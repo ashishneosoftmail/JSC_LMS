@@ -32,7 +32,7 @@ namespace JSC_LMS.Api.Controllers.v1
         }
         //Roles
         //[Authorize]
-        [HttpGet("getAllRole", Name = "GetAllRoles")]
+        [HttpGet("GetAllRole", Name = "GetAllRoles")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllRoles()
         {
@@ -76,7 +76,7 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         //Category
-        [HttpGet("getAllCategory", Name = "GetAllCategory")]
+        [HttpGet("GetAllCategory", Name = "GetAllCategory")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllCategory()
         {
@@ -87,7 +87,7 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         //State
-        [HttpGet("getAllState", Name = "GetAllState")]
+        [HttpGet("GetAllState", Name = "GetAllState")]
         public async Task<ActionResult> GetAllStates()
         {
             _logger.LogInformation("GetAllStates Initiated");

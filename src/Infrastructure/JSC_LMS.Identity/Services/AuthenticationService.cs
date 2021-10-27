@@ -106,7 +106,7 @@ namespace JSC_LMS.Identity.Services
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "Viewer");
+                    await _userManager.AddToRoleAsync(user, request.RoleName);
                     return new RegistrationResponse() { UserId = user.Id };
                 }
                 else
