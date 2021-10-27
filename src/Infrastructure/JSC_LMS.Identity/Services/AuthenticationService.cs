@@ -70,12 +70,20 @@ namespace JSC_LMS.Identity.Services
                 _context.Update(user);
                 _context.SaveChanges();
             }
-
+            var roles = await _userManager.GetRolesAsync(user);
+            response.Message = "succeeded";
             response.IsAuthenticated = true;
-            response.Id = user.Id;
+            response.UserDetails = new User()
+            {
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                FirstName = user.FirstName,
+                Id = user.Id,
+                LastName = user.LastName,
+                UserName = user.UserName,
+                Role = new Role() { RoleName = roles[0] }
+            };
             response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-            response.Email = user.Email;
-            response.UserName = user.UserName;
 
             return response;
         }

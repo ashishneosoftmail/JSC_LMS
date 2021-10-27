@@ -8,7 +8,7 @@ namespace JSC_LMS.Identity.Seed
     {
         public static async Task SeedAsync(UserManager<ApplicationUser> userManager)
         {
-            var applicationUser = new ApplicationUser
+            /*var applicationUser = new ApplicationUser
             {
                 FirstName = "John",
                 LastName = "Smith",
@@ -22,7 +22,7 @@ namespace JSC_LMS.Identity.Seed
             {
                 await userManager.CreateAsync(applicationUser, "User123!@#");
                 await userManager.AddToRoleAsync(applicationUser, "Student");
-            }
+            }*/
         }
     }
 }
