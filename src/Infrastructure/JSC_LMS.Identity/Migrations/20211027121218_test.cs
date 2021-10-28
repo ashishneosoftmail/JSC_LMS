@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace JSC_LMS.Identity.Migrations
 {
-    public partial class initial : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -182,12 +182,12 @@ namespace JSC_LMS.Identity.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "aab8c143-91a2-4a36-bb30-92cad1a925ee", "213fb46d-7363-4117-b773-58a5d5ea0615", "Parent", "PARENT" },
-                    { "a303e5f7-6c38-4066-ae1a-c77649b17c2d", "b39f5cae-2d16-4bbd-94c3-6365e0b210f1", "Student", "STUDENT" },
-                    { "af2d5413-4063-4c35-80da-79653fd9b0e4", "4ce7c4e3-4184-449d-b65d-b9b502703f12", "Teacher", "TEACHER" },
-                    { "d2fef1bb-abc7-42ca-9aac-ed5dfd6373ee", "e578c7a0-346b-4ef9-bf03-25750ecd5781", "Principal", "PRINCIPAL" },
-                    { "a148e1df-29e5-441e-8dc3-fe4f2ae16a79", "7c16956e-014c-4c34-ad6c-d71dac3907b5", "Institute Admin", "INSTITUTE ADMIN" },
-                    { "418b7c3e-4439-42e2-ac14-38877dfd48ea", "886a3ffc-29e8-4712-abd8-4cb6d9296d8f", "Super administrator", "SUPER ADMINISTRATOR" }
+                    { "8d226fe7-aef4-42b4-928c-2bb7a0fac102", "a2a23d1f-45ed-4c37-bb5f-9a1a14bc9d4c", "Parent", "PARENT" },
+                    { "49981454-79a7-4b49-9fe8-e1c20c5908e2", "89fd65f3-e25e-41a3-af7b-79394f131a5b", "Student", "STUDENT" },
+                    { "bb2aaada-790d-4bb0-82bf-de8a493aaecb", "7a6fe3ef-1c1f-43b0-ad10-95e19280df4e", "Teacher", "TEACHER" },
+                    { "19a4dd73-0239-48dc-a2c4-7d7b425374ed", "c5d91c3e-c199-4c05-9a79-1340ebcc10f9", "Principal", "PRINCIPAL" },
+                    { "85cf03ae-aa7e-4e91-bd4e-6ac994b573b1", "2ff3057f-1ed5-4ddc-b332-566e4e76940d", "Institute Admin", "INSTITUTE ADMIN" },
+                    { "6d04fe92-2645-4bc7-9055-e7e9ab485304", "3e810e5f-b70a-485b-b7b5-2cb21e250a5a", "Super administrator", "SUPER ADMINISTRATOR" }
                 });
 
             migrationBuilder.CreateIndex(

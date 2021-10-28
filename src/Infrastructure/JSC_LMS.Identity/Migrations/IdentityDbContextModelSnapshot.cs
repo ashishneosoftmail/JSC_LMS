@@ -119,43 +119,43 @@ namespace JSC_LMS.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "66e46492-812f-4f31-aa85-9970f31c936b",
-                            ConcurrencyStamp = "e6d2bfb5-edb8-414e-83a7-b5d034ea0eba",
+                            Id = "8d226fe7-aef4-42b4-928c-2bb7a0fac102",
+                            ConcurrencyStamp = "a2a23d1f-45ed-4c37-bb5f-9a1a14bc9d4c",
                             Name = "Parent",
                             NormalizedName = "PARENT"
                         },
                         new
                         {
-                            Id = "0a7a6779-28c8-404c-be97-0d246900ca3b",
-                            ConcurrencyStamp = "03fa751f-6e65-4eff-9776-be2774f1acf9",
+                            Id = "49981454-79a7-4b49-9fe8-e1c20c5908e2",
+                            ConcurrencyStamp = "89fd65f3-e25e-41a3-af7b-79394f131a5b",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "5083d129-84fe-4624-b1dd-dbe82857d0e3",
-                            ConcurrencyStamp = "341bece9-12ca-4b50-abbb-fda885c6b025",
+                            Id = "bb2aaada-790d-4bb0-82bf-de8a493aaecb",
+                            ConcurrencyStamp = "7a6fe3ef-1c1f-43b0-ad10-95e19280df4e",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
-                            Id = "d84c73c3-4ae6-49d9-9578-08b217869324",
-                            ConcurrencyStamp = "6fb9cc4b-8b44-4f27-bf51-820ee327ccd3",
+                            Id = "19a4dd73-0239-48dc-a2c4-7d7b425374ed",
+                            ConcurrencyStamp = "c5d91c3e-c199-4c05-9a79-1340ebcc10f9",
                             Name = "Principal",
                             NormalizedName = "PRINCIPAL"
                         },
                         new
                         {
-                            Id = "1d8e78ba-e705-425f-9c7e-7c3ebbd621be",
-                            ConcurrencyStamp = "864ded63-c8d0-4002-92e2-16387034cf54",
+                            Id = "85cf03ae-aa7e-4e91-bd4e-6ac994b573b1",
+                            ConcurrencyStamp = "2ff3057f-1ed5-4ddc-b332-566e4e76940d",
                             Name = "Institute Admin",
                             NormalizedName = "INSTITUTE ADMIN"
                         },
                         new
                         {
-                            Id = "ba042edf-e30e-404a-97d9-1cb2e6d7cda6",
-                            ConcurrencyStamp = "4a477858-94e8-42d0-a276-810bc72f8c9c",
+                            Id = "6d04fe92-2645-4bc7-9055-e7e9ab485304",
+                            ConcurrencyStamp = "3e810e5f-b70a-485b-b7b5-2cb21e250a5a",
                             Name = "Super administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         });
