@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,15 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var id = await _mediator.Send(createInstituteCommand);
             return Ok(id);
+        }
+        [HttpPut(Name = "UpdateInstitute")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromBody] UpdateInstituteCommand updateInstituteCommand)
+        {
+            var response = await _mediator.Send(updateInstituteCommand);
+            return Ok(response);
         }
     }
 }
