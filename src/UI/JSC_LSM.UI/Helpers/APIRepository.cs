@@ -43,7 +43,7 @@ namespace JSC_LSM.UI.Helpers
                 using (var client = new HttpClient())
                 {
                     //client.BaseAddress = new Uri(_apiBaseUrl + URL);
-                    client.BaseAddress = new Uri("http://154.0.166.250/KibuAPI" + URL);
+                    client.BaseAddress = new Uri("http://localhost:5001" + URL);
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
                     HttpResponseMessage oHttpResponseMessage = new HttpResponseMessage();
 
