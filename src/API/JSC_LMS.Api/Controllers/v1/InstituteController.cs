@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,12 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             _mediator = mediator;
             _logger = logger;
+        }
+        [HttpPost(Name = "AddInstitute")]
+        public async Task<ActionResult> Create([FromBody] CreateInstituteCommand createInstituteCommand)
+        {
+            var id = await _mediator.Send(createInstituteCommand);
+            return Ok(id);
         }
     }
 }

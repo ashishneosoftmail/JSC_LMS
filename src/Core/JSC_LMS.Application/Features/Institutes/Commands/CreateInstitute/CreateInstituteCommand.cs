@@ -8,6 +8,6 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 {
     public class CreateInstituteCommand : IRequest<Response<CreateInstituteDto>>
     {
-        public CreateInstituteDto CreateInstituteDto { get; set; }
+        public CreateInstituteDto createInstituteDto { get; set; }
     }
 }

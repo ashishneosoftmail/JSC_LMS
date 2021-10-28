@@ -14,6 +14,7 @@ using JSC_LMS.Application.Features.Events.Commands.UpdateEvent;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
+using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Domain.Entities;
@@ -60,6 +61,10 @@ namespace JSC_LMS.Application.Profiles
             //School Mapper
             CreateMap<School, CreateSchoolDto>();
             CreateMap<School, CreateSchoolDto>().ReverseMap();
+
+            //Institute Mapper
+            CreateMap<Institute, CreateInstituteDto>();
+            CreateMap<Institute, CreateInstituteDto>().ReverseMap();
         }
     }
 }
