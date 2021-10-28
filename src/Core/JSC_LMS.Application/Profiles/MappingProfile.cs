@@ -15,12 +15,14 @@ using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
+using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Domain.Entities;
 
 namespace JSC_LMS.Application.Profiles
 {
     public class MappingProfile : Profile
     {
+
         public MappingProfile()
         {
             CreateMap<Event, CreateEventCommand>().ReverseMap();
@@ -55,6 +57,9 @@ namespace JSC_LMS.Application.Profiles
              //Cities Mapper
              CreateMap<City, CitiesListVm>();*/
 
+            //School Mapper
+            CreateMap<School, CreateSchoolDto>();
+            CreateMap<School, CreateSchoolDto>().ReverseMap();
         }
     }
 }

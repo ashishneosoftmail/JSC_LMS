@@ -6,14 +6,21 @@ using System.Text;
 
 namespace JSC_LMS.Domain.Entities
 {
-    public class State : AuditableEntity
+   public class Subject: AuditableEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string StateName { get; set; }
+
+        public int SchoolId { get; set; }
+
+        public int ClassId { get; set; }
+
+        public int SectionId { get; set; }
+
+        public string SubjectName { get; set; }
+
+
         public bool IsActive { get; set; }
-        public ICollection<City> City { get; set; }
-        public virtual ICollection<Institute> Institute { get; set; }
-        public virtual ICollection<School> School { get; set; }
+
     }
 }

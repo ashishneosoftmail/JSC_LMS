@@ -23,6 +23,6 @@ namespace JSC_LMS.Domain.Entities
         public string InstituteURL { get; set; }
         public bool IsActive { get; set; }
 
-
+        public virtual ICollection<School> School { get; set; }
     }
 }

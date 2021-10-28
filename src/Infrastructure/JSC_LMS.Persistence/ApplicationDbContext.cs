@@ -31,6 +31,15 @@ namespace JSC_LMS.Persistence
         public DbSet<State> States { get; set; }
         public DbSet<Zip> ZipCode { get; set; }
         public DbSet<Institute> Institute { get; set; }
+        public DbSet<School> School { get; set; }
+
+        public DbSet<Class> Class { get; set; }
+
+        public DbSet<Section> Section { get; set; }
+
+        public DbSet<Subject> Subject { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +66,95 @@ namespace JSC_LMS.Persistence
                     .HasForeignKey(b => b.ZipId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
+
+
+
+
+
+            modelBuilder.Entity<State>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.StateId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<City>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.CityId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Zip>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.ZipId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Institute>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.InstituteId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Classes)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+
+
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Sections)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Class>(b =>
+            {
+                b.HasMany(e => e.Sections)
+                    .WithOne()
+                    .HasForeignKey(b => b.ClassId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+
+
+
+
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Subjects)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Section>(b =>
+            {
+                b.HasMany(e => e.Subjects)
+                    .WithOne()
+                    .HasForeignKey(b => b.SectionId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Class>(b =>
+            {
+                b.HasMany(e => e.Subjects)
+                    .WithOne()
+                    .HasForeignKey(b => b.ClassId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+
 
             //seed data, added through migrations
             /* var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}");

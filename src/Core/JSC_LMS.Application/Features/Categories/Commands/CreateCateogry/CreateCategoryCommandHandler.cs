@@ -38,6 +38,7 @@ namespace JSC_LMS.Application.Features.Categories.Commands.CreateCateogry
             }
             else
             {
+
                 var category = new Category() { CategoryName = request.Name };
                 category = await _categoryRepository.AddAsync(category);
                 createCategoryCommandResponse.Data = _mapper.Map<CreateCategoryDto>(category);
