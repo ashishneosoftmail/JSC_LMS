@@ -43,7 +43,7 @@ namespace JSC_LSM.UI.Helpers
                 using (var client = new HttpClient())
                 {
                     //client.BaseAddress = new Uri(_apiBaseUrl + URL);
-                    client.BaseAddress = new Uri("http://localhost:5001" + URL);
+                    client.BaseAddress = new Uri("https://localhost:44330" + URL);
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
                     HttpResponseMessage oHttpResponseMessage = new HttpResponseMessage();
 
@@ -86,6 +86,8 @@ namespace JSC_LSM.UI.Helpers
                     if (oHttpResponseMessage.IsSuccessStatusCode)
                     {
                         response.data = oHttpResponseMessage.Content.ReadAsStringAsync().Result;
+                        response.Success = true;
+
                     }
                     else
                         response.data = string.Empty;

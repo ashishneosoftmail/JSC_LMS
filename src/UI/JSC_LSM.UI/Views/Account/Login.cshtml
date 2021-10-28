@@ -99,7 +99,7 @@
 
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="button" class="btn btn-primary button2" id="signInButton">Sign In</button>
+                            <button type="submit" class="btn btn-primary button2" id="signInButton">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
@@ -123,21 +123,21 @@
     <script src="~/Content/AdminLTE/dist/js/adminlte.min.js"></script>
     <script src="~/Content/AdminLTE/dist/js/demo.js"></script>
 
-    <script type="text/javascript">
-            const targetDiv = document.getElementById("wrapper");
-            const btn = document.getElementById("signInButton");
-            let list = ["Super Admin", "Institute Admin", "Principal", "Teacher", "Student", "Parents"];
-            btn.onclick = function () {
-                targetDiv.className += "wrap";
-                list.forEach(addRoles)
-            };
-            function addRoles(item) {
-                var role = document.createElement("a");
-                role.innerHTML = item;
-                role.className += "button";
-                targetDiv.appendChild(role);
-            }
-    </script>
+    @*  <script type="text/javascript">
+                const targetDiv = document.getElementById("wrapper");
+                const btn = document.getElementById("signInButton");
+                let list = ["Super Admin", "Institute Admin", "Principal", "Teacher", "Student", "Parents"];
+                btn.onclick = function () {
+                    targetDiv.className += "wrap";
+                    list.forEach(addRoles)
+                };
+                function addRoles(item) {
+                    var role = document.createElement("a");
+                    role.innerHTML = item;
+                    role.className += "button";
+                    targetDiv.appendChild(role);
+                }
+        </script>*@
 
 </body>
 </html>

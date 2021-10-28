@@ -20,7 +20,7 @@ namespace JSC_LSM.UI.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
-        
+
         public AccountController(IUserRepository userRepository, IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _userRepository = userRepository;

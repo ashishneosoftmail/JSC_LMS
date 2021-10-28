@@ -41,6 +41,7 @@ namespace JSC_LSM.UI.Services.Repositories
             if (_oApiResponse.data != null)
             {
                 authenticationResponseModel = JsonConvert.DeserializeObject<AuthenticationResponseModel>(_oApiResponse.data);
+                authenticationResponseModel.isSuccess = true;
             }
 
             return authenticationResponseModel;
