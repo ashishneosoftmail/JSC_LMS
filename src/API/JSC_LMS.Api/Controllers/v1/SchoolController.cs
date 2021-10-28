@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.School.Commands.CreateSchool;
+using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +29,15 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var id = await _mediator.Send(createSchoolCommand);
             return Ok(id);
+        }
+        [HttpPut(Name = "UpdateSchool")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromBody] UpdateSchoolCommand updateSchoolCommand)
+        {
+            var response = await _mediator.Send(updateSchoolCommand);
+            return Ok(response);
         }
     }
 }

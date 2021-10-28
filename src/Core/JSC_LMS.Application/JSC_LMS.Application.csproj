@@ -23,7 +23,6 @@
 	
   <ItemGroup>
     <Folder Include="Features\School\Commands\DeleteSchool\" />
-    <Folder Include="Features\School\Commands\UpdateSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchoolFilter\" />
     <Folder Include="Features\School\Queries\GetSchoolById\" />
