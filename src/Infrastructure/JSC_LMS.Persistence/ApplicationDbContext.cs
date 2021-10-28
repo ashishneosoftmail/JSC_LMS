@@ -37,6 +37,8 @@ namespace JSC_LMS.Persistence
 
         public DbSet<Section> Section { get; set; }
 
+        public DbSet<Subject> Subject { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
