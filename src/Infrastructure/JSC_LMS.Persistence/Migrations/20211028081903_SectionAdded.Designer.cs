@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211028081903_SectionAdded")]
+    partial class SectionAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -526,58 +528,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("SchoolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SubjectName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("SchoolId");
-
-                    b.HasIndex("SectionId");
-
-                    b.ToTable("Subject");
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Zip", b =>
                 {
                     b.Property<int>("Id")
@@ -704,27 +654,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasOne("JSC_LMS.Domain.Entities.School", null)
                         .WithMany("Sections")
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.School", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Section", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
