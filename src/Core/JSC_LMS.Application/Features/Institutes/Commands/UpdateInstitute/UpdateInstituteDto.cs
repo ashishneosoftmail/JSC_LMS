@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
+namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
-    public class CreateInstituteDto
+   public class UpdateInstituteDto
     {
-       
+        public int Id { get; set; }
         public string InstituteName { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
