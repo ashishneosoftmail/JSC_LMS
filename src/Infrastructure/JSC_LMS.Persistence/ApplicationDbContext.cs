@@ -33,6 +33,12 @@ namespace JSC_LMS.Persistence
         public DbSet<Institute> Institute { get; set; }
         public DbSet<School> School { get; set; }
 
+        public DbSet<Class> Class { get; set; }
+
+        public DbSet<Section> Section { get; set; }
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
@@ -92,6 +98,59 @@ namespace JSC_LMS.Persistence
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
 
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Classes)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+
+
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Sections)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Class>(b =>
+            {
+                b.HasMany(e => e.Sections)
+                    .WithOne()
+                    .HasForeignKey(b => b.ClassId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+
+
+
+
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Subjects)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Section>(b =>
+            {
+                b.HasMany(e => e.Subjects)
+                    .WithOne()
+                    .HasForeignKey(b => b.SectionId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<Class>(b =>
+            {
+                b.HasMany(e => e.Subjects)
+                    .WithOne()
+                    .HasForeignKey(b => b.ClassId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
 
 
 

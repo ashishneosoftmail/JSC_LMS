@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211028083125_SubjectAdded")]
+    partial class SubjectAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -563,17 +565,20 @@ namespace JSC_LMS.Persistence.Migrations
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
+                    b.Property<int>("SectionId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("SchoolId");
 
                     b.HasIndex("SectionId");
+
+                    b.HasIndex("SectionId1");
 
                     b.ToTable("Subject");
                 });
@@ -710,22 +715,22 @@ namespace JSC_LMS.Persistence.Migrations
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
                 {
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", null)
-                        .WithMany("Subjects")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("JSC_LMS.Domain.Entities.School", null)
                         .WithMany("Subjects")
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("JSC_LMS.Domain.Entities.Section", null)
+                    b.HasOne("JSC_LMS.Domain.Entities.Class", null)
                         .WithMany("Subjects")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("JSC_LMS.Domain.Entities.Section", null)
+                        .WithMany("Subjects")
+                        .HasForeignKey("SectionId1")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
