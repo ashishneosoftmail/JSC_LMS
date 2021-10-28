@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.School.Commands.CreateSchool
+namespace JSC_LMS.Application.Features.School.Commands.UpdateSchool
 {
-    public class CreateSchoolDto
+    public class UpdateSchoolDto
     {
+        public int Id { get; set; }
         public int InstituteId { get; set; }
         public string SchoolName { get; set; }
         public string Address1 { get; set; }
