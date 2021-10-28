@@ -12,5 +12,6 @@ namespace JSC_LMS.Domain.Entities
         public int CityId { get; set; }
         public bool IsActive { get; set; }
         public City City { get; set; }
+        public virtual ICollection<Institute> Institute { get; set; }
     }
 }

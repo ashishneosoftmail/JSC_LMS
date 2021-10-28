@@ -16,5 +16,6 @@ namespace JSC_LMS.Domain.Entities
         public int StateId { get; set; }
         public State State { get; set; }
         public ICollection<Zip> Zip { get; set; }
+        public ICollection<Institute> Institute { get; set; }
     }
 }

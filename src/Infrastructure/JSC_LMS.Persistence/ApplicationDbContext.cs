@@ -30,10 +30,33 @@ namespace JSC_LMS.Persistence
         public DbSet<City> Cities { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Zip> ZipCode { get; set; }
+        public DbSet<Institute> Institute { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+            modelBuilder.Entity<State>(b =>
+            {
+                b.HasMany(e => e.Institute)
+                    .WithOne()
+                    .HasForeignKey(b => b.StateId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<City>(b =>
+            {
+                b.HasMany(e => e.Institute)
+                    .WithOne()
+                    .HasForeignKey(b => b.CityId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Zip>(b =>
+            {
+                b.HasMany(e => e.Institute)
+                    .WithOne()
+                    .HasForeignKey(b => b.ZipId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
 
             //seed data, added through migrations
             /* var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}");
