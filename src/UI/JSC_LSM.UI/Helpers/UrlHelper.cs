@@ -8,6 +8,6 @@ namespace JSC_LSM.UI.Helpers
     public class UrlHelper
     { 
         //User
-        public static string UserAuthenticate = "/api/User/UserAuthenticate";
+        public static string UserAuthenticate = "/api/v1/Account/authenticate";
     }
 }
