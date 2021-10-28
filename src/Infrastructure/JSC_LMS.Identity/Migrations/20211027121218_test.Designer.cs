@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JSC_LMS.Identity.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20211026071440_addingInitialStudent")]
-    partial class addingInitialStudent
+    [Migration("20211027121218_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,43 +121,43 @@ namespace JSC_LMS.Identity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "3f95ce11-9900-4f67-b65f-e7997b77c8d4",
-                            ConcurrencyStamp = "01449c73-6b8e-4cb2-ab58-b6d8753a4f16",
+                            Id = "8d226fe7-aef4-42b4-928c-2bb7a0fac102",
+                            ConcurrencyStamp = "a2a23d1f-45ed-4c37-bb5f-9a1a14bc9d4c",
                             Name = "Parent",
                             NormalizedName = "PARENT"
                         },
                         new
                         {
-                            Id = "ed546225-b4a2-4aec-8f01-f0ec6c338d45",
-                            ConcurrencyStamp = "47eba02a-e712-4527-b89b-f81f1852df92",
+                            Id = "49981454-79a7-4b49-9fe8-e1c20c5908e2",
+                            ConcurrencyStamp = "89fd65f3-e25e-41a3-af7b-79394f131a5b",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "28388287-8a13-45af-9bdc-239711e32e91",
-                            ConcurrencyStamp = "a9fd12f9-5901-4a2e-adb3-6e063a284cb4",
+                            Id = "bb2aaada-790d-4bb0-82bf-de8a493aaecb",
+                            ConcurrencyStamp = "7a6fe3ef-1c1f-43b0-ad10-95e19280df4e",
                             Name = "Teacher",
                             NormalizedName = "TEACHER"
                         },
                         new
                         {
-                            Id = "89f99aa9-4bc1-40ca-814e-05bcaa4d8740",
-                            ConcurrencyStamp = "00740e48-5ac2-4683-9cec-03a05af742de",
+                            Id = "19a4dd73-0239-48dc-a2c4-7d7b425374ed",
+                            ConcurrencyStamp = "c5d91c3e-c199-4c05-9a79-1340ebcc10f9",
                             Name = "Principal",
                             NormalizedName = "PRINCIPAL"
                         },
                         new
                         {
-                            Id = "862577cb-ba0a-4bff-a225-ae528442f96e",
-                            ConcurrencyStamp = "349b7749-3767-4466-999f-91cd3e42376e",
+                            Id = "85cf03ae-aa7e-4e91-bd4e-6ac994b573b1",
+                            ConcurrencyStamp = "2ff3057f-1ed5-4ddc-b332-566e4e76940d",
                             Name = "Institute Admin",
                             NormalizedName = "INSTITUTE ADMIN"
                         },
                         new
                         {
-                            Id = "5f338acb-04da-468b-a77b-096287510c00",
-                            ConcurrencyStamp = "3316a5f2-0f87-4a80-a076-582843338ee1",
+                            Id = "6d04fe92-2645-4bc7-9055-e7e9ab485304",
+                            ConcurrencyStamp = "3e810e5f-b70a-485b-b7b5-2cb21e250a5a",
                             Name = "Super administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         });
