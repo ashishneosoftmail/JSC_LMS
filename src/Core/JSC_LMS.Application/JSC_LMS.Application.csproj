@@ -22,6 +22,7 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <Folder Include="Features\Class\Queries\" />
     <Folder Include="Features\School\Commands\DeleteSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchoolFilter\" />

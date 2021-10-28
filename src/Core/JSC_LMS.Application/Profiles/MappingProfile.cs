@@ -2,6 +2,8 @@ using AutoMapper;
 using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
+using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
 using JSC_LMS.Application.Features.Common.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Common.Cities.Queries.GetCitiesListWithStateId;
 using JSC_LMS.Application.Features.Common.Roles.Commands.CreateRole;
@@ -70,6 +72,12 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Institute, CreateInstituteDto>();
             CreateMap<Institute, CreateInstituteDto>().ReverseMap();
 
+            //Class Mapper
+            CreateMap<Class, CreateClassDto>();
+            CreateMap<Class, CreateClassDto>().ReverseMap();
+
+            CreateMap<Class, UpdateClassDto>();
+            CreateMap<Class, UpdateClassDto>().ReverseMap();
         }
     }
 }
