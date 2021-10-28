@@ -21,5 +21,6 @@
  
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Core\JSC_LMS.Application\JSC_LMS.Application.csproj" />
+	  <ProjectReference Include="..\JSC_LMS.Infrastructure\JSC_LMS.Infrastructure.csproj" />
 	</ItemGroup>
 </Project>

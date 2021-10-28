@@ -46,7 +46,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
             }
             else
             {
-                var UserData = new RegistrationRequest() { FirstName="",LastName="",UserName=request.createInstituteDto.Username,Email=request.createInstituteDto.Email,Password=request.createInstituteDto.Password,RoleName=request.createInstituteDto.RoleName};
+                var UserData = new RegistrationRequest() { FirstName=request.createInstituteDto.ContactPerson,LastName="I",UserName=request.createInstituteDto.Username,Email=request.createInstituteDto.Email,Password=request.createInstituteDto.Password,RoleName=request.createInstituteDto.RoleName};
                 var User = await _authenticationService.RegisterAsync(UserData);
                 var data = new Institute() {
                     UserId =  User.UserId,
