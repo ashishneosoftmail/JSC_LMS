@@ -6,7 +6,7 @@ using System.Text;
 
 namespace JSC_LMS.Domain.Entities
 {
-  public  class Section: AuditableEntity
+    public class Section : AuditableEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace JSC_LMS.Domain.Entities
 
 
         public bool IsActive { get; set; }
+        public virtual ICollection<Subject> Subject { get; set; }
 
-        public virtual ICollection<Subject> Subjects { get; set; }
     }
 }

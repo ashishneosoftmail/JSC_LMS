@@ -10,7 +10,9 @@ namespace JSC_LSM.UI.Models
     {
         [Required]
         public String Email { get; set; }
+        [Required]
         public String Password { get; set; }
-        public int Role { get; set; }
+        [Required]
+        public string Role { get; set; }
     }
 }

@@ -92,6 +92,18 @@
                         <input type="password" asp-for="Password" class="form-control" placeholder="Password">
 
                     </div>
+                    <div class="input-group mb-3">
+                        <select class="form-select" asp-for="Role" aria-label="Default select example">
+                            <option disabled hidden>Select Role</option>
+                            <option value="Super administrator">Super administrator</option>
+                            <option value="Institute Admin">Institute Admin</option>
+                            <option value="Principal">Principal</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Parent">Parent</option>
+                            <option value="Student">Student</option>
+                        </select>
+
+                    </div>
                     <p class="mb-1 para">
                         <a class="text-primary" style="text-decoration:none" href=""> Forgot password ?</a>
                     </p>

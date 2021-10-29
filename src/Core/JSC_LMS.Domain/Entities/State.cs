@@ -12,7 +12,7 @@ namespace JSC_LMS.Domain.Entities
         public int Id { get; set; }
         public string StateName { get; set; }
         public bool IsActive { get; set; }
-        public ICollection<City> City { get; set; }
+
         public virtual ICollection<Institute> Institute { get; set; }
         public virtual ICollection<School> School { get; set; }
     }

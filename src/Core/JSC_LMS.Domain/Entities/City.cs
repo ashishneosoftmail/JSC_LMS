@@ -15,8 +15,8 @@ namespace JSC_LMS.Domain.Entities
         public bool IsActive { get; set; }
         public int StateId { get; set; }
         public State State { get; set; }
-        public ICollection<Zip> Zip { get; set; }
-        public ICollection<Institute> Institute { get; set; }
-        public ICollection<School> School { get; set; }
+        public virtual ICollection<Zip> Zip { get; set; }
+        public virtual ICollection<Institute> Institute { get; set; }
+        public virtual ICollection<School> School { get; set; }
     }
 }
