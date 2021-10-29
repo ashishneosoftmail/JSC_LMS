@@ -45,7 +45,7 @@ namespace JSC_LMS.Identity.Services
             if (user == null)
             {
                 response.IsAuthenticated = false;
-                response.Message = $"No Accounts Registered with {request.Email}.";
+                response.Message = $"Invalid email or password.";
                 return response;
             }
 
@@ -53,47 +53,53 @@ namespace JSC_LMS.Identity.Services
 
             if (!result.Succeeded)
             {
-                throw new AuthenticationException($"Credentials for '{request.Email} aren't valid'.");
-            }
-            var roleName = await _userManager.GetRolesAsync(user);
-            var roleId = await _roleManager.FindByNameAsync(roleName[0]);
-            if (roleId.Id.ToString() != request.Role)
-            {
-                throw new AuthenticationException($"Roles Doesn't Matched");
-            }
-
-            JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
-
-            if (user.RefreshTokens.Any(a => a.IsActive))
-            {
-                var activeRefreshToken = user.RefreshTokens.FirstOrDefault(a => a.IsActive);
-                response.RefreshToken = activeRefreshToken.Token;
-                response.RefreshTokenExpiration = activeRefreshToken.Expires;
+                response.IsAuthenticated = false;
+                response.Message = $"Invalid email or password.";
+                return response;
             }
             else
             {
-                var refreshToken = GenerateRefreshToken();
-                response.RefreshToken = refreshToken.Token;
-                response.RefreshTokenExpiration = refreshToken.Expires;
-                user.RefreshTokens.Add(refreshToken);
-                _context.Update(user);
-                _context.SaveChanges();
+                var roleName = await _userManager.GetRolesAsync(user);
+                var roleId = await _roleManager.FindByNameAsync(roleName[0]);
+                if (roleId.Id.ToString() != request.Role)
+                {
+                    response.IsAuthenticated = false;
+                    response.Message = $"Invalid email or password.";
+                    return response;
+                }
+
+                JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
+
+                if (user.RefreshTokens.Any(a => a.IsActive))
+                {
+                    var activeRefreshToken = user.RefreshTokens.FirstOrDefault(a => a.IsActive);
+                    response.RefreshToken = activeRefreshToken.Token;
+                    response.RefreshTokenExpiration = activeRefreshToken.Expires;
+                }
+                else
+                {
+                    var refreshToken = GenerateRefreshToken();
+                    response.RefreshToken = refreshToken.Token;
+                    response.RefreshTokenExpiration = refreshToken.Expires;
+                    user.RefreshTokens.Add(refreshToken);
+                    _context.Update(user);
+                    _context.SaveChanges();
+                }
+
+                response.Message = "succeeded";
+                response.IsAuthenticated = true;
+                response.UserDetails = new User()
+                {
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    FirstName = user.FirstName,
+                    Id = user.Id,
+                    LastName = user.LastName,
+                    UserName = user.UserName,
+                    Role = new Role() { RoleId = roleId.Id.ToString(), RoleName = roleName[0] }
+                };
+                response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             }
-
-            response.Message = "succeeded";
-            response.IsAuthenticated = true;
-            response.UserDetails = new User()
-            {
-                Email = user.Email,
-                EmailConfirmed = user.EmailConfirmed,
-                FirstName = user.FirstName,
-                Id = user.Id,
-                LastName = user.LastName,
-                UserName = user.UserName,
-                Role = new Role() { RoleId = roleId.Id.ToString(), RoleName = roleName[0] }
-            };
-            response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-
             return response;
         }
 

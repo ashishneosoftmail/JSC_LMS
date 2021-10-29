@@ -82,8 +82,7 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-
-                <form method="post">
+                <form method="post" novalidate>
                     <div class=" form-group mb-3">
                         <select class="form-select" asp-for="Role" asp-items="Model.Roles" aria-label="Default select example">
                             <option value="" disabled selected>Select Role</option>
@@ -97,14 +96,11 @@
                     <div class="form-group mb-3">
                         <input type="password" asp-for="Password" class="form-control" placeholder="Password">
                         <span asp-validation-for="Password" class="text-danger"></span>
-
                     </div>
-
                     <p class="mb-1 para">
                         <a class="text-primary" style="text-decoration:none" href=""> Forgot password ?</a>
                     </p>
                     <div class="row">
-
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary button2" id="signInButton">Sign In</button>
@@ -112,8 +108,12 @@
                         <!-- /.col -->
                     </div>
                 </form>
+                <br />
                 <div id="wrapper">
-
+                    @if (ViewBag.LoginError != null)
+                    {
+                        <div class="text-danger">@ViewBag.LoginError</div>
+                    }
                 </div>
             </div>
             <!-- /.card-body -->
