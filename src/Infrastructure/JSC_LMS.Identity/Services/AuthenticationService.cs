@@ -254,6 +254,9 @@ namespace JSC_LMS.Identity.Services
             response.IsRevoked = true;
             response.Message = "Token revoked";
             return response;
+
+           
+
         }
     }
 }

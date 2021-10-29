@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
 
@@ -17,11 +18,16 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
     {
         private readonly IInstituteRepository _instituteRepository;
         private readonly IMapper _mapper;
+        //  private readonly UserManager<ApplicationUser> _userManager;
+        //  private readonly RoleManager<IdentityRole> _roleManager;
+        //, UserManager<ApplicationUser> userManager , RoleManager<IdentityRole> roleManager
 
-        public UpdateInstituteCommandHandler(IMapper mapper, IInstituteRepository instituteRepository)
+        public UpdateInstituteCommandHandler(IMapper mapper, IInstituteRepository instituteRepository )
         {
             _mapper = mapper;
             _instituteRepository = instituteRepository;
+           // _userManager = userManager;
+          //  _roleManager = roleManager;
         }
 
         public async Task<Response<int>> Handle(UpdateInstituteCommand request, CancellationToken cancellationToken)
@@ -34,6 +40,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
             }
 
             var validator = new UpdateInstituteCommandValidator();
+           // var UserClaims = await 
             var validationResult = await validator.ValidateAsync(request);
 
             if (validationResult.Errors.Count > 0)
