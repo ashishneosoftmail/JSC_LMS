@@ -38,6 +38,7 @@ namespace JSC_LMS.Persistence
         public DbSet<Section> Section { get; set; }
 
         public DbSet<Subject> Subject { get; set; }
+        public DbSet<Teacher> Teacher { get; set; }
 
 
 
@@ -143,6 +144,61 @@ namespace JSC_LMS.Persistence
                     .HasForeignKey(b => b.ZipId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
+            /////// Teacher
+            ///modelBuilder.Entity<City>(b =>
+            modelBuilder.Entity<City>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.CityId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Section>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.SectionId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Class>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.ClassId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<State>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.StateId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Zip>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.ZipId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Subject>(b =>
+            {
+                b.HasMany(e => e.Teacher)
+                    .WithOne()
+                    .HasForeignKey(b => b.SubjectId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+
+
+
+
             //seed data, added through migrations
             /* var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}");
              var musicalGuid = Guid.Parse("{6313179F-7837-473A-A4D5-A5571B43E6A6}");
