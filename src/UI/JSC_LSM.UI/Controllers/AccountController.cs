@@ -36,6 +36,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
+            ViewBag.LoginError = null;
             Login login = new Login();
             login.Roles = await GetAllRoles();
             Console.WriteLine(login.Roles);
@@ -46,6 +47,7 @@ namespace JSC_LSM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(Login login)
         {
+            ViewBag.LoginError = null;
             login.Roles = await GetAllRoles();
             AuthenticationRequest authenticationRequest = new AuthenticationRequest();
             if (ModelState.IsValid)
@@ -81,23 +83,26 @@ namespace JSC_LSM.UI.Controllers
 
                 if (authenticationResponseModel.isSuccess)
                 {
-                    if (authenticationResponseModel == null && authenticationResponseModel.userDetail == null)
+                    if (authenticationResponseModel == null && authenticationResponseModel.userDetails == null)
                     {
                         responseModel.ResponseMessage = authenticationResponseModel.message;
                         responseModel.IsSuccess = authenticationResponseModel.isSuccess;
                     }
                     if (authenticationResponseModel != null)
                     {
-                        //User user = authenticationResponseModel.userDetail;
-                        responseModel.ResponseMessage = authenticationResponseModel.message;
-                        responseModel.IsSuccess = authenticationResponseModel.isSuccess;
-                        return RedirectToAction("Index", "Home");
+                        if (authenticationResponseModel.isAuthenticated)
+                        {
+                            responseModel.ResponseMessage = authenticationResponseModel.message;
+                            responseModel.IsSuccess = authenticationResponseModel.isSuccess;
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 else
                 {
                     responseModel.ResponseMessage = authenticationResponseModel.message;
                     responseModel.IsSuccess = authenticationResponseModel.isSuccess;
+                    ViewBag.LoginError = responseModel.ResponseMessage;
                 }
             }
             return View(login);
