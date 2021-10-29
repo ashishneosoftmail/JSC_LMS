@@ -24,6 +24,8 @@ namespace JSC_LMS.Persistence
             services.AddScoped<IInstituteRepository, InstituteRepository>();
             services.AddScoped<ISchoolRepository, SchoolRepository>();
             services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
+
 
             return services;
         }

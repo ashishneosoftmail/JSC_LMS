@@ -20,6 +20,7 @@ using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
+using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LMS.Domain.Entities;
 
 namespace JSC_LMS.Application.Profiles
@@ -78,6 +79,9 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Class, UpdateClassDto>();
             CreateMap<Class, UpdateClassDto>().ReverseMap();
+
+            CreateMap<Teacher, CreateTeacherDto>();
+            CreateMap<Teacher, CreateTeacherDto>().ReverseMap();
         }
     }
 }
