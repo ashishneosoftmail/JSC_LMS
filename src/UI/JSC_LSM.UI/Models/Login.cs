@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JSC_LMS.Application.Models.Authentication;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,13 +8,8 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Models
 {
-    public class Login
+    public class Login : AuthenticationRequest
     {
-        [Required]
-        public String Email { get; set; }
-        [Required]
-        public String Password { get; set; }
-        [Required]
-        public string Role { get; set; }
+        public List<SelectListItem> Roles { get; set; }
     }
 }

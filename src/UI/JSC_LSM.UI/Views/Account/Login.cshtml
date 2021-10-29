@@ -84,26 +84,22 @@
                 <p class="login-box-msg">Sign in to start your session</p>
 
                 <form method="post">
-                    <div class="input-group mb-3">
-                        <input type="email" asp-for="Email" class="form-control" placeholder="Email">
-
-                    </div>
-                    <div class="input-group mb-3">
-                        <input type="password" asp-for="Password" class="form-control" placeholder="Password">
-
-                    </div>
-                    <div class="input-group mb-3">
-                        <select class="form-select" asp-for="Role" aria-label="Default select example">
-                            <option disabled hidden>Select Role</option>
-                            <option value="Super administrator">Super administrator</option>
-                            <option value="Institute Admin">Institute Admin</option>
-                            <option value="Principal">Principal</option>
-                            <option value="Teacher">Teacher</option>
-                            <option value="Parent">Parent</option>
-                            <option value="Student">Student</option>
+                    <div class=" form-group mb-3">
+                        <select class="form-select" asp-for="Role" asp-items="Model.Roles" aria-label="Default select example">
+                            <option value="" disabled selected>Select Role</option>
                         </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="email" asp-for="Email" class="form-control" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
 
                     </div>
+
                     <p class="mb-1 para">
                         <a class="text-primary" style="text-decoration:none" href=""> Forgot password ?</a>
                     </p>

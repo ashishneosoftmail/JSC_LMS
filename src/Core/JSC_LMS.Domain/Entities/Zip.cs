@@ -14,5 +14,6 @@ namespace JSC_LMS.Domain.Entities
         public City City { get; set; }
         public virtual ICollection<Institute> Institute { get; set; }
         public virtual ICollection<School> School { get; set; }
+        public virtual ICollection<Teacher> Teacher { get; set; }
     }
 }

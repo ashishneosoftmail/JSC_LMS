@@ -26,7 +26,7 @@ namespace JSC_LSM.UI
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        { 
+        {
             // Refresh View without restarting application
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
@@ -41,6 +41,7 @@ namespace JSC_LSM.UI
 
             //services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRepository, UserRepository>(s => new UserRepository());
+            services.AddScoped<IRoleRepository, RolesRepository>(s => new RolesRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
