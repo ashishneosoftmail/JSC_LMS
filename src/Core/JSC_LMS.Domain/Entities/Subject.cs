@@ -15,5 +15,6 @@ namespace JSC_LMS.Domain.Entities
         public int SectionId { get; set; }
         public string SubjectName { get; set; }
         public bool IsActive { get; set; }
+        public virtual ICollection<Teacher> Teacher { get; set; }
     }
 }
