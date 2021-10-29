@@ -44,11 +44,11 @@ namespace JSC_LMS.Persistence.Configurations
             builder
               .Property(b => b.DeletedDate)
               .HasColumnType("datetime");
-            builder
-             .HasOne(b => b.State)
-             .WithMany(b => b.City)
-             .HasForeignKey(b => b.StateId)
-             .OnDelete(DeleteBehavior.Cascade);
+            /* builder
+              .HasOne(b => b.State)
+              .WithMany(b => b.City)
+              .HasForeignKey(b => b.StateId)
+              .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }

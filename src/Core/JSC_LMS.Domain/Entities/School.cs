@@ -21,10 +21,10 @@ namespace JSC_LMS.Domain.Entities
         public int? ZipId { get; set; }
         public string Mobile { get; set; }
         public bool IsActive { get; set; }
+        public virtual ICollection<Class> Class { get; set; }
 
-        public virtual ICollection<Class> Classes {get; set;}
-        public virtual ICollection<Section> Sections { get; set; }
-        public virtual ICollection<Subject> Subjects { get; set; }
+        public virtual ICollection<Section> Section { get; set; }
+        public virtual ICollection<Subject> Subject { get; set; }
 
 
     }

@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211029062819_InstituteSchoolRelationship")]
+    partial class InstituteSchoolRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,8 +137,6 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SchoolId");
-
                     b.ToTable("Class");
                 });
 
@@ -215,7 +215,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("CityId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ContactPerson")
@@ -259,7 +258,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<int?>("StateId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -267,16 +265,9 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int?>("ZipId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("ZipId");
 
                     b.ToTable("Institute");
                 });
@@ -377,7 +368,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<int?>("CityId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("ContactPerson")
@@ -422,22 +412,14 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.Property<int?>("StateId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int?>("ZipId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CityId");
-
                     b.HasIndex("InstituteId");
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("ZipId");
 
                     b.ToTable("School");
                 });
@@ -481,10 +463,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("SchoolId");
 
                     b.ToTable("Section");
                 });
@@ -569,12 +547,6 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("SchoolId");
-
-                    b.HasIndex("SectionId");
-
                     b.ToTable("Subject");
                 });
 
@@ -629,15 +601,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Class", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.School", null)
-                        .WithMany("Class")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Event", b =>
                 {
                     b.HasOne("JSC_LMS.Domain.Entities.Category", "Category")
@@ -645,86 +608,11 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasForeignKey("CategoryId1");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Institute", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.City", null)
-                        .WithMany("Institute")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.State", null)
-                        .WithMany("Institute")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Zip", null)
-                        .WithMany("Institute")
-                        .HasForeignKey("ZipId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.School", b =>
                 {
-                    b.HasOne("JSC_LMS.Domain.Entities.City", null)
-                        .WithMany("School")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.HasOne("JSC_LMS.Domain.Entities.Institute", null)
                         .WithMany("School")
                         .HasForeignKey("InstituteId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.State", null)
-                        .WithMany("School")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Zip", null)
-                        .WithMany("School")
-                        .HasForeignKey("ZipId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Section", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", null)
-                        .WithMany("Section")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.School", null)
-                        .WithMany("Section")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", null)
-                        .WithMany("Subject")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.School", null)
-                        .WithMany("Subject")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Section", null)
-                        .WithMany("Subject")
-                        .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });

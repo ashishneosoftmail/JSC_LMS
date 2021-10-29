@@ -45,52 +45,12 @@ namespace JSC_LMS.Persistence
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
 
-            modelBuilder.Entity<State>(b =>
-            {
-                b.HasMany(e => e.Institute)
-                    .WithOne()
-                    .HasForeignKey(b => b.StateId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
             modelBuilder.Entity<City>(b =>
             {
-                b.HasMany(e => e.Institute)
-                    .WithOne()
-                    .HasForeignKey(b => b.CityId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
-            modelBuilder.Entity<Zip>(b =>
-            {
-                b.HasMany(e => e.Institute)
-                    .WithOne()
-                    .HasForeignKey(b => b.ZipId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
-
-
-
-
-
-            modelBuilder.Entity<State>(b =>
-            {
-                b.HasMany(e => e.School)
-                    .WithOne()
+                b.HasOne(e => e.State)
+                    .WithMany()
                     .HasForeignKey(b => b.StateId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
-            modelBuilder.Entity<City>(b =>
-            {
-                b.HasMany(e => e.School)
-                    .WithOne()
-                    .HasForeignKey(b => b.CityId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
-            modelBuilder.Entity<Zip>(b =>
-            {
-                b.HasMany(e => e.School)
-                    .WithOne()
-                    .HasForeignKey(b => b.ZipId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+                    .IsRequired().OnDelete(DeleteBehavior.Cascade);
             });
             modelBuilder.Entity<Institute>(b =>
             {
@@ -99,63 +59,90 @@ namespace JSC_LMS.Persistence
                     .HasForeignKey(b => b.InstituteId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
-
-            modelBuilder.Entity<School>(b =>
-            {
-                b.HasMany(e => e.Classes)
-                    .WithOne()
-                    .HasForeignKey(b => b.SchoolId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
-
-
-
-            modelBuilder.Entity<School>(b =>
-            {
-                b.HasMany(e => e.Sections)
-                    .WithOne()
-                    .HasForeignKey(b => b.SchoolId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
-
             modelBuilder.Entity<Class>(b =>
             {
-                b.HasMany(e => e.Sections)
+                b.HasMany(e => e.Section)
                     .WithOne()
                     .HasForeignKey(b => b.ClassId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
-
-
-
-
-
-            modelBuilder.Entity<School>(b =>
+            modelBuilder.Entity<Class>(b =>
             {
-                b.HasMany(e => e.Subjects)
+                b.HasMany(e => e.Subject)
                     .WithOne()
-                    .HasForeignKey(b => b.SchoolId)
+                    .HasForeignKey(b => b.ClassId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
-
             modelBuilder.Entity<Section>(b =>
             {
-                b.HasMany(e => e.Subjects)
+                b.HasMany(e => e.Subject)
                     .WithOne()
                     .HasForeignKey(b => b.SectionId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
-
-            modelBuilder.Entity<Class>(b =>
+            modelBuilder.Entity<City>(b =>
             {
-                b.HasMany(e => e.Subjects)
+                b.HasMany(e => e.Institute)
                     .WithOne()
-                    .HasForeignKey(b => b.ClassId)
+                    .HasForeignKey(b => b.CityId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
-
-
-
+            modelBuilder.Entity<City>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.CityId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Section)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Subject)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<School>(b =>
+            {
+                b.HasMany(e => e.Class)
+                    .WithOne()
+                    .HasForeignKey(b => b.SchoolId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<State>(b =>
+            {
+                b.HasMany(e => e.Institute)
+                    .WithOne()
+                    .HasForeignKey(b => b.StateId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<State>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.StateId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Zip>(b =>
+            {
+                b.HasMany(e => e.Institute)
+                    .WithOne()
+                    .HasForeignKey(b => b.ZipId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
+            modelBuilder.Entity<Zip>(b =>
+            {
+                b.HasMany(e => e.School)
+                    .WithOne()
+                    .HasForeignKey(b => b.ZipId)
+                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
+            });
             //seed data, added through migrations
             /* var concertGuid = Guid.Parse("{B0788D2F-8003-43C1-92A4-EDC76A7C5DDE}");
              var musicalGuid = Guid.Parse("{6313179F-7837-473A-A4D5-A5571B43E6A6}");
