@@ -19,13 +19,13 @@ namespace JSC_LMS.Identity.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
         private readonly IdentityDbContext _context;
 
         public AuthenticationService(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> roleManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
             IdentityDbContext context)
@@ -55,6 +55,12 @@ namespace JSC_LMS.Identity.Services
             {
                 throw new AuthenticationException($"Credentials for '{request.Email} aren't valid'.");
             }
+            var roleName = await _userManager.GetRolesAsync(user);
+            var roleId = await _roleManager.FindByNameAsync(roleName[0]);
+            if (roleId.Id.ToString() != request.Role)
+            {
+                throw new AuthenticationException($"Roles Doesn't Matched");
+            }
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
 
@@ -73,8 +79,7 @@ namespace JSC_LMS.Identity.Services
                 _context.Update(user);
                 _context.SaveChanges();
             }
-            var roleName = await _userManager.GetRolesAsync(user);
-            var roleId = await _roleManager.FindByNameAsync(roleName[0]);
+
             response.Message = "succeeded";
             response.IsAuthenticated = true;
             response.UserDetails = new User()
@@ -253,6 +258,20 @@ namespace JSC_LMS.Identity.Services
             await _context.SaveChangesAsync();
             response.IsRevoked = true;
             response.Message = "Token revoked";
+            return response;
+        }
+        public async Task<IEnumerable<RolesResponse>> GetAllRoles()
+        {
+            var rolesData = _roleManager.Roles;
+            List<RolesResponse> response = new List<RolesResponse>();
+            foreach (var role in rolesData)
+            {
+                response.Add(new RolesResponse()
+                {
+                    Id = role.Id,
+                    RoleName = role.Name,
+                });
+            }
             return response;
         }
     }
