@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,6 +22,12 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             _mediator = mediator;
             _logger = logger;
+        }
+        [HttpPost(Name = "AddPrincipal")]
+        public async Task<ActionResult> Create([FromBody] CreatePrincipalCommand createPrincipalCommand)
+        {
+            var result = await _mediator.Send(createPrincipalCommand);
+            return Ok(result);
         }
     }
 }
