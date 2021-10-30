@@ -8,7 +8,7 @@ using System.Text;
 namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById
 {
    
-    public class GetInstituteQuery : IRequest<Response<GetInstituteListVm>>
+    public class GetInstituteQuery : IRequest<Response<GetInstituteByIdVm>>
     {
         public int Id { get; set; }
     }
