@@ -1,4 +1,5 @@
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
+using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
 using System.Collections.Generic;
 
@@ -8,5 +9,6 @@ namespace JSC_LMS.Application.Contracts.Infrastructure
     {
         byte[] ExportEventsToCsv(List<EventExportDto> eventExportDtos);
         byte[] ExportPrincipalToCsv(List<PrincipalCsvExportDto> principalExportDtos);
+        byte[] ExportInstituteToCsv(List<InstituteCsvExportDto> instituteExportDtos);
     }
 }

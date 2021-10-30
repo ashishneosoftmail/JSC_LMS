@@ -18,6 +18,7 @@ using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
@@ -112,6 +113,7 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalByIdDto>().ReverseMap();
             CreateMap<School, SchoolFilterDto>();
             CreateMap<Principal, GetPrincipalByFilterDto>();
+            CreateMap<Institute, GetInstituteFilterVm>();
 
 
         }

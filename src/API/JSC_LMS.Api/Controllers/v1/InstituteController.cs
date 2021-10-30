@@ -1,7 +1,10 @@
-﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+﻿using JSC_LMS.Api.Utility;
+using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
+using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +64,20 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(await _mediator.Send(getInstituteDetailQuery));
         }
 
+        [HttpGet(Name = "GetInstituteByFilter")]
+        public async Task<ActionResult> GetInstituteByFilter(string InstituteName, string City,string State, bool IsActive, DateTime LicenseExpiry)
+        {
+            var getInstituteByFilterQuery = new GetInstituteFilterQuery(InstituteName, City,State, IsActive, LicenseExpiry);
+            return Ok(await _mediator.Send(getInstituteByFilterQuery));
+        }
 
+        [HttpGet("export", Name = "ExportInstitute")]
+        [FileResultContentType("text/csv")]
+        public async Task<FileResult> ExportInstitute()
+        {
+            var fileDto = await _mediator.Send(new GetInstituteCsvExportQuery());
+
+            return File(fileDto.Data, fileDto.ContentType, fileDto.InstituteExportFileName);
+        }
     }
 }

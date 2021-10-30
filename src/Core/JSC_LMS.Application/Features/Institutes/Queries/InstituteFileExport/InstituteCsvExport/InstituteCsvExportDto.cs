@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
+namespace JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport
 {
-    public class GetInstituteFilterVm
+    public class InstituteCsvExportDto
     {
         public int Id { get; set; }
         public string InstituteName { get; set; }
@@ -23,7 +23,6 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
         public DateTime CreatedDate { get; set; }
         public string InstituteURL { get; set; }
         public bool IsActive { get; set; }
-
 
     }
 }
