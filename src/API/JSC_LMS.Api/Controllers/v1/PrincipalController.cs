@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JSC_LMS.Api.Utility;
+using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -55,6 +57,14 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getPrincipalByFilterQuery = new GetPrincipalByFilterQuery(SchoolName, PrincipalName, IsActive, CreatedDate);
             return Ok(await _mediator.Send(getPrincipalByFilterQuery));
+        }
+        [HttpGet("export", Name = "ExportPrincipal")]
+        [FileResultContentType("text/csv")]
+        public async Task<FileResult> ExportPrincipal()
+        {
+            var fileDto = await _mediator.Send(new GetPrincipalCsvExportQuery());
+
+            return File(fileDto.Data, fileDto.ContentType, fileDto.PrincipalExportFileName);
         }
     }
 }
