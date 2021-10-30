@@ -38,7 +38,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter
             var allPrincipal = await _principalRepository.ListAllAsync();
             var searchFilter = (allPrincipal.Where<JSC_LMS.Domain.Entities.Principal>(x => (x.Name == request.PrincipalName) && (x.CreatedDate == request.CreatedDate) && (x.IsActive == request.IsActive)).Select(x => (x)));
             Response<IEnumerable<GetPrincipalByFilterDto>> responseData = new Response<IEnumerable<GetPrincipalByFilterDto>>();
-            if (searchFilter == null)
+            if (searchFilter.Count() < 1)
             {
                 responseData.Succeeded = true;
                 responseData.Message = "Data Doesn't Exist";
@@ -49,7 +49,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter
             foreach (var principal in searchFilter)
             {
                 var school = (await _schoolRepository.GetByIdAsync(principal.SchoolId)).SchoolName == request.SchoolName;
-                if (school != null)
+                if (school)
                 {
                     var user = await _authenticationService.GetUserById(principal.UserId);
                     principalList.Add(new GetPrincipalByFilterDto()
@@ -74,7 +74,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter
                     });
                 }
             }
-            if (principalList == null)
+            if (principalList.Count() < 1)
             {
                 responseData.Succeeded = true;
                 responseData.Message = "Data Doesn't Exist";
