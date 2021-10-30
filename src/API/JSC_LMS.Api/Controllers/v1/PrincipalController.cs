@@ -41,17 +41,18 @@ namespace JSC_LMS.Api.Controllers.v1
             var getPrincipalDetailQuery = new GetPrincipalByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getPrincipalDetailQuery));
         }
-        [HttpGet(Name = "GetPrincipalByFilter")]
-        public async Task<ActionResult> GetPrincipalByFilter(string SchoolName, string PrincipalName, bool IsActive, DateTime CreatedDate)
-        {
-            var getPrincipalByFilterQuery = new GetPrincipalByFilterQuery(SchoolName, PrincipalName, IsActive, CreatedDate);
-            return Ok(await _mediator.Send(getPrincipalByFilterQuery));
-        }
+
         [HttpPost(Name = "AddPrincipal")]
         public async Task<ActionResult> Create([FromBody] CreatePrincipalCommand createPrincipalCommand)
         {
             var result = await _mediator.Send(createPrincipalCommand);
             return Ok(result);
+        }
+        [HttpGet(Name = "GetPrincipalByFilter")]
+        public async Task<ActionResult> GetPrincipalByFilter(string SchoolName, string PrincipalName, bool IsActive, DateTime CreatedDate)
+        {
+            var getPrincipalByFilterQuery = new GetPrincipalByFilterQuery(SchoolName, PrincipalName, IsActive, CreatedDate);
+            return Ok(await _mediator.Send(getPrincipalByFilterQuery));
         }
     }
 }
