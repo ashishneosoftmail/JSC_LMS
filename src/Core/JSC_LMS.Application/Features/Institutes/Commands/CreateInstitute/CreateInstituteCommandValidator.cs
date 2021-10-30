@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 {
-    class CreateInstituteCommandValidator :   AbstractValidator<CreateInstituteCommand>
+    public class CreateInstituteCommandValidator : AbstractValidator<CreateInstituteCommand>
     {
         public CreateInstituteCommandValidator()
         {
@@ -34,7 +34,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
             .NotNull();
             RuleFor(p => p.createInstituteDto.ZipId)
            .NotEmpty().WithMessage("{PropertyName} is required.")
-           .NotNull();           
+           .NotNull();
             RuleFor(p => p.createInstituteDto.Mobile)
            .NotEmpty().WithMessage("{PropertyName} is required.")
            .NotNull().MaximumLength(20).WithMessage("{PropertyName} must not exceed 20 characters.");
