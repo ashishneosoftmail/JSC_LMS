@@ -95,6 +95,17 @@ namespace JSC_LMS.Application.Profiles
             //Principal Mapper
             CreateMap<Principal, CreatePrincipalDto>();
             CreateMap<Principal, CreatePrincipalDto>().ReverseMap();
+
+            CreateMap<City, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.CityDto>();
+            CreateMap<City, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.CityDto>().ReverseMap();
+            CreateMap<State, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.StateDto>();
+            CreateMap<State, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.StateDto>().ReverseMap();
+            CreateMap<Zip, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.ZipDto>();
+            CreateMap<Zip, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.ZipDto>().ReverseMap();
+            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>();
+            CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.SchoolDto>();
+            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>().ReverseMap();
+            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>();
         }
     }
 }

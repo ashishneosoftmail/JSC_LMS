@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,15 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             _mediator = mediator;
             _logger = logger;
+        }
+        [HttpGet("all", Name = "GetAllPrincipal")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllPrincipal()
+        {
+            _logger.LogInformation("GetAllPrincipal Initiated");
+            var dtos = await _mediator.Send(new GetPrincipalListQuery());
+            _logger.LogInformation("GetAllPrincipal Completed");
+            return Ok(dtos);
         }
         [HttpPost(Name = "AddPrincipal")]
         public async Task<ActionResult> Create([FromBody] CreatePrincipalCommand createPrincipalCommand)

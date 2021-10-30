@@ -16,7 +16,7 @@ namespace JSC_LMS.Domain.Entities
         public int StateId { get; set; }
         public State State { get; set; }
         public virtual ICollection<Zip> Zip { get; set; }
-        public virtual ICollection<Institute> Institute { get; set; }
+        public ICollection<Institute> Institute { get; set; }
         public virtual ICollection<School> School { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
         public ICollection<Principal> Principal { get; set; }

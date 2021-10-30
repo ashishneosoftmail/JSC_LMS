@@ -23,9 +23,9 @@ namespace JSC_LMS.Domain.Entities
         public string InstituteURL { get; set; }
         public bool IsActive { get; set; }
 
-        public virtual City City { get;set; }
-        public virtual State State { get;set; }
-        public virtual Zip Zip { get;set; }
+        public City City { get; set; }
+        public State State { get; set; }
+        public Zip Zip { get; set; }
         public virtual ICollection<School> School { get; set; }
     }
 }
