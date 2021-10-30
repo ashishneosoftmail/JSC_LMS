@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
+namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter
 {
-    public class GetPrincipalListDto
+    public class GetPrincipalByFilterDto
     {
         public int Id { get; set; }
         public string AddressLine1 { get; set; }
@@ -20,9 +20,6 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
         public CityDto City { get; set; }
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
-        public SchoolDto School { get; set; }
-        /* public StateDto State { get; set; }
-         public ZipDto Zip { get; set; }
-         public SchoolDto School { get; set; }*/
+        public SchoolFilterDto School { get; set; }
     }
 }

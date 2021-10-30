@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
 {
 
-    public class GetPrincipalByIdQueryHandler : IRequestHandler<GetPrincipalByIdQuery, Response<GetPrincipalListDto>>
+    public class GetPrincipalByIdQueryHandler : IRequestHandler<GetPrincipalByIdQuery, Response<GetPrincipalByIdDto>>
     {
         private readonly IPrincipalRepository _principalRepository;
         private readonly ISchoolRepository _schoolRepository;
@@ -30,10 +30,10 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
             _authenticationService = authenticationService;
         }
 
-        public async Task<Response<GetPrincipalListDto>> Handle(GetPrincipalByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<GetPrincipalByIdDto>> Handle(GetPrincipalByIdQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handle Initiated");
-            Response<GetPrincipalListDto> responseData = new Response<GetPrincipalListDto>();
+            Response<GetPrincipalByIdDto> responseData = new Response<GetPrincipalByIdDto>();
             var principal = await _principalRepository.GetByIdAsync(request.Id);
             if (principal == null)
             {
@@ -43,7 +43,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
                 return responseData;
             }
             var user = await _authenticationService.GetUserById(principal.UserId);
-            var principalData = new GetPrincipalListDto()
+            var principalData = new GetPrincipalByIdDto()
             {
                 Id = principal.Id,
                 AddressLine1 = principal.AddressLine1,
@@ -64,7 +64,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
                 }
             };
             _logger.LogInformation("Hanlde Completed");
-            return new Response<GetPrincipalListDto>(principalData, "success");
+            return new Response<GetPrincipalByIdDto>(principalData, "success");
         }
 
     }

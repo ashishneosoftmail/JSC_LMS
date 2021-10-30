@@ -21,6 +21,7 @@ using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
@@ -102,9 +103,13 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>();
             CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.SchoolDto>();
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>().ReverseMap();
-            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalListDto>();
+            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalByIdDto>();
             CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.SchoolDto>();
-            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalListDto>().ReverseMap();
+            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalByIdDto>().ReverseMap();
+            CreateMap<School, SchoolFilterDto>();
+            CreateMap<Principal, GetPrincipalByFilterDto>();
+
+
         }
     }
 }
