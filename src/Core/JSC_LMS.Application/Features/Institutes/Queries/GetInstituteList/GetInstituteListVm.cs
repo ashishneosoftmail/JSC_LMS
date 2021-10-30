@@ -1,10 +1,11 @@
-﻿using System;
+﻿using JSC_LMS.Application.CommonDtos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList
 {
-  public  class GetInstituteListVm
+    public class GetInstituteListVm
     {
         public int Id { get; set; }
         public string InstituteName { get; set; }

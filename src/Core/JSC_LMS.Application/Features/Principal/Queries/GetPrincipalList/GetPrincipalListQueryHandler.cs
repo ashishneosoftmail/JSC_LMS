@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JSC_LMS.Application.CommonDtos;
 using JSC_LMS.Application.Contracts.Identity;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Responses;
@@ -42,7 +43,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList
                     Id = principal.Id,
                     AddressLine1 = principal.AddressLine1,
                     AddressLine2 = principal.AddressLine2,
-                    Mobile=principal.Mobile,
+                    Mobile = principal.Mobile,
                     Username = user.Username,
                     Email = user.Email,
                     IsActive = principal.IsActive,

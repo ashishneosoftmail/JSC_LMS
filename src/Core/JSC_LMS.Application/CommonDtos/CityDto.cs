@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList
+namespace JSC_LMS.Application.CommonDtos
 {
     public class CityDto
     {
