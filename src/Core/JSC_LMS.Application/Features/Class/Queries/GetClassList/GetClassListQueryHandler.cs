@@ -33,21 +33,18 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassList
             _logger.LogInformation("Handle Initiated");
             var allClass = await _classRepository.ListAllAsync();
             List<GetClassListDto> classList = new List<GetClassListDto>();
-            foreach (var classe in allClass)
+            foreach (var classes in allClass)
             {
-                
                 classList.Add(new GetClassListDto()
                 {
-                    Id = classe.Id,
-                    ClassName = classe.ClassName,
-                    IsActive = classe.IsActive,
-                   
-                    CreatedDate = (DateTime)classe.CreatedDate,
-                    
+                    Id = classes.Id,
+                    CreatedDate = (DateTime)classes.CreatedDate,
+                    ClassName = classes.ClassName,
+                    IsActive = classes.IsActive,
                     School = new SchoolDto()
                     {
-                        Id = classe.SchoolId,
-                        SchoolName = (await _schoolRepository.GetByIdAsync(classe.SchoolId)).SchoolName
+                        Id = classes.SchoolId,
+                        SchoolName = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName
                     }
                 });
             }

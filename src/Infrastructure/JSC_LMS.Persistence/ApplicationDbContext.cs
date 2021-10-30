@@ -110,13 +110,13 @@ namespace JSC_LMS.Persistence
                     .HasForeignKey(b => b.SchoolId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });
-            modelBuilder.Entity<School>(b =>
-            {
-                b.HasMany(e => e.Class)
-                    .WithOne()
-                    .HasForeignKey(b => b.SchoolId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
+            /* modelBuilder.Entity<School>(b =>
+             {
+                 b.HasMany(e => e.Class)
+                     .WithOne()
+                     .HasForeignKey(b => b.SchoolId)
+                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
+             });*/
             /*modelBuilder.Entity<State>(b =>
             {
                 b.HasMany(e => e.Institute)
