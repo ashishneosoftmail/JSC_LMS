@@ -90,6 +90,11 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Class, CreateClassDto>();
             CreateMap<Class, CreateClassDto>().ReverseMap();
 
+            CreateMap<Class, JSC_LMS.Application.Features.Class.Queries.GetClassList.GetClassListDto>();
+            CreateMap<School, JSC_LMS.Application.Features.Class.Queries.GetClassList.SchoolDto>();
+            CreateMap<Class, JSC_LMS.Application.Features.Class.Queries.GetClassList.GetClassListDto>().ReverseMap();
+
+           
             CreateMap<Class, UpdateClassDto>();
             CreateMap<Class, UpdateClassDto>().ReverseMap();
 
@@ -99,12 +104,16 @@ namespace JSC_LMS.Application.Profiles
             //Principal Mapper
             CreateMap<Principal, CreatePrincipalDto>();
             CreateMap<Principal, CreatePrincipalDto>().ReverseMap();
+
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>();
             CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.SchoolDto>();
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.GetPrincipalListDto>().ReverseMap();
+
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalListDto>();
             CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.SchoolDto>();
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalListDto>().ReverseMap();
+
+           
         }
     }
 }

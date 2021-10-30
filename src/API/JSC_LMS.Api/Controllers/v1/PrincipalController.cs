@@ -25,6 +25,7 @@ namespace JSC_LMS.Api.Controllers.v1
             _mediator = mediator;
             _logger = logger;
         }
+
         [HttpGet("all", Name = "GetAllPrincipal")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllPrincipal()
@@ -34,12 +35,14 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllPrincipal Completed");
             return Ok(dtos);
         }
+
         [HttpGet("{id}", Name = "GetPrincipalById")]
         public async Task<ActionResult> GetPrincipalById(int id)
         {
             var getPrincipalDetailQuery = new GetPrincipalByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getPrincipalDetailQuery));
         }
+
         [HttpPost(Name = "AddPrincipal")]
         public async Task<ActionResult> Create([FromBody] CreatePrincipalCommand createPrincipalCommand)
         {

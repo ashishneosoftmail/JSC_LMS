@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
+using JSC_LMS.Application.Features.Class.Queries.GetClassList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,20 @@ namespace JSC_LMS.Api.Controllers.v1
             _mediator = mediator;
             _logger = logger;
         }
+
+
+        [HttpGet("all", Name = "GetAllClass")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllClass()
+        {
+            _logger.LogInformation("GetAllClass Initiated");
+            var dtos = await _mediator.Send(new GetClassListQuery());
+            _logger.LogInformation("GetAllClass Completed");
+            return Ok(dtos);
+        }
+
+
+
         [HttpPost(Name = "AddClass")]
         public async Task<ActionResult> Create([FromBody] CreateClassCommand createClassCommand)
         {
