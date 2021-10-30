@@ -94,6 +94,10 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Class, UpdateClassDto>();
             CreateMap<Class, UpdateClassDto>().ReverseMap();
 
+            CreateMap<School, JSC_LMS.Application.Features.Class.Queries.GetClassById.SchoolDto>();
+            CreateMap<Class, JSC_LMS.Application.Features.Class.Queries.GetClassById.GetClassByIdDto>();
+            CreateMap<Class, JSC_LMS.Application.Features.Class.Queries.GetClassById.GetClassByIdDto>().ReverseMap();
+
             CreateMap<Teacher, CreateTeacherDto>();
             CreateMap<Teacher, CreateTeacherDto>().ReverseMap();
 

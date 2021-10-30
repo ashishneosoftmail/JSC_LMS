@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace JSC_LMS.Persistence.Repositories
 {
@@ -20,6 +21,12 @@ namespace JSC_LMS.Persistence.Repositories
         protected override IQueryable<Class> GetQueryable()
         {
             return _dbContext.Set<Class>().Include(a => a.School);
+        }
+
+        public override async Task<Class> GetByIdAsync(int id)
+        {
+            return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
+
         }
     }
 }

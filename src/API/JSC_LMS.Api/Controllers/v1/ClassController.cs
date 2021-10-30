@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
+using JSC_LMS.Application.Features.Class.Queries.GetClassById;
 using JSC_LMS.Application.Features.Class.Queries.GetClassList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,13 @@ namespace JSC_LMS.Api.Controllers.v1
             var dtos = await _mediator.Send(new GetClassListQuery());
             _logger.LogInformation("GetAllClass Completed");
             return Ok(dtos);
+        }
+
+        [HttpGet("{id}", Name = "GetClassById")]
+        public async Task<ActionResult> GetClassById(int id)
+        {
+            var getClassDetailQuery = new GetClassByIdQuery() { Id = id };
+            return Ok(await _mediator.Send(getClassDetailQuery));
         }
 
 
