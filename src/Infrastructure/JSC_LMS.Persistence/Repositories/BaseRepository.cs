@@ -18,7 +18,7 @@ namespace JSC_LMS.Persistence.Repositories
         }
         protected virtual IQueryable<T> GetQueryable()
         {
-            return  _dbContext.Set<T>();
+            return _dbContext.Set<T>();
         }
         public virtual async Task<T> GetByIdAsync(int id)
         {
