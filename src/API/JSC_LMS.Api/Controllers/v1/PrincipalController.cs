@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using JSC_LMS.Api.Utility;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
+using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -51,6 +52,15 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var result = await _mediator.Send(createPrincipalCommand);
             return Ok(result);
+        }
+        [HttpPut(Name = "UpdatePrincipal")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> Update([FromBody] UpdatePrincipalCommand updatePrincipalCommand)
+        {
+            var response = await _mediator.Send(updatePrincipalCommand);
+            return Ok(response);
         }
         [HttpGet(Name = "GetPrincipalByFilter")]
         public async Task<ActionResult> GetPrincipalByFilter(string SchoolName, string PrincipalName, bool IsActive, DateTime CreatedDate)
