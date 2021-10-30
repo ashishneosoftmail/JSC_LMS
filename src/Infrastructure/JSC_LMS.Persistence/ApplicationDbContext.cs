@@ -39,6 +39,7 @@ namespace JSC_LMS.Persistence
 
         public DbSet<Subject> Subject { get; set; }
         public DbSet<Teacher> Teacher { get; set; }
+        public DbSet<Principal> Principal { get; set; }
 
 
 
