@@ -50,9 +50,9 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
             RuleFor(p => p.createInstituteDto.LicenseExpiry)
          .NotEmpty().WithMessage("{PropertyName} is required.")
            .NotNull();
-            RuleFor(p => p.createInstituteDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+       //     RuleFor(p => p.createInstituteDto.IsActive)
+       //.NotEmpty().WithMessage("{PropertyName} is required.")
+       //.NotNull();
         }
 
     }
