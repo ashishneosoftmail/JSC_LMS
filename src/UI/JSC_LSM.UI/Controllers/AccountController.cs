@@ -39,7 +39,7 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.LoginError = null;
             Login login = new Login();
             login.Roles = await GetAllRoles();
-            Console.WriteLine(login.Roles);
+           // Console.WriteLine(login.Roles);
             return View(login);
         }
 

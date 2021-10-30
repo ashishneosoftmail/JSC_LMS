@@ -23,18 +23,19 @@ namespace JSC_LMS.Identity.Services
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
         private readonly IdentityDbContext _context;
-
+        private IPasswordHasher<ApplicationUser> _passwordHasher;
         public AuthenticationService(UserManager<ApplicationUser> userManager,
             RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> roleManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
-            IdentityDbContext context)
+            IdentityDbContext context, IPasswordHasher<ApplicationUser> passwordHasher)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _jwtSettings = jwtSettings.Value;
             _signInManager = signInManager;
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
@@ -265,6 +266,9 @@ namespace JSC_LMS.Identity.Services
             response.IsRevoked = true;
             response.Message = "Token revoked";
             return response;
+
+           
+
         }
         public async Task<IEnumerable<RolesResponse>> GetAllRoles()
         {
@@ -279,6 +283,42 @@ namespace JSC_LMS.Identity.Services
                 });
             }
             return response;
+        }
+        public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request)
+        {
+            var userExist = await _userManager.FindByIdAsync(request.UserId);
+            if (userExist == null)
+            {
+                return null;
+            }
+            else
+            {
+                userExist.Email = request.Email;
+                userExist.UserName = request.Username;
+                userExist.PasswordHash = _passwordHasher.HashPassword(userExist, request.Password);
+                IdentityResult result = await _userManager.UpdateAsync(userExist);
+                if (result.Succeeded) return new UpdateUserResponse() { UserId = userExist.Id };
+                else return null;
+            }
+            return null;
+        }
+        public async Task<GetUserByIdResponse> GetUserById(string id)
+        {
+            var userExist = await _userManager.FindByIdAsync(id);
+            if (userExist == null)
+            {
+                return null;
+            }
+            else
+            {
+                return new GetUserByIdResponse()
+                {
+                    Email = userExist.Email,
+                    Pasword = userExist.PasswordHash,
+                    Username = userExist.UserName
+                };
+            }
+            return null;
         }
     }
 }

@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211029163746_updatedInstite")]
+    partial class updatedInstite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -338,76 +340,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Principal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("AddressLine2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Mobile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SchoolId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("ZipId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("ZipId");
-
-                    b.ToTable("Principal");
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -502,9 +434,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int?>("PrincipalId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SchoolName")
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
@@ -522,8 +451,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasIndex("CityId");
 
                     b.HasIndex("InstituteId");
-
-                    b.HasIndex("PrincipalId");
 
                     b.HasIndex("StateId");
 
@@ -862,21 +789,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasForeignKey("ZipId1");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Principal", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.City", "City")
-                        .WithMany("Principal")
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("JSC_LMS.Domain.Entities.State", "State")
-                        .WithMany("Principal")
-                        .HasForeignKey("StateId");
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Zip", "Zip")
-                        .WithMany("Principal")
-                        .HasForeignKey("ZipId");
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.School", b =>
                 {
                     b.HasOne("JSC_LMS.Domain.Entities.City", null)
@@ -890,10 +802,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasForeignKey("InstituteId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Principal", "Principal")
-                        .WithMany("School")
-                        .HasForeignKey("PrincipalId");
 
                     b.HasOne("JSC_LMS.Domain.Entities.State", null)
                         .WithMany("School")

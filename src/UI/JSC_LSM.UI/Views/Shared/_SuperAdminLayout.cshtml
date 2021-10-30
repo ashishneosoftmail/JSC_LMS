@@ -18,9 +18,11 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
    
     <style type="text/css">
-        a:hover {
+        a {
             text-decoration: none;
+            font-size:16.5px;            
         }
+       
     </style>
 
 </head>
@@ -87,9 +89,53 @@
 
 
                     <li>
-                        <a href="~/Crop/Index">
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                        </a>
+                       
+                            <a asp-action="InstituteDetails" asp-controller="Institute" class="">
+                                <span>Manage Institute</span>
+                            </a>
+                       
+                    </li>
+                    <li>
+                      
+                            <a asp-action="InstituteDetails" asp-controller="Institute">
+                                <span>Manage Receipts</span>
+                            </a>
+                           
+                    </li>
+                    <li>
+                      
+                            <a asp-action="InstituteDetails" asp-controller="Institute">
+                                <span>Knowledge Base</span>
+                            </a>
+                          
+                    </li>
+                    <li>
+                       
+                            <a asp-action="InstituteDetails" asp-controller="Institute">
+                                <span>Manage FAQ</span>
+                            </a>
+                          
+                    </li>
+                    <li>
+                       
+                            <a asp-action="InstituteDetails" asp-controller="Institute">
+                                <span>Customer Support</span>
+                            </a>
+                          
+                    </li>
+                    <li>
+                       
+                            <a asp-action="InstituteDetails" asp-controller="Institute">
+                                <span>Manage Profile</span>
+                            </a>
+                           
+                    </li>
+                    <li>
+                       
+                            <a asp-action="InstituteDetails" asp-controller="Institute">
+                                <span>Logout</span>
+                            </a>
+                           
                     </li>
 
                 </ul>

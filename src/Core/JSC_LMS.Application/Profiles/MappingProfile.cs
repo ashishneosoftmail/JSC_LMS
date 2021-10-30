@@ -17,9 +17,11 @@ using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
+using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LMS.Domain.Entities;
 
 namespace JSC_LMS.Application.Profiles
@@ -71,6 +73,13 @@ namespace JSC_LMS.Application.Profiles
             //Institute Mapper
             CreateMap<Institute, CreateInstituteDto>();
             CreateMap<Institute, CreateInstituteDto>().ReverseMap();
+            CreateMap<City, CityDto>();
+            CreateMap<City, CityDto>().ReverseMap();
+            CreateMap<State, StateDto>();
+            CreateMap<State, StateDto>().ReverseMap();
+            CreateMap<Zip, ZipDto>();
+            CreateMap<Zip, ZipDto>().ReverseMap();
+            CreateMap<Institute, GetInstituteListVm>();
 
             //Class Mapper
             CreateMap<Class, CreateClassDto>();
@@ -78,6 +87,9 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Class, UpdateClassDto>();
             CreateMap<Class, UpdateClassDto>().ReverseMap();
+
+            CreateMap<Teacher, CreateTeacherDto>();
+            CreateMap<Teacher, CreateTeacherDto>().ReverseMap();
         }
     }
 }

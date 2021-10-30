@@ -2,27 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
+namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
 {
-   public class UpdateInstituteDto
+    public class CreateTeacherDto
     {
-        public int Id { get; set; }
-        public string InstituteName { get; set; }
+        public string TeacherName { get; set; }
+        public string UserTypeId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
-        public string ContactPerson { get; set; }
+        public int ClassId { get; set; }
         public string Mobile { get; set; }
-        public string UserId { get; set; }
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public int CityId { get; set; }
         public int StateId { get; set; }
         public int ZipId { get; set; }
-        public DateTime LicenseExpiry { get; set; }
-        public string InstituteURL { get; set; }
-        public string RoleName { get; set; }
+        public int SectionId { get; set; }
+        public int SchoolId { get; set; }
+        public int SubjectId { get; set; }
         public bool IsActive { get; set; }
-
     }
 }

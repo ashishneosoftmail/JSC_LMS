@@ -1,5 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,5 +42,25 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updateInstituteCommand);
             return Ok(response);
         }
+
+        //[Authorize]
+        [HttpGet("all", Name = "GetAllInstitutes")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllInstitutes()
+        {
+            _logger.LogInformation("GetAllInstitutes Initiated");
+            var dtos = await _mediator.Send(new GetInstituteListQuery());
+            _logger.LogInformation("GetAllInstitutes Completed");
+            return Ok(dtos);
+        }
+
+        [HttpGet("{id}", Name = "GetInstituteById")]
+        public async Task<ActionResult> GetInstituteById(int id)
+        {
+            var getInstituteDetailQuery = new GetInstituteQuery() { Id = id };
+            return Ok(await _mediator.Send(getInstituteDetailQuery));
+        }
+
+
     }
 }
