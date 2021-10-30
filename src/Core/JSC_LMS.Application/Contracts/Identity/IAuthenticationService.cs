@@ -11,5 +11,7 @@ namespace JSC_LMS.Application.Contracts.Identity
         Task<RegistrationResponse> RegisterAsync(RegistrationRequest request);
         Task<RefreshTokenResponse> RefreshTokenAsync(RefreshTokenRequest request);
         Task<RevokeTokenResponse> RevokeToken(RevokeTokenRequest request);
+        Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request);
+        Task<GetUserByIdResponse> GetUserById(string id);
     }
 }

@@ -16,7 +16,10 @@ namespace JSC_LMS.Persistence.Repositories
         {
             _dbContext = dbContext; _logger = logger;
         }
-
+        protected virtual IQueryable<T> GetQueryable()
+        {
+            return  _dbContext.Set<T>();
+        }
         public virtual async Task<T> GetByIdAsync(int id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
@@ -25,7 +28,7 @@ namespace JSC_LMS.Persistence.Repositories
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
             _logger.LogInformation("ListAllAsync Initiated");
-            return await _dbContext.Set<T>().ToListAsync();
+            return await GetQueryable().ToListAsync();
         }
 
         public async virtual Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)

@@ -12,10 +12,12 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList
         public string AddressLine2 { get; set; }
         public string ContactPerson { get; set; }
         public string Mobile { get; set; }
-        public string UserId { get; set; }
-        public int? CityId { get; set; }
-        public int? StateId { get; set; }
-        public int? ZipId { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public CityDto City { get; set; }
+        public StateDto State { get; set; }
+        public ZipDto Zip { get; set; }
         public DateTime LicenseExpiry { get; set; }
         public string InstituteURL { get; set; }
         public bool IsActive { get; set; }

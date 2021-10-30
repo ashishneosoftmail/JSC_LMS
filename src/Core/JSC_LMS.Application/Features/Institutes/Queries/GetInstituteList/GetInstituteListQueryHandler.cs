@@ -29,7 +29,7 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList
         {
             _logger.LogInformation("Handle Initiated");
             var allInstitutes = await _instituteRepository.ListAllAsync();
-            var institute = _mapper.Map<IEnumerable<GetInstituteListVm>>(allInstitutes);
+            var institute = _mapper.Map<List<GetInstituteListVm>>(allInstitutes);
             _logger.LogInformation("Hanlde Completed");
             return new Response<IEnumerable<GetInstituteListVm>>(institute, "success");
         }
