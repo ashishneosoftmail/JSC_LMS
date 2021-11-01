@@ -1,3 +1,20 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http
+@{
     Layout = "_Layout";
+
+    var roleName = Convert.ToString(Context.Request.Cookies["RoleName"]);
+    @if (roleName!=null && roleName.Contains("Super"))
+        Layout = "_SuperAdminLayout";
+    else if (roleName != null && roleName.Contains("Institute"))
+        Layout = "_InstituteLayout";
+    else if (roleName != null && roleName.Contains("Principal"))
+        Layout = "_PrincipalLayout";
+    else if (roleName != null && roleName.Contains("Teacher"))
+        Layout = "_TeacherLayout";
+    else if (roleName != null && roleName.Contains("Student"))
+        Layout = "_StudentLayout";
+    else if (roleName != null && roleName.Contains("Parent"))
+        Layout = "_ParentLayout";
+    else
+        Layout = "_SuperAdminLayout";
 }

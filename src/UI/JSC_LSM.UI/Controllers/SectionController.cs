@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Controllers
 {
-    public class SectionController : Controller
+    public class SectionController : BaseController
     {
         public IActionResult AddSection()
         {

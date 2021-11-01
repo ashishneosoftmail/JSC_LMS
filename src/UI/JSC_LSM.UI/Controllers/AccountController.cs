@@ -3,6 +3,7 @@ using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -94,6 +95,18 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = authenticationResponseModel.message;
                             responseModel.IsSuccess = authenticationResponseModel.isSuccess;
+
+                            // Add cookies 
+                            CookieOptions option = new CookieOptions();
+                            option.Expires = DateTime.Now.AddDays(1); //DateTime.Now.AddMinutes(30);
+                            Response.Cookies.Append("Token", authenticationResponseModel.token, option);
+                            Response.Cookies.Append("Id", Convert.ToString(authenticationResponseModel.userDetails.Id), option);
+                            Response.Cookies.Append("Email", authenticationResponseModel.userDetails.Email, option);
+                            Response.Cookies.Append("FirstName", authenticationResponseModel.userDetails.FirstName, option);
+                            Response.Cookies.Append("Name", authenticationResponseModel.userDetails.FirstName + " " + authenticationResponseModel.userDetails.LastName, option);
+                            Response.Cookies.Append("RoleId", Convert.ToString(authenticationResponseModel.userDetails.Role.RoleId), option);
+                            Response.Cookies.Append("RoleName", Convert.ToString(authenticationResponseModel.userDetails.Role.RoleName), option);
+
                             return RedirectToAction("Index", "Home");
                         }
                     }
@@ -107,6 +120,17 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(login);
         }
+
+        public IActionResult Logout()
+        {
+            //Response.Cookies.Delete("Email");
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
         [NonAction]
         private async Task<List<SelectListItem>> GetAllRoles()
         {
