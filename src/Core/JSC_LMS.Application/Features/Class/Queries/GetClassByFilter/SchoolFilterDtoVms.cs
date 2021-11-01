@@ -12,12 +12,12 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
         public string ClassName { get; set; }
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
-        public SchoolDtoSomething School { get; set; }
+        public SchoolDtoVm School { get; set; }
 
 
     }
 
-    public class SchoolDtoSomething
+    public class SchoolDtoVm
     {
         public string SchoolName { get; set; }
         public int Id { get; set; }

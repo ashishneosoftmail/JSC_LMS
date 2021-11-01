@@ -61,7 +61,7 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
                       
                         CreatedDate = (DateTime)classes.CreatedDate,
                        
-                        School = new SchoolDtoSomething()
+                        School = new SchoolDtoVm()
                         {
                             Id = classes.SchoolId,
                             SchoolName = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName
