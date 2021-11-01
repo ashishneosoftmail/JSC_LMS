@@ -54,13 +54,13 @@ namespace JSC_LMS.Persistence
                     .HasForeignKey(b => b.StateId)
                     .IsRequired().OnDelete(DeleteBehavior.Cascade);
             });
-            modelBuilder.Entity<Institute>(b =>
-            {
-                b.HasMany(e => e.School)
-                    .WithOne()
-                    .HasForeignKey(b => b.InstituteId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
+            /* modelBuilder.Entity<Institute>(b =>
+             {
+                 b.HasMany(e => e.School)
+                     .WithOne()
+                     .HasForeignKey(b => b.InstituteId)
+                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
+             });*/
             modelBuilder.Entity<Class>(b =>
             {
                 b.HasMany(e => e.Section)
@@ -89,13 +89,13 @@ namespace JSC_LMS.Persistence
                      .HasForeignKey(b => b.CityId)
                      .IsRequired().OnDelete(DeleteBehavior.NoAction);
              });*/
-            modelBuilder.Entity<City>(b =>
-            {
-                b.HasMany(e => e.School)
-                    .WithOne()
-                    .HasForeignKey(b => b.CityId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
+            /* modelBuilder.Entity<City>(b =>
+             {
+                 b.HasMany(e => e.School)
+                     .WithOne()
+                     .HasForeignKey(b => b.CityId)
+                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
+             });*/
             modelBuilder.Entity<School>(b =>
             {
                 b.HasMany(e => e.Section)
@@ -124,13 +124,13 @@ namespace JSC_LMS.Persistence
                     .HasForeignKey(b => b.StateId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
             });*/
-            modelBuilder.Entity<State>(b =>
+            /*modelBuilder.Entity<State>(b =>
             {
                 b.HasMany(e => e.School)
                     .WithOne()
                     .HasForeignKey(b => b.StateId)
                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
+            });*/
             /* modelBuilder.Entity<Zip>(b =>
              {
                  b.HasMany(e => e.Institute)
@@ -138,13 +138,13 @@ namespace JSC_LMS.Persistence
                      .HasForeignKey(b => b.ZipId)
                      .IsRequired().OnDelete(DeleteBehavior.NoAction);
              });*/
-            modelBuilder.Entity<Zip>(b =>
-            {
-                b.HasMany(e => e.School)
-                    .WithOne()
-                    .HasForeignKey(b => b.ZipId)
-                    .IsRequired().OnDelete(DeleteBehavior.NoAction);
-            });
+            /* modelBuilder.Entity<Zip>(b =>
+             {
+                 b.HasMany(e => e.School)
+                     .WithOne()
+                     .HasForeignKey(b => b.ZipId)
+                     .IsRequired().OnDelete(DeleteBehavior.NoAction);
+             });*/
             /////// Teacher
             ///modelBuilder.Entity<City>(b =>
             modelBuilder.Entity<City>(b =>

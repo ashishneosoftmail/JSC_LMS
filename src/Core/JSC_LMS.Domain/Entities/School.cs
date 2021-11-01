@@ -21,6 +21,9 @@ namespace JSC_LMS.Domain.Entities
         public int? ZipId { get; set; }
         public string Mobile { get; set; }
         public bool IsActive { get; set; }
+        public Institute Institute { get; set; }
+        public State State { get; set; }
+        public Zip Zip { get; set; }
         public ICollection<Class> Class { get; set; }
 
         public virtual ICollection<Section> Section { get; set; }
