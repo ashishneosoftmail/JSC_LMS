@@ -14,5 +14,8 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllCity = "/api/v1/Common/";
         public static string GetAllState = "/api/v1/Common/GetAllState";
         public static string GetAllZip = "/Zip/";
+
+
+        public static string CreateInstitute = "/api/v1/Institute";
     }
 }
