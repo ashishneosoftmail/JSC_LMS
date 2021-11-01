@@ -19,5 +19,12 @@ namespace JSC_LMS.Persistence.Repositories
             _logger = logger;
         }
 
+ 
+        public override async Task<Section> GetByIdAsync(int id)
+        {
+            return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
+
+        }
+
     }
 }
