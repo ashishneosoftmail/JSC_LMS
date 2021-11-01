@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Section.Queries.GetSectionById
 {
-   public class GetSectionByIdQueryHandler : IRequestHandler<GetSectionByIdQuery, Response<GetSectionByIdDto>>
+    public class GetSectionByIdQueryHandler : IRequestHandler<GetSectionByIdQuery, Response<GetSectionByIdDto>>
     {
         private readonly ISectionRepository _sectionRepository;
         private readonly IClassRepository _classRepository;
@@ -60,7 +60,7 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionById
                 Class = new ClassDto()
                 {
                     Id = classdata.SchoolId,
-                    ClassName = (await _schoolRepository.GetByIdAsync(classdata.ClassId)).ClassName
+                    ClassName = (await _classRepository.GetByIdAsync(classdata.ClassId)).ClassName
                 }
 
             };
