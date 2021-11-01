@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Controllers
 {
-    public class InstituteController : Controller
+    public class InstituteController : BaseController
     {
         public IActionResult Index()
         {
