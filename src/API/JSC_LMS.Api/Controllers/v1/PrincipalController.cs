@@ -48,8 +48,9 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         [HttpPost(Name = "AddPrincipal")]
-        public async Task<ActionResult> Create([FromBody] CreatePrincipalCommand createPrincipalCommand)
+        public async Task<ActionResult> Create(CreatePrincipalDto createPrincipalDto)
         {
+            var createPrincipalCommand = new CreatePrincipalCommand(createPrincipalDto);
             var result = await _mediator.Send(createPrincipalCommand);
             return Ok(result);
         }

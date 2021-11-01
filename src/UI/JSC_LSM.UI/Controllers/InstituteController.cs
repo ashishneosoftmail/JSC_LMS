@@ -33,6 +33,7 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
+        [HttpGet]
         public async Task<IActionResult> AddInstitute()
         {
             Institute institute = new Institute();

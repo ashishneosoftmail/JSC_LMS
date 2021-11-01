@@ -24,6 +24,7 @@ namespace JSC_LSM.UI.Controllers
         {
             PrincipalModel principalModel = new PrincipalModel();
             principalModel.States = await _common.GetAllStates();
+            principalModel.Schools = await _common.GetSchool();
             return View(principalModel);
         }
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
