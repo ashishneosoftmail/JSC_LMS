@@ -26,6 +26,8 @@ using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
+using JSC_LMS.Application.Features.Section.Commands.CreateSection;
+using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LMS.Domain.Entities;
 
@@ -117,6 +119,13 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<School, SchoolFilterDtoVms>();
             CreateMap<Class, GetClassByFilterDto>();
             CreateMap<Institute, GetInstituteFilterVm>();
+
+            //Section Mapper
+            CreateMap<Section, CreateSectionDto>();
+            CreateMap<Section, CreateSectionDto>().ReverseMap();
+
+            CreateMap<Section, UpdateSectionDto>();
+            CreateMap<Section, UpdateSectionDto>().ReverseMap();
 
 
         }
