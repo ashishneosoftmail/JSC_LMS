@@ -6,6 +6,7 @@ using JSC_LMS.Application.Features.Common.Roles.Commands.UpdateRole;
 using JSC_LMS.Application.Features.Common.Roles.Queries.GetRoleById;
 using JSC_LMS.Application.Features.Common.Roles.Queries.GetRolesList;
 using JSC_LMS.Application.Features.Common.States.Queries.GetStatesList;
+using JSC_LMS.Application.Features.Common.ZipCodes.Queries.GetZipcodeListWithCityId;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -102,6 +103,14 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getAllCitiesByStateId = new GetCitiesListByStateIdQuery() { StateId = StateId };
             return Ok(await _mediator.Send(getAllCitiesByStateId));
+        }
+
+        //Zip
+        [HttpGet("/Zip/{CityId}", Name = "GetZipcodesByCityId")]
+        public async Task<ActionResult> GetZipcodesByCityId(int CityId)
+        {
+            var getAllZipByCityId = new GetZipcodeListWithCityIdQuery() { CityId = CityId };
+            return Ok(await _mediator.Send(getAllZipByCityId));
         }
     }
 }
