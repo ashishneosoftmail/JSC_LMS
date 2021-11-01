@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
+using JSC_LMS.Application.Features.Class.Queries.GetClassByFilter;
 using JSC_LMS.Application.Features.Class.Queries.GetClassById;
 using JSC_LMS.Application.Features.Class.Queries.GetClassList;
 using MediatR;
@@ -45,6 +46,15 @@ namespace JSC_LMS.Api.Controllers.v1
             var getClassDetailQuery = new GetClassByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getClassDetailQuery));
         }
+
+
+        [HttpGet(Name = "GetClassByFilter")]
+        public async Task<ActionResult> GetClassByFilter(string SchoolName, string ClassName, bool IsActive, DateTime CreatedDate)
+        {
+            var getClassByFilterQuery = new GetClassByFilterQuery(SchoolName, ClassName, IsActive, CreatedDate);
+            return Ok(await _mediator.Send(getClassByFilterQuery));
+        }
+
 
 
 

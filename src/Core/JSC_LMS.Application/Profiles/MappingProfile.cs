@@ -5,6 +5,7 @@ using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
 using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
+using JSC_LMS.Application.Features.Class.Queries.GetClassByFilter;
 using JSC_LMS.Application.Features.Common.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Common.Cities.Queries.GetCitiesListWithStateId;
 using JSC_LMS.Application.Features.Common.Roles.Commands.CreateRole;
@@ -110,9 +111,11 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalList.SchoolDto>();
             CreateMap<School, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.SchoolDto>();
             CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalByIdDto>();
-            CreateMap<Principal, JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById.GetPrincipalByIdDto>().ReverseMap();
+            CreateMap<Principal, Features.Principal.Queries.GetPrincipalById.GetPrincipalByIdDto>().ReverseMap();
             CreateMap<School, SchoolFilterDto>();
             CreateMap<Principal, GetPrincipalByFilterDto>();
+            CreateMap<School, SchoolFilterDtoVms>();
+            CreateMap<Class, GetClassByFilterDto>();
             CreateMap<Institute, GetInstituteFilterVm>();
 
 
