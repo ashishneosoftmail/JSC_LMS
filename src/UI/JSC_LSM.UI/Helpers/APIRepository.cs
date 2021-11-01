@@ -43,8 +43,8 @@ namespace JSC_LSM.UI.Helpers
                 using (var client = new HttpClient())
                 {
                     //client.BaseAddress = new Uri(_apiBaseUrl + URL);
-                    //client.BaseAddress = new Uri("https://localhost:44330" + URL);
-                    client.BaseAddress = new Uri("http://localhost:5000" + URL);
+                    client.BaseAddress = new Uri("https://localhost:44330" + URL);
+                    /*client.BaseAddress = new Uri("http://localhost:5000" + URL);*/
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
                     HttpResponseMessage oHttpResponseMessage = new HttpResponseMessage();
 

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Institute
+@{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
@@ -95,12 +96,8 @@
                         <div class="form-group row">
                             <label for="state" class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="state">
-                                    <option disabled selected hidden>Select State</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
+                                <select class="form-select" asp-for="State" asp-items="Model.States" aria-label="Default select example">
+                                    <option value="" disabled selected>Select State</option>
                                 </select>
                             </div>
                         </div>
