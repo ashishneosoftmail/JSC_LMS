@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211101113631_updatetables")]
+    partial class updatetables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -466,7 +468,7 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("InstituteId")
+                    b.Property<int?>("InstituteId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -481,9 +483,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.Property<string>("Mobile")
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PrincipalId")
                         .HasColumnType("int");
@@ -842,15 +841,13 @@ namespace JSC_LMS.Persistence.Migrations
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.School", b =>
                 {
-                    b.HasOne("JSC_LMS.Domain.Entities.City", "City")
+                    b.HasOne("JSC_LMS.Domain.Entities.City", null)
                         .WithMany("School")
                         .HasForeignKey("CityId");
 
                     b.HasOne("JSC_LMS.Domain.Entities.Institute", "Institute")
                         .WithMany("School")
-                        .HasForeignKey("InstituteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("InstituteId");
 
                     b.HasOne("JSC_LMS.Domain.Entities.Principal", "Principal")
                         .WithMany("School")

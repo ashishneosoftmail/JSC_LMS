@@ -25,6 +25,13 @@ namespace JSC_LMS.Domain.Entities
         public int? StateId { get; set; }
         public int? ZipId { get; set; }
         public bool IsActive { get; set; }
+        /*    public State State { get; set; }
+            public City City { get; set; }
+            public Zip Zip { get; set; }
+            public Section Section { get; set; }
+            public Class Class { get; set; }
 
+            public Subject Subject { get; set; }
+            public School School { get; set; }*/
     }
 }

@@ -22,11 +22,16 @@
   </ItemGroup>
 	
   <ItemGroup>
+
+    <Folder Include="Features\Section\Queries\" />
+
+    <Folder Include="Features\Subject\" />
     <Folder Include="Features\School\Commands\DeleteSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchoolFilter\" />
     <Folder Include="Features\School\Queries\GetSchoolById\" />
-    <Folder Include="Features\Section\Queries\" />
+    <Folder Include="Features\Section\Queries\GetSectionList\" />
+
     <Folder Include="Features\Teachers\Commands\UpdateTeacher\" />
   </ItemGroup>
 

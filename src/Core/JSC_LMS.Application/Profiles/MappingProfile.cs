@@ -126,6 +126,10 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Section, UpdateSectionDto>();
             CreateMap<Section, UpdateSectionDto>().ReverseMap();
+            CreateMap<School, JSC_LMS.Application.Features.Section.Queries.GetSectionById.SchoolDto>();
+            CreateMap<Class, JSC_LMS.Application.Features.Section.Queries.GetSectionById.ClassDto>();
+            CreateMap<Section, JSC_LMS.Application.Features.Section.Queries.GetSectionById.GetSectionByIdDto>();
+            CreateMap<Section, Features.Section.Queries.GetSectionById.GetSectionByIdDto>().ReverseMap();
 
 
         }
