@@ -31,8 +31,9 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger = logger;
         }
         [HttpPost(Name = "AddInstitute")]
-        public async Task<ActionResult> Create([FromBody] CreateInstituteCommand createInstituteCommand)
+        public async Task<ActionResult> Create(CreateInstituteDto createInstituteDto)
         {
+            var createInstituteCommand = new CreateInstituteCommand(createInstituteDto);
             var id = await _mediator.Send(createInstituteCommand);
             return Ok(id);
         }

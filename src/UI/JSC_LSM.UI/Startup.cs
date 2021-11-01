@@ -46,6 +46,7 @@ namespace JSC_LSM.UI
             services.AddScoped<Common.Common>();
             services.AddScoped<ICityRepository, CitiesRepository>(s => new CitiesRepository());
             services.AddScoped<IZipRepository, ZipRepository>(s => new ZipRepository());
+            services.AddScoped<IInstituteRepository, InstituteRepository>(s => new InstituteRepository());
             services.AddScoped<ISchoolRepository, SchoolRepository>(s => new SchoolRepository());
         }
 

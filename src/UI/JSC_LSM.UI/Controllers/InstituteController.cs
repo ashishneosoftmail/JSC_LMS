@@ -1,8 +1,11 @@
-﻿using JSC_LSM.UI.Models;
+﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LSM.UI.Helpers;
+using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +21,15 @@ namespace JSC_LSM.UI.Controllers
             _common = common;
         }*/
         private readonly IStateRepository _stateRepository;
+        private readonly IInstituteRepository _instituteRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository)
         {
             _stateRepository = stateRepository;
+            _instituteRepository = instituteRepository;
             _common = common;
+            _apiBaseUrl = apiBaseUrl;
         }
         public IActionResult Index()
         {
@@ -33,13 +40,14 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public async Task<IActionResult> AddInstitute()
-        {
-            Institute institute = new Institute();
-            institute.States = await _common.GetAllStates();
-            return View(institute);
-        }
+        /*       [HttpGet]
+               public async Task<IActionResult> AddInstitute()
+               {
+                   Institute institute = new Institute();
+                   institute.States = await _common.GetAllStates();
+                   return View(institute);
+               }*/
+
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);
@@ -50,5 +58,81 @@ namespace JSC_LSM.UI.Controllers
             var cities = await _common.GetAllZipByCityId(cityId);
             return cities;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AddInstitute()
+        {
+            ViewBag.AddInstituteSuccess = null;
+            ViewBag.AddInstituteError = null;
+            Institute institute = new Institute();
+            institute.States = await _common.GetAllStates();
+            return View(institute);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddInstitute(Institute institute)
+        {
+            ViewBag.AddInstituteSuccess = null;
+            ViewBag.AddInstituteError = null;
+            institute.States = await _common.GetAllStates();
+            CreateInstituteDto createNewInstitute = new CreateInstituteDto();
+
+            if (ModelState.IsValid)
+            {
+                createNewInstitute.InstituteName = institute.InstituteName;
+                createNewInstitute.AddressLine1 = institute.AddressLine1;
+                createNewInstitute.AddressLine2 = institute.AddressLine2;
+                createNewInstitute.ContactPerson = institute.ContactPerson;
+                createNewInstitute.Email = institute.Email;
+                createNewInstitute.Mobile = institute.Mobile;
+                createNewInstitute.Password = institute.Password;
+                createNewInstitute.Username = institute.Username;
+                createNewInstitute.CityId = institute.CityId;
+                createNewInstitute.StateId = institute.StateId;
+                createNewInstitute.ZipId = institute.ZipId;
+                createNewInstitute.LicenseExpiry = institute.LicenseExpiry;
+                createNewInstitute.InstituteURL = institute.InstituteURL;
+                createNewInstitute.IsActive = institute.IsActive;
+                createNewInstitute.RoleName = "Institute Admin";
+
+
+                InstituteResponseModel instituteResponseModel = null;
+                ViewBag.AddInstituteError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                instituteResponseModel = await _instituteRepository.CreateInstitute(createNewInstitute);
+
+
+                if (instituteResponseModel.isSuccess)
+                {
+                    if (instituteResponseModel == null && instituteResponseModel.createInstituteDto == null)
+                    {
+                        responseModel.ResponseMessage = instituteResponseModel.message;
+                        responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                    }
+                    if (instituteResponseModel != null)
+                    {
+                        if (instituteResponseModel.createInstituteDto != null)
+                        {
+                            responseModel.ResponseMessage = instituteResponseModel.message;
+                            responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                            ViewBag.AddInstituteSuccess = "Details added successfully";
+                            return RedirectToAction("AddInstitute", "Institute");
+
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = instituteResponseModel.message;
+                    responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                    ViewBag.AddInstituteError = instituteResponseModel.message;
+                }
+            }
+            return View(institute);
+
+        }
+
     }
 }
