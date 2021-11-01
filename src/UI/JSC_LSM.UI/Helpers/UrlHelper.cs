@@ -13,6 +13,6 @@ namespace JSC_LSM.UI.Helpers
         //Common
         public static string GetAllCity = "/api/v1/Common/";
         public static string GetAllState = "/api/v1/Common/GetAllState";
-        public static string GetAllZip = "/api/v1/Common/";
+        public static string GetAllZip = "/Zip/";
     }
 }

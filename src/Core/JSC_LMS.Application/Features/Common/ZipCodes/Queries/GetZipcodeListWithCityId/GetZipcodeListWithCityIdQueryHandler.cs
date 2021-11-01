@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Common.ZipCodes.Queries.GetZipcodeListWithCityId
 {
-   
+
 
     public class GetZipcodeListWithCityIdQueryHandler : IRequestHandler<GetZipcodeListWithCityIdQuery, Response<IEnumerable<Zip>>>
     {
@@ -39,9 +39,18 @@ namespace JSC_LMS.Application.Features.Common.ZipCodes.Queries.GetZipcodeListWit
                 throw new NotFoundException(nameof(State), request.CityId);
             }
             var allZipcodesByCityId = (await _zipRepository.ListAllAsync()).Where<Zip>(e => e.CityId == request.CityId);
+            List<Zip> zipList = new List<Zip>();
+            foreach (var zip in allZipcodesByCityId)
+            {
+                zipList.Add(new Zip()
+                {
+                    Id = zip.Id,
+                    Zipcode = zip.Zipcode
+                });
+            }
             //var cities = _mapper.Map<IEnumerable<City>>(allCitiesByStateId);
             _logger.LogInformation("Hanlde Completed");
-            return new Response<IEnumerable<Zip>>(allZipcodesByCityId, "success");
+            return new Response<IEnumerable<Zip>>(zipList, "success");
 
         }
     }

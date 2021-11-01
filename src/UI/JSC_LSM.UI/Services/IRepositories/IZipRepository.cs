@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.IRepositories
 {
-   
+
     public interface IZipRepository
     {
-        Task<GetAllZipResponseModel> GetAllZipcodes();
+        Task<GetAllZipResponseModel> GetAllZipcodes(int cityId);
     }
 }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.IRepositories
 {
-   
+
     public interface ICityRepository
     {
-        Task<GetAllCitiesResponseModel> GetAllCities();
+        Task<GetAllCitiesResponseModel> GetAllCities(int id);
     }
 }

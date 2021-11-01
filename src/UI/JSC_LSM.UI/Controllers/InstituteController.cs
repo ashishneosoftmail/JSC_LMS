@@ -39,6 +39,15 @@ namespace JSC_LSM.UI.Controllers
             institute.States = await _common.GetAllStates();
             return View(institute);
         }
-
+        public async Task<List<SelectListItem>> GetCityByStateId(int id)
+        {
+            var cities = await _common.GetAllCityByStateId(id);
+            return cities;
+        }
+        public async Task<List<SelectListItem>> GetZipByCityId(int cityId)
+        {
+            var cities = await _common.GetAllZipByCityId(cityId);
+            return cities;
+        }
     }
 }

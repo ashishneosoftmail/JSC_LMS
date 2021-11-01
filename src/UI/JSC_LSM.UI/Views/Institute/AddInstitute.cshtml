@@ -71,12 +71,8 @@
                         <div class="form-group row">
                             <label for="city" class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="city">
+                                <select class="form-control" id="city" onchange="GetZipByCityId()">
                                     <option disabled selected hidden>Select City</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
                                 </select>
                             </div>
                         </div>
@@ -96,7 +92,7 @@
                         <div class="form-group row">
                             <label for="state" class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
-                                <select class="form-select" asp-for="State" asp-items="Model.States" aria-label="Default select example">
+                                <select class="form-select" asp-for="State" asp-items="Model.States" aria-label="Default select example" onchange="GetCityById()" id="instituteState">
                                     <option value="" disabled selected>Select State</option>
                                 </select>
                             </div>
@@ -119,10 +115,6 @@
                             <div class="col-sm-9">
                                 <select class="form-control" id="zip">
                                     <option disabled selected hidden>Select Zip</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
                                 </select>
                             </div>
                         </div>
@@ -171,3 +163,38 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    function GetCityById() {
+        var stateValue = $("#instituteState :selected").val();
+        //You can check selected value using alert
+
+        if (stateValue != null) {
+            $.get("/Institute/GetCityByStateId", { id: stateValue }, function (data) {
+                console.log(data);
+                $("#city").empty();
+                $("#zip").empty();
+                $("#zip").append("<option disabled selected hidden>Select Zip</option>");
+                $("#city").append("<option disabled selected hidden>Select City</option>");
+                data.forEach(function (city) {
+                    $('#city').append('<option value="' + city.value + '">' + city.text + '</option>');
+                });
+            });
+        }
+    }
+    function GetZipByCityId() {
+        var cityValue = $("#city :selected").val();
+        //You can check selected value using alert
+
+        if (cityValue != null) {
+            $.get("/Institute/GetZipByCityId", { cityId: cityValue }, function (data) {
+                console.log(data);
+                $("#zip").empty();
+                $("#zip").append("<option disabled selected hidden>Select Zip</option>");
+                data.forEach(function (zip) {
+                    $('#zip').append('<option value="' + zip.value + '">' + zip.text + '</option>');
+                });
+            });
+        }
+    }
+</script>
