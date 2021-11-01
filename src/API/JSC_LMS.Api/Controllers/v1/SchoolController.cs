@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
+using JSC_LMS.Application.Features.School.Queries.GetSchoolList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,15 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var response = await _mediator.Send(updateSchoolCommand);
             return Ok(response);
+        }
+        [HttpGet("GetAllSchool", Name = "GetAllSchool")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllSchool()
+        {
+            _logger.LogInformation("GetAllRoles Initiated");
+            var dtos = await _mediator.Send(new GetSchoolListQuery());
+            _logger.LogInformation("GetAllRoles Completed");
+            return Ok(dtos);
         }
     }
 }

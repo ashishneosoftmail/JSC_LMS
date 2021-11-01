@@ -25,12 +25,12 @@ namespace JSC_LMS.Domain.Entities
         public State State { get; set; }
         public Zip Zip { get; set; }
         public ICollection<Class> Class { get; set; }
-
+        public City City { get; set; }
         public virtual ICollection<Section> Section { get; set; }
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
         public Principal Principal { get; set; }
         public string Name { get; set; }
-        public object City { get; set; }
+
     }
 }

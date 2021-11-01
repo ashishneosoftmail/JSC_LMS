@@ -1,8 +1,10 @@
 ﻿using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace JSC_LMS.Persistence.Repositories
@@ -16,6 +18,9 @@ namespace JSC_LMS.Persistence.Repositories
         {
             _logger = logger;
         }
-
+        protected override IQueryable<School> GetQueryable()
+        {
+            return _dbContext.Set<School>().Include(a => a.City).Include(a => a.State).Include(a => a.Zip).Include(a => a.Institute).Include(a => a.Principal);
+        }
     }
 }
