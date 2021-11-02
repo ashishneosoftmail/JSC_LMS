@@ -20,6 +20,7 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
         public DateTime LicenseExpiry { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string InstituteURL { get; set; }
         public bool IsActive { get; set; }
 

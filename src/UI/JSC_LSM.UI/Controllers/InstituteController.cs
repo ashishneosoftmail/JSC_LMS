@@ -36,9 +36,12 @@ namespace JSC_LSM.UI.Controllers
             return View();
         }
 
-        public IActionResult InstituteDetails()
+        [HttpGet]
+        public async Task<IActionResult> InstituteDetails()
         {
-            return View();
+            var data = await _instituteRepository.GetAllInstituteDetails();
+            Console.WriteLine(data.data);
+            return View(data);
         }
         /*       [HttpGet]
                public async Task<IActionResult> AddInstitute()
