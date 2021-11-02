@@ -16,13 +16,12 @@
     <link href="~/Content/AdminLTE/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
     <link href="~/Content/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-   
+
     <style type="text/css">
         a {
             text-decoration: none;
-            font-size:16.5px;            
+            font-size: 16.5px;
         }
-       
     </style>
 
 </head>
@@ -63,7 +62,7 @@
                                 }
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>                       
+                                <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>
                                 <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
@@ -88,20 +87,21 @@
 
 
                     <li>
-                       
-                            <a asp-action="InstituteDetails" asp-controller="Institute" class="">
-                                <span>Manage Institute</span>
-                            </a>
-                       
+
+                        <a asp-action="InstituteDetails" asp-controller="Institute" class="">
+                            <span>Manage Institute</span>
+                        </a>
+
                     </li>
                     <li>
-                      
-                            <a asp-action="AddPrincipal" asp-controller="Principal">
-                                <span>Manage Principal</span>
-                            </a>
-                           
+
+                        <a asp-action="AddPrincipal" asp-controller="Principal">
+                            <span>Add Principal</span>
+                        </a>
+
                     </li>
                     <li>
+
                       
                             <a asp-action="ManageClass" asp-controller="Class">
                                 <span>Manage Class</span>>
@@ -113,28 +113,48 @@
                             <a asp-action="AddClass" asp-controller="Class">
                                 <span>AddClass</span>
                             </a>
-                          
+
+
+                        <a asp-action="PrincipalDetails" asp-controller="Principal">
+                            <span>Manage Principal</span>
+                        </a>
+
                     </li>
                     <li>
-                       
-                            <a asp-action="InstituteDetails" asp-controller="Institute">
-                                <span>Customer Support</span>
-                            </a>
-                          
+
+                        <a asp-action="InstituteDetails" asp-controller="Institute">
+                            <span>Knowledge Base</span>
+                        </a>
+
+
                     </li>
                     <li>
-                       
-                            <a asp-action="InstituteDetails" asp-controller="Institute">
-                                <span>Manage Profile</span>
-                            </a>
-                           
+
+                        <a asp-action="InstituteDetails" asp-controller="Institute">
+                            <span>Manage FAQ</span>
+                        </a>
+
                     </li>
                     <li>
-                       
-                            <a asp-action="Logout" asp-controller="Account">
-                                <span>Logout</span>
-                            </a>
-                           
+
+                        <a asp-action="InstituteDetails" asp-controller="Institute">
+                            <span>Customer Support</span>
+                        </a>
+
+                    </li>
+                    <li>
+
+                        <a asp-action="InstituteDetails" asp-controller="Institute">
+                            <span>Manage Profile</span>
+                        </a>
+
+                    </li>
+                    <li>
+
+                        <a asp-action="Logout" asp-controller="Account">
+                            <span>Logout</span>
+                        </a>
+
                     </li>
 
                 </ul>

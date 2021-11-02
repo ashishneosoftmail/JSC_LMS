@@ -44,17 +44,36 @@ namespace JSC_LSM.UI.Services.Repositories
             if (_oApiResponse.data != null)
             {
                 instituteResponseModel = JsonConvert.DeserializeObject<InstituteResponseModel>(_oApiResponse.data);
-                if (instituteResponseModel.isSuccess)
+                if (instituteResponseModel.Succeeded)
                 {
-                    instituteResponseModel.isSuccess = true;
+                    instituteResponseModel.Succeeded = true;
                 }
                 else
                 {
-                    instituteResponseModel.isSuccess = false;
+                    instituteResponseModel.Succeeded = false;
                 }
             }
 
             return instituteResponseModel;
+
+        }
+
+        public async Task<GetAllInstituteListResponseModel> GetAllInstituteDetails()
+        {
+            GetAllInstituteListResponseModel getAllInstituteListResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllInstituteDetails, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllInstituteListResponseModel = JsonConvert.DeserializeObject<GetAllInstituteListResponseModel>(_oApiResponse.data);
+                getAllInstituteListResponseModel.Succeeded = true;
+            }
+
+            return getAllInstituteListResponseModel;
 
         }
     }

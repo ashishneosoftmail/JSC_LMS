@@ -36,9 +36,12 @@ namespace JSC_LSM.UI.Controllers
             return View();
         }
 
-        public IActionResult InstituteDetails()
+        [HttpGet]
+        public async Task<IActionResult> InstituteDetails()
         {
-            return View();
+            var data = await _instituteRepository.GetAllInstituteDetails();
+            Console.WriteLine(data.data);
+            return View(data);
         }
         /*       [HttpGet]
                public async Task<IActionResult> AddInstitute()
@@ -104,30 +107,42 @@ namespace JSC_LSM.UI.Controllers
                 instituteResponseModel = await _instituteRepository.CreateInstitute(createNewInstitute);
 
 
-                if (instituteResponseModel.isSuccess)
+                if (instituteResponseModel.Succeeded)
                 {
-                    if (instituteResponseModel == null && instituteResponseModel.createInstituteDto == null)
+                    if (instituteResponseModel == null && instituteResponseModel.data == null)
                     {
                         responseModel.ResponseMessage = instituteResponseModel.message;
-                        responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                        responseModel.IsSuccess = instituteResponseModel.Succeeded;
                     }
                     if (instituteResponseModel != null)
                     {
-                        if (instituteResponseModel.createInstituteDto != null)
+                        if (instituteResponseModel.data != null)
                         {
                             responseModel.ResponseMessage = instituteResponseModel.message;
-                            responseModel.IsSuccess = instituteResponseModel.isSuccess;
-                            ViewBag.AddInstituteSuccess = "Details added successfully";
-                            return RedirectToAction("AddInstitute", "Institute");
+                            responseModel.IsSuccess = instituteResponseModel.Succeeded;
 
+                            ViewBag.AddInstituteSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            var newInstituteModel = new Institute();
+                            newInstituteModel.States = await _common.GetAllStates();                          
+                            return View(newInstituteModel);
+
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = instituteResponseModel.message;
+                            responseModel.IsSuccess = instituteResponseModel.Succeeded;
+                            ViewBag.AddInstituteError = instituteResponseModel.message;
+                            return View(institute);
                         }
                     }
                 }
                 else
                 {
                     responseModel.ResponseMessage = instituteResponseModel.message;
-                    responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                    responseModel.IsSuccess = instituteResponseModel.Succeeded;
                     ViewBag.AddInstituteError = instituteResponseModel.message;
+
                 }
             }
             return View(institute);

@@ -10,5 +10,6 @@ namespace JSC_LSM.UI.Services.IRepositories
     public interface IInstituteRepository
     {
         Task<InstituteResponseModel> CreateInstitute(CreateInstituteDto createInstituteDto);
+        Task<GetAllInstituteListResponseModel> GetAllInstituteDetails();
     }
 }

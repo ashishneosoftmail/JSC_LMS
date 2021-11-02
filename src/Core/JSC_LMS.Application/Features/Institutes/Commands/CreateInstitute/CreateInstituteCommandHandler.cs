@@ -46,28 +46,38 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
             }
             else
             {
-                var UserData = new RegistrationRequest() { FirstName=request.createInstituteDto.ContactPerson,LastName="I",UserName=request.createInstituteDto.Username,Email=request.createInstituteDto.Email,Password=request.createInstituteDto.Password,RoleName=request.createInstituteDto.RoleName};
+                var UserData = new RegistrationRequest() { FirstName = request.createInstituteDto.ContactPerson, LastName = "I", UserName = request.createInstituteDto.Username, Email = request.createInstituteDto.Email, Password = request.createInstituteDto.Password, RoleName = request.createInstituteDto.RoleName };
                 var User = await _authenticationService.RegisterAsync(UserData);
-                var data = new Institute() {
-                    UserId =  User.UserId,
-                    InstituteName = request.createInstituteDto.InstituteName,
-                    AddressLine1 = request.createInstituteDto.AddressLine1,
-                    AddressLine2 = request.createInstituteDto.AddressLine2,
-                    ContactPerson = request.createInstituteDto.ContactPerson,
-                    Mobile = request.createInstituteDto.Mobile,
-                    CityId = request.createInstituteDto.CityId,
-                    StateId = request.createInstituteDto.StateId,
-                    ZipId = request.createInstituteDto.ZipId,
-                    LicenseExpiry = request.createInstituteDto.LicenseExpiry,
-                    InstituteURL = request.createInstituteDto.InstituteURL,
-                    IsActive = request.createInstituteDto.IsActive
-                };
-                var institute = await _instituteRepository.AddAsync(data);
-                createInstituteCommandResponse.Data = _mapper.Map<CreateInstituteDto>(institute);
-                createInstituteCommandResponse.Succeeded = true;
-                createInstituteCommandResponse.Message = "success";
-            }
+                if (User.UserId == null)
+                {
 
+                    createInstituteCommandResponse.Succeeded = false;
+                    createInstituteCommandResponse.Message = "User Already Registered";
+                }
+                else
+                {
+
+                    var data = new Institute()
+                    {
+                        UserId = User.UserId,
+                        InstituteName = request.createInstituteDto.InstituteName,
+                        AddressLine1 = request.createInstituteDto.AddressLine1,
+                        AddressLine2 = request.createInstituteDto.AddressLine2,
+                        ContactPerson = request.createInstituteDto.ContactPerson,
+                        Mobile = request.createInstituteDto.Mobile,
+                        CityId = request.createInstituteDto.CityId,
+                        StateId = request.createInstituteDto.StateId,
+                        ZipId = request.createInstituteDto.ZipId,
+                        LicenseExpiry = request.createInstituteDto.LicenseExpiry,
+                        InstituteURL = request.createInstituteDto.InstituteURL,
+                        IsActive = request.createInstituteDto.IsActive
+                    };
+                    var institute = await _instituteRepository.AddAsync(data);
+                    createInstituteCommandResponse.Data = _mapper.Map<CreateInstituteDto>(institute);
+                    createInstituteCommandResponse.Succeeded = true;
+                    createInstituteCommandResponse.Message = "success";
+                }
+            }
             return createInstituteCommandResponse;
         }
 

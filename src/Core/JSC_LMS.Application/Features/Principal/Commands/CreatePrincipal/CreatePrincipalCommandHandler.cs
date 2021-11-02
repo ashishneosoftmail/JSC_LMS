@@ -47,23 +47,32 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
             {
                 var UserData = new RegistrationRequest() { FirstName = request.createPrincipalDto.Name, LastName = "I", UserName = request.createPrincipalDto.Username, Email = request.createPrincipalDto.Email, Password = request.createPrincipalDto.Password, RoleName = request.createPrincipalDto.RoleName };
                 var User = await _authenticationService.RegisterAsync(UserData);
-                var data = new JSC_LMS.Domain.Entities.Principal()
+                if (User.UserId == null)
                 {
-                    SchoolId = request.createPrincipalDto.SchoolId,
-                    UserId = User.UserId,
-                    AddressLine1 = request.createPrincipalDto.AddressLine1,
-                    AddressLine2 = request.createPrincipalDto.AddressLine2,
-                    Name = request.createPrincipalDto.Name,
-                    Mobile = request.createPrincipalDto.Mobile,
-                    CityId = request.createPrincipalDto.CityId,
-                    StateId = request.createPrincipalDto.StateId,
-                    ZipId = request.createPrincipalDto.ZipId,
-                    IsActive = request.createPrincipalDto.IsActive
-                };
-                var institute = await _principalRepository.AddAsync(data);
-                createPrincipalCommandResponse.Data = _mapper.Map<CreatePrincipalDto>(institute);
-                createPrincipalCommandResponse.Succeeded = true;
-                createPrincipalCommandResponse.Message = "success";
+                    
+                        createPrincipalCommandResponse.Succeeded = false;
+                        createPrincipalCommandResponse.Message = "User Already Registered";
+                }
+                else
+                {
+                    var data = new JSC_LMS.Domain.Entities.Principal()
+                    {
+                        SchoolId = request.createPrincipalDto.SchoolId,
+                        UserId = User.UserId,
+                        AddressLine1 = request.createPrincipalDto.AddressLine1,
+                        AddressLine2 = request.createPrincipalDto.AddressLine2,
+                        Name = request.createPrincipalDto.Name,
+                        Mobile = request.createPrincipalDto.Mobile,
+                        CityId = request.createPrincipalDto.CityId,
+                        StateId = request.createPrincipalDto.StateId,
+                        ZipId = request.createPrincipalDto.ZipId,
+                        IsActive = request.createPrincipalDto.IsActive
+                    };
+                    var institute = await _principalRepository.AddAsync(data);
+                    createPrincipalCommandResponse.Data = _mapper.Map<CreatePrincipalDto>(institute);
+                    createPrincipalCommandResponse.Succeeded = true;
+                    createPrincipalCommandResponse.Message = "success";
+                }
             }
 
             return createPrincipalCommandResponse;

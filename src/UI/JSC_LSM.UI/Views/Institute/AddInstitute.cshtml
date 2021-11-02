@@ -6,15 +6,7 @@
 <h4 class="m-3">Add New Institute</h4>
 
 <div class="m-2">
-    @if (ViewBag.AddInstituteSuccess != null)
-    {
-        <div class="text-danger">@ViewBag.AddInstituteSuccess</div>
-    }
-    @if (ViewBag.AddInstituteError != null)
-    {
-        <div class="text-danger">@ViewBag.AddInstituteError</div>
-    }
-
+  
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post" novalidate>
@@ -85,15 +77,16 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">City</label>
+                            <label class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
-                                <select class="form-control" asp-for="CityId" id="city" onchange="GetZipByCityId()">
-                                    <option disabled selected hidden>Select City</option>
+                                <select class="form-select" asp-for="StateId" asp-items="Model.States" aria-label="Default select example" onchange="GetCityById()" id="instituteState">
+                                    <option value="" disabled selected>Select State</option>
                                 </select>
-                                <span asp-validation-for="CityId" class="text-danger"></span>
+                                <span asp-validation-for="StateId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
+
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Username</label>
@@ -108,12 +101,12 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">State</label>
+                            <label class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
-                                <select class="form-select" asp-for="StateId" asp-items="Model.States" aria-label="Default select example" onchange="GetCityById()" id="instituteState">
-                                    <option value="" disabled selected>Select State</option>
+                                <select class="form-control" asp-for="CityId" id="city" onchange="GetZipByCityId()">
+                                    <option disabled selected hidden>Select City</option>
                                 </select>
-                                <span asp-validation-for="StateId" class="text-danger"></span>
+                                <span asp-validation-for="CityId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -155,7 +148,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Contact Person</label>
+                            <label class="col-sm-3 col-form-label">Institute URL</label>
                             <div class="col-sm-9">
                                 <input type="text" asp-for="InstituteURL" class="form-control" id="instituteURL" placeholder="Institute URL">
                                 <span asp-validation-for="InstituteURL" class="text-danger"></span>
@@ -167,17 +160,20 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Status</label>
 
+
+
                             <div class="col-sm-9">
+                                <label>Status :</label>
+
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" asp-for="IsActive" type="radio" name="status" id="active" value="Active">
-                                    <span asp-validation-for="IsActive" class="text-danger"></span>
-                                    <label class="form-check-label" for="active">Active</label>
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", Checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" asp-for="IsActive" type="radio" name="status" id="inactive" value="Inactive">
-                                    <span asp-validation-for="IsActive" class="text-danger"></span>
-                                    <label class="form-check-label" for="inactive">Inactive</label>
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -187,9 +183,8 @@
                     <div class="col-sm-12">
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-primary pull-right m-2" id="signInButton">Sign In</button>
-                                @*<a asp-action="InstituteDetails" asp-controller="Institute" class="btn btn-primary pull-right m-2"><span>Save</span>   </a>*@
                                 <a asp-action="InstituteDetails" asp-controller="Institute" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
+                                <button type="submit" class="btn btn-primary pull-right m-2" id="signInButton">Add</button>
                             </div>
                         </div>
                     </div>
@@ -199,6 +194,16 @@
     </div>
 </div>
 
+<div id="wrapper">
+    @if (ViewBag.AddInstituteSuccess != null)
+    {
+        <script>alert("@ViewBag.AddInstituteSuccess")</script>
+    }
+    @if (ViewBag.AddInstituteError != null)
+    {
+        <script>alert("@ViewBag.AddInstituteError")</script>
+    }
+</div>
 <script type="text/javascript">
     function GetCityById() {
         var stateValue = $("#instituteState :selected").val();

@@ -1,5 +1,4 @@
-﻿@model JSC_LSM.UI.ResponseModels.GetAllInstituteListResponseModel
-
+﻿@model JSC_LSM.UI.ResponseModels.GetAllPrincipalListResponseModel
 
 @{
     ViewData["Title"] = "Institute Details";
@@ -19,20 +18,20 @@
         text-decoration: none;
     }
 </style>
-<h2>Manage Institute</h2>
+<h2>Manage Principal</h2>
 <h4>Search Filter</h4>
 
 <div class="row">
 
     <div class="form-group row col-sm-4">
-        <label for="schoolName" class="col-sm-5 col-form-label">Institute Name</label>
+        <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
         <div class="col-sm-7">
             <input type="text" class="form-control" id="inputInstitute" placeholder="Institute name">
         </div>
     </div>
 
     <div class="form-group row col-sm-4">
-        <label for="className" class="col-sm-5 col-form-label">City :</label>
+        <label for="className" class="col-sm-5 col-form-label">Principal Name :</label>
         <div class="col-sm-7">
             <select class="form-control" id="className">
                 <option disabled selected hidden>Select City</option>
@@ -45,24 +44,12 @@
     </div>
 
     <div class="form-group row col-sm-4">
-        <label for="section" class="col-sm-5 col-form-label">State :</label>
+        <label for="section" class="col-sm-5 col-form-label">Status :</label>
         <div class="col-sm-7">
             <select class="form-control" id="section">
-                <option disabled selected hidden>Select Section</option>
-                <option>Maharashtra</option>
-                <option>Telangna</option>
-                <option>Karnataka</option>
-                <option>Uttar Pradesh</option>
-            </select>
-        </div>
-    </div>
-    <div class="form-group row col-sm-4">
-        <label for="status" class="col-sm-5 col-form-label">Status :</label>
-        <div class="col-sm-7">
-            <select class="form-control" id="status">
                 <option disabled selected hidden>Select Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
             </select>
         </div>
     </div>
@@ -85,7 +72,7 @@
     <button class="btn btn-sm btn-primary pull-right m-2">Export</button>
     <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
     <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
-    <a asp-action="AddInstitute" asp-controller="Institute" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+    <a asp-action="AddPrincipal" asp-controller="Principal" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
 
 </div>
 
@@ -95,36 +82,32 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Institute Name</th>
-                    <th>City</th>
-                    <th>State</th>
+                    <th>School Name</th>
+                    <th>Principal Name</th>
                     <th>Created Date</th>
-                    <th>Expiry Date</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @{int i = 0;}
-                @foreach (var institute in Model.data)
+                @foreach (var principal in Model.data)
                 {
-                <tr>
-                    <td>@(i = i + 1)</td>
-                    <td>@institute.InstituteName</td>
-                    <td>@institute.City.CityName</td>
-                    <td>@institute.State.StateName</td>
-                    <td>@institute.CreatedDate.ToShortDateString() </td>
-                    <td>@institute.LicenseExpiry.ToShortDateString() </td>
-                    <td>@(institute.IsActive == true ? "Active" : "Inactive")</td>
+                    <tr>
+                        <td>@(i = i + 1)</td>
+                        <td>@principal.School.SchoolName</td>
+                        <td>@principal.Name</td>
+                        <td>@principal.CreatedDate.ToShortDateString() </td>
 
-                    <td>
+                        <td>@(principal.IsActive == true ? "Active" : "Inactive")</td>
 
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">View</a>
-                    </td>
-                </tr>
+                       <td>
+
+                           <a href="" class="btn btn-link btn-sm">Edit</a>
+                            <a href="" class="btn btn-link btn-sm">View</a>
+                        </td>
+                    </tr>
                 }
-
 
             </tbody>
         </table>

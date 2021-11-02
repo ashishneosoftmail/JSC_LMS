@@ -8,10 +8,10 @@ namespace JSC_LSM.UI.ResponseModels
 {
     public class InstituteResponseModel
     {
-        public bool isSuccess { get; set; }       
+        public bool Succeeded { get; set; }       
         public string message { get; set; }       
         public string statusCode { get; set; }
-        public CreateInstituteDto createInstituteDto { get; set; }
+        public CreateInstituteDto data { get; set; }
 
     }
 }
