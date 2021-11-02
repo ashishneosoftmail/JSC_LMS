@@ -39,7 +39,7 @@ namespace JSC_LMS.Application.Features.Section.Commands.CreateUpdate
 
             sectionToUpdate.SchoolId = request.updateSectionDto.SchoolId;
 
-            sectionToUpdate.SchoolId = request.updateSectionDto.SchoolId;
+            sectionToUpdate.ClassId = request.updateSectionDto.ClassId;
 
             sectionToUpdate.SectionName = request.updateSectionDto.SectionName;
             sectionToUpdate.IsActive = request.updateSectionDto.IsActive;

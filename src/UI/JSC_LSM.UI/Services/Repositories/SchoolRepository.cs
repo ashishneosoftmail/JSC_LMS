@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LMS.Application.Models.Authentication;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
@@ -72,5 +73,10 @@ namespace JSC_LSM.UI.Services.Repositories
             return principalResponseModel;
 
         }
+
+    
+
+        }
+
     }
-}
+

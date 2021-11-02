@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.Section.Queries.GetSectionById
 {
-   public class SchoolDto
+    public class SchoolDto
     {
         public int Id { get; set; }
         public string SchoolName { get; set; }

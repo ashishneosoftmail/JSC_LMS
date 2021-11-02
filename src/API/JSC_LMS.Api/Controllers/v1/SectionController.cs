@@ -1,6 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Section.Commands.CreateSection;
 using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionById;
+using JSC_LMS.Application.Features.Section.Queries.GetSectionList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,17 @@ namespace JSC_LMS.Api.Controllers.v1
             var getSectionDetailQuery = new GetSectionByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getSectionDetailQuery));
         }
+
+        [HttpGet("all", Name = "GetAllSection")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllSection()
+        {
+            _logger.LogInformation("GetAllSection Initiated");
+            var dtos = await _mediator.Send(new GetSectionListQuery());
+            _logger.LogInformation("GetAllSection Completed");
+            return Ok(dtos);
+        }
+
 
     }
 }

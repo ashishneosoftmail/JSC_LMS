@@ -7,5 +7,6 @@ namespace JSC_LMS.Application.Contracts.Persistence
 {
     public interface IClassRepository:IAsyncRepository<Class>
     {
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JSC_LMS.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,6 +7,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
 {
     public class CreateTeacherDto
     {
+       
         public string TeacherName { get; set; }
         public string UserTypeId { get; set; }
         public string AddressLine1 { get; set; }
