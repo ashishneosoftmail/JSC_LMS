@@ -127,5 +127,12 @@ namespace JSC_LSM.UI.Controllers
             Console.WriteLine(data.data);
             return View(data);
         }
+        [HttpGet]
+        public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
+        {
+
+            var principal = await _principalRepository.GetPrincipalById(Id);
+            return principal;
+        }
     }
 }

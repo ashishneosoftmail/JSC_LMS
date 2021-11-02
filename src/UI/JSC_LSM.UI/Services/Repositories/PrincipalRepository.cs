@@ -39,6 +39,24 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllPrincipalListResponseModel;
 
         }
+        public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
+        {
+            GetPrincipalByIdResponseModel getPrincipalByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetPrincipalById + Id, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getPrincipalByIdResponseModel = JsonConvert.DeserializeObject<GetPrincipalByIdResponseModel>(_oApiResponse.data);
+                getPrincipalByIdResponseModel.Succeeded = true;
+            }
+
+            return getPrincipalByIdResponseModel;
+
+        }
     }
 
 }

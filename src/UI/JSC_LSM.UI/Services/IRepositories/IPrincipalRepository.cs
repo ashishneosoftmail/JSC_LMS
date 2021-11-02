@@ -9,5 +9,6 @@ namespace JSC_LSM.UI.Services.IRepositories
     public interface IPrincipalRepository
     {
         Task<GetAllPrincipalListResponseModel> GetAllPrincipalDetails();
+        Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id);
     }
 }
