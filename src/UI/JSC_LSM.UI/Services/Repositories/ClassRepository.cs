@@ -1,8 +1,10 @@
-﻿using AutoMapper.Configuration;
-using JSC_LMS.Application.Contracts.Persistence;
+﻿
+
 using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
+using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +13,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace JSC_LSM.UI.Services.Repositories
 {
