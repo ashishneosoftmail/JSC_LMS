@@ -1,13 +1,12 @@
-﻿using JSC_LMS.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
+namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
 {
-    public class CreateTeacherDto
+    public class UpdateTeacherDto
     {
-       
+        public int Id { get; set; }
         public string TeacherName { get; set; }
         public string UserTypeId { get; set; }
         public string AddressLine1 { get; set; }
@@ -17,11 +16,12 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string UserId { get; set; }
         public int CityId { get; set; }
         public int StateId { get; set; }
         public int ZipId { get; set; }
         public int SectionId { get; set; }
-        public int SchoolId { get; set; }
+        
         public int SubjectId { get; set; }
         public bool IsActive { get; set; }
     }

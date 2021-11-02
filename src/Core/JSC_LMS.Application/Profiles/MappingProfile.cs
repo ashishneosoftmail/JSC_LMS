@@ -31,6 +31,9 @@ using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
 using JSC_LMS.Application.Features.Subject.Commands.CreateSubject;
 using JSC_LMS.Application.Features.Subject.Commands.UpdateSubject;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
+using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById;
+using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter;
+using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList;
 using JSC_LMS.Domain.Entities;
 
 namespace JSC_LMS.Application.Profiles
@@ -106,6 +109,10 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Teacher, CreateTeacherDto>();
             CreateMap<Teacher, CreateTeacherDto>().ReverseMap();
+            CreateMap<Teacher, GetTeacherByIdVm>().ReverseMap();
+            CreateMap<Teacher, GetTeacherListDto>();
+            CreateMap<Teacher, GetTeacherByFilterDto>();
+
 
             //Principal Mapper
             CreateMap<Principal, CreatePrincipalDto>();

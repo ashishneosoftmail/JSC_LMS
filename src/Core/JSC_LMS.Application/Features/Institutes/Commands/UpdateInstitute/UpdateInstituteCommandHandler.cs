@@ -72,6 +72,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
             instituteToUpdate.ZipId = request.updateInstituteDto.ZipId;
             instituteToUpdate.InstituteURL = request.updateInstituteDto.InstituteURL;
             instituteToUpdate.IsActive = request.updateInstituteDto.IsActive;
+
             await _instituteRepository.UpdateAsync(instituteToUpdate);
 
             return new Response<int>(request.updateInstituteDto.Id, "Updated successfully ");

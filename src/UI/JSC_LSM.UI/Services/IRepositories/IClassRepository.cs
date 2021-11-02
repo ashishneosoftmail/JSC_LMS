@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LSM.UI.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
