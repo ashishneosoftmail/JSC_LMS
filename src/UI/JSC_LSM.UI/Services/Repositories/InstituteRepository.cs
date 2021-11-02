@@ -76,6 +76,25 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllInstituteListResponseModel;
 
         }
+
+        public async Task<GetInstituteByIdResponseModel> GetInstituteById(int Id)
+        {
+            GetInstituteByIdResponseModel getInstituteByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetInstituteById + Id, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getInstituteByIdResponseModel = JsonConvert.DeserializeObject<GetInstituteByIdResponseModel>(_oApiResponse.data);
+                getInstituteByIdResponseModel.Succeeded = true;
+            }
+
+            return getInstituteByIdResponseModel;
+
+        }
     }
 
 
