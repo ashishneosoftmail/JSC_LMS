@@ -117,9 +117,20 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = instituteResponseModel.message;
                             responseModel.IsSuccess = instituteResponseModel.Succeeded;
-                            ViewBag.AddInstituteSuccess = "Details added successfully";
-                            return RedirectToAction("AddInstitute", "Institute");
 
+                            ViewBag.AddInstituteSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            var newInstituteModel = new Institute();
+                            newInstituteModel.States = await _common.GetAllStates();                          
+                            return View(newInstituteModel);
+
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = instituteResponseModel.message;
+                            responseModel.IsSuccess = instituteResponseModel.Succeeded;
+                            ViewBag.AddInstituteError = instituteResponseModel.message;
+                            return View(institute);
                         }
                     }
                 }
@@ -127,8 +138,8 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = instituteResponseModel.message;
                     responseModel.IsSuccess = instituteResponseModel.Succeeded;
-                    ViewBag.AddInstituteError = "Something went wrong!";
-                        /*instituteResponseModel.message*/
+                    ViewBag.AddInstituteError = instituteResponseModel.message;
+
                 }
             }
             return View(institute);

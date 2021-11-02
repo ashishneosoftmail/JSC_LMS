@@ -6,16 +6,7 @@
 <h4 class="m-3">Add New Institute</h4>
 
 <div class="m-2">
-    @if (ViewBag.AddInstituteSuccess != null)
-    {
-        <div class="text-danger">@ViewBag.AddInstituteSuccess</div>
-        @*<script type="text/javascript">alert('@ViewBag.AddInstituteSuccess');</script>*@
-    }
-    @if (ViewBag.AddInstituteError != null)
-    {
-        <div class="text-danger">@ViewBag.AddInstituteError</div>
-    }
-
+  
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post" novalidate>
@@ -203,6 +194,16 @@
     </div>
 </div>
 
+<div id="wrapper">
+    @if (ViewBag.AddInstituteSuccess != null)
+    {
+        <script>alert("@ViewBag.AddInstituteSuccess")</script>
+    }
+    @if (ViewBag.AddInstituteError != null)
+    {
+        <script>alert("@ViewBag.AddInstituteError")</script>
+    }
+</div>
 <script type="text/javascript">
     function GetCityById() {
         var stateValue = $("#instituteState :selected").val();
