@@ -13,7 +13,7 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
         [Required(ErrorMessage = "Address Line 1 Is Required")]
         public string AddressLine1 { get; set; }
         [StringLength(100, ErrorMessage = "Address Line 2 should not be more than 100 characters")]
-        [Required(ErrorMessage = "Address Line  Is Required")]
+        [Required(ErrorMessage = "Address Line 2  Is Required")]
         public string AddressLine2 { get; set; }
         [StringLength(150, ErrorMessage = "Name should not be more than 150 characters")]
         [Required(ErrorMessage = "Name Is Required")]
@@ -37,7 +37,7 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
         public int ZipId { get; set; }
         [Required(ErrorMessage = "Status Is Required")]
         public bool IsActive { get; set; }
-        [Required(ErrorMessage = "Role Is Required")]
+
         public string RoleName { get; set; }
     }
 }

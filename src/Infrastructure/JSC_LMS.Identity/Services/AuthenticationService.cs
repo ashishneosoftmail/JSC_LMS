@@ -107,10 +107,11 @@ namespace JSC_LMS.Identity.Services
         public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
         {
             var existingUser = await _userManager.FindByNameAsync(request.UserName);
-
+            RegistrationResponse registrationResponse = new RegistrationResponse();
             if (existingUser != null)
             {
-                throw new ArgumentException($"Username '{request.UserName}' already exists.");
+                registrationResponse.UserId = null;
+                return registrationResponse;
             }
 
             var user = new ApplicationUser
@@ -135,12 +136,14 @@ namespace JSC_LMS.Identity.Services
                 }
                 else
                 {
-                    throw new Exception($"{result.Errors}");
+                    registrationResponse.UserId = null;
+                    return registrationResponse;
                 }
             }
             else
             {
-                throw new ArgumentException($"Email {request.Email } already exists.");
+                registrationResponse.UserId = null;
+                return registrationResponse;
             }
         }
 

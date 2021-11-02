@@ -91,7 +91,10 @@ namespace JSC_LSM.UI.Helpers
 
                     }
                     else
-                        response.data = string.Empty;
+                    {
+                        response.data = oHttpResponseMessage.Content.ReadAsStringAsync().Result;
+                        response.Success = false;
+                    }
                 }
             }
             catch (Exception ex)

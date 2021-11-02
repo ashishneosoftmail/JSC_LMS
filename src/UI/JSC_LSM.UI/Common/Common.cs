@@ -14,11 +14,13 @@ namespace JSC_LSM.UI.Common
         private readonly IStateRepository _stateRepository;
         private readonly ICityRepository _cityRepository;
         private readonly IZipRepository _zipRepository;
-        public Common(IStateRepository stateRepository, ICityRepository cityRepository, IZipRepository zipRepository)
+        private readonly ISchoolRepository _schoolRepository;
+        public Common(IStateRepository stateRepository, ICityRepository cityRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             _zipRepository = zipRepository;
+            _schoolRepository = schoolRepository;
         }
 
         [NonAction]
@@ -132,6 +134,44 @@ namespace JSC_LSM.UI.Common
             {
                 responseModel.ResponseMessage = getAllZipResponse.message;
                 responseModel.IsSuccess = getAllZipResponse.isSuccess;
+            }
+            return null;
+        }
+
+        public async Task<List<SelectListItem>> GetSchool()
+        {
+            List<SelectListItem> school = new List<SelectListItem>();
+            GetAllSchoolResponseModel getAllSchoolResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllSchoolResponseModel = await _schoolRepository.GetAllSchool();
+
+            if (getAllSchoolResponseModel.isSuccess)
+            {
+                if (getAllSchoolResponseModel == null && getAllSchoolResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllSchoolResponseModel.message;
+                    responseModel.IsSuccess = getAllSchoolResponseModel.isSuccess;
+                }
+                if (getAllSchoolResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllSchoolResponseModel.message;
+                    responseModel.IsSuccess = getAllSchoolResponseModel.isSuccess;
+                    foreach (var item in getAllSchoolResponseModel.data)
+                    {
+                        school.Add(new SelectListItem
+                        {
+                            Text = item.SchoolName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return school;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllSchoolResponseModel.message;
+                responseModel.IsSuccess = getAllSchoolResponseModel.isSuccess;
             }
             return null;
         }

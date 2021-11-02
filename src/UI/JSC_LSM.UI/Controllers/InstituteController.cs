@@ -24,7 +24,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IInstituteRepository _instituteRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common , IOptions<ApiBaseUrl> apiBaseUrl , IInstituteRepository instituteRepository)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository)
         {
             _stateRepository = stateRepository;
             _instituteRepository = instituteRepository;
@@ -40,7 +40,14 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
-       
+        /*       [HttpGet]
+               public async Task<IActionResult> AddInstitute()
+               {
+                   Institute institute = new Institute();
+                   institute.States = await _common.GetAllStates();
+                   return View(institute);
+               }*/
+
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);
@@ -89,12 +96,12 @@ namespace JSC_LSM.UI.Controllers
                 createNewInstitute.IsActive = institute.IsActive;
                 createNewInstitute.RoleName = "Institute Admin";
 
-                
+
                 InstituteResponseModel instituteResponseModel = null;
-                ViewBag.AddInstituteError =null;
+                ViewBag.AddInstituteError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                instituteResponseModel = await _instituteRepository.CreateInstitute(createNewInstitute) ;
+                instituteResponseModel = await _instituteRepository.CreateInstitute(createNewInstitute);
 
 
                 if (instituteResponseModel.Succeeded)
@@ -112,7 +119,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = instituteResponseModel.Succeeded;
                             ViewBag.AddInstituteSuccess = "Details added successfully";
                             return RedirectToAction("AddInstitute", "Institute");
-                            
+
                         }
                     }
                 }
@@ -128,5 +135,5 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
-        }
+    }
 }
