@@ -15,10 +15,12 @@ namespace JSC_LSM.UI.Controllers
     {
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
-        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository)
+        private readonly IPrincipalRepository _principalRepository;
+        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository)
         {
             _common = common;
             _schoolRepository = schoolRepository;
+            _principalRepository = principalRepository;
         }
         public IActionResult Index()
         {
@@ -117,6 +119,13 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(principalModel);
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> PrincipalDetails()
+        {
+            var data = await _principalRepository.GetAllPrincipalDetails();
+            Console.WriteLine(data.data);
+            return View(data);
         }
     }
 }

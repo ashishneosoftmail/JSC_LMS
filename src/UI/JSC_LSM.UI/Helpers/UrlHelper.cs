@@ -19,5 +19,6 @@ namespace JSC_LSM.UI.Helpers
         public static string CreateInstitute = "/api/v1/Institute";
         public static string GetAllSchool = "/api/v1/School/GetAllSchool";
         public static string AddNewPrincipal = "/api/v1/Principal";
+        public static string GetAllPrincipalDetails = "/api/v1/Principal/all";
     }
 }
