@@ -97,19 +97,19 @@ namespace JSC_LSM.UI.Controllers
                 instituteResponseModel = await _instituteRepository.CreateInstitute(createNewInstitute) ;
 
 
-                if (instituteResponseModel.isSuccess)
+                if (instituteResponseModel.Succeeded)
                 {
-                    if (instituteResponseModel == null && instituteResponseModel.createInstituteDto == null)
+                    if (instituteResponseModel == null && instituteResponseModel.data == null)
                     {
                         responseModel.ResponseMessage = instituteResponseModel.message;
-                        responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                        responseModel.IsSuccess = instituteResponseModel.Succeeded;
                     }
                     if (instituteResponseModel != null)
                     {
-                        if (instituteResponseModel.createInstituteDto != null)
+                        if (instituteResponseModel.data != null)
                         {
                             responseModel.ResponseMessage = instituteResponseModel.message;
-                            responseModel.IsSuccess = instituteResponseModel.isSuccess;
+                            responseModel.IsSuccess = instituteResponseModel.Succeeded;
                             ViewBag.AddInstituteSuccess = "Details added successfully";
                             return RedirectToAction("AddInstitute", "Institute");
                             
@@ -119,8 +119,9 @@ namespace JSC_LSM.UI.Controllers
                 else
                 {
                     responseModel.ResponseMessage = instituteResponseModel.message;
-                    responseModel.IsSuccess = instituteResponseModel.isSuccess;
-                    ViewBag.AddInstituteError = instituteResponseModel.message;
+                    responseModel.IsSuccess = instituteResponseModel.Succeeded;
+                    ViewBag.AddInstituteError = "Something went wrong!";
+                        /*instituteResponseModel.message*/
                 }
             }
             return View(institute);

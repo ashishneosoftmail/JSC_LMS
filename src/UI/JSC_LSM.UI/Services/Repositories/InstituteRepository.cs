@@ -44,13 +44,13 @@ namespace JSC_LSM.UI.Services.Repositories
             if (_oApiResponse.data != null)
             {
                 instituteResponseModel = JsonConvert.DeserializeObject<InstituteResponseModel>(_oApiResponse.data);
-                if (instituteResponseModel.isSuccess)
+                if (instituteResponseModel.Succeeded)
                 {
-                    instituteResponseModel.isSuccess = true;
+                    instituteResponseModel.Succeeded = true;
                 }
                 else
                 {
-                    instituteResponseModel.isSuccess = false;
+                    instituteResponseModel.Succeeded = false;
                 }
             }
 
