@@ -28,6 +28,8 @@ using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
 using JSC_LMS.Application.Features.Section.Commands.CreateSection;
 using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
+using JSC_LMS.Application.Features.Subject.Commands.CreateSubject;
+using JSC_LMS.Application.Features.Subject.Commands.UpdateSubject;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LMS.Domain.Entities;
 
@@ -131,6 +133,16 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Section, JSC_LMS.Application.Features.Section.Queries.GetSectionById.GetSectionByIdDto>();
             CreateMap<Section, Features.Section.Queries.GetSectionById.GetSectionByIdDto>().ReverseMap();
 
+            CreateMap<School, JSC_LMS.Application.Features.Section.Queries.GetSectionList.SchoolDto>();
+            CreateMap<Class, JSC_LMS.Application.Features.Section.Queries.GetSectionList.ClassDto>();
+            CreateMap<Section, JSC_LMS.Application.Features.Section.Queries.GetSectionList.GetSectionListDto>();
+            CreateMap<Section, Features.Section.Queries.GetSectionList.GetSectionListDto>().ReverseMap();
+
+            CreateMap<Subject, CreateSubjectDto>();
+            CreateMap<Subject, CreateSubjectDto>().ReverseMap();
+
+            CreateMap<Subject, UpdateSubjectDto>();
+            CreateMap<Subject, UpdateSubjectDto>().ReverseMap();
 
         }
     }

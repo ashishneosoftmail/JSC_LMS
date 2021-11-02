@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LSM.UI.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,7 @@ namespace JSC_LSM.UI.Services.IRepositories
     {
         Task<GetAllSchoolResponseModel> GetAllSchool();
         Task<PrincipalResponseModel> AddNewPrinicipal(CreatePrincipalDto createPrincipalDto);
+
+    
     }
 }

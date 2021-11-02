@@ -30,6 +30,7 @@ namespace JSC_LMS.Persistence
             services.AddScoped<IZipRepository, ZipRepository>();
 
             services.AddScoped<ISectionRepository, SectionRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
 
 
 

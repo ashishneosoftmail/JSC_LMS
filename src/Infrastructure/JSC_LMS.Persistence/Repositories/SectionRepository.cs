@@ -14,17 +14,20 @@ namespace JSC_LMS.Persistence.Repositories
     {
 
         private readonly ILogger _logger;
+        protected readonly ApplicationDbContext _dbContext;
         public SectionRepository(ApplicationDbContext dbContext, ILogger<Section> logger) : base(dbContext, logger)
         {
             _logger = logger;
         }
 
- 
+   
         public override async Task<Section> GetByIdAsync(int id)
         {
             return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
 
         }
+
+
 
     }
 }
