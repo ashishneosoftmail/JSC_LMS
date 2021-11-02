@@ -27,8 +27,6 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> AddPrincipal()
         {
-            ViewBag.AddPrincipalSuccess = null;
-            ViewBag.AddPrincipalError = null;
             PrincipalModel principalModel = new PrincipalModel();
             principalModel.States = await _common.GetAllStates();
             principalModel.Schools = await _common.GetSchool();
@@ -83,20 +81,30 @@ namespace JSC_LSM.UI.Controllers
 
                 if (principalResponseModel.Succeeded)
                 {
-                    if (principalResponseModel == null && principalResponseModel.createPrincipalDto == null)
+                    if (principalResponseModel == null && principalResponseModel.data == null)
                     {
                         responseModel.ResponseMessage = principalResponseModel.message;
                         responseModel.IsSuccess = principalResponseModel.Succeeded;
                     }
                     if (principalResponseModel != null)
                     {
-                        if (principalResponseModel.createPrincipalDto != null)
+                        if (principalResponseModel.data != null)
                         {
                             responseModel.ResponseMessage = principalResponseModel.message;
                             responseModel.IsSuccess = principalResponseModel.Succeeded;
-                            ViewBag.AddPrincipalSuccess = "Details added successfully";
-                            return RedirectToAction("AddPrincipal", "Principal");
-
+                            ViewBag.AddPrincipalSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            var newPrincipalModel = new PrincipalModel();
+                            newPrincipalModel.States = await _common.GetAllStates();
+                            newPrincipalModel.Schools = await _common.GetSchool();
+                            return View(newPrincipalModel);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = principalResponseModel.message;
+                            responseModel.IsSuccess = principalResponseModel.Succeeded;
+                            ViewBag.AddPrincipalError = principalResponseModel.message;
+                            return View(principalModel);
                         }
                     }
                 }

@@ -11,6 +11,6 @@ namespace JSC_LSM.UI.ResponseModels
         public bool Succeeded { get; set; }
         public string message { get; set; }
         public string statusCode { get; set; }
-        public CreatePrincipalDto createPrincipalDto { get; set; }
+        public CreatePrincipalDto data { get; set; }
     }
 }
