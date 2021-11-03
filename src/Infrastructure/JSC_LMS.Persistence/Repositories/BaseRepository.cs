@@ -33,7 +33,7 @@ namespace JSC_LMS.Persistence.Repositories
 
         public async virtual Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size)
         {
-            return await _dbContext.Set<T>().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+            return await GetQueryable().Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
         }
 
         public async Task<T> AddAsync(T entity)

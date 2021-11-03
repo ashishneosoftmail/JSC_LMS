@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using JSC_LMS.Api.Utility;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
 using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
+using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByPagination;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -39,7 +40,15 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllPrincipal Completed");
             return Ok(dtos);
         }
-
+        [HttpGet("Pagination", Name = "GetAllPrincipalByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllPrincipalByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllPrincipal Initiated");
+            var dtos = await _mediator.Send(new GetPrincipalByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllPrincipal Completed");
+            return Ok(dtos);
+        }
         [HttpGet("{id}", Name = "GetPrincipalById")]
         public async Task<ActionResult> GetPrincipalById(int id)
         {
@@ -63,7 +72,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updatePrincipalCommand);
             return Ok(response);
         }
-        [HttpGet("GetPrincipalByFilter",Name = "GetPrincipalByFilter")]
+        [HttpGet("GetPrincipalByFilter", Name = "GetPrincipalByFilter")]
         public async Task<ActionResult> GetPrincipalByFilter(string SchoolName, string PrincipalName, bool IsActive, DateTime CreatedDate)
         {
             var getPrincipalByFilterQuery = new GetPrincipalByFilterQuery(SchoolName, PrincipalName, IsActive, CreatedDate);
