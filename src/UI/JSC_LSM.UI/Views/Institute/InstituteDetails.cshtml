@@ -5,6 +5,12 @@
     ViewData["Title"] = "Institute Details";
     Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style>
     .row {
@@ -17,6 +23,15 @@
 
     a {
         text-decoration: none;
+    }
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
     }
 </style>
 <h2>Manage Institute</h2>
@@ -117,10 +132,23 @@
                     <td>@institute.LicenseExpiry.ToShortDateString() </td>
                     <td>@(institute.IsActive == true ? "Active" : "Inactive")</td>
 
-                    <td>
+                    @*<td>
 
                         <a href="" class="btn btn-link btn-sm">Edit</a>
                         <a href="" class="btn btn-link btn-sm">View</a>
+                    </td>*@
+                    <td>
+                        <a asp-controller="Institute"
+                           asp-action="Edit"
+                           class="btn btn-link"
+                           asp-route-Id="@institute.Id">Edit</a>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(@institute.Id)">
+                            View
+                        </button>
+                        @* <a asp-controller="Principal"
+            class="btn btn-link"
+            asp-action="Detail"
+            asp-route-Id="@principal.Id" data-toggle="modal" data-target="#myModal">View</a>*@
                     </td>
                 </tr>
                 }
@@ -130,7 +158,193 @@
         </table>
     </div>
 </div>
+
+
+<div class="container">
+    <!-- Button to Open the Modal -->
+    @*  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            create class
+        </button>*@
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title" id="viewUserModel">Institute Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>
+                                <label>Institute Name :</label>
+                            </th>
+                            <td>
+                                <span id="detailsInstituteName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Address Line 1 :</label>
+                            </th>
+                            <td>
+                                <span id="detailsAddressLine1"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Address Line 2 :</label>
+                            </th>
+                            <td>
+                                <span id="detailsAddressLine2"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <th>
+                                <label>City</label>
+                            </th>
+                            <td>
+                                <span id="detailsCity"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>State</label>
+                            </th>
+                            <td>
+                                <span id="detailsState"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Zip</label>
+                            </th>
+                            <td>
+                                <span id="detailsZip"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Contact Person :</label>
+                            </th>
+                            <td>
+                                <span id="detailsContactPerson"></span>
+                            </td>
+                        <tr>
+                        <tr>
+                            <th>
+                                <label>Email</label>
+                            </th>
+                            <td>
+                                <span id="detailsEmail"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Mobile</label>
+                            </th>
+                            <td>
+                                <span id="detailsMobile"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Username</label>
+                            </th>
+                            <td>
+                                <span id="detailsUsername"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>License Expiry :</label>
+                            </th>
+                            <td>
+                                <span id="detailsLicense"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Status</label>
+                            </th>
+                            <td>
+                                <span id="detailsStatus"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Institute URL</label>
+                            </th>
+                            <td>
+                                <span id="detailsInstituteURL"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+
+<script>
+    function ShowInstituteDetail(id) {
+        $.get("/Institute/GetInstituteById", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+
+                $("#detailsInstituteName").text(data.data.instituteName);
+                $("#detailsAddressLine1").text(data.data.addressLine1);
+                $("#detailsAddressLine2").text(data.data.addressLine2);
+                $("#detailsCity").text(data.data.city.cityName);
+                $("#detailsState").text(data.data.state.stateName);
+                $("#detailsZip").text(data.data.zip.zipcode);
+                $("#detailsContactPerson").text(data.data.contactPerson);
+                $("#detailsEmail").text(data.data.email);
+                $("#detailsMobile").text(data.data.mobile);
+                $("#detailsUsername").text(data.data.username);
+                $("#detailsLicense").text(data.data.licenseExpiry);
+                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+                $("#detailsInstituteURL").text(data.data.instituteURL);
+
+                //$("#detailsShoolName").text(data.data.school.schoolName);
+                //$("#detailsAddressLine1").text(data.data.addressLine1);
+                //$("#detailsAddressLine2").text(data.data.addressLine2);
+                //$("#detailsName").text(data.data.name);
+                //$("#detailsEmail").text(data.data.email);
+                //$("#detailsMobile").text(data.data.mobile);
+                //$("#detailsCity").text(data.data.city.cityName);
+                //$("#detailsState").text(data.data.state.stateName);
+                //$("#detailsZip").text(data.data.zip.zipcode);
+                //$("#detailsUsername").text(data.data.username);
+                //data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+            }
+        });
+    }
+    $(document).ready(function () {
+       @* $('#inputState').on('change', function () {
+            $('#message-text').val($('#inputState').val())
+        })*@
+    })
+</script>
 
 <script type="text/javascript">
     $(document).ready(function () {

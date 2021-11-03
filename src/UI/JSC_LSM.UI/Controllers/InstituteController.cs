@@ -149,5 +149,13 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<GetInstituteByIdResponseModel> GetInstituteById(int Id)
+        {
+
+            var institute = await _instituteRepository.GetInstituteById(Id);
+            return institute;
+        }
+
     }
 }

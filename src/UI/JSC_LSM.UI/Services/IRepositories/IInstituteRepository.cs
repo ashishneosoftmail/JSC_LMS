@@ -11,5 +11,6 @@ namespace JSC_LSM.UI.Services.IRepositories
     {
         Task<InstituteResponseModel> CreateInstitute(CreateInstituteDto createInstituteDto);
         Task<GetAllInstituteListResponseModel> GetAllInstituteDetails();
+        Task<GetInstituteByIdResponseModel> GetInstituteById(int Id);
     }
 }

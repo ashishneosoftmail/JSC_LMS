@@ -30,6 +30,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllInstituteDetails = "/api/v1/Institute/all";
 
         public static string GetPrincipalById = "/api/v1/Principal/";
+        public static string GetInstituteById = "/api/v1/Institute/";
 
         public static string GetAllClassDetails = "/api/v1/Class/all";
 

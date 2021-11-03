@@ -67,6 +67,8 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById
             var instituteData = new GetInstituteByIdVm()
             {
                 Id = institute.Id,
+                InstituteName = institute.InstituteName,
+                InstituteURL = institute.InstituteURL,
                 AddressLine1 = institute.AddressLine1,
                 AddressLine2 = institute.AddressLine2,
                 Mobile = institute.Mobile,
