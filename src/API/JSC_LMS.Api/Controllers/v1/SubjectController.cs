@@ -1,5 +1,8 @@
 ﻿using JSC_LMS.Application.Features.Subject.Commands.CreateSubject;
 using JSC_LMS.Application.Features.Subject.Commands.UpdateSubject;
+using JSC_LMS.Application.Features.Subject.Queries.GetSubjectById;
+using JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter;
+using JSC_LMS.Application.Features.Subject.Queries.GetSubjectList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,5 +45,31 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updateSubjectCommand);
             return Ok(response);
         }
+
+
+        [HttpGet("{id}", Name = "GetSubjectById")]
+        public async Task<ActionResult> GetSubjectById(int id)
+        {
+            var getSubjectDetailQuery = new GetSubjectQuery() { Id = id };
+            return Ok(await _mediator.Send(getSubjectDetailQuery));
+        }
+
+        [HttpGet("all", Name = "GetAllSubject")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllSubject()
+        {
+            _logger.LogInformation("GetAllSubject Initiated");
+            var dtos = await _mediator.Send(new GetSubjectListQuery());
+            _logger.LogInformation("GetAllSubjects Completed");
+            return Ok(dtos);
+        }
+
+        [HttpGet("Filter", Name = "GetSubjectByFilter")]
+        public async Task<ActionResult> GetSubjectFilter( string _ClassName, string _SubjectName, string _SchoolName, string _SectionName, bool _IsActive, DateTime _CreatedDate)
+        {
+            var getSubjectByFilterQuery = new GetSubjectFilterQuery( _SchoolName, _SubjectName,_ClassName, _SectionName, _IsActive, _CreatedDate);
+            return Ok(await _mediator.Send(getSubjectByFilterQuery));
+        }
+
     }
 }

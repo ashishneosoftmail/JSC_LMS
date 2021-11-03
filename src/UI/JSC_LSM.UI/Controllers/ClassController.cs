@@ -104,6 +104,14 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+         [HttpGet]
+        public async Task<GetClassByIdResponseModel> GetClassById(int Id)
+        {
+
+            var classes = await _classRepository.GetClassById(Id);
+            return classes;
+        }
+
 
 
 

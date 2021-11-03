@@ -33,6 +33,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetInstituteById = "/api/v1/Institute/";
 
         public static string GetAllClassDetails = "/api/v1/Class/all";
+        public static string GetClassById = "/api/v1/Class/";
 
 
     }
