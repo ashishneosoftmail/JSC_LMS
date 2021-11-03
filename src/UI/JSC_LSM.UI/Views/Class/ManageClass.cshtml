@@ -1,7 +1,8 @@
 ﻿
+@model ClassModel
 @{
     ViewData["Title"] = "ManageClass";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
 
 
@@ -81,6 +82,24 @@
             <button class="btn btn-sm btn-primary pull-right m-2" data-toggle="modal" data-target="#myModal">Create </button>
 
 
+            @if (ViewBag.AddClassSuccess != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @ViewBag.AddClassSuccess
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @if (ViewBag.AddClassError != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @ViewBag.AddClassError
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
 
 
 
@@ -99,19 +118,18 @@
 
                         <!-- Modal body -->
                         <div class="modal-body">
-                            <form>
+                            <form method="post" novalidate>
                                 <div class="form-group">
                                     <label for="recipient-name" class="col-form-label">School Name:</label>
-                                    <select id="inputState" class="form-control">
-                                        <option value="john">Select Shool Name</option>
-                                        <option value="adam">School1</option>
-                                        <option value="marcus">School2</option>
-                                        <option value="anthony">School 4</option>
+                                    <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
+                                        <option disabled selected hidden>Select School</option>
                                     </select>
+                                    <span asp-validation-for="SchoolId" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label for="message-text" class="col-form-label">Class Name:</label>
+                                    <label for="message-text" class="col-form-label" asp-for="ClassName">Class Name:</label>
                                     <input class="form-control" type="text" />
+                                    <span asp-validation-for="ClassName" class="text-danger"></span>
                                 </div>
 
 
@@ -119,13 +137,16 @@
 
                                 <label for="message-text" class="col-form-label">Status:</label>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                                    <label class="form-check-label" for="inlineCheckbox1">Active</label>
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+                                    @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                                    <label class="form-check-label" for="inlineCheckbox2">Inactive</label>
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+                                    @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
+                                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
                                 </div>
+                                <span asp-validation-for="IsActive" class="text-danger"></span>
 
                             </form>
                         </div>
@@ -225,7 +246,7 @@
                     <td>101</td>
                     <td>Jim Ned High School</td>
                     <td>XYZ</td>
-                    
+
                     <td>19 - Jul - 2021</td>
                     <td>Active</td>
 
@@ -400,7 +421,37 @@
     </div>
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-
+<script>
+    function ShowClassDetail(id) {
+        $.get("/Class/GetClassById", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                $("#detailsSchoolName").text(data.data.schoolName);
+                $("#detailsClassName").text(data.data.className);
+        
+                
+                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+               
+                //$("#detailsShoolName").text(data.data.school.schoolName);
+                //$("#detailsAddressLine1").text(data.data.addressLine1);
+                //$("#detailsAddressLine2").text(data.data.addressLine2);
+                //$("#detailsName").text(data.data.name);
+                //$("#detailsEmail").text(data.data.email);
+                //$("#detailsMobile").text(data.data.mobile);
+                //$("#detailsCity").text(data.data.city.cityName);
+                //$("#detailsState").text(data.data.state.stateName);
+                //$("#detailsZip").text(data.data.zip.zipcode);
+                //$("#detailsUsername").text(data.data.username);
+                //data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+            }
+        });
+    }
+    $(document).ready(function () {
+       @* $('#inputState').on('change', function () {
+            $('#message-text').val($('#inputState').val())
+        })*@
+    })
+</script>
 <script type="text/javascript">
     $(document).ready(function () {
         $('.datatable').DataTable({
@@ -408,7 +459,7 @@
             "oLanguage": {
                 "sLengthMenu": "Rows_Per_Page _MENU_",
             },
-            @*"dom": '<"top"i>rt<"bottom"flp><"clear">'*@
+            "dom": '<"top"i>rt<"bottom"flp><"clear">'
         });
         $('.datatable').each(function () {
             var datatable = $(this);
@@ -416,13 +467,4 @@
             length_sel.addClass('form-control input-lg');
         });
     });
-</script>
-
-<script>
-
-    $(document).ready(function () {
-        $('#inputState').on('change', function () {
-            $('#message-text').val($('#inputState').val())
-        })
-    })
 </script>

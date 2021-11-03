@@ -1,6 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Section.Commands.CreateSection;
 using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionById;
+using JSC_LMS.Application.Features.Section.Queries.GetSectionFilter;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -61,6 +62,11 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(dtos);
         }
 
-
+        [HttpGet("Filter", Name = "GetSectionByFilter")]
+        public async Task<ActionResult> GetSectionFilter(string _ClassName,  string _SchoolName, string _SectionName, bool _IsActive, DateTime _CreatedDate)
+        {
+            var getSectionByFilterQuery = new GetSectionFilterQuery(_SchoolName,  _ClassName, _SectionName, _IsActive, _CreatedDate);
+            return Ok(await _mediator.Send(getSectionByFilterQuery));
+        }
     }
 }

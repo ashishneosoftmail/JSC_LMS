@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LSM.UI.ResponseModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -11,4 +12,6 @@ namespace JSC_LSM.UI.Models
     {
         public List<SelectListItem> Schools { get; set; }
     }
+
+   
 }

@@ -9,6 +9,8 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
   public  interface IClassRepository
     {
-                Task<ClassResponseModel> AddNewClass(CreateClassDto createClassDto);
+        Task<ClassResponseModel> AddNewClass(CreateClassDto createClassDto);
+        Task<GetAllClassListResponseModel> GetAllClassDetails();
+        Task<GetClassByIdResponseModel> GetClassById(int Id);
     }
 }
