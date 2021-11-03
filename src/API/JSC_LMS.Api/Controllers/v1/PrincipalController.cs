@@ -63,7 +63,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updatePrincipalCommand);
             return Ok(response);
         }
-        [HttpGet(Name = "GetPrincipalByFilter")]
+        [HttpGet("GetPrincipalByFilter",Name = "GetPrincipalByFilter")]
         public async Task<ActionResult> GetPrincipalByFilter(string SchoolName, string PrincipalName, bool IsActive, DateTime CreatedDate)
         {
             var getPrincipalByFilterQuery = new GetPrincipalByFilterQuery(SchoolName, PrincipalName, IsActive, CreatedDate);

@@ -36,7 +36,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allPrincipal = await _principalRepository.ListAllAsync();
-            var searchFilter = (allPrincipal.Where<JSC_LMS.Domain.Entities.Principal>(x => (x.Name == request.PrincipalName) && (x.CreatedDate == request.CreatedDate) && (x.IsActive == request.IsActive)).Select(x => (x)));
+            var searchFilter = (allPrincipal.Where<JSC_LMS.Domain.Entities.Principal>(x => (x.Name == request.PrincipalName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x)));
             Response<IEnumerable<GetPrincipalByFilterDto>> responseData = new Response<IEnumerable<GetPrincipalByFilterDto>>();
             if (searchFilter.Count() < 1)
             {

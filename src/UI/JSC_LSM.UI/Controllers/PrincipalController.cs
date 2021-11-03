@@ -121,17 +121,148 @@ namespace JSC_LSM.UI.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> PrincipalDetails()
+        public IActionResult PrincipalDetails()
         {
-            var data = await _principalRepository.GetAllPrincipalDetails();
-            Console.WriteLine(data.data);
-            return View(data);
+
+            /* var data = new List<PrincipalDetailsViewModel>();
+             if (principalName == null && schoolName == null)
+             {
+                 var dataList = await _principalRepository.GetAllPrincipalDetails();
+                 foreach (var principal in dataList.data)
+                 {
+                     data.Add(new PrincipalDetailsViewModel()
+                     {
+                         Id = principal.Id,
+                         Name = principal.Name,
+                         AddressLine1 = principal.AddressLine1,
+                         AddressLine2 = principal.AddressLine2,
+                         CityName = principal.City.CityName,
+                         StateName = principal.State.StateName,
+                         CreatedDate = principal.CreatedDate,
+                         Email = principal.Email,
+                         IsActive = principal.IsActive,
+                         Mobile = principal.Mobile,
+                         SchoolName = principal.School.SchoolName,
+                         Username = principal.Username,
+                         ZipCode = principal.Zip.Zipcode
+                     });
+                 }
+             }
+             else
+             {
+                 data.Clear();
+                 var dataList = await _principalRepository.GetPrincipalByFilters(schoolName, principalName, createdDate, isActive);
+                 foreach (var principal in dataList.data)
+                 {
+                     data.Add(new PrincipalDetailsViewModel()
+                     {
+                         Id = principal.Id,
+                         Name = principal.Name,
+                         AddressLine1 = principal.AddressLine1,
+                         AddressLine2 = principal.AddressLine2,
+                         CityName = principal.City.CityName,
+                         StateName = principal.State.StateName,
+                         CreatedDate = principal.CreatedDate,
+                         Email = principal.Email,
+                         IsActive = principal.IsActive,
+                         Mobile = principal.Mobile,
+                         SchoolName = principal.School.SchoolName,
+                         Username = principal.Username,
+                         ZipCode = principal.Zip.Zipcode
+                     });
+                 }
+             }*/
+            return View();
+
+
         }
+
+        [HttpGet]
+        public async Task<IEnumerable<PrincipalDetailsViewModel>> GetPrincipalByFilters(string principalName, string schoolName, DateTime createdDate, bool isActive)
+        {
+            var data = new List<PrincipalDetailsViewModel>();
+            var dataList = await _principalRepository.GetPrincipalByFilters(schoolName, principalName, createdDate, isActive);
+            if (dataList.data != null)
+            {
+                foreach (var principal in dataList.data)
+                {
+                    data.Add(new PrincipalDetailsViewModel()
+                    {
+                        Id = principal.Id,
+                        Name = principal.Name,
+                        AddressLine1 = principal.AddressLine1,
+                        AddressLine2 = principal.AddressLine2,
+                        CityName = principal.City.CityName,
+                        StateName = principal.State.StateName,
+                        CreatedDate = principal.CreatedDate,
+                        Email = principal.Email,
+                        IsActive = principal.IsActive,
+                        Mobile = principal.Mobile,
+                        SchoolName = principal.School.SchoolName,
+                        Username = principal.Username,
+                        ZipCode = principal.Zip.Zipcode
+                    });
+                }
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<PrincipalDetailsViewModel>> GetAllPrincipalDetails()
+        {
+            var data = new List<PrincipalDetailsViewModel>();
+
+            var dataList = await _principalRepository.GetAllPrincipalDetails();
+            foreach (var principal in dataList.data)
+            {
+                data.Add(new PrincipalDetailsViewModel()
+                {
+                    Id = principal.Id,
+                    Name = principal.Name,
+                    AddressLine1 = principal.AddressLine1,
+                    AddressLine2 = principal.AddressLine2,
+                    CityName = principal.City.CityName,
+                    StateName = principal.State.StateName,
+                    CreatedDate = principal.CreatedDate,
+                    Email = principal.Email,
+                    IsActive = principal.IsActive,
+                    Mobile = principal.Mobile,
+                    SchoolName = principal.School.SchoolName,
+                    Username = principal.Username,
+                    ZipCode = principal.Zip.Zipcode
+                });
+            }
+            return data;
+        }
+
+
         [HttpGet]
         public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
         {
 
             var principal = await _principalRepository.GetPrincipalById(Id);
+            return principal;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllSchool()
+        {
+            var schools = await _common.GetSchool();
+            return schools;
+        }
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetPrincipalName()
+        {
+            var data = await _principalRepository.GetAllPrincipalDetails();
+            List<SelectListItem> principal = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                principal.Add(new SelectListItem
+                {
+                    Text = item.Name,
+                    Value = Convert.ToString(item.Id)
+                });
+            }
             return principal;
         }
     }

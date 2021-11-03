@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -55,6 +56,25 @@ namespace JSC_LSM.UI.Services.Repositories
             }
 
             return getPrincipalByIdResponseModel;
+
+        }
+
+        public async Task<GetAllPrincipalByFiltersResponseModel> GetPrincipalByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive)
+        {
+            GetAllPrincipalByFiltersResponseModel getPrincipalByFiltersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Principal/GetPrincipalByFilter?SchoolName={SchoolName}&PrincipalName={PrincipalName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getPrincipalByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllPrincipalByFiltersResponseModel>(_oApiResponse.data);
+                getPrincipalByFiltersResponseModel.Succeeded = true;
+            }
+
+            return getPrincipalByFiltersResponseModel;
 
         }
     }

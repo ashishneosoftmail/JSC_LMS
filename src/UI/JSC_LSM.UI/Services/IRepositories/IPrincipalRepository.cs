@@ -10,5 +10,6 @@ namespace JSC_LSM.UI.Services.IRepositories
     {
         Task<GetAllPrincipalListResponseModel> GetAllPrincipalDetails();
         Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id);
+        Task<GetAllPrincipalByFiltersResponseModel> GetPrincipalByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive);
     }
 }

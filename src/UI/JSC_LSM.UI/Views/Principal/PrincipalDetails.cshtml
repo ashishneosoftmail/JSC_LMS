@@ -1,4 +1,4 @@
-﻿@model JSC_LSM.UI.ResponseModels.GetAllPrincipalListResponseModel
+﻿@model IEnumerable<PrincipalDetailsViewModel>
 
 @{
     ViewData["Title"] = "Institute Details";
@@ -28,66 +28,65 @@
     a {
         text-decoration: none;
     }
-    .table-borderless, .table-borderless td, .table-borderless th{
+
+    .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
-        border-top:none !important;
+        border-top: none !important;
     }
-    #viewUserModel{
-        text-align:center;
-        margin-left:130px;
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
     }
-    
 </style>
-<h2>Manage Principal</h2>
-<h4>Search Filter</h4>
 
-<div class="row">
-
-    <div class="form-group row col-sm-4">
-        <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
-        <div class="col-sm-7">
-            <input type="text" class="form-control" id="inputInstitute" placeholder="Institute name">
-        </div>
+<div class="container">
+    <div class="row">
+        <h2>Manage Principal</h2>
+        <h4>Search Filter</h4>
     </div>
+    <div class="row">
 
-    <div class="form-group row col-sm-4">
-        <label for="className" class="col-sm-5 col-form-label">Principal Name :</label>
-        <div class="col-sm-7">
-            <select class="form-control" id="className">
-                <option disabled selected hidden>Select City</option>
-                <option>Mumbai</option>
-                <option>Hyderabad</option>
-                <option>Banglore</option>
-                <option>Agra</option>
-            </select>
+        <div class="form-group row col-sm-4">
+            <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="schoolName">
+                    <option disabled selected hidden>Select School</option>
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group row col-sm-4">
-        <label for="section" class="col-sm-5 col-form-label">Status :</label>
-        <div class="col-sm-7">
-            <select class="form-control" id="section">
-                <option disabled selected hidden>Select Status</option>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
+        <div class="form-group row col-sm-4">
+            <label for="principalName" class="col-sm-5 col-form-label">Principal Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="principalName">
+                    <option disabled selected hidden>Select Principal</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <div class="form-group row col-sm-4">
-        <label for="date" class="col-sm-5 col-form-label">Date :</label>
-        <div class="col-sm-7">
-            <input type="date" value="" class="form-control" id="date" />
-        </div>
-    </div>
 
-    <div class="form-group row col-sm-2 btn-text-right">
-        <button type="button" class="btn btn-primary float-lg-end ">Search</button>
+        <div class="form-group row col-sm-4">
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="status">
+                    <option disabled selected hidden>Select Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row col-sm-4">
+            <label for="date" class="col-sm-5 col-form-label">Date :</label>
+            <div class="col-sm-7">
+                <input type="date" value="" class="form-control" id="date" />
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-2 btn-text-right">
+            <button type="button" class="btn btn-primary float-lg-end " onclick="searchPrincipal()">Search</button>
+        </div>
     </div>
 </div>
-
-
-
-
 <div class="col-md-11">
     <button class="btn btn-sm btn-primary pull-right m-2">Export</button>
     <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
@@ -109,33 +108,37 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                @{int i = 0;}
-                @foreach (var principal in Model.data)
-                {
-                    <tr>
-                        <td>@(i = i + 1)</td>
-                        <td>@principal.School.SchoolName</td>
-                        <td>@principal.Name</td>
-                        <td>@principal.CreatedDate.ToShortDateString() </td>
+            <tbody id="tableData">
+                @*   @if (Model.Count() == 0)
+                    {
+                        <tr colspan="6">No Data Found</tr>
+                    }
+                    else
+                    {
+                        int i = 0;
+                        @foreach (var principal in Model)
+                        {
+                            <tr>
+                                <td>@(i = i + 1)</td>
+                                <td>@principal.SchoolName</td>
+                                <td>@principal.Name</td>
+                                <td>@principal.CreatedDate.ToShortDateString() </td>
 
-                        <td>@(principal.IsActive == true ? "Active" : "Inactive")</td>
+                                <td>@(principal.IsActive == true ? "Active" : "Inactive")</td>
 
-                        <td>
-                            <a asp-controller="Principal"
-                               asp-action="Edit"
-                               class="btn btn-link"
-                               asp-route-Id="@principal.Id">Edit</a>
-                            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(@principal.Id)">
-                                View
-                            </button>
-                            @* <a asp-controller="Principal"
-                                class="btn btn-link"
-                                asp-action="Detail"
-                                asp-route-Id="@principal.Id" data-toggle="modal" data-target="#myModal">View</a>*@
-                        </td>
-                    </tr>
-                }
+                                <td>
+                                    <a asp-controller="Principal"
+                                       asp-action="Edit"
+                                       class="btn btn-link"
+                                       asp-route-Id="@principal.Id">Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(@principal.Id)">
+                                        View
+
+                                </td>
+                            </tr>
+                        }
+                    }*@
+
 
             </tbody>
         </table>
@@ -284,9 +287,16 @@
 
 </div>
 <script>
+    function loadData() {
+        console.log("worked");
+        loadSchoolList();
+        loadPrincipalList();
+        loadAllPrincipal();
+    }
+    loadData();
+
     function ShowPrincipalDetail(id) {
         $.get("/Principal/GetPrincipalById", { Id: id }, function (data) {
-            console.log(data);
             if (data) {
 
                 $("#detailsShoolName").text(data.data.school.schoolName);
@@ -303,10 +313,104 @@
             }
         });
     }
-    $(document).ready(function () {
-       @* $('#inputState').on('change', function () {
-            $('#message-text').val($('#inputState').val())
-        })*@
-    })
+
+    function loadSchoolList() {
+        $.get("/Principal/GetAllSchool", function (data) {
+            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            data.forEach(function (school) {
+                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+            });
+        });
+    }
+    function loadPrincipalList() {
+        $.get("/Principal/GetPrincipalName", function (data) {
+            $("#principalName").append("<option disabled selected hidden>Select Principal</option>");
+            data.forEach(function (principal) {
+                $('#principalName').append('<option value="' + principal.value + '">' + principal.text + '</option>');
+            });
+        });
+    }
+
+    function searchPrincipal() {
+        var _schoolName = $("#schoolName :selected").text();
+        var _principalName = $("#principalName :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+        $.get("/Principal/GetPrincipalByFilters?principalName=" + _principalName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+            if (data.length > 0) {
+                    $("#tableData").empty();
+                    var id = 0;
+                data.forEach(function (principal) {
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${principal.schoolName}</td>
+                                <td>${principal.name}</td>
+                                <td>${new Date(principal.createdDate).toLocaleDateString()}</td>
+
+                                <td>${principal.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                    <a asp-controller="Principal"
+                                       asp-action="Edit"
+                                       class="btn btn-link"
+                                       asp-route-Id="">Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(${principal.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+    function loadAllPrincipal() {
+
+        $.get("/Principal/GetAllPrincipalDetails", function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (principal) {
+                    
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${principal.schoolName}</td>
+                                <td>${principal.name}</td>
+                                <td>${new Date(principal.createdDate).toLocaleDateString()}</td>
+
+                                <td>${principal.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                    <a asp-controller="Principal"
+                                       asp-action="Edit"
+                                       class="btn btn-link"
+                                       asp-route-Id="">Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(${principal.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
 </script>
 
