@@ -35,6 +35,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllPrincipalByFilter = "​/api/v1/Principal/GetPrincipalByFilter";
         public static string GetAllClassDetails = "/api/v1/Class/all";
         public static string GetClassById = "/api/v1/Class/";
+        public static string GetAllPrincipalByPagination = "/api/v1/Principal/Pagination";
 
 
     }
