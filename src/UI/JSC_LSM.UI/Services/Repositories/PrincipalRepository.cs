@@ -77,6 +77,24 @@ namespace JSC_LSM.UI.Services.Repositories
             return getPrincipalByFiltersResponseModel;
 
         }
+        public async Task<GetAllPrincipalByPaginationResponseModel> GetPrincipalByPagination(int page, int size)
+        {
+            GetAllPrincipalByPaginationResponseModel getAllPrincipalByPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllPrincipalByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllPrincipalByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllPrincipalByPaginationResponseModel>(_oApiResponse.data);
+                getAllPrincipalByPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllPrincipalByPaginationResponseModel;
+
+        }
     }
 
 }

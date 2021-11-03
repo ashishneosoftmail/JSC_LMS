@@ -121,7 +121,7 @@ namespace JSC_LSM.UI.Controllers
 
         }
         [HttpGet]
-        public IActionResult PrincipalDetails()
+        public async Task<IActionResult> PrincipalDetails()
         {
 
             /* var data = new List<PrincipalDetailsViewModel>();
@@ -172,7 +172,15 @@ namespace JSC_LSM.UI.Controllers
                      });
                  }
              }*/
-            return View();
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+
+            var pager = new Pager(recsCount, page, size);
+            this.ViewBag.Pager = pager;
+            return View(pager);
 
 
         }
@@ -207,6 +215,8 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+
+
         [HttpGet]
         public async Task<IEnumerable<PrincipalDetailsViewModel>> GetAllPrincipalDetails()
         {
@@ -235,7 +245,41 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<PrincipalDetailsViewModel>> GetAllPrincipalDetailsByPagination(int page = 1, int size = 5)
+        {
+            int recsCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
 
+            this.ViewBag.Pager = pager;
+            var data = new List<PrincipalDetailsViewModel>();
+
+            //int recSkip = (page - 1) * size;
+            var dataList = await _principalRepository.GetPrincipalByPagination(page, size);
+
+            foreach (var principal in dataList.data.GetPrincipalListPaginationDto)
+            {
+                data.Add(new PrincipalDetailsViewModel()
+                {
+                    Id = principal.Id,
+                    Name = principal.Name,
+                    AddressLine1 = principal.AddressLine1,
+                    AddressLine2 = principal.AddressLine2,
+                    CityName = principal.City.CityName,
+                    StateName = principal.State.StateName,
+                    CreatedDate = principal.CreatedDate,
+                    Email = principal.Email,
+                    IsActive = principal.IsActive,
+                    Mobile = principal.Mobile,
+                    SchoolName = principal.School.SchoolName,
+                    Username = principal.Username,
+                    ZipCode = principal.Zip.Zipcode
+                });
+            }
+            return data;
+        }
         [HttpGet]
         public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
         {
