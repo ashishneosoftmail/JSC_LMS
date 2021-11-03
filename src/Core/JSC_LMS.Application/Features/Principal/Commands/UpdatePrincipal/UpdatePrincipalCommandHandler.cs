@@ -56,9 +56,11 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
             };
 
             var updateUser = await _authenticationService.UpdateUser(userUpdate);
-            if (updateUser == null)
+            if (!updateUser.Succeeded)
             {
-                UpdatePrincipalCommandResponse.Message = "No User Found";
+                UpdatePrincipalCommandResponse.Errors = updateUser.Errors;
+                UpdatePrincipalCommandResponse.Succeeded = false;
+                UpdatePrincipalCommandResponse.Message = "User Already Exist";
                 return UpdatePrincipalCommandResponse;
             }
 
