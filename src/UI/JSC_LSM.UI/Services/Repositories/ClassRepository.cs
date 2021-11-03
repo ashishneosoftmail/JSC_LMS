@@ -1,6 +1,4 @@
-﻿
-
-using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -54,6 +52,25 @@ namespace JSC_LSM.UI.Services.Repositories
             }
 
             return classResponseModel;
+
+        }
+
+        public async Task<GetAllClassListResponseModel> GetAllClassDetails()
+        {
+            GetAllClassListResponseModel getAllClassListResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClassDetails, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllClassListResponseModel = JsonConvert.DeserializeObject<GetAllClassListResponseModel>(_oApiResponse.data);
+                getAllClassListResponseModel.Succeeded = true;
+            }
+
+            return getAllClassListResponseModel;
 
         }
 

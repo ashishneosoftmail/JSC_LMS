@@ -1,9 +1,10 @@
-﻿@model ClassModel
+﻿
+@model ClassModel
 
 
 @{
     ViewData["Title"] = "AddClass";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
 <br />
 <br />
@@ -109,14 +110,12 @@
 
 </div>
 <script>
-
     $(document).ready(function () {
         $('#inputState').on('change', function () {
             $('#message-text').val($('#inputState').val())
         })
     })
 </script>
-
 
 
 
