@@ -2,6 +2,7 @@
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteByPagination;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
@@ -37,7 +38,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var id = await _mediator.Send(createInstituteCommand);
             return Ok(id);
         }
-        [HttpPut(Name = "UpdateInstitute")]
+        [HttpPut("Update",Name = "UpdateInstitute")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -65,7 +66,7 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(await _mediator.Send(getInstituteDetailQuery));
         }
 
-        [HttpGet(Name = "GetInstituteByFilter")]
+        [HttpGet("GetInstituteByFilter",Name = "GetInstituteByFilter")]
         public async Task<ActionResult> GetInstituteByFilter(string InstituteName, string City,string State, bool IsActive, DateTime LicenseExpiry)
         {
             var getInstituteByFilterQuery = new GetInstituteFilterQuery(InstituteName, City,State, IsActive, LicenseExpiry);
@@ -79,6 +80,17 @@ namespace JSC_LMS.Api.Controllers.v1
             var fileDto = await _mediator.Send(new GetInstituteCsvExportQuery());
 
             return File(fileDto.Data, fileDto.ContentType, fileDto.InstituteExportFileName);
+        }
+
+
+        [HttpGet("Pagination", Name = "GetAllInstituteByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllInstituteByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllInstitute Initiated");
+            var dtos = await _mediator.Send(new GetInstituteByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllInstitute Completed");
+            return Ok(dtos);
         }
     }
 }
