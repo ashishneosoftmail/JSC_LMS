@@ -1,6 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Subject.Commands.CreateSubject;
 using JSC_LMS.Application.Features.Subject.Commands.UpdateSubject;
 using JSC_LMS.Application.Features.Subject.Queries.GetSubjectById;
+using JSC_LMS.Application.Features.Subject.Queries.GetSubjectByPagination;
 using JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter;
 using JSC_LMS.Application.Features.Subject.Queries.GetSubjectList;
 using MediatR;
@@ -63,6 +64,17 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllSubjects Completed");
             return Ok(dtos);
         }
+
+        [HttpGet("Pagination", Name = "GetAllSubjectByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllSubjectByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllSubject Initiated");
+            var dtos = await _mediator.Send(new GetSubjectByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllSubject Completed");
+            return Ok(dtos);
+        }
+
 
         [HttpGet("Filter", Name = "GetSubjectByFilter")]
         public async Task<ActionResult> GetSubjectFilter( string _ClassName, string _SubjectName, string _SchoolName, string _SectionName, bool _IsActive, DateTime _CreatedDate)

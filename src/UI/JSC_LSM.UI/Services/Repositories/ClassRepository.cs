@@ -27,7 +27,26 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
-        public async Task<ClassResponseModel> AddNewClass(CreateClassDto createClassDto)
+
+        public async Task<GetAllClassListResponseModel> GetAllClassDetails()
+        {
+            GetAllClassListResponseModel getAllClassListResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClassDetails, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllClassListResponseModel = JsonConvert.DeserializeObject<GetAllClassListResponseModel>(_oApiResponse.data);
+                getAllClassListResponseModel.Succeeded = true;
+            }
+
+            return getAllClassListResponseModel;
+        }
+
+            public async Task<ClassResponseModel> AddNewClass(CreateClassDto createClassDto)
         {
             ClassResponseModel classResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -55,24 +74,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllClassListResponseModel> GetAllClassDetails()
-        {
-            GetAllClassListResponseModel getAllClassListResponseModel = null;
-            _aPIRepository = new APIRepository(_configuration);
-
-            _oApiResponse = new APICommunicationResponseModel<string>();
-            byte[] content = Array.Empty<byte>();
-            var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClassDetails, HttpMethod.Get, bytes, _sToken);
-            if (_oApiResponse.data != null)
-            {
-                getAllClassListResponseModel = JsonConvert.DeserializeObject<GetAllClassListResponseModel>(_oApiResponse.data);
-                getAllClassListResponseModel.Succeeded = true;
-            }
-
-            return getAllClassListResponseModel;
-
-        }
+    
 
         public async Task<GetClassByIdResponseModel> GetClassById(int Id)
         {
@@ -93,5 +95,45 @@ namespace JSC_LSM.UI.Services.Repositories
 
 
         }
+
+        public async Task<GetAllClassByFiltersResponseModel> GetClassByFilters(string SchoolName, string ClassName, DateTime CreatedDate, bool IsActive)
+        {
+            GetAllClassByFiltersResponseModel getClassByFiltersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Class/GetClassByFilter?SchoolName={SchoolName}&ClassName={ClassName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getClassByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllClassByFiltersResponseModel>(_oApiResponse.data);
+                getClassByFiltersResponseModel.Succeeded = true;
+            }
+
+            return getClassByFiltersResponseModel;
+
         }
+
+        public async Task<GetAllClassByPaginationResponseModel> GetClassByPagination(int page, int size)
+        {
+            GetAllClassByPaginationResponseModel getAllClassByPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClassByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllClassByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllClassByPaginationResponseModel>(_oApiResponse.data);
+                getAllClassByPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllClassByPaginationResponseModel;
+
+        }
+
+
+    }
     }
