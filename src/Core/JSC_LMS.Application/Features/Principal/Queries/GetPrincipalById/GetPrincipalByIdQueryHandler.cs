@@ -3,10 +3,12 @@ using JSC_LMS.Application.CommonDtos;
 using JSC_LMS.Application.Contracts.Identity;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Responses;
+using JSC_LMS.Infrastructure.EncryptDecrypt;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,6 +45,8 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
                 return responseData;
             }
             var user = await _authenticationService.GetUserById(principal.UserId);
+            
+
             var principalData = new GetPrincipalByIdDto()
             {
                 Id = principal.Id,

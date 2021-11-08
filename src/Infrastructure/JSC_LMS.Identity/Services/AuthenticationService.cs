@@ -347,6 +347,7 @@ namespace JSC_LMS.Identity.Services
             }
             else
             {
+
                 return new GetUserByIdResponse()
                 {
                     Email = userExist.Email,

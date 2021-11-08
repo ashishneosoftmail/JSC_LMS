@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Institute Details";
-    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
     Pager pager = new Pager();
     int pageNo = 0;
     if (ViewBag.Pager != null)
@@ -403,7 +403,7 @@
                                    <a href="/Principal/EditPrincipal/${principal.id}"
                                        class="btn btn-link"
                                        >Edit</a>
-                                    
+
                                     <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(${principal.id})">
                                         View
 

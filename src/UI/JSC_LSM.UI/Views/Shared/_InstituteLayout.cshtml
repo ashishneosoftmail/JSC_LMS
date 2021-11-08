@@ -84,20 +84,19 @@
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
 
-
-
                     <li>
-                        <a href="~/Crop/Index">
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
+                        <a asp-action="PrincipalDetails" asp-controller="Principal">
+                            <span>Manage Principal</span>
                         </a>
-                    </li>
 
+                    </li>
+                    <li>
+
+                        <a asp-action="Logout" asp-controller="Account">
+                            <span>Logout</span>
+                        </a>
+
+                    </li>
                 </ul>
 
             </section>
