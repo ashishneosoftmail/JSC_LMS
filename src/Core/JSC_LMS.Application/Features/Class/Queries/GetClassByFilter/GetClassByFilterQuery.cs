@@ -6,7 +6,7 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
 {
-   public class GetClassByFilterQuery:IRequest<Response<IEnumerable<SchoolFilterDtoVms>>>
+   public class GetClassByFilterQuery:IRequest<Response<IEnumerable<GetClassByFilterDto>>>
     {
         public GetClassByFilterQuery(string _SchoolName, string _ClasslName, bool _IsActive, DateTime _CreatedDate)
         {

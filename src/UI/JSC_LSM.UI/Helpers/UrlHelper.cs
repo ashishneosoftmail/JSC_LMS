@@ -39,7 +39,7 @@ namespace JSC_LSM.UI.Helpers
 
         public static string AddNewSection = "/api/v1/Section";
 
-        public static string GetAllClassByFilter = "​/api/v1/Class/GetAllClassByFilter";
+        public static string GetAllClassByFilter = "/api/v1/Class/GetClassByFilter";
         public static string GetAllClassByPagination = "/api/v1/Class/Pagination";
 
 
