@@ -59,11 +59,20 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IActionResult> AddClass()
+        {
+            ClassModel classModel = new ClassModel();
+
+            classModel.Schools = await _common.GetSchool();
+            return View(classModel);
+        }
+
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ManageClass(ClassModel classModel)
+        public async Task<IActionResult> AddClass(ClassModel classModel)
         
         
         
@@ -252,7 +261,38 @@ namespace JSC_LSM.UI.Controllers
             return classes;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditClass(int id)
+        {
+            var classes = await _classRepository.GetClassById(id);
+            if (classes.data == null)
+            {
+                TempData["GetClassById"] = classes.message;
+                return RedirectToAction("ManageClass", "Class");
+            }
+            var classData = new UpdateClassViewModel()
+            {
+                Id = classes.data.Id,
+                ClassName = classes.data.ClassName,
+          
+              
+                IsActive = classes.data.IsActive,
+             
+                SchoolId = classes.data.School.Id,
+               
+      
+            };
+            classData.Schools = await _common.GetSchool();
+        
+            return View(classData);
+        }
 
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPrincipal(UpdateClassViewModel updateClassViewModel)
+        {
+            return null;
+        }
 
 
 

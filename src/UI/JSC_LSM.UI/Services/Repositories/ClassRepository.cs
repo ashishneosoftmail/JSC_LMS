@@ -134,6 +134,33 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
+        public async Task<UpdateClassResponseModel> UpdateClass(UpdateClassResponseModel updateClassDto)
+        {
+            UpdateClassResponseModel updateClassResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateClassResponseModel, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateClass, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateClassResponseModel = JsonConvert.DeserializeObject<UpdateClassResponseModel>(_oApiResponse.data);
+                if (updateClassResponseModel.Succeeded)
+                {
+                    updateClassResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateClassResponseModel.Succeeded = false;
+                }
+            }
+
+            return updateClassResponseModel;
+        }
+
 
     }
     }

@@ -6,117 +6,100 @@
     ViewData["Title"] = "AddClass";
     Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
-<br />
-<br />
-<br />
+<style>
+    .ButtonDesign {
+        width: 10%;
+        margin-left: 1%;
+    }
+
+    form {
+        padding: inherit;
+        margin: 5px 5px 5px 5px;
+        border: 2px solid gray;
+        height: 100%;
+        /*  width : 100%;*/
+    }
+
+    input {
+        width: 90%;
+    }
+
+    div {
+        font-size: 16px;
+    }
+</style>
 
 
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
-<div class="container">
-    <h2>Add Class Only Popup</h2>
-    <!-- Button to Open the Modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        create class
-    </button>
-
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Create Class</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-
-
-                @if (ViewBag.AddClassSuccess != null)
-                {
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        @ViewBag.AddClassSuccess
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+<div class="container p-3 my-3 border fixed" id="div1">
+    <h3>Create Class</h3>
+    <form method="post" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
+                            <option disabled selected hidden>Select School</option>
+                        </select>
+                        <span asp-validation-for="SchoolId" class="text-danger"></span>
                     </div>
-                }
-                @if (ViewBag.AddClassError != null)
-                {
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        @ViewBag.AddClassError
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                </div>
+                <br />
+
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputClassName" class="col-sm-2 col-form-label">Class Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputAddress1" asp-for="ClassName" placeholder="Class Name">
+                        <span asp-validation-for="ClassName" class="text-danger"></span>
+
                     </div>
-                }
-
-
-
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form method="post" novalidate>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">School Name:</label>
-                            <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
-                                <option disabled selected hidden>Select School</option>
-                            </select>
-                            <span asp-validation-for="SchoolId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label" asp-for="ClassName">Class Name:</label>
-                            <input class="form-control" type="text" />
-                            <span asp-validation-for="ClassName" class="text-danger"></span>
-                        </div>
-
-
-
-
-                        <label for="message-text" class="col-form-label">Status:</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                          
-                            <label class="form-check-label" for="inlineRadio1">Active</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" asp-for="IsActive">
-                           
-                            <label class="form-check-label" for="inlineRadio2">Inactive</label>
-                        </div>
-
-                    </form>
                 </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                <br />
+                <br />
+
+                <label>Status :</label>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+                    @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
                 </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+                    @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
+                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+                </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+
+                <br />
+
 
             </div>
         </div>
-    </div>
 
+
+        <button type="button" class="btn btn-danger float-lg-end ButtonDesign">Cancel</button>
+        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Save</button>
+
+
+
+
+    </form>
 </div>
-<script>
-    $(document).ready(function () {
-        $('#inputState').on('change', function () {
-            $('#message-text').val($('#inputState').val())
-        })
-    })
-</script>
-
+<div id="wrapper">
+    @if (ViewBag.AddClassSuccess != null)
+    {
+        <script>alert("@ViewBag.AddClassSuccess")</script>
+    }
+    @if (ViewBag.AddClassError != null)
+    {
+        <script>alert("@ViewBag.AddClassError")</script>
+    }
+</div>
 
 
 

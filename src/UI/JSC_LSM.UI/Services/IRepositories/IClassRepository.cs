@@ -17,5 +17,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetAllClassByFiltersResponseModel> GetClassByFilters(string SchoolName, string ClassName, DateTime CreatedDate, bool IsActive);
 
         Task<GetAllClassByPaginationResponseModel> GetClassByPagination(int page, int size);
+
+        Task<UpdateClassResponseModel> UpdateClass(UpdateClassResponseModel updateClassViewModel);
     }
 }

@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.Class.Commands.CreateClass
 {
   public  class CreateClassCommand: IRequest<Response<CreateClassDto>>
     {
+        public CreateClassCommand(CreateClassDto _createClassDto)
+        {
+            createClassDto = _createClassDto;
+        }
         public CreateClassDto createClassDto { get; set; }
 
     }
