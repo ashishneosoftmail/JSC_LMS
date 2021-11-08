@@ -31,9 +31,10 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
 
         public async Task<Response<IEnumerable<GetInstituteFilterVm>>> Handle(GetInstituteFilterQuery request, CancellationToken cancellationToken)
         {
+            
             _logger.LogInformation("Handle Initiated");
             var allInstitute = await _instituteRepository.ListAllAsync();
-            var searchFilter = (allInstitute.Where<JSC_LMS.Domain.Entities.Institute>(x => (x.InstituteName == request.InstituteName) && (x.LicenseExpiry == request.LicenseExpiry) && (x.IsActive == request.IsActive) && (x.City.CityName == request.Cityname) && (x.State.StateName == request.Statename)).Select(x => (x)));
+            var searchFilter = (allInstitute.Where<JSC_LMS.Domain.Entities.Institute>(x => (x.InstituteName == request.InstituteName) && (x.LicenseExpiry.ToShortDateString() == request.LicenseExpiry.ToShortDateString()) && (x.IsActive == request.IsActive) && (x.City.CityName == request.Cityname) && (x.State.StateName == request.Statename)).Select(x => (x)));
 
 
             Response<IEnumerable<GetInstituteFilterVm>> responseData = new Response<IEnumerable<GetInstituteFilterVm>>();

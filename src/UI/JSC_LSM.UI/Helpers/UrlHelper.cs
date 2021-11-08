@@ -42,6 +42,9 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllClassByFilter = "/api/v1/Class/GetClassByFilter";
         public static string GetAllClassByPagination = "/api/v1/Class/Pagination";
 
-
+        public static string GetAllInstituteByFilter = "​/api/v1/Institute/GetInstituteByFilter";
+        public static string GetAllInstituteByPagination = "/api/v1/Institute/Pagination";
+        public static string UpdateInstitute = "/api/v1/Institute/UpdateInstitute";
+        
     }
 }

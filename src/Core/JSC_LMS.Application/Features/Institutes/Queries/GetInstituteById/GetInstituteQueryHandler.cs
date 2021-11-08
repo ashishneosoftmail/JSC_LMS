@@ -80,6 +80,7 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById
                 City = _mapper.Map<CityDto>(institute.City),
                 State = _mapper.Map<StateDto>(institute.State),
                 Zip = _mapper.Map<ZipDto>(institute.Zip),
+                LicenseExpiry= institute.LicenseExpiry
                
             };
             _logger.LogInformation("Hanlde Completed");
