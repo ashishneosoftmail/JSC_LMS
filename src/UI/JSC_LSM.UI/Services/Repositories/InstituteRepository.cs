@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LMS.Application.Models.Authentication;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
@@ -137,7 +138,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteViewModel updateInstituteDto)
+        public async Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto)
         {
             UpdateInstituteResponseModel updateInstituteResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
