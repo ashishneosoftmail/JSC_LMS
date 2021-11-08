@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
@@ -280,6 +281,7 @@ namespace JSC_LSM.UI.Controllers
                 Id = institute.data.Id,                
                 InstituteName = institute.data.InstituteName,
                 InstituteURL = institute.data.InstituteURL,
+                UserId = institute.data.UserId,
                 ContactPerson = institute.data.ContactPerson,
                 AddressLine1 = institute.data.AddressLine1,
                 AddressLine2 = institute.data.AddressLine2,
@@ -292,12 +294,89 @@ namespace JSC_LSM.UI.Controllers
                 Username = institute.data.Username,
                 ZipId = institute.data.Zip.Id
             };
-
+            TempData["UserId"] = instituteData.UserId;
             instituteData.States = await _common.GetAllStates();
             instituteData.Cities = await _common.GetAllCityByStateId(institute.data.State.Id);
             instituteData.ZipCode = await _common.GetAllZipByCityId(institute.data.Zip.Id);
             return View(instituteData);
         }
 
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditInstitute(UpdateInstituteViewModel updateInstituteViewModel)
+        {
+            ViewBag.UpdateInstituteSuccess = null;
+            ViewBag.UpdateInstituteError = null;
+
+            updateInstituteViewModel.States = await _common.GetAllStates();
+            updateInstituteViewModel.Cities = await _common.GetAllCityByStateId(updateInstituteViewModel.StateId);
+            updateInstituteViewModel.ZipCode = await _common.GetAllZipByCityId(updateInstituteViewModel.CityId);
+            UpdateInstituteDto updateInstitute = new UpdateInstituteDto();
+            if (ModelState.IsValid)
+            {
+                updateInstitute.Id = updateInstituteViewModel.Id;
+                updateInstitute.UserId = TempData["UserId"].ToString();
+                updateInstitute.AddressLine1 = updateInstituteViewModel.AddressLine1;
+                updateInstitute.AddressLine2 = updateInstituteViewModel.AddressLine2;
+                updateInstitute.ContactPerson = updateInstituteViewModel.ContactPerson;
+                updateInstitute.Email = updateInstituteViewModel.Email;
+                updateInstitute.Mobile = updateInstituteViewModel.Mobile;
+                updateInstitute.Password = updateInstituteViewModel.Password;
+                updateInstitute.Username = updateInstituteViewModel.Username;
+                updateInstitute.CityId = updateInstituteViewModel.CityId;
+                updateInstitute.StateId = updateInstituteViewModel.StateId;
+                updateInstitute.ZipId = updateInstituteViewModel.ZipId;
+                updateInstitute.IsActive = updateInstituteViewModel.IsActive;
+                updateInstitute.LicenseExpiry = updateInstituteViewModel.LicenseExpiry;
+                updateInstitute.InstituteURL = updateInstituteViewModel.InstituteURL;
+                updateInstitute.InstituteName = updateInstituteViewModel.InstituteName;
+                
+
+
+                UpdateInstituteResponseModel updateInstituteResponseModel = null;
+                ViewBag.UpdateInstituteSuccess = null;
+                ViewBag.UpdateInstituteError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateInstituteResponseModel = await _instituteRepository.UpdateInstitute(updateInstitute);
+
+
+                if (updateInstituteResponseModel.Succeeded)
+                {
+                    if (updateInstituteResponseModel == null && updateInstituteResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateInstituteResponseModel.message;
+                        responseModel.IsSuccess = updateInstituteResponseModel.Succeeded;
+                    }
+                    if (updateInstituteResponseModel != null)
+                    {
+                        if (updateInstituteResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateInstituteResponseModel.message;
+                            responseModel.IsSuccess = updateInstituteResponseModel.Succeeded;
+                            ViewBag.UpdateInstituteSuccess = "Details Updated Successfully";
+
+                            return RedirectToAction("InstituteDetails", "Institute");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateInstituteResponseModel.message;
+                            responseModel.IsSuccess = updateInstituteResponseModel.Succeeded;
+                            ViewBag.UpdateInstituteError = updateInstituteResponseModel.message;
+                            return View(updateInstituteResponseModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateInstituteResponseModel.message;
+                    responseModel.IsSuccess = updateInstituteResponseModel.Succeeded;
+                    ViewBag.UpdateInstituteError = updateInstituteResponseModel.message;
+                }
+            }
+            return View(updateInstituteViewModel);
+        }
     }
 }
