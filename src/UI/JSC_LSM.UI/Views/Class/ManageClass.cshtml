@@ -47,7 +47,7 @@
 
 <div class="container">
     <div class="row">
-        <h2>Manage Principal</h2>
+        <h2>Manage Class</h2>
         <h4>Search Filter</h4>
     </div>
     <div class="row">
@@ -149,6 +149,15 @@
 </div>
 
 <div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllClass()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
     @if (Model.TotalPages > 0)
     {
         <ul class="pagination justify-content-end">
