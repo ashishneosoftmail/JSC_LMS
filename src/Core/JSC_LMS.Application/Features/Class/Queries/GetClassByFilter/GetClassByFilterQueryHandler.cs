@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
 {
-    public class GetClassByFilterQueryHandler : IRequestHandler<GetClassByFilterQuery, Response<IEnumerable<SchoolFilterDtoVms>>>
+    public class GetClassByFilterQueryHandler : IRequestHandler<GetClassByFilterQuery, Response<IEnumerable<GetClassByFilterDto>>>
     {
         private readonly IClassRepository _classRepository;
         private readonly ISchoolRepository _schoolRepository;
@@ -30,12 +30,12 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
         }
 
 
-        public async Task<Response<IEnumerable<SchoolFilterDtoVms>>> Handle(GetClassByFilterQuery request, CancellationToken cancellationToken)
+        public async Task<Response<IEnumerable<GetClassByFilterDto>>> Handle(GetClassByFilterQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handle Initiated");
             var allClass = await _classRepository.ListAllAsync();
-            var searchFilter = (allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName == request.ClassName) && (x.CreatedDate == request.CreatedDate) && (x.IsActive == request.IsActive)).Select(x => (x)));
-            Response<IEnumerable<SchoolFilterDtoVms>> responseData = new Response<IEnumerable<SchoolFilterDtoVms>>();
+            var searchFilter = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName == request.ClassName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x));
+            Response<IEnumerable<GetClassByFilterDto>> responseData = new Response<IEnumerable<GetClassByFilterDto>>();
             if (searchFilter.Count() < 1)
             {
                 responseData.Succeeded = true;
@@ -43,14 +43,14 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
                 responseData.Data = null;
                 return responseData;
             }
-            List<SchoolFilterDtoVms> classList = new List<SchoolFilterDtoVms>();
+            List<GetClassByFilterDto> classList = new List<GetClassByFilterDto>();
             foreach (var classes in searchFilter)
             {
                 var school = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName == request.SchoolName;
                 if (school)
                 {
 
-                    classList.Add(new SchoolFilterDtoVms()
+                    classList.Add(new GetClassByFilterDto()
                     {
                         Id = classes.Id,
 
@@ -60,8 +60,8 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
                         IsActive = classes.IsActive,
                       
                         CreatedDate = (DateTime)classes.CreatedDate,
-                       
-                        School = new SchoolDtoVm()
+
+                        School = new SchoolFilterDtoVms()
                         {
                             Id = classes.SchoolId,
                             SchoolName = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName
@@ -77,7 +77,7 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
                 return responseData;
             }
             _logger.LogInformation("Hanlde Completed");
-            return new Response<IEnumerable<SchoolFilterDtoVms>>(classList, "success");
+            return new Response<IEnumerable<GetClassByFilterDto>>(classList, "success");
         }
 
 

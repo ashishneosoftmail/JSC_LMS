@@ -440,10 +440,15 @@
                                 <td>${principal.isActive ? "Active" : "Inactive"}</td>
 
                                 <td>
-                                    <a asp-controller="Principal"
-                                       asp-action="Edit"
+                                    <a href="/Principal/EditPrincipal/${principal.id}"
                                        class="btn btn-link"
-                                       asp-route-Id="">Edit</a>
+                                       >Edit</a>
+
+@*<a
+   asp-action="EditPrincipal"
+ asp-route-id="${principal.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>*@
                                     <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(${principal.id})">
                                         View
 

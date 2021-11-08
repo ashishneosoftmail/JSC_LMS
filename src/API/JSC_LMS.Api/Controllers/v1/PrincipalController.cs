@@ -67,8 +67,9 @@ namespace JSC_LMS.Api.Controllers.v1
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdatePrincipalCommand updatePrincipalCommand)
+        public async Task<ActionResult> Update(UpdatePrincipalDto updatePrincipalDto)
         {
+            var updatePrincipalCommand = new UpdatePrincipalCommand(updatePrincipalDto);
             var response = await _mediator.Send(updatePrincipalCommand);
             return Ok(response);
         }

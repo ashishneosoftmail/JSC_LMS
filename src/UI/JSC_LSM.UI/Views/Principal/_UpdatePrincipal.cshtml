@@ -21,7 +21,14 @@
         font-size: 16px;
     }
 </style>
+<div id="wrapper">
+    @if (ViewBag.GetPrincipalById != null)
+    {
+        <script>alert("@ViewBag.GetPrincipalById")</script>
+        @*@ViewBag.GetPrincipalById = null;*@
+    }
 
+</div>
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form method="post" novalidate>
@@ -59,7 +66,7 @@
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">State :</label>
                     <div class="col-sm-7">
-                        <select class="form-select" aria-label="Default select example" onchange="GetCityById()" id="principalState" asp-for="StateId" asp-items="Model.States">
+                        <select class="form-select" aria-label="Default select example" asp-for="StateId" asp-items="Model.States" onchange="GetCityById()" id="principalState">
                             <option value="" disabled selected>Select State</option>
                         </select>
                         <span asp-validation-for="StateId" class="text-danger"></span>
@@ -71,7 +78,7 @@
                 <div class="form-group row">
                     <label for="inputZip" class="col-sm-2 col-form-label">Zip :</label>
                     <div class="col-sm-7">
-                        <select class="form-control" id="zip" asp-for="ZipId">
+                        <select class="form-control" id="zip" asp-for="ZipId" asp-items="Model.ZipCode">
                             <option disabled selected hidden>Select Zip</option>
                         </select>
                         <span asp-validation-for="ZipId" class="text-danger"></span>
@@ -125,7 +132,7 @@
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">City :</label>
                     <div class="col-sm-7">
-                        <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
+                        <select class="form-control" id="city" asp-for="CityId" asp-items="Model.Cities" onchange="GetZipByCityId()">
                             <option disabled selected hidden>Select City</option>
                         </select>
                         <span asp-validation-for="CityId" class="text-danger"></span>
@@ -185,6 +192,15 @@
     }
 </div>
 <script type="text/javascript">
+   @* loadSchoolList();*@
+    function loadSchoolList() {
+        $.get("/Principal/GetAllSchool", function (data) {
+            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            data.forEach(function (school) {
+                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+            });
+        });
+    }
     function GetCityById() {
         var stateValue = $("#principalState :selected").val();
         //You can check selected value using alert

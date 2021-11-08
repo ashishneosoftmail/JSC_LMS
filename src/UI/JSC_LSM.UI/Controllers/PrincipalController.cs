@@ -177,7 +177,7 @@ namespace JSC_LSM.UI.Controllers
             int recsCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
             if (page < 1)
                 page = 1;
-
+            ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;
             var pager = new Pager(recsCount, page, size);
             ViewBag.Pager = pager;
             return View(pager);
@@ -214,8 +214,6 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
-
-
 
         [HttpGet]
         public async Task<IEnumerable<PrincipalDetailsViewModel>> GetAllPrincipalDetails()
@@ -311,9 +309,41 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditPrincipal()
+        public async Task<IActionResult> EditPrincipal(int id)
         {
-            return View();
+            var principal = await _principalRepository.GetPrincipalById(id);
+            if (principal.data == null)
+            {
+                TempData["GetPrincipalById"] = principal.message;
+                return RedirectToAction("PrincipalDetails", "Principal");
+            }
+            var principalData = new UpdatePrincipalViewModel()
+            {
+                Id = principal.data.Id,
+                Name = principal.data.Name,
+                AddressLine1 = principal.data.AddressLine1,
+                AddressLine2 = principal.data.AddressLine2,
+                CityId = principal.data.City.Id,
+                StateId = principal.data.State.Id,
+                Email = principal.data.Email,
+                IsActive = principal.data.IsActive,
+                Mobile = principal.data.Mobile,
+                SchoolId = principal.data.School.Id,
+                Username = principal.data.Username,
+                ZipId = principal.data.Zip.Id
+            };
+            principalData.Schools = await _common.GetSchool();
+            principalData.States = await _common.GetAllStates();
+            principalData.Cities = await _common.GetAllCityByStateId(principal.data.State.Id);
+            principalData.ZipCode = await _common.GetAllZipByCityId(principal.data.Zip.Id);
+            return View(principalData);
+        }
+
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPrincipal(UpdatePrincipalViewModel updatePrincipalViewModel)
+        {
+            return null;
         }
     }
 }
