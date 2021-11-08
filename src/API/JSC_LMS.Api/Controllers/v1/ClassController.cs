@@ -2,6 +2,7 @@
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
 using JSC_LMS.Application.Features.Class.Queries.GetClassByFilter;
 using JSC_LMS.Application.Features.Class.Queries.GetClassById;
+using JSC_LMS.Application.Features.Class.Queries.GetClassByPagination;
 using JSC_LMS.Application.Features.Class.Queries.GetClassList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,17 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllClass Completed");
             return Ok(dtos);
         }
+
+        [HttpGet("Pagination", Name = "GetAllClassByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllClassByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllClass Initiated");
+            var dtos = await _mediator.Send(new GetClassByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllClass Completed");
+            return Ok(dtos);
+        }
+
 
         [HttpGet("{id}", Name = "GetClassById")]
         public async Task<ActionResult> GetClassById(int id)

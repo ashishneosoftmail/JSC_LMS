@@ -13,8 +13,7 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
         public DateTime CreatedDate { get; set; }
         public bool IsActive { get; set; }
         public SchoolDtoVm School { get; set; }
-
-
+        public string SchoolName { get; set; }
     }
 
     public class SchoolDtoVm

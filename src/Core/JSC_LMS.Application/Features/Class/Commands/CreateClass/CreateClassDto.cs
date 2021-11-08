@@ -15,7 +15,7 @@ namespace JSC_LMS.Application.Features.Class.Commands.CreateClass
         [Required(ErrorMessage = "Class Is Required")]
         public string ClassName { get; set; }
 
-        [Required(ErrorMessage = "Status Is Required")]
+       
         public bool IsActive { get; set; }
     }
 }

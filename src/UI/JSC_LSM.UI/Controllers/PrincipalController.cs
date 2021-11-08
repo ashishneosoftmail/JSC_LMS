@@ -179,7 +179,7 @@ namespace JSC_LSM.UI.Controllers
                 page = 1;
 
             var pager = new Pager(recsCount, page, size);
-            this.ViewBag.Pager = pager;
+            ViewBag.Pager = pager;
             return View(pager);
 
 
@@ -253,7 +253,7 @@ namespace JSC_LSM.UI.Controllers
                 page = 1;
             var pager = new Pager(recsCount, page, size);
 
-            this.ViewBag.Pager = pager;
+            ViewBag.Pager = pager;
             var data = new List<PrincipalDetailsViewModel>();
 
             //int recSkip = (page - 1) * size;
@@ -308,6 +308,12 @@ namespace JSC_LSM.UI.Controllers
                 });
             }
             return principal;
+        }
+
+        [HttpGet]
+        public IActionResult EditPrincipal()
+        {
+            return View();
         }
     }
 }

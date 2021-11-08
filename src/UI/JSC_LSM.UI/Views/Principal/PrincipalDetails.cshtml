@@ -153,6 +153,15 @@
 </div>
 
 <div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllPrincipal()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
     @if (Model.TotalPages > 0)
     {
         <ul class="pagination justify-content-end">
@@ -167,18 +176,18 @@
             }
             @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
             {
-        <li class="page-item">
-            <button class="btn btn-link page-link" onclick="loadAllPrincipal(@pge)">@pge</button>
-        </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@pge)">@pge</button>
+                </li>
             }
             @if (Model.CurrentPage < Model.TotalPages)
             {
-        <li class="page-item">
-           <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.CurrentPage + 1))">Next</button>
-        </li>
-        <li class="page-item">
-            <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.TotalPages))">Last</button>
-        </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.TotalPages))">Last</button>
+                </li>
             }
         </ul>
     }
@@ -412,8 +421,9 @@
             }
         });
     }
-    function loadAllPrincipal(number=1) {
-        $.get(`/Principal/GetAllPrincipalDetailsByPagination?page=${number}`, function (data) {
+    function loadAllPrincipal(number = 1) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/Principal/GetAllPrincipalDetailsByPagination?page=${number}&size=${size}`, function (data) {
             console.log(data);
             if (data.length > 0) {
                 $("#tableData").empty();

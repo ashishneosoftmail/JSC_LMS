@@ -270,7 +270,7 @@ namespace JSC_LMS.Identity.Services
             response.Message = "Token revoked";
             return response;
 
-           
+
 
         }
         public async Task<IEnumerable<RolesResponse>> GetAllRoles()
@@ -292,16 +292,37 @@ namespace JSC_LMS.Identity.Services
             var userExist = await _userManager.FindByIdAsync(request.UserId);
             if (userExist == null)
             {
-                return null;
+                return new UpdateUserResponse() { Errors = null, Message = "User Not Found", Succeeded = false };
             }
             else
             {
+                if (request.Email != userExist.Email)
+                {
+                    if (await _userManager.FindByEmailAsync(request.Email) != null)
+                    {
+                        UpdateUserResponse update = new UpdateUserResponse();
+                        update.Errors = new List<string>();
+                        update.Errors.Add("Email Is Already Taken");
+                        return update;
+                    }
+                }
+
                 userExist.Email = request.Email;
                 userExist.UserName = request.Username;
                 userExist.PasswordHash = _passwordHasher.HashPassword(userExist, request.Password);
+
                 IdentityResult result = await _userManager.UpdateAsync(userExist);
-                if (result.Succeeded) return new UpdateUserResponse() { UserId = userExist.Id };
-                else return null;
+                if (result.Succeeded) return new UpdateUserResponse() { UserId = userExist.Id, Errors = null, Message = "", Succeeded = true };
+                else
+                {
+                    UpdateUserResponse update = new UpdateUserResponse();
+                    update.Errors = new List<string>();
+                    foreach (var error in result.Errors)
+                    {
+                        update.Errors.Add(error.Description);
+                    }
+                    return update;
+                }
             }
             return null;
         }
