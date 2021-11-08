@@ -44,7 +44,7 @@ namespace JSC_LSM.UI.Controllers
             int recsCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
             if (page < 1)
                 page = 1;
-
+            ViewBag.GetInstituteById = TempData["GetInstituteById"] as string;
             var pager = new Pager(recsCount, page, size);
             ViewBag.Pager = pager;
             return View(pager);
@@ -263,5 +263,41 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
+
+      
+
+        [HttpGet]
+        public async Task<IActionResult> EditInstitute(int id)
+        {
+            var institute = await _instituteRepository.GetInstituteById(id);
+            if (institute.data == null)
+            {
+                TempData["GetInstituteById"] = institute.message;
+                return RedirectToAction("InstituteDetails", "Institute");
+            }
+            var instituteData = new UpdateInstituteViewModel()
+            {
+                Id = institute.data.Id,                
+                InstituteName = institute.data.InstituteName,
+                InstituteURL = institute.data.InstituteURL,
+                ContactPerson = institute.data.ContactPerson,
+                AddressLine1 = institute.data.AddressLine1,
+                AddressLine2 = institute.data.AddressLine2,
+                CityId = institute.data.City.Id,
+                StateId = institute.data.State.Id,
+                Email = institute.data.Email,
+                IsActive = institute.data.IsActive,
+                Mobile = institute.data.Mobile,
+               LicenseExpiry = institute.data.LicenseExpiry,
+                Username = institute.data.Username,
+                ZipId = institute.data.Zip.Id
+            };
+
+            instituteData.States = await _common.GetAllStates();
+            instituteData.Cities = await _common.GetAllCityByStateId(institute.data.State.Id);
+            instituteData.ZipCode = await _common.GetAllZipByCityId(institute.data.Zip.Id);
+            return View(instituteData);
+        }
+
     }
 }

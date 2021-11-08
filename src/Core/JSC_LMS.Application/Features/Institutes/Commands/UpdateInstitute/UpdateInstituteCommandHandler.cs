@@ -37,7 +37,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         public async Task<Response<int>> Handle(UpdateInstituteCommand request, CancellationToken cancellationToken)
         {
             var instituteToUpdate = await _instituteRepository.GetByIdAsync(request.updateInstituteDto.Id);
-
+            Response<int> UpdateInstituteCommandResponse = new Response<int>();
             if (instituteToUpdate == null)
             {
                 throw new NotFoundException(nameof(JSC_LMS.Domain.Entities.Institute), request.updateInstituteDto.Id);
@@ -58,7 +58,14 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
             };
 
             var updateUser = await _authenticationService.UpdateUser(userUpdate);
-            if(updateUser==null) throw new NotFoundException("User Not Found", request.updateInstituteDto.Email);
+            if (!updateUser.Succeeded)
+            {
+                UpdateInstituteCommandResponse.Errors = updateUser.Errors;
+                UpdateInstituteCommandResponse.Succeeded = false;
+                UpdateInstituteCommandResponse.Message = "User Already Exist";
+                return UpdateInstituteCommandResponse;
+            }
+            if (updateUser==null) throw new NotFoundException("User Not Found", request.updateInstituteDto.Email);
 
             instituteToUpdate.UserId = updateUser.UserId;            
             instituteToUpdate.InstituteName = request.updateInstituteDto.InstituteName;

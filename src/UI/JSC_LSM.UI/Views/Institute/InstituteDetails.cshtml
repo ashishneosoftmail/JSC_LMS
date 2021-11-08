@@ -487,10 +487,7 @@
                                 <td>${institute.isActive ? "Active" : "Inactive"}</td>
 
                                 <td>
-                                    <a asp-controller="Institute"
-                                       asp-action="Edit"
-                                       class="btn btn-link"
-                                       asp-route-Id="">Edit</a>
+                                   <a href="/Institute/EditInstitute/${institute.id}"  class="btn btn-link"  >Edit</a>
                                     <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(${institute.id})">
                                         View
 
@@ -528,10 +525,7 @@
                                 <td>${institute.isActive ? "Active" : "Inactive"}</td>
 
                                 <td>
-                                    <a asp-controller="Institute"
-                                       asp-action="Edit"
-                                       class="btn btn-link"
-                                       asp-route-Id="">Edit</a>
+                                    <a href="/Institute/EditInstitute/${institute.id}"  class="btn btn-link"  >Edit</a>
                                     <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(${institute.id})">
                                         View
 
