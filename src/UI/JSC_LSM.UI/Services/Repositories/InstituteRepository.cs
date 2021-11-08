@@ -95,6 +95,47 @@ namespace JSC_LSM.UI.Services.Repositories
             return getInstituteByIdResponseModel;
 
         }
+
+
+       public async Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive)
+        {
+            GetAllInstituteByFiltersResponseModel getInstituteByFiltersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Institute/GetInstituteByFilter?InstituteName={InstituteName}&City={City}&State={State}&IsActive={IsActive}&LicenseExpiry={LicenseExpiry:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getInstituteByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllInstituteByFiltersResponseModel>(_oApiResponse.data);
+                getInstituteByFiltersResponseModel.Succeeded = true;
+            }
+
+            return getInstituteByFiltersResponseModel;
+
+        }
+
+
+        public async Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(int page, int size)
+        {
+            GetAllInstituteByPaginationResponseModel getAllInstituteByPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllInstituteByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllInstituteByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllInstituteByPaginationResponseModel>(_oApiResponse.data);
+                getAllInstituteByPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllInstituteByPaginationResponseModel;
+
+        }
+
     }
 
 

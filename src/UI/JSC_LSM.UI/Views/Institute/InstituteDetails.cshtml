@@ -1,10 +1,20 @@
-﻿@model JSC_LSM.UI.ResponseModels.GetAllInstituteListResponseModel
+﻿@model Pager
 
 
 @{
     ViewData["Title"] = "Institute Details";
     Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
+<br />
+<br />
+<br />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -24,6 +34,7 @@
     a {
         text-decoration: none;
     }
+
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
@@ -40,57 +51,52 @@
 <div class="row">
 
     <div class="form-group row col-sm-4">
-        <label for="schoolName" class="col-sm-5 col-form-label">Institute Name</label>
+        <label for="instituteName" class="col-sm-5 col-form-label">Institute Name</label>
         <div class="col-sm-7">
-            <input type="text" class="form-control" id="inputInstitute" placeholder="Institute name">
+            <input type="text" class="form-control" id="instituteName" placeholder="Institute name">
         </div>
     </div>
 
     <div class="form-group row col-sm-4">
-        <label for="className" class="col-sm-5 col-form-label">City :</label>
+        <label for="instituteState" class="col-sm-5 col-form-label">State</label>
         <div class="col-sm-7">
-            <select class="form-control" id="className">
+            <select class="form-select" onchange="GetCityById()" id="instituteState">
+                @*<option value="" disabled selected>Select State</option>*@
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row col-sm-4">
+        <label for="city" class="col-sm-5 col-form-label">City</label>
+        <div class="col-sm-7">
+            <select class="form-control" id="city">
                 <option disabled selected hidden>Select City</option>
-                <option>Mumbai</option>
-                <option>Hyderabad</option>
-                <option>Banglore</option>
-                <option>Agra</option>
             </select>
         </div>
     </div>
 
-    <div class="form-group row col-sm-4">
-        <label for="section" class="col-sm-5 col-form-label">State :</label>
-        <div class="col-sm-7">
-            <select class="form-control" id="section">
-                <option disabled selected hidden>Select Section</option>
-                <option>Maharashtra</option>
-                <option>Telangna</option>
-                <option>Karnataka</option>
-                <option>Uttar Pradesh</option>
-            </select>
-        </div>
-    </div>
     <div class="form-group row col-sm-4">
         <label for="status" class="col-sm-5 col-form-label">Status :</label>
         <div class="col-sm-7">
             <select class="form-control" id="status">
                 <option disabled selected hidden>Select Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
             </select>
         </div>
     </div>
+
     <div class="form-group row col-sm-4">
-        <label for="date" class="col-sm-5 col-form-label">Date :</label>
+        <label for="date" class="col-sm-5 col-form-label">Lisence Expiry:</label>
         <div class="col-sm-7">
             <input type="date" value="" class="form-control" id="date" />
         </div>
     </div>
 
     <div class="form-group row col-sm-2 btn-text-right">
-        <button type="button" class="btn btn-primary float-lg-end ">Search</button>
+        <button type="button" class="btn btn-primary float-lg-end " onclick="searchInstitute()">Search</button>
     </div>
+
 </div>
 
 
@@ -106,7 +112,7 @@
 
 <div id="wrap" class="mt-3">
     <div class="container">
-        <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover table-responsive ">
+        <table cellpadding="0" cellspacing="0" border="0" class=" table table-striped table-bordered table-hover table-responsive ">
             <thead>
                 <tr>
                     <th>#</th>
@@ -119,39 +125,30 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                @{int i = 0;}
-                @foreach (var institute in Model.data)
-                {
-                <tr>
-                    <td>@(i = i + 1)</td>
-                    <td>@institute.InstituteName</td>
-                    <td>@institute.City.CityName</td>
-                    <td>@institute.State.StateName</td>
-                    <td>@institute.CreatedDate.ToShortDateString() </td>
-                    <td>@institute.LicenseExpiry.ToShortDateString() </td>
-                    <td>@(institute.IsActive == true ? "Active" : "Inactive")</td>
+            <tbody id="tableData">
+                @*@{int i = 0;}
+                    @foreach (var institute in Model.data)
+                    {
+                        <tr>
+                            <td>@(i = i + 1)</td>
+                            <td>@institute.InstituteName</td>
+                            <td>@institute.City.CityName</td>
+                            <td>@institute.State.StateName</td>
+                            <td>@institute.CreatedDate.ToShortDateString() </td>
+                            <td>@institute.LicenseExpiry.ToShortDateString() </td>
+                            <td>@(institute.IsActive == true ? "Active" : "Inactive")</td>
 
-                    @*<td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">View</a>
-                    </td>*@
-                    <td>
-                        <a asp-controller="Institute"
-                           asp-action="Edit"
-                           class="btn btn-link"
-                           asp-route-Id="@institute.Id">Edit</a>
-                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(@institute.Id)">
-                            View
-                        </button>
-                        @* <a asp-controller="Principal"
-            class="btn btn-link"
-            asp-action="Detail"
-            asp-route-Id="@principal.Id" data-toggle="modal" data-target="#myModal">View</a>*@
-                    </td>
-                </tr>
-                }
+                            <td>
+                                <a asp-controller="Institute"
+                                   asp-action="Edit"
+                                   class="btn btn-link"
+                                   asp-route-Id="@institute.Id">Edit</a>
+                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(@institute.Id)">
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                    }*@
 
 
             </tbody>
@@ -159,12 +156,70 @@
     </div>
 </div>
 
+<div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllInstitute()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllInstitute(1)">First</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllInstitute(@(Model.CurrentPage-1))">Previous</button>
+                </li>
+            }
+            @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllInstitute(@pge)">@pge</button>
+                </li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllInstitute(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllInstitute(@(Model.TotalPages))">Last</button>
+                </li>
+            }
+        </ul>
+    }
+
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+            searching: false,
+            "oLanguage": {
+                "sLengthMenu": "Rows_Per_Page _MENU_",
+            },
+            "dom": '<"top"i>rt<"bottom"flp><"clear">'
+        });
+        $('.datatable').each(function () {
+            var datatable = $(this);
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-lg');
+        });
+    });
+</script>
+
 
 <div class="container">
-    <!-- Button to Open the Modal -->
-    @*  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            create class
-        </button>*@
+
 
     <!-- The Modal -->
     <div class="modal" id="myModal">
@@ -302,10 +357,9 @@
 
 </div>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 
-<script>
+<!--<script>
     function ShowInstituteDetail(id) {
         $.get("/Institute/GetInstituteById", { Id: id }, function (data) {
             console.log(data);
@@ -339,26 +393,162 @@
             }
         });
     }
-    $(document).ready(function () {
+    $(document).ready(function () {-->
        @* $('#inputState').on('change', function () {
             $('#message-text').val($('#inputState').val())
         })*@
-    })
-</script>
+    <!--})
+</script>-->
+
+
+
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('.datatable').DataTable({
-            searching: false,
-            "oLanguage": {
-                "sLengthMenu": "Rows_Per_Page _MENU_",
-            },
-            "dom": '<"top"i>rt<"bottom"flp><"clear">'
-        });
-        $('.datatable').each(function () {
-            var datatable = $(this);
-            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
-            length_sel.addClass('form-control input-lg');
-        });
-    });
+    function GetCityById() {
+        var stateValue = $("#instituteState :selected").val();
+        //You can check selected value using alert
+
+        if (stateValue != null) {
+            $.get("/Institute/GetCityByStateId", { id: stateValue }, function (data) {
+                console.log(data);
+                $("#city").empty();
+                $("#city").append("<option disabled selected hidden>Select City</option>");
+                data.forEach(function (city) {
+                    $('#city').append('<option value="' + city.value + '">' + city.text + '</option>');
+                });
+            });
+        }
+    }
 </script>
+
+
+
+<script>
+    function loadData() {
+        console.log("worked");
+        loadStateList();
+        loadAllInstitute();
+    }
+    loadData();
+
+    function ShowInstituteDetail(id) {
+        $.get("/Institute/GetInstituteById", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+
+                $("#detailsInstituteName").text(data.data.instituteName);
+                $("#detailsAddressLine1").text(data.data.addressLine1);
+                $("#detailsAddressLine2").text(data.data.addressLine2);
+                $("#detailsCity").text(data.data.city.cityName);
+                $("#detailsState").text(data.data.state.stateName);
+                $("#detailsZip").text(data.data.zip.zipcode);
+                $("#detailsContactPerson").text(data.data.contactPerson);
+                $("#detailsEmail").text(data.data.email);
+                $("#detailsMobile").text(data.data.mobile);
+                $("#detailsUsername").text(data.data.username);
+                $("#detailsLicense").text(new Date(data.data.licenseExpiry).toLocaleDateString());
+                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+                $("#detailsInstituteURL").text(data.data.instituteURL);
+                
+            }
+        });
+    }
+
+    
+    function loadStateList() {
+        $.get("/Institute/GetAllState", function (data) {
+            $("#instituteState").append("<option disabled selected hidden>Select state</option>");
+            data.forEach(function (state) {
+                $('#instituteState').append('<option value="' + state.value + '">' + state.text + '</option>');
+            });
+        });
+    }
+
+    function searchInstitute() {
+        $("#paginationContainer").remove();
+        var _instituteName = $("#instituteName").val();
+        var _stateName = $("#instituteState :selected").text();
+        var _cityName = $("#city :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+        $.get("/Institute/GetInstituteByFilters?instituteName=" + _instituteName + "&city=" + _cityName + "&state=" + _stateName + "&isActive=" + _isActive +  "&licenseExpiry=" + _date , function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (institute) {
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${institute.instituteName}</td>
+                                <td>${institute.cityName}</td>
+                                <td>${institute.stateName}</td>
+                                <td>${new Date(institute.createdDate).toLocaleDateString()}</td>
+                                <td>${new Date(institute.licenseExpiry).toLocaleDateString()}</td>
+                                <td>${institute.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                    <a asp-controller="Institute"
+                                       asp-action="Edit"
+                                       class="btn btn-link"
+                                       asp-route-Id="">Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(${institute.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="8" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+    function loadAllInstitute(number = 1) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/Institute/GetAllInstituteDetailsByPagination?page=${number}&size=${size}`, function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (institute) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                               <td>${id}</td>
+                                <td>${institute.instituteName}</td>
+                                <td>${institute.cityName}</td>
+                                <td>${institute.stateName}</td>
+                                <td>${new Date(institute.createdDate).toLocaleDateString()}</td>
+                                <td>${new Date(institute.licenseExpiry).toLocaleDateString()}</td>
+                                <td>${institute.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                    <a asp-controller="Institute"
+                                       asp-action="Edit"
+                                       class="btn btn-link"
+                                       asp-route-Id="">Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowInstituteDetail(${institute.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+</script>
+

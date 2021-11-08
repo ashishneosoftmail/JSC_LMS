@@ -39,18 +39,23 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> InstituteDetails()
         {
-            var data = await _instituteRepository.GetAllInstituteDetails();
-            Console.WriteLine(data.data);
-            return View(data);
-        }
-        /*       [HttpGet]
-               public async Task<IActionResult> AddInstitute()
-               {
-                   Institute institute = new Institute();
-                   institute.States = await _common.GetAllStates();
-                   return View(institute);
-               }*/
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
+            if (page < 1)
+                page = 1;
 
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            return View(pager);
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllState()
+        {
+            var states = await _common.GetAllStates();
+            return states;
+        }
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);
@@ -156,6 +161,107 @@ namespace JSC_LSM.UI.Controllers
             var institute = await _instituteRepository.GetInstituteById(Id);
             return institute;
         }
+        [HttpGet]
+        public async Task<IEnumerable<InstituteDetailsViewModel>> GetInstituteByFilters(string instituteName, string city, string state, bool isActive, DateTime licenseExpiry)
+        {
+            var data = new List<InstituteDetailsViewModel>();
+           
+            var dataList = await _instituteRepository.GetInstituteByFilters(instituteName, city,state, licenseExpiry, isActive);
+            if (dataList.data != null)
+            {
+                foreach (var institute in dataList.data)
+                {
+                    data.Add(new InstituteDetailsViewModel()
+                    {
+                        Id = institute.Id,
+                        InstituteName = institute.InstituteName,
+                        AddressLine1 = institute.AddressLine1,
+                        AddressLine2 = institute.AddressLine2,
+                        CityName = institute.City.CityName,
+                        StateName = institute.State.StateName,
+                        CreatedDate = institute.CreatedDate,
+                        Email = institute.Email,
+                        IsActive = institute.IsActive,
+                        Mobile = institute.Mobile,
+                        InstituteURL = institute.InstituteURL,
+                        Username = institute.Username,
+                        ContactPerson = institute.ContactPerson,
+                        ZipCode = institute.Zip.Zipcode,
+                        LicenseExpiry = institute.LicenseExpiry
+                    });
+                }
+            }
+            return data;
+        }
 
+
+
+        [HttpGet]
+        public async Task<IEnumerable<InstituteDetailsViewModel>> GetAllInstituteDetails()
+        {
+            var data = new List<InstituteDetailsViewModel>();
+
+            var dataList = await _instituteRepository.GetAllInstituteDetails();
+            foreach (var institute in dataList.data)
+            {
+                data.Add(new InstituteDetailsViewModel()
+                {
+                    Id = institute.Id,
+                    InstituteName = institute.InstituteName,
+                    AddressLine1 = institute.AddressLine1,
+                    AddressLine2 = institute.AddressLine2,
+                    CityName = institute.City.CityName,
+                    StateName = institute.State.StateName,
+                    CreatedDate = institute.CreatedDate,
+                    Email = institute.Email,
+                    IsActive = institute.IsActive,
+                    Mobile = institute.Mobile,
+                    InstituteURL = institute.InstituteURL,
+                    Username = institute.Username,
+                    ContactPerson = institute.ContactPerson,
+                    ZipCode = institute.Zip.Zipcode,
+                    LicenseExpiry = institute.LicenseExpiry
+                });
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<InstituteDetailsViewModel>> GetAllInstituteDetailsByPagination(int page = 1, int size = 5)
+        {
+            int recsCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+
+            ViewBag.Pager = pager;
+            var data = new List<InstituteDetailsViewModel>();
+
+            //int recSkip = (page - 1) * size;
+            var dataList = await _instituteRepository.GetInstituteByPagination(page, size);
+
+            foreach (var institute in dataList.data.GetInstituteListPaginationDto)
+            {
+                data.Add(new InstituteDetailsViewModel()
+                {
+                    Id = institute.Id,
+                    InstituteName = institute.InstituteName,
+                    AddressLine1 = institute.AddressLine1,
+                    AddressLine2 = institute.AddressLine2,
+                    CityName = institute.City.CityName,
+                    StateName = institute.State.StateName,
+                    CreatedDate = institute.CreatedDate,
+                    Email = institute.Email,
+                    IsActive = institute.IsActive,
+                    Mobile = institute.Mobile,
+                    InstituteURL = institute.InstituteURL,
+                    Username = institute.Username,
+                    ContactPerson = institute.ContactPerson,
+                    ZipCode = institute.Zip.Zipcode,
+                    LicenseExpiry = institute.LicenseExpiry
+                });
+            }
+            return data;
+        }
     }
 }
