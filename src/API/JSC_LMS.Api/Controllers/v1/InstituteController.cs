@@ -6,6 +6,7 @@ using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteByPagination;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
+using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteExcelExport;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -79,7 +80,6 @@ namespace JSC_LMS.Api.Controllers.v1
         public async Task<FileResult> ExportInstitute()
         {
             var fileDto = await _mediator.Send(new GetInstituteCsvExportQuery());
-
             return File(fileDto.Data, fileDto.ContentType, fileDto.InstituteExportFileName);
         }
 
@@ -92,6 +92,15 @@ namespace JSC_LMS.Api.Controllers.v1
             var dtos = await _mediator.Send(new GetInstituteByPaginationQuery() { page = _page, size = _size });
             _logger.LogInformation("GetAllInstitute Completed");
             return Ok(dtos);
+        }
+
+        [HttpGet("exportToExcel", Name = "ExportInstituteviaExcel")]
+        [FileResultContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
+        public async Task<FileResult> ExportInstituteviaExcel()
+        {
+            var fileDto = await _mediator.Send(new GetInstituteExcelExportQuery());
+
+            return File(fileDto.Data, fileDto.ContentType, fileDto.InstituteExportFileName);
         }
     }
 }
