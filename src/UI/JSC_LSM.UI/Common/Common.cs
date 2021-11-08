@@ -15,12 +15,14 @@ namespace JSC_LSM.UI.Common
         private readonly ICityRepository _cityRepository;
         private readonly IZipRepository _zipRepository;
         private readonly ISchoolRepository _schoolRepository;
-        public Common(IStateRepository stateRepository, ICityRepository cityRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository)
+        private readonly IClassRepository _classRepository;
+        public Common(IStateRepository stateRepository, ICityRepository cityRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             _zipRepository = zipRepository;
             _schoolRepository = schoolRepository;
+            _classRepository = classRepository;
         }
 
         [NonAction]
@@ -175,5 +177,13 @@ namespace JSC_LSM.UI.Common
             }
             return null;
         }
+
+
+        
+
+
+
+
+
     }
 }

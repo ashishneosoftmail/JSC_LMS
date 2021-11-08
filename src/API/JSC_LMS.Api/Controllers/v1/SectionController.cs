@@ -1,6 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Section.Commands.CreateSection;
 using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionById;
+using JSC_LMS.Application.Features.Section.Queries.GetSectionByPagination;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionFilter;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionList;
 using MediatR;
@@ -61,6 +62,17 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllSection Completed");
             return Ok(dtos);
         }
+
+        [HttpGet("Pagination", Name = "GetAllSectionByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllSectionByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllSection Initiated");
+            var dtos = await _mediator.Send(new GetSectionByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllSection Completed");
+            return Ok(dtos);
+        }
+
 
         [HttpGet("Filter", Name = "GetSectionByFilter")]
         public async Task<ActionResult> GetSectionFilter(string _ClassName,  string _SchoolName, string _SectionName, bool _IsActive, DateTime _CreatedDate)
