@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -322,6 +323,7 @@ namespace JSC_LSM.UI.Controllers
                 Id = principal.data.Id,
                 Name = principal.data.Name,
                 AddressLine1 = principal.data.AddressLine1,
+                UserId = principal.data.UserId,
                 AddressLine2 = principal.data.AddressLine2,
                 CityId = principal.data.City.Id,
                 StateId = principal.data.State.Id,
@@ -333,17 +335,84 @@ namespace JSC_LSM.UI.Controllers
                 ZipId = principal.data.Zip.Id
             };
             principalData.Schools = await _common.GetSchool();
+            TempData["UserId"] = principalData.UserId;
             principalData.States = await _common.GetAllStates();
             principalData.Cities = await _common.GetAllCityByStateId(principal.data.State.Id);
             principalData.ZipCode = await _common.GetAllZipByCityId(principal.data.Zip.Id);
             return View(principalData);
         }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPrincipal(UpdatePrincipalViewModel updatePrincipalViewModel)
         {
-            return null;
+            ViewBag.UpdatePrincipalSuccess = null;
+            ViewBag.UpdatePrincipalError = null;
+            updatePrincipalViewModel.Schools = await _common.GetSchool();
+            updatePrincipalViewModel.States = await _common.GetAllStates();
+            updatePrincipalViewModel.Cities = await _common.GetAllCityByStateId(updatePrincipalViewModel.StateId);
+            updatePrincipalViewModel.ZipCode = await _common.GetAllZipByCityId(updatePrincipalViewModel.CityId);
+            UpdatePrincipalDto updatePrincipal = new UpdatePrincipalDto();
+            if (ModelState.IsValid)
+            {
+                updatePrincipal.Id = updatePrincipalViewModel.Id;
+                updatePrincipal.UserId = TempData["UserId"].ToString();
+                updatePrincipal.SchoolId = updatePrincipalViewModel.SchoolId;
+                updatePrincipal.AddressLine1 = updatePrincipalViewModel.AddressLine1;
+                updatePrincipal.AddressLine2 = updatePrincipalViewModel.AddressLine2;
+                updatePrincipal.Name = updatePrincipalViewModel.Name;
+                updatePrincipal.Email = updatePrincipalViewModel.Email;
+                updatePrincipal.Mobile = updatePrincipalViewModel.Mobile;
+                updatePrincipal.Password = updatePrincipalViewModel.Password;
+                updatePrincipal.Username = updatePrincipalViewModel.Username;
+                updatePrincipal.CityId = updatePrincipalViewModel.CityId;
+                updatePrincipal.StateId = updatePrincipalViewModel.StateId;
+                updatePrincipal.ZipId = updatePrincipalViewModel.ZipId;
+                updatePrincipal.IsActive = updatePrincipalViewModel.IsActive;
+
+
+                UpdatePrincipalResponseModel updatePrincipalResponseModel = null;
+                ViewBag.UpdatePrincipalSuccess = null;
+                ViewBag.UpdatePrincipalError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updatePrincipalResponseModel = await _principalRepository.UpdatePrincipal(updatePrincipal);
+
+
+                if (updatePrincipalResponseModel.Succeeded)
+                {
+                    if (updatePrincipalResponseModel == null && updatePrincipalResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updatePrincipalResponseModel.message;
+                        responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
+                    }
+                    if (updatePrincipalResponseModel != null)
+                    {
+                        if (updatePrincipalResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updatePrincipalResponseModel.message;
+                            responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
+                            ViewBag.UpdatePrincipalSuccess = "Details Updated Successfully";
+
+                            return RedirectToAction("PrincipalDetails", "Principal");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updatePrincipalResponseModel.message;
+                            responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
+                            ViewBag.UpdatePrincipalError = updatePrincipalResponseModel.message;
+                            return View(updatePrincipalResponseModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updatePrincipalResponseModel.message;
+                    responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
+                    ViewBag.UpdatePrincipalError = updatePrincipalResponseModel.message;
+                }
+            }
+            return View(updatePrincipalViewModel);
         }
     }
 }

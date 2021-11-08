@@ -1,4 +1,5 @@
-﻿using JSC_LSM.UI.Helpers;
+﻿using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -97,7 +98,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllPrincipalByPaginationResponseModel;
 
         }
-        public async Task<UpdatePrincipalResponseModel> UpdatePrincipal(UpdatePrincipalViewModel updatePrincipalDto)
+        public async Task<UpdatePrincipalResponseModel> UpdatePrincipal(UpdatePrincipalDto updatePrincipalDto)
         {
             UpdatePrincipalResponseModel updatePrincipalResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -107,7 +108,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdatePrincipal, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Principal/UpdatePrincipal", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updatePrincipalResponseModel = JsonConvert.DeserializeObject<UpdatePrincipalResponseModel>(_oApiResponse.data);

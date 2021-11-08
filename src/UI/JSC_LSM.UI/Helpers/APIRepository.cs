@@ -70,7 +70,7 @@ namespace JSC_LSM.UI.Helpers
                         if (body != null)
                             body.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                        var responseTask = await client.PostAsync(URL, body);
+                        var responseTask = await client.PutAsync(URL, body);
                         responseTask.EnsureSuccessStatusCode();
 
                         oHttpResponseMessage = responseTask;

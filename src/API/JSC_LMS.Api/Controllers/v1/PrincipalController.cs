@@ -63,7 +63,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var result = await _mediator.Send(createPrincipalCommand);
             return Ok(result);
         }
-        [HttpPut("UpdatePrincipal", Name = "UpdatePrincipal")]
+        [HttpPut("UpdatePrincipal",Name ="Update")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]

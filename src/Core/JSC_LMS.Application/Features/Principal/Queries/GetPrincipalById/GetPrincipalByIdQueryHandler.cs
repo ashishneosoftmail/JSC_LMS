@@ -46,6 +46,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
             var principalData = new GetPrincipalByIdDto()
             {
                 Id = principal.Id,
+                UserId = principal.UserId,
                 AddressLine1 = principal.AddressLine1,
                 AddressLine2 = principal.AddressLine2,
                 Mobile = principal.Mobile,
