@@ -296,13 +296,17 @@ namespace JSC_LMS.Identity.Services
             }
             else
             {
-                /*if (await _userManager.FindByEmailAsync(request.Email) != null)
+                if (request.Email != userExist.Email)
                 {
-                    UpdateUserResponse update = new UpdateUserResponse();
-                    update.Errors = new List<string>();
-                    update.Errors.Add("Email Is Already Taken");
-                    return update;
-                }*/
+                    if (await _userManager.FindByEmailAsync(request.Email) != null)
+                    {
+                        UpdateUserResponse update = new UpdateUserResponse();
+                        update.Errors = new List<string>();
+                        update.Errors.Add("Email Is Already Taken");
+                        return update;
+                    }
+                }
+
                 userExist.Email = request.Email;
                 userExist.UserName = request.Username;
                 userExist.PasswordHash = _passwordHasher.HashPassword(userExist, request.Password);
