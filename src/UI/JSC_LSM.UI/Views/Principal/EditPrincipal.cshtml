@@ -1,0 +1,18 @@
+﻿<style>
+    h2 {
+        padding-top: 3%;
+    }
+
+    ::-webkit-scrollbar {
+        display: block;
+        overflow: hidden; /* Hide scrollbars */
+    }
+</style>
+@{
+    ViewData["Title"] = "EditPrincipal";
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+}
+
+<h1>EditPrincipal</h1>
+
+@{ Html.RenderPartial("_UpdatePrincipal"); }
