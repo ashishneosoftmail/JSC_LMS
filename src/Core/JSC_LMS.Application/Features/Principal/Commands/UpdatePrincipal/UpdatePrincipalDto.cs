@@ -9,7 +9,6 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
     {
         [Required(ErrorMessage = "Id Is Required")]
         public int Id { get; set; }
-        [Required(ErrorMessage = "UserId Is Required")]
         public string UserId { get; set; }
         [Required(ErrorMessage = "School Is Required")]
         public int SchoolId { get; set; }

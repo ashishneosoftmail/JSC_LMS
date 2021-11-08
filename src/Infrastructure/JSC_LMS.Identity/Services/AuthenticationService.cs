@@ -298,13 +298,25 @@ namespace JSC_LMS.Identity.Services
             {
                 if (request.Email != userExist.Email)
                 {
-                    if (await _userManager.FindByEmailAsync(request.Email) != null)
+                    var userList = _userManager.Users;
+                    foreach (var user in userList)
+                    {
+                        if (user.Email == request.Email)
+                        {
+                            UpdateUserResponse update = new UpdateUserResponse();
+                            update.Errors = new List<string>();
+                            update.Errors.Add("Email Is Already Taken");
+                            return update;
+                        }
+                    }
+
+                    /*if (await _userManager.FindByEmailAsync(request.Email))
                     {
                         UpdateUserResponse update = new UpdateUserResponse();
                         update.Errors = new List<string>();
                         update.Errors.Add("Email Is Already Taken");
                         return update;
-                    }
+                    }*/
                 }
 
                 userExist.Email = request.Email;

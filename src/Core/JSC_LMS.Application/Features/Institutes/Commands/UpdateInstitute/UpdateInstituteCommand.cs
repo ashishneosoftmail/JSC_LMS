@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
     public class UpdateInstituteCommand : IRequest<Response<int>>
     {
+        public UpdateInstituteCommand(UpdateInstituteDto _updateInstituteDto)
+        {
+            updateInstituteDto = _updateInstituteDto;
+        }
         public UpdateInstituteDto updateInstituteDto { get; set; }
     }
 }

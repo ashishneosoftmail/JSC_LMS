@@ -38,12 +38,13 @@ namespace JSC_LMS.Api.Controllers.v1
             var id = await _mediator.Send(createInstituteCommand);
             return Ok(id);
         }
-        [HttpPut("Update",Name = "UpdateInstitute")]
+        [HttpPut("UpdateInstitute", Name = "UpdateInstitute")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateInstituteCommand updateInstituteCommand)
+        public async Task<ActionResult> Update(UpdateInstituteDto updateInstituteDto)
         {
+            var updateInstituteCommand = new UpdateInstituteCommand(updateInstituteDto);
             var response = await _mediator.Send(updateInstituteCommand);
             return Ok(response);
         }
