@@ -1,4 +1,5 @@
 ﻿using JSC_LSM.UI.Helpers;
+using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Globalization;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.Repositories
@@ -94,6 +96,32 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getAllPrincipalByPaginationResponseModel;
 
+        }
+        public async Task<UpdatePrincipalResponseModel> UpdatePrincipal(UpdatePrincipalViewModel updatePrincipalDto)
+        {
+            UpdatePrincipalResponseModel updatePrincipalResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updatePrincipalDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdatePrincipal, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updatePrincipalResponseModel = JsonConvert.DeserializeObject<UpdatePrincipalResponseModel>(_oApiResponse.data);
+                if (updatePrincipalResponseModel.Succeeded)
+                {
+                    updatePrincipalResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updatePrincipalResponseModel.Succeeded = false;
+                }
+            }
+
+            return updatePrincipalResponseModel;
         }
     }
 

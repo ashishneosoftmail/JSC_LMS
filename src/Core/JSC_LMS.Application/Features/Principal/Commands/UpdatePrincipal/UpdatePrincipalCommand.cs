@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
 {
     public class UpdatePrincipalCommand : IRequest<Response<int>>
     {
+        public UpdatePrincipalCommand(UpdatePrincipalDto _updatePrincipalDto)
+        {
+            updatePrincipalDto = _updatePrincipalDto;
+        }
         public UpdatePrincipalDto updatePrincipalDto { get; set; }
     }
 }

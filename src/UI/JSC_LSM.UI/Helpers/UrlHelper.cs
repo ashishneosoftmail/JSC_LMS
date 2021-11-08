@@ -20,7 +20,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllSchool = "/api/v1/School/GetAllSchool";
 
         public static string AddNewPrincipal = "/api/v1/Principal";
-
+        public static string UpdatePrincipal = "/api/v1/Principal/UpdatePrincipal";
         public static string AddNewClass = "/api/v1/Class";
 
 
