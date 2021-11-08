@@ -60,7 +60,7 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
 
-        [HttpGet(Name = "GetClassByFilter")]
+        [HttpGet("GetClassByFilter", Name = "GetClassByFilter")]
         public async Task<ActionResult> GetClassByFilter(string SchoolName, string ClassName, bool IsActive, DateTime CreatedDate)
         {
             var getClassByFilterQuery = new GetClassByFilterQuery(SchoolName, ClassName, IsActive, CreatedDate);

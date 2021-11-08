@@ -28,12 +28,38 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> ManageClass()
         {
-            ClassModel classModel = new ClassModel();
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _classRepository.GetAllClassDetails()).data.Count();
+            if (page < 1)
+                page = 1;
 
-            classModel.Schools = await _common.GetSchool();
+            var pager = new Pager(recsCount, page, size);
+            this.ViewBag.Pager = pager;
+            return View(pager);
 
-            return View(classModel);
+
+           
         }
+
+
+        public async Task<IActionResult> ClassDetails()
+        {
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _classRepository.GetAllClassDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+
+            var pager = new Pager(recsCount, page, size);
+            this.ViewBag.Pager = pager;
+            return View(pager);
+
+
+        }
+
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -112,21 +138,8 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> ClassDetails()
-        {
-            var page = 1;
-            var size = 5;
-            int recsCount = (await _classRepository.GetAllClassDetails()).data.Count();
-            if (page < 1)
-                page = 1;
-
-            var pager = new Pager(recsCount, page, size);
-            this.ViewBag.Pager = pager;
-            return View(pager);
 
 
-        }
 
 
         [HttpGet]
@@ -141,6 +154,7 @@ namespace JSC_LSM.UI.Controllers
                     data.Add(new ClassDetailsViewModel()
                     {
                         Id = classes.Id,
+
                         ClassName = classes.ClassName,
                   
                         CreatedDate = classes.CreatedDate,
