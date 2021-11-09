@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
+﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
@@ -12,7 +13,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-
+#region - Developed By Harsh Chheda
 namespace JSC_LSM.UI.Services.Repositories
 {
     public class PrincipalRepository : IPrincipalRepository
@@ -26,6 +27,42 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+        /// <summary>
+        /// Add New Principal - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="createPrincipalDto"></param>
+        /// <returns></returns>
+        public async Task<PrincipalResponseModel> AddNewPrinicipal(CreatePrincipalDto createPrincipalDto)
+        {
+            PrincipalResponseModel principalResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(createPrincipalDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewPrincipal, HttpMethod.Post, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                principalResponseModel = JsonConvert.DeserializeObject<PrincipalResponseModel>(_oApiResponse.data);
+                if (principalResponseModel.Succeeded)
+                {
+                    principalResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    principalResponseModel.Succeeded = false;
+                }
+            }
+
+            return principalResponseModel;
+
+        }
+        /// <summary>
+        /// Returns all the principal data - Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         public async Task<GetAllPrincipalListResponseModel> GetAllPrincipalDetails()
         {
             GetAllPrincipalListResponseModel getAllPrincipalListResponseModel = null;
@@ -45,7 +82,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
         /// <summary>
-        /// 
+        /// Returns the principal data based on the id - Developed By Harsh Chheda
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
@@ -67,7 +104,14 @@ namespace JSC_LSM.UI.Services.Repositories
             return getPrincipalByIdResponseModel;
 
         }
-
+        /// <summary>
+        /// Returns the principal data based on the search parameters -Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="SchoolName"></param>
+        /// <param name="PrincipalName"></param>
+        /// <param name="CreatedDate"></param>
+        /// <param name="IsActive"></param>
+        /// <returns></returns>
         public async Task<GetAllPrincipalByFiltersResponseModel> GetPrincipalByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive)
         {
             GetAllPrincipalByFiltersResponseModel getPrincipalByFiltersResponseModel = null;
@@ -86,6 +130,12 @@ namespace JSC_LSM.UI.Services.Repositories
             return getPrincipalByFiltersResponseModel;
 
         }
+        /// <summary>
+        /// Returns the Principal Data based on the page no and no of rows per page - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public async Task<GetAllPrincipalByPaginationResponseModel> GetPrincipalByPagination(int page, int size)
         {
             GetAllPrincipalByPaginationResponseModel getAllPrincipalByPaginationResponseModel = null;
@@ -104,6 +154,11 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllPrincipalByPaginationResponseModel;
 
         }
+        /// <summary>
+        /// Updates the Principal Data - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="updatePrincipalDto"></param>
+        /// <returns></returns>
         public async Task<UpdatePrincipalResponseModel> UpdatePrincipal(UpdatePrincipalDto updatePrincipalDto)
         {
             UpdatePrincipalResponseModel updatePrincipalResponseModel = null;
@@ -134,3 +189,4 @@ namespace JSC_LSM.UI.Services.Repositories
     }
 
 }
+#endregion

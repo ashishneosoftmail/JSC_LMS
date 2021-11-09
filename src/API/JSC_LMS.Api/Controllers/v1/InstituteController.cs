@@ -6,7 +6,6 @@ using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteByPagination;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
-using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteExcelExport;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -68,10 +67,10 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(await _mediator.Send(getInstituteDetailQuery));
         }
 
-        [HttpGet("GetInstituteByFilter",Name = "GetInstituteByFilter")]
-        public async Task<ActionResult> GetInstituteByFilter(string InstituteName, string City,string State, bool IsActive, DateTime LicenseExpiry)
+        [HttpGet("GetInstituteByFilter", Name = "GetInstituteByFilter")]
+        public async Task<ActionResult> GetInstituteByFilter(string InstituteName, string City, string State, bool IsActive, DateTime LicenseExpiry)
         {
-            var getInstituteByFilterQuery = new GetInstituteFilterQuery(InstituteName, City,State, IsActive, LicenseExpiry);
+            var getInstituteByFilterQuery = new GetInstituteFilterQuery(InstituteName, City, State, IsActive, LicenseExpiry);
             return Ok(await _mediator.Send(getInstituteByFilterQuery));
         }
 
@@ -94,13 +93,6 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(dtos);
         }
 
-        [HttpGet("exportToExcel", Name = "ExportInstituteviaExcel")]
-        [FileResultContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
-        public async Task<FileResult> ExportInstituteviaExcel()
-        {
-            var fileDto = await _mediator.Send(new GetInstituteExcelExportQuery());
 
-            return File(fileDto.Data, fileDto.ContentType, fileDto.InstituteExportFileName);
-        }
     }
 }
