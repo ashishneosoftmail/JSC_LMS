@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -134,17 +135,17 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<UpdateClassResponseModel> UpdateClass(UpdateClassResponseModel updateClassDto)
+        public async Task<UpdateClassResponseModel> UpdateClass(UpdateClassDto updateClassDto)
         {
             UpdateClassResponseModel updateClassResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
 
             _oApiResponse = new APICommunicationResponseModel<string>();
-            var json = JsonConvert.SerializeObject(updateClassResponseModel, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(updateClassDto, Formatting.Indented);
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateClass, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Class/UpdateClass", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateClassResponseModel = JsonConvert.DeserializeObject<UpdateClassResponseModel>(_oApiResponse.data);

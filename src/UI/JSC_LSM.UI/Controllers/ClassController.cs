@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -287,11 +288,69 @@ namespace JSC_LSM.UI.Controllers
             return View(classData);
         }
 
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPrincipal(UpdateClassViewModel updateClassViewModel)
+        public async Task<IActionResult> EditClass(UpdateClassViewModel updateClassViewModel)
         {
-            return null;
+            ViewBag.UpdateClassSuccess = null;
+            ViewBag.UpdateClassError = null;
+            updateClassViewModel.Schools = await _common.GetSchool();
+          
+            UpdateClassDto updateClass = new UpdateClassDto();
+                updateClass.Id = updateClassViewModel.Id;
+            if (ModelState.IsValid)
+            {
+
+                updateClass.SchoolId = updateClassViewModel.SchoolId;
+
+                updateClass.ClassName = updateClassViewModel.ClassName;
+
+
+                updateClass.IsActive = updateClassViewModel.IsActive;
+
+
+                UpdateClassResponseModel updateClassResponseModel = null;
+                ViewBag.UpdateClasslSuccess = null;
+                ViewBag.UpdateClassError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateClassResponseModel = await _classRepository.UpdateClass(updateClass);
+
+
+                if (updateClassResponseModel.Succeeded)
+                {
+                    if (updateClassResponseModel == null && updateClassResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateClassResponseModel.message;
+                        responseModel.IsSuccess = updateClassResponseModel.Succeeded;
+                    }
+                    if (updateClassResponseModel != null)
+                    {
+                        if (updateClassResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateClassResponseModel.message;
+                            responseModel.IsSuccess = updateClassResponseModel.Succeeded;
+                            ViewBag.UpdateClassSuccess = "Details Updated Successfully";
+
+                            return RedirectToAction("ManageClass", "Class");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateClassResponseModel.message;
+                            responseModel.IsSuccess = updateClassResponseModel.Succeeded;
+                            ViewBag.UpdateClassError = updateClassResponseModel.message;
+                            return View(updateClassResponseModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateClassResponseModel.message;
+                    responseModel.IsSuccess = updateClassResponseModel.Succeeded;
+                    ViewBag.UpdateClassError = updateClassResponseModel.message;
+                }
+            }
+            return View(updateClassViewModel);
         }
 
 

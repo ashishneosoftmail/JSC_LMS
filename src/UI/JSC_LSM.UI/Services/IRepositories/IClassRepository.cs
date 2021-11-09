@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
+using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
 using JSC_LSM.UI.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,6 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetAllClassByPaginationResponseModel> GetClassByPagination(int page, int size);
 
-        Task<UpdateClassResponseModel> UpdateClass(UpdateClassResponseModel updateClassViewModel);
+        Task<UpdateClassResponseModel> UpdateClass(UpdateClassDto updateClassDto);
     }
 }
