@@ -3,7 +3,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+#region -Command for create institute :by Shivani Goswami
 namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 {
     public class CreateInstituteCommand : IRequest<Response<CreateInstituteDto>>
@@ -15,3 +15,4 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
         }
     }
 }
+#endregion

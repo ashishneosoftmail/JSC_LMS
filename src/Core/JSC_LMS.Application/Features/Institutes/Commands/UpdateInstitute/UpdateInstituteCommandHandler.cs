@@ -15,12 +15,19 @@ using System.Threading.Tasks;
 namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
 
-
+    #region- Command Handler for updating institute : by Shivani Goswami
     public class UpdateInstituteCommandHandler : IRequestHandler<UpdateInstituteCommand, Response<int>>
     {
         private readonly IInstituteRepository _instituteRepository;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
+
+        /// <summary>
+        /// Constructor for update institute command handler : by Shivani Goswami
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="instituteRepository"></param>
+        /// <param name="authenticationService"></param>
 
         public UpdateInstituteCommandHandler(IMapper mapper, IInstituteRepository instituteRepository, IAuthenticationService authenticationService)
         {
@@ -28,7 +35,12 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
             _instituteRepository = instituteRepository;
             _authenticationService = authenticationService;
         }
-
+        /// <summary>
+        /// Method for updating instiute data on API side : by Shivani Goswami
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<Response<int>> Handle(UpdateInstituteCommand request, CancellationToken cancellationToken)
         {
             var instituteToUpdate = await _instituteRepository.GetByIdAsync(request.updateInstituteDto.Id);
@@ -82,4 +94,5 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         }
 
     }
+    #endregion
 }

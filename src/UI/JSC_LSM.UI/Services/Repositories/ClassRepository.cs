@@ -29,6 +29,27 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
+
+        public async Task<GetAllClassResponseModel> GetAllClass()
+        {
+            GetAllClassResponseModel getAllClassResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClass, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllClassResponseModel = JsonConvert.DeserializeObject<GetAllClassResponseModel>(_oApiResponse.data);
+                getAllClassResponseModel.isSuccess = true;
+            }
+
+            return getAllClassResponseModel;
+
+        }
+
+
         public async Task<GetAllClassListResponseModel> GetAllClassDetails()
         {
             GetAllClassListResponseModel getAllClassListResponseModel = null;

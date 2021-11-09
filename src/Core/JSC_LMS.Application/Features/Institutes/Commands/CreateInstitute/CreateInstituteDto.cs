@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
+#region - Data transfer object for create operation on Institute entity : by Shivani Goswami
 namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 {
     public class CreateInstituteDto
@@ -51,3 +52,4 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 
     }
 }
+#endregion

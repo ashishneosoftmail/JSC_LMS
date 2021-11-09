@@ -13,14 +13,19 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 {
-
+    #region- Command Handler for creating institute : by Shivani Goswami
     public class CreateInstituteCommandHandler : IRequestHandler<CreateInstituteCommand, Response<CreateInstituteDto>>
     {
         private readonly IInstituteRepository _instituteRepository;
         private readonly IMapper _mapper;
         private readonly IAuthenticationService _authenticationService;
 
-
+        /// <summary>
+        /// constructor for CreateInstituteCommandHandler : by Shivani Goswami
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="intituteRepository"></param>
+        /// <param name="authenticationService"></param>
         public CreateInstituteCommandHandler(IMapper mapper, IInstituteRepository intituteRepository, IAuthenticationService authenticationService)
         {
             _mapper = mapper;
@@ -28,6 +33,12 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
             _authenticationService = authenticationService;
         }
 
+        /// <summary>
+        /// Method for creating new instiute data on API side : by Shivani Goswami
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<Response<CreateInstituteDto>> Handle(CreateInstituteCommand request, CancellationToken cancellationToken)
         {
             var createInstituteCommandResponse = new Response<CreateInstituteDto>();
@@ -82,4 +93,5 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
         }
 
     }
+    #endregion
 }

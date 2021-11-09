@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
+#region - Data transfer object for update operation on Institute entity : by Shivani Goswami
+
 namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
     public class UpdateInstituteDto
@@ -56,6 +58,6 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 
     }
 }
-
+#endregion
 
 

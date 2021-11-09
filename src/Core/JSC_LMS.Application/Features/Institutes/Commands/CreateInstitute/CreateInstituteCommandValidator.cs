@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+#region- Validations for create institute dto : by Shivani Goswami
 namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 {
     public class CreateInstituteCommandValidator : AbstractValidator<CreateInstituteCommand>
@@ -57,3 +58,4 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
 
     }
 }
+#endregion

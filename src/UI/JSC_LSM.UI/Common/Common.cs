@@ -140,6 +140,46 @@ namespace JSC_LSM.UI.Common
             return null;
         }
 
+        public async Task<List<SelectListItem>> GetClass()
+        {
+            List<SelectListItem> classes = new List<SelectListItem>();
+            GetAllClassResponseModel getAllClassResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllClassResponseModel = await _classRepository.GetAllClass();
+
+            if (getAllClassResponseModel.isSuccess)
+            {
+                if (getAllClassResponseModel == null && getAllClassResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllClassResponseModel.message;
+                    responseModel.IsSuccess = getAllClassResponseModel.isSuccess;
+                }
+                if (getAllClassResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllClassResponseModel.message;
+                    responseModel.IsSuccess = getAllClassResponseModel.isSuccess;
+                    foreach (var item in getAllClassResponseModel.data)
+                    {
+                        classes.Add(new SelectListItem
+                        {
+                            Text = item.ClassName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return classes;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllClassResponseModel.message;
+                responseModel.IsSuccess = getAllClassResponseModel.isSuccess;
+            }
+            return null;
+        }
+
+
+
         public async Task<List<SelectListItem>> GetSchool()
         {
             List<SelectListItem> school = new List<SelectListItem>();
@@ -179,7 +219,6 @@ namespace JSC_LSM.UI.Common
         }
 
 
-        
 
 
 

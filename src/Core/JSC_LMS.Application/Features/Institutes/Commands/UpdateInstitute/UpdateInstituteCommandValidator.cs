@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
-
+    #region- Validations for update institute dto : by Shivani Goswami
     class UpdateInstituteCommandValidator : AbstractValidator<UpdateInstituteCommand>
     {
         public UpdateInstituteCommandValidator()
@@ -63,5 +63,6 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         }
 
     }
+    #endregion
 }
 

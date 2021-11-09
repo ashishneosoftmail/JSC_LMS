@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+#region - code for configuring the institute entity : by Shivani Goswami
 namespace JSC_LMS.Persistence.Configurations
 {
     public class InstituteConfiguration : IEntityTypeConfiguration<Institute>
@@ -94,3 +95,4 @@ namespace JSC_LMS.Persistence.Configurations
         }
     }
 }
+#endregion

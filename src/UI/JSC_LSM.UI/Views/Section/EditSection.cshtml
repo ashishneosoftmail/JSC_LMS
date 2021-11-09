@@ -1,11 +1,4 @@
-﻿
-@model SectionModel
-
-
-@{
-    ViewData["Title"] = "AddSection";
-    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
-}
+﻿@model UpdateSectionViewModel
 <style>
     .ButtonDesign {
         width: 10%;
@@ -28,17 +21,22 @@
         font-size: 16px;
     }
 </style>
+<div id="wrapper">
+    @if (ViewBag.GetSectionById != null)
+    {
+        <script>alert("@ViewBag.GetSectionById")</script>
+        @*@ViewBag.GetSectionById = null;*@
+    }
 
-
-
+</div>
 <div class="container p-3 my-3 border fixed" id="div1">
-    <h3>Create Section</h3>
+
     <form method="post" novalidate>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
                     <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
-                    <div class="col-sm-5">
+                    <div class="col-sm-7">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
                         </select>
@@ -48,29 +46,28 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputClass" class="col-sm-2 col-form-label">Class Name :</label>
-                    <div class="col-sm-5">
-                        <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
-                            <option disabled selected hidden>Select Class</option>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Class Name :</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" asp-for="ClassId" id="school" asp-items="Model.Classes">
+                            <option disabled selected hidden>Select School</option>
                         </select>
                         <span asp-validation-for="ClassId" class="text-danger"></span>
                     </div>
                 </div>
                 <br />
 
-
-                <br />
-
+            </div>
+            <div class="col">
                 <div class="form-group row">
-                    <label for="inputSectionName" class="col-sm-2 col-form-label">Section Name:</label>
-                    <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputSection" asp-for="SectionName" placeholder="Section Name">
+                    <label for="inputSectionName" class="col-sm-2 col-form-label">Section Name :</label><br />
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputSectionName" asp-for="SectionName" placeholder="Ex: Abc">
                         <span asp-validation-for="SectionName" class="text-danger"></span>
 
                     </div>
                 </div>
-
                 <br />
+
                 <br />
 
                 <label>Status :</label>
@@ -78,24 +75,28 @@
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
                     @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
-            <label class="form-check-label" for="inlineRadio1">Active</label>*@
+                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
                 </div>
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
                     @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
-            <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
 
                 <br />
-
+                <br />
 
             </div>
         </div>
 
 
         <button type="button" class="btn btn-danger float-lg-end ButtonDesign">Cancel</button>
-        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Save</button>
+        @*<a asp-controller="Principal"
+            asp-action="EditPrincipalData"
+            class="btn btn-primary float-lg-end ButtonDesign"
+            >Update</a>*@
+        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Update</button>
 
 
 
@@ -103,20 +104,35 @@
     </form>
 </div>
 <div id="wrapper">
-    @if (ViewBag.AddSectionSuccess != null)
+    @if (ViewBag.UpdateSectionSuccess != null)
     {
-        <script>alert("@ViewBag.AddSectionSuccess")</script>
+        <script>alert("@ViewBag.UpdateSectionSuccess")</script>
     }
-    @if (ViewBag.AddSectionError != null)
+    @if (ViewBag.UpdateSectionError != null)
     {
-        <script>alert("@ViewBag.AddSectionError")</script>
+        <script>alert("@ViewBag.UpdateSectionError")</script>
     }
 </div>
+<script type="text/javascript">
+   @* loadSchoolList();*@
+    function loadSchoolList() {
+        $.get("/Section/GetAllSchool", function (data) {
+            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            data.forEach(function (school) {
+                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+            });
+        });
+    }
+
+    @* loadClassList();*@
+    function loadClassList() {
+        $.get("/Section/GetAllClass", function (data) {
+            $("#className").append("<option disabled selected hidden>Select Class</option>");
+            data.forEach(function (classes) {
+                $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
 
 
-
-
-
-
-
-
+</script>

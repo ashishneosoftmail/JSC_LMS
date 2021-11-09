@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+#region - Controller for Institiute module:by Shivani Goswami
 namespace JSC_LSM.UI.Controllers
 {
     public class InstituteController : BaseController
@@ -24,6 +25,13 @@ namespace JSC_LSM.UI.Controllers
         private readonly IInstituteRepository _instituteRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        /// <summary>
+        /// constructor for institute controller
+        /// </summary>
+        /// <param name="stateRepository"></param>
+        /// <param name="common"></param>
+        /// <param name="apiBaseUrl"></param>
+        /// <param name="instituteRepository"></param>
         public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository)
         {
             _stateRepository = stateRepository;
@@ -36,6 +44,10 @@ namespace JSC_LSM.UI.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Gives all the details in form of a list:by Shivani Goswami
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> InstituteDetails()
         {
@@ -49,24 +61,41 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             return View(pager);
         }
-
+        /// <summary>
+        /// To get the state data in list form:by Shivani Goswami
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllState()
         {
             var states = await _common.GetAllStates();
             return states;
         }
+        /// <summary>
+        /// To get city list using state Id :by Shivani Goswami
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);
             return cities;
         }
+        /// <summary>
+        /// To get Zipcode list using city Id:by Shivani Goswami
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
         public async Task<List<SelectListItem>> GetZipByCityId(int cityId)
         {
             var cities = await _common.GetAllZipByCityId(cityId);
             return cities;
         }
 
+        /// <summary>
+        /// Get method To Add a new institute :by Shivani Goswami
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> AddInstitute()
         {
@@ -77,6 +106,11 @@ namespace JSC_LSM.UI.Controllers
             return View(institute);
         }
 
+        /// <summary>
+        /// Post method to add a new institute :by Shivani Goswami
+        /// </summary>
+        /// <param name="institute"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddInstitute(Institute institute)
@@ -130,7 +164,8 @@ namespace JSC_LSM.UI.Controllers
                             ModelState.Clear();
                             var newInstituteModel = new Institute();
                             newInstituteModel.States = await _common.GetAllStates();
-                            return View(newInstituteModel);
+
+                            return RedirectToAction("InstituteDetails", "Institute");
 
                         }
                         else
@@ -154,6 +189,11 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        /// <summary>
+        /// gives institute details using Id :by Shivani Goswami
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<GetInstituteByIdResponseModel> GetInstituteById(int Id)
         {
@@ -161,6 +201,15 @@ namespace JSC_LSM.UI.Controllers
             var institute = await _instituteRepository.GetInstituteById(Id);
             return institute;
         }
+        /// <summary>
+        /// gives the institute details which matches the searched parameters:by Shivani Goswami
+        /// </summary>
+        /// <param name="instituteName"></param>
+        /// <param name="city"></param>
+        /// <param name="state"></param>
+        /// <param name="isActive"></param>
+        /// <param name="licenseExpiry"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<InstituteDetailsViewModel>> GetInstituteByFilters(string instituteName, string city, string state, bool isActive, DateTime licenseExpiry)
         {
@@ -195,7 +244,10 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
+        /// <summary>
+        /// gives all the institute details:by Shivani Goswami
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<InstituteDetailsViewModel>> GetAllInstituteDetails()
         {
@@ -226,6 +278,12 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+        /// <summary>
+        /// Custom Pagination for institute module:by Shivani Goswami
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<InstituteDetailsViewModel>> GetAllInstituteDetailsByPagination(int page = 1, int size = 5)
         {
@@ -266,6 +324,11 @@ namespace JSC_LSM.UI.Controllers
 
 
 
+        /// <summary>
+        /// Updates the Institute details of the given Id:by Shivani Goswami
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> EditInstitute(int id)
         {
@@ -301,7 +364,11 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
+        /// <summary>
+        /// Post method to update the institute details :by Shivani Goswami
+        /// </summary>
+        /// <param name="updateInstituteViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditInstitute(UpdateInstituteViewModel updateInstituteViewModel)
@@ -377,6 +444,10 @@ namespace JSC_LSM.UI.Controllers
             return View(updateInstituteViewModel);
         }
 
+        /// <summary>
+        /// Exports the Institute details in excel format:by Shivani Goswami
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> DownloadExcel()
         {
             var data = new List<InstituteDetailsViewModel>();
@@ -429,3 +500,4 @@ namespace JSC_LSM.UI.Controllers
 
     }
 }
+#endregion
