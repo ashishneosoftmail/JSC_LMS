@@ -96,7 +96,7 @@
 </div>
 <div class="col-md-11">
     <a asp-controller="Principal" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
-    @*  <a href="https://localhost:44330/api/v1/Principal/exportToExcel" class="btn btn-sm btn-primary pull-right m-2" download>export</a>*@
+
     <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
     <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
     <a asp-action="AddPrincipal" asp-controller="Principal" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
@@ -117,37 +117,6 @@
                 </tr>
             </thead>
             <tbody id="tableData">
-                @*   @if (Model.Count() == 0)
-                    {
-                        <tr colspan="6">No Data Found</tr>
-                    }
-                    else
-                    {
-                        int i = 0;
-                        @foreach (var principal in Model)
-                        {
-                            <tr>
-                                <td>@(i = i + 1)</td>
-                                <td>@principal.SchoolName</td>
-                                <td>@principal.Name</td>
-                                <td>@principal.CreatedDate.ToShortDateString() </td>
-
-                                <td>@(principal.IsActive == true ? "Active" : "Inactive")</td>
-
-                                <td>
-                                    <a asp-controller="Principal"
-                                       asp-action="Edit"
-                                       class="btn btn-link"
-                                       asp-route-Id="@principal.Id">Edit</a>
-                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(@principal.Id)">
-                                        View
-
-                                </td>
-                            </tr>
-                        }
-                    }*@
-
-
             </tbody>
         </table>
     </div>
@@ -193,6 +162,16 @@
         </ul>
     }
 </div>
+<div id="wrapper">
+    @if (ViewBag.AddPrincipalSuccess != null)
+    {
+        <script>alert("@ViewBag.AddPrincipalSuccess")</script>
+    }
+    @if (ViewBag.AddPrincipalError != null)
+    {
+        <script>alert("@ViewBag.AddPrincipalError")</script>
+    }
+</div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
@@ -213,11 +192,6 @@
 </script>
 
 <div class="container">
-    <!-- Button to Open the Modal -->
-    @*  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            create class
-        </button>*@
-
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">

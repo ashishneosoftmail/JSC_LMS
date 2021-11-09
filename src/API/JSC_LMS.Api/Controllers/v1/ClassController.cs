@@ -31,7 +31,7 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
 
-        [HttpGet("all", Name = "GetAllClass")]
+        [HttpGet("GetAllClass", Name = "GetAllClass")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllClass()
         {

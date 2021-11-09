@@ -20,5 +20,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetAllClassByPaginationResponseModel> GetClassByPagination(int page, int size);
 
         Task<UpdateClassResponseModel> UpdateClass(UpdateClassDto updateClassDto);
+
+        Task<GetAllClassResponseModel> GetAllClass();
     }
 }
