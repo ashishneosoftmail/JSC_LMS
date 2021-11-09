@@ -28,7 +28,8 @@
     }
 
     .btn-text-right {
-        margin-left: 14.5%;
+        margin-left: 13%;
+        margin-bottom : 4%;
     }
 
     a {
@@ -94,7 +95,7 @@
     </div>
 
     <div class="form-group row col-sm-2 btn-text-right">
-        <button type="button" class="btn btn-primary float-lg-end " onclick="searchInstitute()">Search</button>
+        <button type="button" class="btn btn-primary btn-sm pull-right m-2 " onclick="searchInstitute()">Search</button>
     </div>
 
 </div>
@@ -103,7 +104,7 @@
 
 
 <div class="col-md-11">
-    <button class="btn btn-sm btn-primary pull-right m-2">Export</button>
+    <a asp-controller="Institute" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
     <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
     <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
     <a asp-action="AddInstitute" asp-controller="Institute" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
