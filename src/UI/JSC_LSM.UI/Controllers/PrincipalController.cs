@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+﻿using ClosedXML.Excel;
+using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -413,6 +416,54 @@ namespace JSC_LSM.UI.Controllers
                 }
             }
             return View(updatePrincipalViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadExcel()
+        {
+            var data = new List<PrincipalDetailsViewModel>();
+
+            var dataList = await _principalRepository.GetAllPrincipalDetails();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "PrincipalData";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("AddressLine1", typeof(string));
+            dt.Columns.Add("AddressLine2", typeof(string));
+            dt.Columns.Add("Mobile", typeof(string));
+            dt.Columns.Add("Username", typeof(string));
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("IsActive", typeof(string));
+            dt.Columns.Add("City_Id", typeof(int));
+            dt.Columns.Add("City_Name", typeof(string));
+            dt.Columns.Add("State_Id", typeof(int));
+            dt.Columns.Add("State_Name", typeof(string));
+            dt.Columns.Add("Zip_Id", typeof(int));
+            dt.Columns.Add("ZipCode", typeof(string));
+            dt.Columns.Add("School_Id", typeof(int));
+            dt.Columns.Add("School_Name", typeof(string));
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            foreach (var _principal in dataList.data)
+            {
+                dt.Rows.Add(_principal.Id, _principal.Name, _principal.AddressLine1, _principal.AddressLine2, _principal.Mobile, _principal.Username, _principal.Email, _principal.IsActive ? "Active" : "Inactive", _principal.City.Id, _principal.City.CityName, _principal.State.Id, _principal.State.StateName, _principal.Zip.Id, _principal.Zip.Zipcode, _principal.School.Id, _principal.School.SchoolName, _principal.CreatedDate?.ToShortDateString());
+            }
+            string fileName = "PrincipalData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                //Add DataTable in worksheet  
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    //Return xlsx Excel File  
+                    /* return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);*/
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+            }
         }
     }
 }

@@ -14,7 +14,6 @@ using JSC_LMS.Api.Utility;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
 using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByPagination;
-using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalExcelExport;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -88,13 +87,6 @@ namespace JSC_LMS.Api.Controllers.v1
 
             return File(fileDto.Data, fileDto.ContentType, fileDto.PrincipalExportFileName);
         }
-        [HttpGet("exportToExcel", Name = "ExportPrincipalviaExcel")]
-        [FileResultContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
-        public async Task<FileResult> ExportPrincipalviaExcel()
-        {
-            var fileDto = await _mediator.Send(new GetPrincipalExcelExportQuery());
 
-            return File(fileDto.Data, fileDto.ContentType, fileDto.PrincipalExportFileName);
-        }
     }
 }

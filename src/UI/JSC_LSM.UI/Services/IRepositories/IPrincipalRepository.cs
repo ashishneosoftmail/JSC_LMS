@@ -15,5 +15,6 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetAllPrincipalByFiltersResponseModel> GetPrincipalByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive);
         Task<GetAllPrincipalByPaginationResponseModel> GetPrincipalByPagination(int page, int size);
         Task<UpdatePrincipalResponseModel> UpdatePrincipal(UpdatePrincipalDto updatePrincipalDto);
+
     }
 }
