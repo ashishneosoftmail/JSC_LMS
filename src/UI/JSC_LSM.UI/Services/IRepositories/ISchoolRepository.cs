@@ -10,9 +10,13 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface ISchoolRepository
     {
+        #region-Developed By Harsh Chheda
+        /// <summary>
+        /// Get All School  - Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         Task<GetAllSchoolResponseModel> GetAllSchool();
-        Task<PrincipalResponseModel> AddNewPrinicipal(CreatePrincipalDto createPrincipalDto);
+        #endregion
 
-    
     }
 }

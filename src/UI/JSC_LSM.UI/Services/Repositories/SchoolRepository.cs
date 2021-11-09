@@ -28,6 +28,11 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+        #region- Developed By Harsh Chheda
+        /// <summary>
+        /// Returns all the school list - Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         public async Task<GetAllSchoolResponseModel> GetAllSchool()
         {
             GetAllSchoolResponseModel getAllSchoolResponseModel = null;
@@ -46,37 +51,8 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllSchoolResponseModel;
 
         }
-        public async Task<PrincipalResponseModel> AddNewPrinicipal(CreatePrincipalDto createPrincipalDto)
-        {
-            PrincipalResponseModel principalResponseModel = null;
-            _aPIRepository = new APIRepository(_configuration);
-
-            _oApiResponse = new APICommunicationResponseModel<string>();
-            var json = JsonConvert.SerializeObject(createPrincipalDto, Formatting.Indented);
-            byte[] content = Encoding.ASCII.GetBytes(json);
-            var bytes = new ByteArrayContent(content);
-
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewPrincipal, HttpMethod.Post, bytes, _sToken);
-            if (_oApiResponse.data != null)
-            {
-                principalResponseModel = JsonConvert.DeserializeObject<PrincipalResponseModel>(_oApiResponse.data);
-                if (principalResponseModel.Succeeded)
-                {
-                    principalResponseModel.Succeeded = true;
-                }
-                else
-                {
-                    principalResponseModel.Succeeded = false;
-                }
-            }
-
-            return principalResponseModel;
-
-        }
-
-    
-
-        }
-
+        #endregion
     }
+
+}
 

@@ -17,11 +17,18 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Controllers
 {
+    #region -Developed By Harsh Chheda
     public class PrincipalController : BaseController
     {
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IPrincipalRepository _principalRepository;
+        /// <summary>
+        /// Constructor For the PrincipalController - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="common"></param>
+        /// <param name="schoolRepository"></param>
+        /// <param name="principalRepository"></param>
         public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository)
         {
             _common = common;
@@ -33,6 +40,7 @@ namespace JSC_LSM.UI.Controllers
             return View();
         }
         [HttpGet]
+
         public async Task<IActionResult> AddPrincipal()
         {
             PrincipalModel principalModel = new PrincipalModel();
@@ -40,17 +48,31 @@ namespace JSC_LSM.UI.Controllers
             principalModel.Schools = await _common.GetSchool();
             return View(principalModel);
         }
+        /// <summary>
+        /// Returns all the city by the state id - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);
             return cities;
         }
+        /// <summary>
+        /// Returns all the zip by the city id - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
         public async Task<List<SelectListItem>> GetZipByCityId(int cityId)
         {
             var zip = await _common.GetAllZipByCityId(cityId);
             return zip;
         }
-
+        /// <summary>
+        /// Add the principal - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="principalModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPrincipal(PrincipalModel principalModel)
@@ -84,7 +106,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddPrincipalError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                principalResponseModel = await _schoolRepository.AddNewPrinicipal(createNewPrincipal);
+                principalResponseModel = await _principalRepository.AddNewPrinicipal(createNewPrincipal);
 
 
                 if (principalResponseModel.Succeeded)
@@ -126,58 +148,13 @@ namespace JSC_LSM.UI.Controllers
             return View(principalModel);
 
         }
+        /// <summary>
+        /// Returns the Principal Details Page - Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> PrincipalDetails()
         {
-
-            /* var data = new List<PrincipalDetailsViewModel>();
-             if (principalName == null && schoolName == null)
-             {
-                 var dataList = await _principalRepository.GetAllPrincipalDetails();
-                 foreach (var principal in dataList.data)
-                 {
-                     data.Add(new PrincipalDetailsViewModel()
-                     {
-                         Id = principal.Id,
-                         Name = principal.Name,
-                         AddressLine1 = principal.AddressLine1,
-                         AddressLine2 = principal.AddressLine2,
-                         CityName = principal.City.CityName,
-                         StateName = principal.State.StateName,
-                         CreatedDate = principal.CreatedDate,
-                         Email = principal.Email,
-                         IsActive = principal.IsActive,
-                         Mobile = principal.Mobile,
-                         SchoolName = principal.School.SchoolName,
-                         Username = principal.Username,
-                         ZipCode = principal.Zip.Zipcode
-                     });
-                 }
-             }
-             else
-             {
-                 data.Clear();
-                 var dataList = await _principalRepository.GetPrincipalByFilters(schoolName, principalName, createdDate, isActive);
-                 foreach (var principal in dataList.data)
-                 {
-                     data.Add(new PrincipalDetailsViewModel()
-                     {
-                         Id = principal.Id,
-                         Name = principal.Name,
-                         AddressLine1 = principal.AddressLine1,
-                         AddressLine2 = principal.AddressLine2,
-                         CityName = principal.City.CityName,
-                         StateName = principal.State.StateName,
-                         CreatedDate = principal.CreatedDate,
-                         Email = principal.Email,
-                         IsActive = principal.IsActive,
-                         Mobile = principal.Mobile,
-                         SchoolName = principal.School.SchoolName,
-                         Username = principal.Username,
-                         ZipCode = principal.Zip.Zipcode
-                     });
-                 }
-             }*/
             var page = 1;
             var size = 5;
             int recsCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
@@ -187,10 +164,15 @@ namespace JSC_LSM.UI.Controllers
             var pager = new Pager(recsCount, page, size);
             ViewBag.Pager = pager;
             return View(pager);
-
-
         }
-
+        /// <summary>
+        /// Returns all the principal list based on the serach parameters - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="principalName"></param>
+        /// <param name="schoolName"></param>
+        /// <param name="createdDate"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<PrincipalDetailsViewModel>> GetPrincipalByFilters(string principalName, string schoolName, DateTime createdDate, bool isActive)
         {
@@ -220,7 +202,10 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
-
+        /// <summary>
+        /// Returns the list of the principal data - Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<PrincipalDetailsViewModel>> GetAllPrincipalDetails()
         {
@@ -248,7 +233,12 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
-
+        /// <summary>
+        /// returns the principal data based on the pagination - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<PrincipalDetailsViewModel>> GetAllPrincipalDetailsByPagination(int page = 1, int size = 5)
         {
@@ -260,7 +250,6 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             var data = new List<PrincipalDetailsViewModel>();
 
-            //int recSkip = (page - 1) * size;
             var dataList = await _principalRepository.GetPrincipalByPagination(page, size);
 
             foreach (var principal in dataList.data.GetPrincipalListPaginationDto)
@@ -284,6 +273,11 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
+        /// <summary>
+        /// returns the principal data based on the id - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
         {
@@ -291,13 +285,20 @@ namespace JSC_LSM.UI.Controllers
             var principal = await _principalRepository.GetPrincipalById(Id);
             return principal;
         }
-
+        /// <summary>
+        /// returns all the school list -Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllSchool()
         {
             var schools = await _common.GetSchool();
             return schools;
         }
+        /// <summary>
+        /// returns the principal data for the drop down - Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetPrincipalName()
         {
@@ -313,7 +314,11 @@ namespace JSC_LSM.UI.Controllers
             }
             return principal;
         }
-
+        /// <summary>
+        /// Returns the ui and the data for the principal for Edit the data - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> EditPrincipal(int id)
         {
@@ -346,7 +351,11 @@ namespace JSC_LSM.UI.Controllers
             principalData.ZipCode = await _common.GetAllZipByCityId(principal.data.Zip.Id);
             return View(principalData);
         }
-
+        /// <summary>
+        /// Update the Principal Data -Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="updatePrincipalViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPrincipal(UpdatePrincipalViewModel updatePrincipalViewModel)
@@ -419,7 +428,10 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(updatePrincipalViewModel);
         }
-
+        /// <summary>
+        /// Download the Excel file for the principal details -Developed By Harsh Chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> DownloadExcel()
         {
@@ -468,4 +480,5 @@ namespace JSC_LSM.UI.Controllers
             }
         }
     }
+    #endregion
 }
