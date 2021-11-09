@@ -143,15 +143,24 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Password</label>
-                                <div class="col-sm-9">
-                                    <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">License Expiry</label>
+                            <div class="col-sm-9">
+                                <input type="date" asp-for="LicenseExpiry" class="form-control" id="licenseExpiry" placeholder="License Expiry">
+                                <span asp-validation-for="LicenseExpiry" class="text-danger"></span>
                             </div>
-                        </div>*@
+                        </div>
+                    </div>
+                    @*<div class="col-sm-6">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Password</label>
+                <div class="col-sm-9">
+                    <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+        </div>*@
                 </div>
                 <br />
                 <div class="row">
@@ -167,34 +176,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-6" style="margin-left:10px">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">License Expiry</label>
-                            <div class="col-sm-9">
-                                <input type="date" asp-for="LicenseExpiry" class="form-control" id="licenseExpiry" placeholder="License Expiry">
-                                <span asp-validation-for="LicenseExpiry" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Institute URL</label>
-                            <div class="col-sm-9">
-                                <input type="text" asp-for="InstituteURL" class="form-control" id="instituteURL" placeholder="Institute URL">
-                                <span asp-validation-for="InstituteURL" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Status</label>
-
-
-
                             <div class="col-sm-9">
                                 <label>Status :</label>
 
@@ -210,6 +193,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Institute URL</label>
+                                <div class="col-sm-9">
+                                    <input type="text" asp-for="InstituteURL" class="form-control" id="instituteURL" placeholder="Institute URL">
+                                    <span asp-validation-for="InstituteURL" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    
                 </div>
                 <br />
                 <div class="row">
