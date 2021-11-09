@@ -21,7 +21,7 @@ namespace JSC_LSM.UI.Models
         public string StateName { get; set; }
         public string ZipCode { get; set; }
         public DateTime LicenseExpiry { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public string InstituteURL { get; set; }
         public bool IsActive { get; set; }
 

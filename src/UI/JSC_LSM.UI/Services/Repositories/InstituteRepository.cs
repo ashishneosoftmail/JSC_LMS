@@ -138,6 +138,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
+        
         public async Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto)
         {
             UpdateInstituteResponseModel updateInstituteResponseModel = null;
@@ -165,6 +166,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateInstituteResponseModel;
         }
 
+        
     }
 
 
