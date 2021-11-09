@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,11 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllPrincipalListResponseModel;
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
         {
             GetPrincipalByIdResponseModel getPrincipalByIdResponseModel = null;
@@ -124,6 +130,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return updatePrincipalResponseModel;
         }
+
     }
 
 }
