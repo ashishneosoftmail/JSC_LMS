@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-
+#region-class to generate the attributes of the Institute table: by Shivani Goswami
 namespace JSC_LMS.Domain.Entities
-{
+{  
     public class Institute : AuditableEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -29,3 +29,4 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<School> School { get; set; }
     }
 }
+#endregion
