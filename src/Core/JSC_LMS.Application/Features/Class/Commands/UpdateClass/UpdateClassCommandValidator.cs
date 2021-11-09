@@ -17,9 +17,9 @@ namespace JSC_LMS.Application.Features.Class.Commands.UpdateClass
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
 
-            RuleFor(p => p.updateClassDto.IsActive)
+           /* RuleFor(p => p.updateClassDto.IsActive)
        .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+       .NotNull();*/
         }
 
     }
