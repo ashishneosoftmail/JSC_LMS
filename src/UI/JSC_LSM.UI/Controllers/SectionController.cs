@@ -347,5 +347,35 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<IEnumerable<SectionDetailsViewModel>> GetSectionByFilters(string className, string schoolName, string sectionName, DateTime createdDate, bool isActive)
+        {
+            var data = new List<SectionDetailsViewModel>();
+            var dataList = await _sectionRepository.GetSectionByFilters(schoolName, sectionName, className, createdDate, isActive);
+            if (dataList.data != null)
+            {
+                foreach (var sections in dataList.data)
+                {
+                    data.Add(new SectionDetailsViewModel()
+                    {
+                        Id = sections.Id,
+
+                        SectionName = sections.SectionName,
+
+                        CreatedDate = sections.CreatedDate,
+
+                        IsActive = sections.IsActive,
+
+                        SchoolName = sections.SchoolId.SchoolName,
+
+                        ClassName = sections.ClassId.ClassName,
+
+                    });
+                }
+            }
+            return data;
+        }
+
+
     }
 }

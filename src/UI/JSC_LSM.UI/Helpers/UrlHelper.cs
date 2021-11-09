@@ -53,7 +53,7 @@ namespace JSC_LSM.UI.Helpers
 
         public static string UpdateSection = "/api/v1/Section/UpdateSection";
         public static string GetAllSectionByPagination = "/api/v1/Section/Pagination";
-        public static string GetAllSectionByFilter = "/api/v1/Section/GetSectionByFilter";
+        public static string GetAllSectionByFilter = "/api/v1/Section/Filter";
         public static string GetAllSectionDetails = "/api/v1/Section/all";
         public static string GetSectionById = "/api/v1/Section/";
         public static string GetAllClass = "/api/v1/Class/GetAllClass";

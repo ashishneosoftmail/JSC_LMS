@@ -43,7 +43,7 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allSection = await _sectionRepository.ListAllAsync();
-            var searchFilter = (allSection.Where<JSC_LMS.Domain.Entities.Section>(x => (x.SectionName == request.SectionName) && (x.IsActive == request.IsActive) && (x.CreatedDate == request.CreatedDate)).Select(x => (x)));
+            var searchFilter = allSection.Where<JSC_LMS.Domain.Entities.Section>(x => (x.SectionName == request.SectionName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x));
             Response<IEnumerable<GetSectionFilterDto>> responseData = new Response<IEnumerable<GetSectionFilterDto>>();
 
             if (searchFilter.Count() < 1)

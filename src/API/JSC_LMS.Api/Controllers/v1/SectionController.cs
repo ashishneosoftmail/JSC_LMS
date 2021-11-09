@@ -38,12 +38,14 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(id);
         }
 
-        [HttpPut(Name = "UpdateSection")]
+        [HttpPut("UpdateSection", Name = "UpdateSection")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateSectionCommand updateSectionCommand)
+      
+        public async Task<ActionResult> UpdateSection(UpdateSectionDto updateSectionDto)
         {
+            var updateSectionCommand = new UpdateSectionCommand(updateSectionDto);
             var response = await _mediator.Send(updateSectionCommand);
             return Ok(response);
         }
@@ -77,9 +79,9 @@ namespace JSC_LMS.Api.Controllers.v1
 
 
         [HttpGet("Filter", Name = "GetSectionByFilter")]
-        public async Task<ActionResult> GetSectionFilter(string _ClassName,  string _SchoolName, string _SectionName, bool _IsActive, DateTime _CreatedDate)
+        public async Task<ActionResult> GetSectionFilter(string _className,  string _schoolName, string _sectionName, bool _isActive, DateTime _createdDate)
         {
-            var getSectionByFilterQuery = new GetSectionFilterQuery(_SchoolName,  _ClassName, _SectionName, _IsActive, _CreatedDate);
+            var getSectionByFilterQuery = new GetSectionFilterQuery(_schoolName,  _className, _sectionName, _isActive, _createdDate);
             return Ok(await _mediator.Send(getSectionByFilterQuery));
         }
     }

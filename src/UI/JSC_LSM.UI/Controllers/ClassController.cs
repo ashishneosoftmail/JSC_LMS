@@ -31,7 +31,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _classRepository.GetAllClassDetails()).data.Count();
+            int recsCount = (await _classRepository.GetAllClass()).data.Count();
             if (page < 1)
                 page = 1;
 
@@ -207,7 +207,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<ClassDetailsViewModel>> GetAllClasssDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _classRepository.GetAllClassDetails()).data.Count();
+            int recsCount = (await _classRepository.GetAllClass()).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -249,7 +249,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetClassName()
         {
-            var data = await _classRepository.GetAllClassDetails();
+            var data = await _classRepository.GetAllClass();
             List<SelectListItem> classes = new List<SelectListItem>();
             foreach (var item in data.data)
             {
