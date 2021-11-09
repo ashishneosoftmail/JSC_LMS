@@ -71,18 +71,20 @@ namespace JSC_LMS.Api.Controllers.v1
 
 
         [HttpPost(Name = "AddClass")]
-        public async Task<ActionResult> Create([FromBody] CreateClassCommand createClassCommand)
+        public async Task<ActionResult> Create(CreateClassDto createClassDto)
         {
+            var createClassCommand = new CreateClassCommand(createClassDto);
             var id = await _mediator.Send(createClassCommand);
             return Ok(id);
         }
-       
-        [HttpPut(Name = "UpdateClass")]
+
+        [HttpPut("UpdateClass", Name = "UpdateClass")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateClassCommand updateClassCommand)
+        public async Task<ActionResult> UpdateClass(UpdateClassDto updateClassDto)
         {
+            var updateClassCommand = new UpdateClassCommand(updateClassDto);
             var response = await _mediator.Send(updateClassCommand);
             return Ok(response);
         }
