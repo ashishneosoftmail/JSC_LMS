@@ -16,8 +16,11 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
 
         public ClassDto ClassId { get; set; }
         public SchoolDto SchoolId { get; set; }
-        
-     
+
+        public SchoolDto SchoolName { get; set; }
+        public ClassDto ClassName { get; set; }
+
+
         public bool IsActive { get; set; }
     }
 }

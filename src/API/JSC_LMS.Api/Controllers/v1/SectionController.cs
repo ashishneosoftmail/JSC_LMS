@@ -30,8 +30,10 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger = logger;
         }
         [HttpPost(Name = "AddSection")]
-        public async Task<ActionResult> Create([FromBody] CreateSectionCommand createSectionCommand)
+        
+        public async Task<ActionResult> Create(CreateSectionDto createSectionDto)
         {
+            var createSectionCommand = new CreateSectionCommand(createSectionDto);
             var id = await _mediator.Send(createSectionCommand);
             return Ok(id);
         }
