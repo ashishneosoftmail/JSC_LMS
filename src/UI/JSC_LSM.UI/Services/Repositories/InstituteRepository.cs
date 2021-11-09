@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
+#region -developed by Shivani Goswami
 namespace JSC_LSM.UI.Services.Repositories
 {
     
@@ -32,6 +33,11 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
+        /// <summary>
+        /// Add new institute : by Shivani Goswami
+        /// </summary>
+        /// <param name="createInstituteDto"></param>
+        /// <returns></returns>
         public async Task<InstituteResponseModel> CreateInstitute(CreateInstituteDto createInstituteDto)
         {
             InstituteResponseModel instituteResponseModel = null;
@@ -60,6 +66,10 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
+        /// <summary>
+        /// Returns all the institute data : by Shivani Goswami
+        /// </summary>
+        /// <returns></returns>
         public async Task<GetAllInstituteListResponseModel> GetAllInstituteDetails()
         {
             GetAllInstituteListResponseModel getAllInstituteListResponseModel = null;
@@ -79,6 +89,11 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
+        /// <summary>
+        /// Returns the institute data for a particular Id : by Shivani Goswami
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<GetInstituteByIdResponseModel> GetInstituteById(int Id)
         {
             GetInstituteByIdResponseModel getInstituteByIdResponseModel = null;
@@ -98,8 +113,16 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-
-       public async Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive)
+        /// <summary>
+        /// Returns the institute data based on the search parameters : by Shivani Goswami
+        /// </summary>
+        /// <param name="InstituteName"></param>
+        /// <param name="City"></param>
+        /// <param name="State"></param>
+        /// <param name="LicenseExpiry"></param>
+        /// <param name="IsActive"></param>
+        /// <returns></returns>
+        public async Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive)
         {
             GetAllInstituteByFiltersResponseModel getInstituteByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -118,7 +141,12 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-
+        /// <summary>
+        /// Returns the institute Data based on the page no and no of rows per page : by Shivani Goswami
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public async Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(int page, int size)
         {
             GetAllInstituteByPaginationResponseModel getAllInstituteByPaginationResponseModel = null;
@@ -138,7 +166,11 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        
+        /// <summary>
+        /// Updates the institute Data : by Shivani Goswami
+        /// </summary>
+        /// <param name="updateInstituteDto"></param>
+        /// <returns></returns>
         public async Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto)
         {
             UpdateInstituteResponseModel updateInstituteResponseModel = null;
@@ -170,4 +202,5 @@ namespace JSC_LSM.UI.Services.Repositories
     }
 
 
-} 
+}
+#endregion

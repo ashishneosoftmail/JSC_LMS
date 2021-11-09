@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+#region- View model for Get Institute details by using Id: by Shivani Goswami
 namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById
 {
     public class GetInstituteByIdVm
@@ -27,3 +28,4 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById
 
     }
 }
+#endregion
