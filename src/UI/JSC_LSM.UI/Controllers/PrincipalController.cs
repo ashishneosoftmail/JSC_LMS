@@ -127,7 +127,7 @@ namespace JSC_LSM.UI.Controllers
                             var newPrincipalModel = new PrincipalModel();
                             newPrincipalModel.States = await _common.GetAllStates();
                             newPrincipalModel.Schools = await _common.GetSchool();
-                            return View(newPrincipalModel);
+                            return RedirectToAction("PrincipalDetails", "Principal");
                         }
                         else
                         {
