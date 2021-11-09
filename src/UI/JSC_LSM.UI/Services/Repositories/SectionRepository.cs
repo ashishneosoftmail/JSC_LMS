@@ -106,7 +106,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Section/GetSectionByFilter?SchoolName={SchoolName}&ClassName={ClassName}&SectionName={SectionName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Section/Filter?_className={ClassName}&_schoolName={SchoolName}&_sectionName={SectionName}&_isActive={IsActive}&_createdDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getSectionByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllSectionByFiltersResponseModel>(_oApiResponse.data);

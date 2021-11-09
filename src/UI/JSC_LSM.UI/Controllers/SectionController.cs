@@ -351,7 +351,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<SectionDetailsViewModel>> GetSectionByFilters(string className, string schoolName, string sectionName, DateTime createdDate, bool isActive)
         {
             var data = new List<SectionDetailsViewModel>();
-            var dataList = await _sectionRepository.GetSectionByFilters(schoolName, sectionName, className, createdDate, isActive);
+            var dataList = await _sectionRepository.GetSectionByFilters(schoolName,  className, sectionName, createdDate, isActive);
             if (dataList.data != null)
             {
                 foreach (var sections in dataList.data)
