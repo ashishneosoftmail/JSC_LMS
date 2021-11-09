@@ -25,12 +25,23 @@ namespace JSC_LMS.Api.Controllers.v1
             _mediator = mediator;
             _logger = logger;
         }
+        #region-Developed By Harsh Chheda
+        /// <summary>
+        /// Adds the new school - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="createSchoolCommand"></param>
+        /// <returns></returns>
         [HttpPost(Name = "AddSchool")]
         public async Task<ActionResult> Create([FromBody] CreateSchoolCommand createSchoolCommand)
         {
             var id = await _mediator.Send(createSchoolCommand);
             return Ok(id);
         }
+        /// <summary>
+        /// Updates the school data - Developed By Harsh Chheda
+        /// </summary>
+        /// <param name="updateSchoolCommand"></param>
+        /// <returns></returns>
         [HttpPut(Name = "UpdateSchool")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -40,6 +51,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updateSchoolCommand);
             return Ok(response);
         }
+        #endregion
         [HttpGet("GetAllSchool", Name = "GetAllSchool")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllSchool()
