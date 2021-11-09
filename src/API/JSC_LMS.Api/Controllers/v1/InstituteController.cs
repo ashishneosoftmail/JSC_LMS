@@ -93,6 +93,5 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(dtos);
         }
 
-
     }
 }

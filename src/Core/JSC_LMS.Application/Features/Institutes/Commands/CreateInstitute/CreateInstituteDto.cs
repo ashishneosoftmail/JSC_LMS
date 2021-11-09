@@ -20,8 +20,9 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
         [StringLength(150, ErrorMessage = "Contact Person should not be more than 150 characters")]
         [Required(ErrorMessage = "Contact Person Is Required")]
         public string ContactPerson { get; set; }
-        [StringLength(20)]
+       
         [Required(ErrorMessage = "Phone Number Is Required")]
+        [RegularExpression(@"^\+?([0-9]{2})\)?[-. ]?([0-9]{5})[-. ]?([0-9]{5})$", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
         [StringLength(100, ErrorMessage = "Email should not be more than 100 characters")]
         [Required(ErrorMessage = "Email Is Required")]

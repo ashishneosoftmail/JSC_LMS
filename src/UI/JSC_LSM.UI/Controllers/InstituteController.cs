@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+﻿using ClosedXML.Excel;
+using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
@@ -9,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -378,5 +381,56 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(updateInstituteViewModel);
         }
+
+        public async Task<IActionResult> DownloadExcel()
+        {
+            var data = new List<InstituteDetailsViewModel>();
+
+            var dataList = await _instituteRepository.GetAllInstituteDetails();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "InstituteData";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Institute_Name", typeof(string));
+            dt.Columns.Add("Contact_Name", typeof(string));
+            dt.Columns.Add("AddressLine1", typeof(string));
+            dt.Columns.Add("AddressLine2", typeof(string));
+            dt.Columns.Add("Mobile", typeof(string));
+            dt.Columns.Add("Username", typeof(string));
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("IsActive", typeof(string));
+            dt.Columns.Add("City_Id", typeof(int));
+            dt.Columns.Add("City_Name", typeof(string));
+            dt.Columns.Add("State_Id", typeof(int));
+            dt.Columns.Add("State_Name", typeof(string));
+            dt.Columns.Add("Zip_Id", typeof(int));
+            dt.Columns.Add("ZipCode", typeof(string));           
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            
+            dt.Columns.Add("LicenseExpiry", typeof(DateTime));
+            dt.Columns.Add("InstituteURL", typeof(string));
+
+            foreach (var _institute in dataList.data)
+            {
+                dt.Rows.Add(_institute.Id, _institute.InstituteName, _institute.ContactPerson, _institute.AddressLine1, _institute.AddressLine2, _institute.Mobile, _institute.Username, _institute.Email, _institute.IsActive ? "Active" : "Inactive", _institute.City.Id, _institute.City.CityName, _institute.State.Id, _institute.State.StateName, _institute.Zip.Id, _institute.Zip.Zipcode, _institute.CreatedDate?.ToShortDateString(), _institute.LicenseExpiry.ToShortDateString(), _institute.InstituteURL);
+            }
+            string fileName = "InstituteData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                //Add DataTable in worksheet  
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    //Return xlsx Excel File  
+                    /* return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);*/
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+            }
+        }
+
     }
 }
