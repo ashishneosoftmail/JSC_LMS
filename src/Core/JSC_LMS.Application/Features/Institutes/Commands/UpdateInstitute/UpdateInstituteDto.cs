@@ -26,7 +26,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         [StringLength(20)]
         [Required(ErrorMessage = "Phone Number Is Required")]
         public string Mobile { get; set; }
-        [Required(ErrorMessage = "UserId Is Required")]
+        
         public string UserId { get; set; }
         [StringLength(100, ErrorMessage = "Email should not be more than 100 characters")]
         [Required(ErrorMessage = "Email Is Required")]

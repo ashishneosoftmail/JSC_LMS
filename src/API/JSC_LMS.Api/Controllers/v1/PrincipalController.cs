@@ -14,6 +14,7 @@ using JSC_LMS.Api.Utility;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
 using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByPagination;
+using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalExcelExport;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -63,7 +64,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var result = await _mediator.Send(createPrincipalCommand);
             return Ok(result);
         }
-        [HttpPut("UpdatePrincipal",Name ="Update")]
+        [HttpPut("UpdatePrincipal", Name = "Update")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -84,6 +85,14 @@ namespace JSC_LMS.Api.Controllers.v1
         public async Task<FileResult> ExportPrincipal()
         {
             var fileDto = await _mediator.Send(new GetPrincipalCsvExportQuery());
+
+            return File(fileDto.Data, fileDto.ContentType, fileDto.PrincipalExportFileName);
+        }
+        [HttpGet("exportToExcel", Name = "ExportPrincipalviaExcel")]
+        [FileResultContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")]
+        public async Task<FileResult> ExportPrincipalviaExcel()
+        {
+            var fileDto = await _mediator.Send(new GetPrincipalExcelExportQuery());
 
             return File(fileDto.Data, fileDto.ContentType, fileDto.PrincipalExportFileName);
         }

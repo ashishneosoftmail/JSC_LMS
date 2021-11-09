@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using System;
@@ -18,6 +19,6 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(int page, int size);
 
-        Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteViewModel updateInstituteViewModel);
+        Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto);
     }
 }
