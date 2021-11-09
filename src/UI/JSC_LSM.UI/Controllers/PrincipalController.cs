@@ -377,7 +377,6 @@ namespace JSC_LSM.UI.Controllers
                 updatePrincipal.Name = updatePrincipalViewModel.Name;
                 updatePrincipal.Email = updatePrincipalViewModel.Email;
                 updatePrincipal.Mobile = updatePrincipalViewModel.Mobile;
-                updatePrincipal.Password = updatePrincipalViewModel.Password;
                 updatePrincipal.Username = updatePrincipalViewModel.Username;
                 updatePrincipal.CityId = updatePrincipalViewModel.CityId;
                 updatePrincipal.StateId = updatePrincipalViewModel.StateId;

@@ -19,11 +19,7 @@ namespace JSC_LSM.UI.Controllers
 {
     public class InstituteController : BaseController
     {
-        /* JSC_LSM.UI.Common.Common _common;
-        public InstituteController(JSC_LSM.UI.Common.Common common)
-        {
-            _common = common;
-        }*/
+
         private readonly IStateRepository _stateRepository;
         private readonly IInstituteRepository _instituteRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
@@ -133,7 +129,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.AddInstituteSuccess = "Details Added Successfully";
                             ModelState.Clear();
                             var newInstituteModel = new Institute();
-                            newInstituteModel.States = await _common.GetAllStates();                          
+                            newInstituteModel.States = await _common.GetAllStates();
                             return View(newInstituteModel);
 
                         }
@@ -169,8 +165,8 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<InstituteDetailsViewModel>> GetInstituteByFilters(string instituteName, string city, string state, bool isActive, DateTime licenseExpiry)
         {
             var data = new List<InstituteDetailsViewModel>();
-           
-            var dataList = await _instituteRepository.GetInstituteByFilters(instituteName, city,state, licenseExpiry, isActive);
+
+            var dataList = await _instituteRepository.GetInstituteByFilters(instituteName, city, state, licenseExpiry, isActive);
             if (dataList.data != null)
             {
                 foreach (var institute in dataList.data)
@@ -268,7 +264,7 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
-      
+
 
         [HttpGet]
         public async Task<IActionResult> EditInstitute(int id)
@@ -281,7 +277,7 @@ namespace JSC_LSM.UI.Controllers
             }
             var instituteData = new UpdateInstituteViewModel()
             {
-                Id = institute.data.Id,                
+                Id = institute.data.Id,
                 InstituteName = institute.data.InstituteName,
                 InstituteURL = institute.data.InstituteURL,
                 UserId = institute.data.UserId,
@@ -293,7 +289,7 @@ namespace JSC_LSM.UI.Controllers
                 Email = institute.data.Email,
                 IsActive = institute.data.IsActive,
                 Mobile = institute.data.Mobile,
-               LicenseExpiry = institute.data.LicenseExpiry,
+                LicenseExpiry = institute.data.LicenseExpiry,
                 Username = institute.data.Username,
                 ZipId = institute.data.Zip.Id
             };
@@ -326,7 +322,6 @@ namespace JSC_LSM.UI.Controllers
                 updateInstitute.ContactPerson = updateInstituteViewModel.ContactPerson;
                 updateInstitute.Email = updateInstituteViewModel.Email;
                 updateInstitute.Mobile = updateInstituteViewModel.Mobile;
-                updateInstitute.Password = updateInstituteViewModel.Password;
                 updateInstitute.Username = updateInstituteViewModel.Username;
                 updateInstitute.CityId = updateInstituteViewModel.CityId;
                 updateInstitute.StateId = updateInstituteViewModel.StateId;
@@ -335,7 +330,7 @@ namespace JSC_LSM.UI.Controllers
                 updateInstitute.LicenseExpiry = updateInstituteViewModel.LicenseExpiry;
                 updateInstitute.InstituteURL = updateInstituteViewModel.InstituteURL;
                 updateInstitute.InstituteName = updateInstituteViewModel.InstituteName;
-                
+
 
 
                 UpdateInstituteResponseModel updateInstituteResponseModel = null;
@@ -405,9 +400,9 @@ namespace JSC_LSM.UI.Controllers
             dt.Columns.Add("State_Id", typeof(int));
             dt.Columns.Add("State_Name", typeof(string));
             dt.Columns.Add("Zip_Id", typeof(int));
-            dt.Columns.Add("ZipCode", typeof(string));           
+            dt.Columns.Add("ZipCode", typeof(string));
             dt.Columns.Add("CreatedDate", typeof(DateTime));
-            
+
             dt.Columns.Add("LicenseExpiry", typeof(DateTime));
             dt.Columns.Add("InstituteURL", typeof(string));
 

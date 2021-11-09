@@ -143,15 +143,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
-                                <span asp-validation-for="Password" class="text-danger"></span>
+                    @*<div class="col-sm-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>*@
                 </div>
                 <br />
                 <div class="row">
@@ -160,7 +160,7 @@
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Zip</label>
                             <div class="col-sm-9">
-                                <select class="form-control" asp-for="ZipId"   asp-items="Model.ZipCode" id="zip">
+                                <select class="form-control" asp-for="ZipId" asp-items="Model.ZipCode" id="zip">
                                     <option disabled selected hidden>Select Zip</option>
                                 </select>
                                 <span asp-validation-for="ZipId" class="text-danger"></span>

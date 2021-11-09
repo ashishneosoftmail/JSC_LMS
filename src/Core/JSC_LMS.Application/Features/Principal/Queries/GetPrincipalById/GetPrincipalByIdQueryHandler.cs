@@ -45,7 +45,7 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById
                 return responseData;
             }
             var user = await _authenticationService.GetUserById(principal.UserId);
-            
+
 
             var principalData = new GetPrincipalByIdDto()
             {

@@ -51,7 +51,6 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
             {
                 UserId = request.updatePrincipalDto.UserId,
                 Email = request.updatePrincipalDto.Email,
-                Password = request.updatePrincipalDto.Password,
                 Username = request.updatePrincipalDto.Username
             };
 

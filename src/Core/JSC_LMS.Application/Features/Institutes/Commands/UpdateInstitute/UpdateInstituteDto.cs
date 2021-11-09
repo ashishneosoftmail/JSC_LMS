@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
 {
-   public class UpdateInstituteDto
+    public class UpdateInstituteDto
     {
         [Required(ErrorMessage = "Id Is Required")]
         public int Id { get; set; }
@@ -23,11 +23,11 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         [StringLength(150, ErrorMessage = "Contact Person should not be more than 150 characters")]
         [Required(ErrorMessage = "Contact Person Is Required")]
         public string ContactPerson { get; set; }
-       
+
         [Required(ErrorMessage = "Phone Number Is Required")]
         [RegularExpression(@"^\+?([0-9]{2})\)?[-. ]?([0-9]{5})[-. ]?([0-9]{5})$", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
-        
+
         public string UserId { get; set; }
         [StringLength(100, ErrorMessage = "Email should not be more than 100 characters")]
         [Required(ErrorMessage = "Email Is Required")]
@@ -36,9 +36,9 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
         [Required(ErrorMessage = "Username Is Required")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Password Is Required")]
-        [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
-        public string Password { get; set; }
+        /* [Required(ErrorMessage = "Password Is Required")]
+         [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
+         public string Password { get; set; }*/
         [Required(ErrorMessage = "City Is Required")]
         public int CityId { get; set; }
         [Required(ErrorMessage = "State Is Required")]

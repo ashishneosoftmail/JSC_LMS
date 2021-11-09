@@ -36,9 +36,9 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
             RuleFor(p => p.updatePrincipalDto.Username)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.updatePrincipalDto.Password)
+            /*RuleFor(p => p.updatePrincipalDto.Password)
                .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+               .NotNull();*/
             RuleFor(p => p.updatePrincipalDto.StateId)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
