@@ -26,7 +26,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
             RuleFor(p => p.updateTeacherDto.TeacherName)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
-            RuleFor(p => p.updateTeacherDto.UserTypeId)
+            RuleFor(p => p.updateTeacherDto.UserType)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
 
@@ -52,9 +52,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
             RuleFor(p => p.updateTeacherDto.Email)
           .NotEmpty().WithMessage("{PropertyName} is required.")
           .NotNull().MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-            RuleFor(p => p.updateTeacherDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+           
         }
 
 

@@ -649,6 +649,66 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("Subject");
                 });
 
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.Superadmin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("EmailSupport")
+                        .IsRequired()
+                        .HasColumnName("EmailSupport")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<byte[]>("LoginImage")
+                        .HasColumnName("LoginImage")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("Logo")
+                        .HasColumnName("Logo")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("MobileSupport")
+                        .IsRequired()
+                        .HasColumnName("MobileSupport")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnName("Name")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Superadmin");
+                });
+
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Teacher", b =>
                 {
                     b.Property<int>("Id")
@@ -717,8 +777,9 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserTypeId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("ZipId")
                         .IsRequired()

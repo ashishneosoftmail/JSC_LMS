@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.Repositories
 {
-
+    #region - developed by harsh chheda
     public class ZipRepository : IZipRepository
     {
         private APIRepository _aPIRepository;
@@ -24,6 +24,11 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+        /// <summary>
+        /// returns all the  zip code based on the city id - developed by harsh chheda
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
         public async Task<GetAllZipResponseModel> GetAllZipcodes(int cityId)
         {
             GetAllZipResponseModel getAllZipResponseModel = null;
@@ -44,4 +49,5 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
     }
+    #endregion
 }

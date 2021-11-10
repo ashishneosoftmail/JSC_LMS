@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.IRepositories
 {
-
+    #region - developed by harsh chheda
     public interface IZipRepository
     {
+        /// <summary>
+        /// returns all the zip code based on the cityid -developed by harsh chheda
+        /// </summary>
+        /// <param name="cityId"></param>
+        /// <returns></returns>
         Task<GetAllZipResponseModel> GetAllZipcodes(int cityId);
     }
+    #endregion
 }

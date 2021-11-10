@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.IRepositories
 {
-    
+    #region- developed by harsh chheda
     public interface IStateRepository
     {
+        /// <summary>
+        /// Returns all the state -developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         Task<GetAllStatesResponseModel> GetAllStates();
     }
+    #endregion
 }

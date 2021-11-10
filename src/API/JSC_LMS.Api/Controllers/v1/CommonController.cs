@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
+    #region-Developed By Harsh Chheda
     [ApiVersion("1")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
@@ -33,6 +34,10 @@ namespace JSC_LMS.Api.Controllers.v1
         }
         //Roles
         //[Authorize]
+        /// <summary>
+        /// Returns all the roles - developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetAllRole", Name = "GetAllRoles")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllRoles()
@@ -49,13 +54,22 @@ namespace JSC_LMS.Api.Controllers.v1
              return Ok(await _mediator.Send(getRoleDetailQuery));
          }*/
 
-
+        /// <summary>
+        /// Adds the role into the database - developed by harsh chheda
+        /// </summary>
+        /// <param name="createRoleCommand"></param>
+        /// <returns></returns>
         [HttpPost(Name = "AddRole")]
         public async Task<ActionResult> Create([FromBody] CreateRoleCommand createRoleCommand)
         {
             var id = await _mediator.Send(createRoleCommand);
             return Ok(id);
         }
+        /// <summary>
+        /// Updates the role based on the role id -developed by harsh chheda
+        /// </summary>
+        /// <param name="updateRoleCommand"></param>
+        /// <returns></returns>
         [HttpPut(Name = "UpdateRole")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -65,6 +79,11 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updateRoleCommand);
             return Ok(response);
         }
+        /// <summary>
+        /// delete the role based on the role id -developed by harsh chheda
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}", Name = "DeleteRole")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,6 +96,10 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         //Category
+        /// <summary>
+        /// returns all the category - developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetAllCategory", Name = "GetAllCategory")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult> GetAllCategory()
@@ -88,6 +111,10 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         //State
+        /// <summary>
+        /// returns all the state - developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetAllState", Name = "GetAllState")]
         public async Task<ActionResult> GetAllStates()
         {
@@ -98,6 +125,11 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         //City
+        /// <summary>
+        /// returns all the city by the state id - developed by harsh chheda
+        /// </summary>
+        /// <param name="StateId"></param>
+        /// <returns></returns>
         [HttpGet("{StateId}", Name = "GetCitiesByStateId")]
         public async Task<ActionResult> GetCitiesByStateId(int StateId)
         {
@@ -106,6 +138,11 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         //Zip
+        /// <summary>
+        /// Returns all the zip code by the city id - developed by harsh chheda
+        /// </summary>
+        /// <param name="CityId"></param>
+        /// <returns></returns>
         [HttpGet("/Zip/{CityId}", Name = "GetZipcodesByCityId")]
         public async Task<ActionResult> GetZipcodesByCityId(int CityId)
         {
@@ -113,4 +150,5 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(await _mediator.Send(getAllZipByCityId));
         }
     }
+    #endregion
 }
