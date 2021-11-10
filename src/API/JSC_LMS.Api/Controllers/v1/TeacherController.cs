@@ -29,7 +29,7 @@ namespace JSC_LMS.Api.Controllers.v1
             _mediator = mediator;
             _logger = logger;
         }
-        [HttpPost(Name = "AddTeacher")]
+        [HttpPost(Name ="AddTeacher")]
         public async Task<ActionResult> Create([FromBody] CreateTeacherCommand createTeacherCommand)
         {
             var id = await _mediator.Send(createTeacherCommand);
