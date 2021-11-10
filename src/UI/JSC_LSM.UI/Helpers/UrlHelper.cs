@@ -24,7 +24,7 @@ namespace JSC_LSM.UI.Helpers
         public static string PrincipalExportExcel = "/api/v1/Principal/exportToExcel";
         public static string AddNewClass = "/api/v1/Class";
 
-
+        public static string CreateTeacher = "/api/v1/Teacher";
 
         public static string GetAllPrincipalDetails = "/api/v1/Principal/all";
         public static string GetAllInstituteDetails = "/api/v1/Institute/all";
