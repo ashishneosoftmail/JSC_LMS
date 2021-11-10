@@ -11,7 +11,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
         public string TeacherName { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
-        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
         public string Mobile { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
@@ -19,8 +19,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
         public CityDto City { get; set; }
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
-
-        public DateTime Date { get; set; }
+        public DateTime CreatedDate { get; set; }        
         public SubjectDto SubjectId { get; set; }
         public ClassDto ClassId { get; set; }
         // public int SectionId { get; set; }

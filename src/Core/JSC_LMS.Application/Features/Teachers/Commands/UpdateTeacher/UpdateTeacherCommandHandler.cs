@@ -45,8 +45,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
             var userUpdate = new UpdateUserRequest()
             {
                 UserId = request.updateTeacherDto.UserId,
-                Email = request.updateTeacherDto.Email,
-                Password = request.updateTeacherDto.Password,
+                Email = request.updateTeacherDto.Email,                
                 Username = request.updateTeacherDto.Username,
                
             };
@@ -54,7 +53,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
             var updateUser = await _authenticationService.UpdateUser(userUpdate);
             if (updateUser == null) throw new NotFoundException("User Not Found", request.updateTeacherDto.Email);
 
-            teacherToUpdate.UserTypeId = request.updateTeacherDto.UserTypeId;
+            teacherToUpdate.UserType = request.updateTeacherDto.UserType;
             teacherToUpdate.UserId = updateUser.UserId;
             teacherToUpdate.TeacherName = request.updateTeacherDto.TeacherName;
             teacherToUpdate.AddressLine1 = request.updateTeacherDto.AddressLine1;

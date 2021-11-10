@@ -49,7 +49,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allTeacher = await _teacherRepository.ListAllAsync();
-            var searchFilter = (allTeacher.Where<JSC_LMS.Domain.Entities.Teacher>(x => (x.TeacherName == request.TeacherName)&& (x.IsActive == request.IsActive) &&(x.CreatedDate== request.CreatedDate)).Select(x => (x)));
+            var searchFilter = (allTeacher.Where<JSC_LMS.Domain.Entities.Teacher>(x => (x.TeacherName == request.TeacherName)&& (x.IsActive == request.IsActive) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString())).Select(x => (x)));
             Response<IEnumerable<GetTeacherByFilterDto>> responseData = new Response<IEnumerable<GetTeacherByFilterDto>>();
            
             if (searchFilter.Count() < 1)
@@ -76,13 +76,14 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
                         Id = teacher.Id,
                         AddressLine1 = teacher.AddressLine1,
                         AddressLine2 = teacher.AddressLine2,
+                        CreatedDate = (DateTime)teacher.CreatedDate,
                         Mobile = teacher.Mobile,
                         Username = user.Username,
                         Email = user.Email,
                         IsActive = teacher.IsActive,
                         // SubjectId = teacher.SubjectId,
                         TeacherName = teacher.TeacherName,
-                        UserTypeId = teacher.UserTypeId,
+                        UserType = teacher.UserType,
                         SectionId = new SectionDto()
                         {
                             Id = teacher.SectionId,

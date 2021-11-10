@@ -99,7 +99,7 @@ namespace JSC_LSM.UI.Controllers
                 createNewTeacher.SectionId = teacher.SectionId;
                 createNewTeacher.ClassId = teacher.ClassId;
                 createNewTeacher.IsActive = teacher.IsActive;
-                createNewTeacher.UserTypeId = teacher.UserTypeId;
+                createNewTeacher.UserType = teacher.UserType;
 
                 TeacherResponseModel teacherResponseModel = null;
                 ViewBag.AddTeacherError = null;

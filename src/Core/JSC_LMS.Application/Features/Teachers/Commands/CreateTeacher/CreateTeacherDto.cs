@@ -12,7 +12,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
         [StringLength(150, ErrorMessage = "Institute Name length should not be more than 150 characters")]
         public string TeacherName { get; set; }
         [Required(ErrorMessage = "UserType Is Required")]
-        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
         [StringLength(100, ErrorMessage = "Address Line 1 should not be more than 100 characters")]
         [Required(ErrorMessage = "Address Line 1 Is Required")]
         public string AddressLine1 { get; set; }
