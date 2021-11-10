@@ -10,9 +10,8 @@ namespace JSC_LMS.Domain.Entities
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
         public string TeacherName { get; set; }
-
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public int ClassId { get; set; }

@@ -41,8 +41,8 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
             }
             else
             {
-                var UserData = new RegistrationRequest() { FirstName = "", 
-                    LastName = "I", 
+                var UserData = new RegistrationRequest() { FirstName = request.createTeacherDto.TeacherName, 
+                    LastName = "T", 
                     UserName = request.createTeacherDto.Username,
                     Email = request.createTeacherDto.Email, 
                     Password = request.createTeacherDto.Password, 
@@ -59,7 +59,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
                     CityId = request.createTeacherDto.CityId,
                     StateId = request.createTeacherDto.StateId,
                     ZipId = request.createTeacherDto.ZipId,
-                    UserTypeId = request.createTeacherDto.UserTypeId,
+                    UserType = request.createTeacherDto.UserType,
                     IsActive = request.createTeacherDto.IsActive,
                     SectionId = request.createTeacherDto.SectionId,
                     Mobile = request.createTeacherDto.Mobile,

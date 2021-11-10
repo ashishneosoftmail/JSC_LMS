@@ -8,7 +8,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById
     public class GetTeacherByIdVm
     {
         public int Id { get; set; }
-        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
         public string TeacherName { get; set; }
 
         public string AddressLine1 { get; set; }

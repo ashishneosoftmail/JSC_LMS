@@ -18,6 +18,10 @@ namespace JSC_LMS.Persistence.Configurations
                 .Property(b => b.TeacherName)
                 .IsRequired()
                 .HasColumnType("nvarchar(150)");
+            builder
+                .Property(b => b.UserType)
+                .IsRequired()
+                .HasColumnType("nvarchar(50)");
 
             builder
                 .Property(b => b.AddressLine1)

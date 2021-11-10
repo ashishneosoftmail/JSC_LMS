@@ -26,7 +26,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
             RuleFor(p => p.createTeacherDto.TeacherName)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
-            RuleFor(p => p.createTeacherDto.UserTypeId)
+            RuleFor(p => p.createTeacherDto.UserType)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
             
@@ -53,9 +53,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
             RuleFor(p => p.createTeacherDto.Email)
           .NotEmpty().WithMessage("{PropertyName} is required.")
           .NotNull().MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-            RuleFor(p => p.createTeacherDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+           
         }
     }
 }

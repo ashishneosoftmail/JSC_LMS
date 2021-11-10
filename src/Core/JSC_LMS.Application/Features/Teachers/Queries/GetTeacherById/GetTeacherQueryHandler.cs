@@ -73,7 +73,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById
                 IsActive = teacher.IsActive,
                // SubjectId = teacher.SubjectId,
                 TeacherName = teacher.TeacherName,
-                UserTypeId = teacher.UserTypeId,
+                UserType = teacher.UserType,
                 SectionId = new SectionDto()
                 {
                     Id = teacher.SectionId,

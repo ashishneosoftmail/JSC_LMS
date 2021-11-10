@@ -22,7 +22,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
         public SubjectDto SubjectId { get; set; }
         public ClassDto ClassId { get; set; }
         //public SectionDto SectiontId { get; set; }
-        public string UserTypeId { get; set; }
+        public string UserType { get; set; }
         public bool IsActive { get; set; }
         public SectionDto SectionId { get; internal set; }
     }
