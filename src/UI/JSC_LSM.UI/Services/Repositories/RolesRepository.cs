@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.Repositories
 {
+    #region - developed by harsh chheda
     public class RolesRepository : IRoleRepository
     {
         private APIRepository _aPIRepository;
@@ -26,6 +27,10 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+        /// <summary>
+        /// returns all the role - developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         public async Task<GetAllRolesResponseModel> GetAllRoles()
         {
             GetAllRolesResponseModel getAllRolesResponseModel = null;
@@ -45,4 +50,5 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
     }
+    #endregion
 }

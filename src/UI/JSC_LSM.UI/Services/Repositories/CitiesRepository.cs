@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.Repositories
 {
-
+    #region -developed by harsh chheda
     public class CitiesRepository : ICityRepository
     {
         private APIRepository _aPIRepository;
@@ -24,6 +24,11 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+        /// <summary>
+        /// returns the city data from the api based on the state id - developed by harsh chheda
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public async Task<GetAllCitiesResponseModel> GetAllCities(int Id)
         {
             GetAllCitiesResponseModel getAllCitiesResponseModel = null;
@@ -44,4 +49,5 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
     }
+    #endregion
 }

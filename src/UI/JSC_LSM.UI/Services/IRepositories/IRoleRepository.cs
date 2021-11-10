@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.IRepositories
 {
+    #region -developed by harsh chheda
     public interface IRoleRepository
     {
+        /// <summary>
+        /// returns all the roles - developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         Task<GetAllRolesResponseModel> GetAllRoles();
     }
+    #endregion
 }

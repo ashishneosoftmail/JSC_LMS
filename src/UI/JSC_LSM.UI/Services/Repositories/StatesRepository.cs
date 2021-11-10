@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Services.Repositories
 {
-   
+    #region-developed by harsh chheda  
     public class StatesRepository : IStateRepository
     {
         private APIRepository _aPIRepository;
@@ -24,6 +24,10 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+        /// <summary>
+        /// returns all the state from the api - developed by harsh chheda
+        /// </summary>
+        /// <returns></returns>
         public async Task<GetAllStatesResponseModel> GetAllStates()
         {
             GetAllStatesResponseModel getAllStatesResponseModel = null;
@@ -44,4 +48,5 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
     }
+    #endregion
 }
