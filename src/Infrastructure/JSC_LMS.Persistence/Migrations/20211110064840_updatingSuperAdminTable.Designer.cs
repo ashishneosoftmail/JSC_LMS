@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211110064840_updatingSuperAdminTable")]
+    partial class updatingSuperAdminTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -683,10 +685,12 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasColumnType("datetime");
 
                     b.Property<byte[]>("LoginImage")
+                        .IsRequired()
                         .HasColumnName("LoginImage")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("Logo")
+                        .IsRequired()
                         .HasColumnName("Logo")
                         .HasColumnType("varbinary(max)");
 
@@ -777,9 +781,8 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("UserTypeId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ZipId")
                         .IsRequired()
