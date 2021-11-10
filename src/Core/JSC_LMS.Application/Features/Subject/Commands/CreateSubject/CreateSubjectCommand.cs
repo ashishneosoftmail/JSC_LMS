@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.Subject.Commands.CreateSubject
 {
    public class CreateSubjectCommand : IRequest<Response<CreateSubjectDto>>
     {
+        public CreateSubjectCommand(CreateSubjectDto _createSubjectDto)
+        {
+            createSubjectDto = _createSubjectDto;
+        }
         public CreateSubjectDto createSubjectDto { get; set; }
 
     }

@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.Subject.Commands.UpdateSubject
 {
    public class UpdateSubjectCommand : IRequest<Response<int>>
     {
+        public UpdateSubjectCommand(UpdateSubjectDto _updateSubjectDto)
+        {
+            updateSubjectDto = _updateSubjectDto;
+        }
         public UpdateSubjectDto updateSubjectDto { get; set; }
     }
 }

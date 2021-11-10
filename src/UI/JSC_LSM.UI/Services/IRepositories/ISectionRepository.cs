@@ -22,5 +22,7 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<UpdateSectionResponseModel> UpdateSection(UpdateSectionDto updateSectionDto);
 
+        Task<GetAllSectionResponseModel> GetAllSection();
+
     }
 }
