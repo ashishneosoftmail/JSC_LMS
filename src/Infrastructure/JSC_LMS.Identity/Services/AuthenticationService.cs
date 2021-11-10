@@ -321,8 +321,6 @@ namespace JSC_LMS.Identity.Services
 
                 userExist.Email = request.Email;
                 userExist.UserName = request.Username;
-                userExist.PasswordHash = request.Password;
-
                 IdentityResult result = await _userManager.UpdateAsync(userExist);
                 if (result.Succeeded) return new UpdateUserResponse() { UserId = userExist.Id, Errors = null, Message = "", Succeeded = true };
                 else
