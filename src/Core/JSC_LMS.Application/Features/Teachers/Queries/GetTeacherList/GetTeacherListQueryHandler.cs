@@ -53,6 +53,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
                     Id = teacher.Id,
                     AddressLine1 = teacher.AddressLine1,
                     AddressLine2 = teacher.AddressLine2,
+                    CreatedDate = (DateTime)teacher.CreatedDate,
                     Mobile = teacher.Mobile,
                     // Username = teacher.Username,
                     //  Email = teacher.Email,
