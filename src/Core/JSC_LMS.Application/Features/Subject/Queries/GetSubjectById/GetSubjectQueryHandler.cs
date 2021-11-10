@@ -67,17 +67,17 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectById
 
                 IsActive = subject.IsActive,
               
-                SectionId = new SectionDto()
+                Section = new SectionDto()
                 {
                     Id = subject.SectionId,
                     SectionName = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName
                 },
-                SchoolId = new SchoolDto()
+                School = new SchoolDto()
                 {
                     Id = subject.SchoolId,
                     SchoolName = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName
                 },
-                ClassId = new ClassDto()
+                Class = new ClassDto()
                 {
                     Id = subject.SchoolId,
                     ClassName = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName

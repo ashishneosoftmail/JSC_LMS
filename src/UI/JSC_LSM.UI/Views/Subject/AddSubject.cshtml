@@ -1,115 +1,125 @@
 ﻿
+@model SubjectModel
+
 
 @{
     ViewData["Title"] = "AddSubject";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 }
+<style>
+    .ButtonDesign {
+        width: 10%;
+        margin-left: 1%;
+    }
+
+    form {
+        padding: inherit;
+        margin: 5px 5px 5px 5px;
+        border: 2px solid gray;
+        height: 100%;
+        /*  width : 100%;*/
+    }
+
+    input {
+        width: 90%;
+    }
+
+    div {
+        font-size: 16px;
+    }
+</style>
 
 
 
-<h2>Add Subject</h2>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<div class="container p-3 my-3 border fixed" id="div1">
+    <h3>Create Section</h3>
+    <form method="post" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
+                            <option disabled selected hidden>Select School</option>
+                        </select>
+                        <span asp-validation-for="SchoolId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputClass" class="col-sm-2 col-form-label">Class Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
+                            <option disabled selected hidden>Select Class</option>
+                        </select>
+                        <span asp-validation-for="ClassId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSection" class="col-sm-2 col-form-label">Section Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="SectionId" id="class" asp-items="Model.Sections">
+                            <option disabled selected hidden>Select Class</option>
+                        </select>
+                        <span asp-validation-for="SectionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
 
 
-<div class="container">
-    <h2>Create Subject Only Popup</h2>
-    <!-- Button to Open the Modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        create Subject
-    </button>
+                <br />
 
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
+                <div class="form-group row">
+                    <label for="inputSubjectName" class="col-sm-2 col-form-label">Subject Name:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputSection" asp-for="SubjectName" placeholder="Section Name">
+                        <span asp-validation-for="SubjectName" class="text-danger"></span>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title" id="exampleModalLabel">Create Subject</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    </div>
                 </div>
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">School Name:</label>
-                            <select id="inputState" class="form-control">
-                                <option value="john">Select Shool Name</option>
-                                <option value="adam">School1</option>
-                                <option value="marcus">School2</option>
-                                <option value="anthony">School 4</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Class Name:</label>
-                            <select id="inputClass" class="form-control">
-                                <option value="john">Select Class Name</option>
-                                <option value="adam">Class 1</option>
-                                <option value="marcus">Class 2 </option>
-                                <option value="anthony">Class 4</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipient-name" class="col-form-label">Section Name:</label>
-                            <select id="inputClass" class="form-control">
-                                <option value="john">Select Section Name</option>
-                                <option value="adam">Section 1</option>
-                                <option value="marcus">Section 2</option>
-                                <option value="anthony">Section 4</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="message-text" class="col-form-label">Subject Name:</label>
-                            <input class="form-control" type="text" />
-                        </div>
+                <br />
+                <br />
 
+                <label>Status :</label>
 
-
-                        <label for="message-text" class="col-form-label">Status:</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                            <label class="form-check-label" for="inlineCheckbox1">Active</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                            <label class="form-check-label" for="inlineCheckbox2">Inactive</label>
-                        </div>
-
-                    </form>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+                    @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
+            <label class="form-check-label" for="inlineRadio1">Active</label>*@
                 </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+                    @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
+            <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
                 </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+
+                <br />
+
 
             </div>
         </div>
-    </div>
 
+
+        <button type="button" class="btn btn-danger float-lg-end ButtonDesign">Cancel</button>
+        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Save</button>
+
+
+
+
+    </form>
 </div>
-<script>
-
-    $(document).ready(function () {
-        $('#inputState').on('change', function () {
-            $('#message-text').val($('#inputState').val())
-        })
-    })
-</script>
-
-
-
-
-
-
-
-
+<div id="wrapper">
+    @if (ViewBag.AddSubjectSuccess != null)
+    {
+        <script>alert("@ViewBag.AddSubjectSuccess")</script>
+    }
+    @if (ViewBag.AddSubjectError != null)
+    {
+        <script>alert("@ViewBag.AddSubjectError")</script>
+    }
+</div>

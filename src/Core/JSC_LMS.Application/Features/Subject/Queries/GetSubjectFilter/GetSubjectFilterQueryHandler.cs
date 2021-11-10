@@ -45,7 +45,7 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allSubject = await _subjectRepository.ListAllAsync();
-            var searchFilter = (allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => (x.SubjectName == request.SubjectName) && (x.IsActive == request.IsActive) && (x.CreatedDate == request.CreatedDate)).Select(x => (x)));
+            var searchFilter = allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => (x.SubjectName == request.SubjectName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x));
             Response<IEnumerable<GetSubjectFilterDto>> responseData = new Response<IEnumerable<GetSubjectFilterDto>>();
 
             if (searchFilter.Count() < 1)
@@ -78,17 +78,17 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
                        
                         SubjectName = subject.SubjectName,
                        
-                        SectionId = new SectionDto()
+                        Section = new SectionDto()
                         {
                             Id = subject.SectionId,
                             SectionName = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName
                         },
-                        SchoolId = new SchoolDto()
+                        School = new SchoolDto()
                         {
                             Id = subject.SchoolId,
                             SchoolName = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName
                         },
-                        ClassId = new ClassDto()
+                        Class = new ClassDto()
                         {
                             Id = subject.SchoolId,
                             ClassName = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName

@@ -16,13 +16,16 @@ namespace JSC_LSM.UI.Common
         private readonly IZipRepository _zipRepository;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IClassRepository _classRepository;
-        public Common(IStateRepository stateRepository, ICityRepository cityRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository)
+        private readonly ISectionRepository _sectionRepository;
+
+        public Common(IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository ,IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             _zipRepository = zipRepository;
             _schoolRepository = schoolRepository;
             _classRepository = classRepository;
+            _sectionRepository = sectionRepository;
         }
 
         [NonAction]
@@ -214,6 +217,44 @@ namespace JSC_LSM.UI.Common
             {
                 responseModel.ResponseMessage = getAllSchoolResponseModel.message;
                 responseModel.IsSuccess = getAllSchoolResponseModel.isSuccess;
+            }
+            return null;
+        }
+
+        public async Task<List<SelectListItem>> GetSection()
+        {
+            List<SelectListItem> section = new List<SelectListItem>();
+            GetAllSectionResponseModel getAllSectionResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllSectionResponseModel = await _sectionRepository.GetAllSection();
+
+            if (getAllSectionResponseModel.isSuccess)
+            {
+                if (getAllSectionResponseModel == null && getAllSectionResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllSectionResponseModel.message;
+                    responseModel.IsSuccess = getAllSectionResponseModel.isSuccess;
+                }
+                if (getAllSectionResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllSectionResponseModel.message;
+                    responseModel.IsSuccess = getAllSectionResponseModel.isSuccess;
+                    foreach (var item in getAllSectionResponseModel.data)
+                    {
+                        section.Add(new SelectListItem
+                        {
+                            Text = item.SectionName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return section;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllSectionResponseModel.message;
+                responseModel.IsSuccess = getAllSectionResponseModel.isSuccess;
             }
             return null;
         }
