@@ -1,0 +1,96 @@
+﻿@model UpdateSuperadminProfileInformationModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset=utf-8 />
+    <title>JS Bin</title>
+
+    <style>
+        article, aside, figure, footer, header, hgroup,
+        menu, nav, section {
+            display: block;
+        }
+
+        #div3 {
+            width: 620px;
+            height: 420px;
+            display: inline-block;
+            padding: 15px;
+            text-align: center;
+            border-style: solid;
+            border-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#readUrl')
+                        .attr('src', e.target.result)
+                        .width(100)
+                        .height(100);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        function readLogin(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#readLogin')
+                        .attr('src', e.target.result)
+                        .width(100)
+                        .height(100);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+
+
+
+
+
+    </script>
+    <form asp-action="UploadImageLogo"
+          asp-controller="SuperAdmin"
+          method="post"
+          enctype="multipart/form-data">
+        <div class="container p-3 my-3" id="div3">
+            <h3>Image and Logo</h3>
+            <br />
+            <br />
+            <h6> <label>Logo</label></h6>
+
+            <input type='file' onchange="readURL(this);" />
+            <img id="readUrl" src=@Model.Logo alt="Preview image" />
+            <br />
+            <br />
+            <br />
+            <h6><label>Login Image</label></h6>
+
+            <input type='file' onchange="readLogin(this);" />
+
+            <img id="readLogin" src=@Model.LoginImage alt="Preview image" />
+            <br />
+            <br />
+            <br />
+        <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+        </form>
+</body>
+</html>

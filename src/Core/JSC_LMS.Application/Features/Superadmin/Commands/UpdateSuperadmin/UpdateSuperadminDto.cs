@@ -7,7 +7,7 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin
 {
     public class UpdateSuperadminDto
     {
-        [Required(ErrorMessage = "Id Is Required")]
+
         public int Id { get; set; }
         [Required(ErrorMessage = "Name  Is Required")]
         public string Name { get; set; }

@@ -57,6 +57,8 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllSectionDetails = "/api/v1/Section/all";
         public static string GetSectionById = "/api/v1/Section/";
         public static string GetAllClass = "/api/v1/Class/GetAllClass";
+        public static string UpdatePrincipalPersonalInformation = "/api/v1/Superadmin/UpdateSuperadmin";
+        public static string GetSuperadminByUserId = "/api/v1/Superadmin/";
 
 
     }
