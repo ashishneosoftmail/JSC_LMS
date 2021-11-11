@@ -16,7 +16,6 @@ namespace JSC_LMS.Application.Features.Class.Commands.CreateClass
     {
         private readonly IClassRepository _classRepository;
         private readonly IMapper _mapper;
-        private readonly IAuthenticationService _authenticationService;
 
         public CreateClassCommandHandler(IMapper mapper, IClassRepository classRepository)
         {
@@ -39,32 +38,15 @@ namespace JSC_LMS.Application.Features.Class.Commands.CreateClass
                     createClassCommandResponse.Errors.Add(error.ErrorMessage);
                 }
             }
-
-
-            //else
-            //{
-            //    var UserData = new RegistrationRequest() { SchoolId = request.createClassDto.SchoolId, ClassName = request.createClassDto.ClassName };
-            //    var User = await _authenticationService.RegisterAsync(UserData);
-            //    if (User.ClassId != null)
-            //    {
-
-            //        createClassCommandResponse.Succeeded = false;
-            //        createClassCommandResponse.Message = "Class Already Exist";
-            //    }
-
-
-
-                else
-                {
-                    var data = _mapper.Map<JSC_LMS.Domain.Entities.Class>(request.createClassDto);
-                    var classData = await _classRepository.AddAsync(data);
-                    createClassCommandResponse.Data = _mapper.Map<CreateClassDto>(classData);
-                    createClassCommandResponse.Succeeded = true;
-                    createClassCommandResponse.Message = "success";
-                }
+            else
+            {
+                var data = _mapper.Map<JSC_LMS.Domain.Entities.Class>(request.createClassDto);
+                var classData = await _classRepository.AddAsync(data);
+                createClassCommandResponse.Data = _mapper.Map<CreateClassDto>(classData);
+                createClassCommandResponse.Succeeded = true;
+                createClassCommandResponse.Message = "success";
             }
-                return createClassCommandResponse;
-            }
+            return createClassCommandResponse;
         }
     }
-
+}
