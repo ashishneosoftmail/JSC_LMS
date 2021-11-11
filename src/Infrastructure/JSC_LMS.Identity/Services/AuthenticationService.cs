@@ -355,5 +355,34 @@ namespace JSC_LMS.Identity.Services
             }
             return null;
         }
+
+        public async Task<ChangeUserPasswordResponse> ChangeUserPassword(ClaimsPrincipal User, string userid, string oldPassword, string newPassword)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            ChangeUserPasswordResponse changePassword = new ChangeUserPasswordResponse();
+            if (user == null)
+            {
+                changePassword.Succeeded = false;
+                changePassword.Errors = new List<string>();
+                changePassword.Errors.Add("User Not Found");
+                changePassword.UserId = null;
+                return changePassword;
+            }
+            var result = await _userManager.ChangePasswordAsync(user,
+            oldPassword, newPassword);
+            if (!result.Succeeded)
+            {
+                changePassword.Succeeded = false;
+                changePassword.UserId = null;
+                foreach (var error in result.Errors)
+                {
+                    changePassword.Errors = new List<string>();
+                    changePassword.Errors.Add(error.Description);
+                    return changePassword;
+                }
+            }
+            await _signInManager.RefreshSignInAsync(user);
+            return new ChangeUserPasswordResponse() { Succeeded = true, Errors = null, Message = "Password Changed Successfully", UserId = userid };
+        }
     }
 }

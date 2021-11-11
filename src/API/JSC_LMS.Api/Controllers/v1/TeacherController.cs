@@ -2,6 +2,7 @@
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById;
+using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherByPagination;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList;
 using JSC_LMS.Application.Features.Teachers.Queries.TeacherFileExport.TeacherCsvExport;
@@ -76,6 +77,23 @@ namespace JSC_LMS.Api.Controllers.v1
             var fileDto = await _mediator.Send(new GetTeacherCsvExportQuery());
 
             return File(fileDto.Data, fileDto.ContentType, fileDto.TeacherExportFileName);
+        }
+
+        /// <summary>
+        /// Custom Pagination for Teacher list : by Shivani Goswami
+        /// </summary>
+        /// <param name="_page"></param>
+        /// <param name="_size"></param>
+        /// <returns></returns>
+
+        [HttpGet("Pagination", Name = "GetAllTeacherByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllTeacherByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllTeacher Initiated");
+            var dtos = await _mediator.Send(new GetTeacherByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllTeacher Completed");
+            return Ok(dtos);
         }
     }
 }

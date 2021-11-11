@@ -30,6 +30,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
+
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var superadmin = await _superadminRepository.GetSuperadminByUserId(userId);
             var superadminvm = new UpdateSuperadminProfileInformationModel()
@@ -38,8 +39,8 @@ namespace JSC_LSM.UI.Controllers
                 EmailSupport = superadmin.data.EmailSupport,
                 MobileSupport = superadmin.data.MobileSupport,
                 Name = superadmin.data.Name,
-                Logo=superadmin.data.Logo,
-                LoginImage=superadmin.data.LoginImage
+                Logo = superadmin.data.Logo,
+                LoginImage = superadmin.data.LoginImage
             };
             TempData["SuperAdminId"] = superadminvm.Id;
             return View(superadminvm);
