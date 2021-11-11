@@ -31,6 +31,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
         public async Task<Response<int>> Handle(UpdateTeacherCommand request, CancellationToken cancellationToken)
         {
             var teacherToUpdate = await _teacherRepository.GetByIdAsync(request.updateTeacherDto.Id);
+            Response<int> UpdateTeacherCommandResponse = new Response<int>();
             if (teacherToUpdate == null)
             {
                 throw new NotFoundException(nameof(JSC_LMS.Domain.Entities.Teacher), request.updateTeacherDto.Id);
@@ -51,6 +52,13 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
             };
 
             var updateUser = await _authenticationService.UpdateUser(userUpdate);
+            if (!updateUser.Succeeded)
+            {
+                UpdateTeacherCommandResponse.Errors = updateUser.Errors;
+                UpdateTeacherCommandResponse.Succeeded = false;
+                UpdateTeacherCommandResponse.Message = "User Already Exist";
+                return UpdateTeacherCommandResponse;
+            }
             if (updateUser == null) throw new NotFoundException("User Not Found", request.updateTeacherDto.Email);
 
             teacherToUpdate.UserType = request.updateTeacherDto.UserType;

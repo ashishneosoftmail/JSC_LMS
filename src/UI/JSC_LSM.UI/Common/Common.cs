@@ -17,8 +17,9 @@ namespace JSC_LSM.UI.Common
         private readonly ISchoolRepository _schoolRepository;
         private readonly IClassRepository _classRepository;
         private readonly ISectionRepository _sectionRepository;
+        private readonly ISubjectRepository _subjectRepository;
 
-        public Common(IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository ,IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository)
+        public Common(IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository ,IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository , ISubjectRepository subjectRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
@@ -26,6 +27,7 @@ namespace JSC_LSM.UI.Common
             _schoolRepository = schoolRepository;
             _classRepository = classRepository;
             _sectionRepository = sectionRepository;
+            _subjectRepository = subjectRepository;
         }
 
         [NonAction]
@@ -255,6 +257,43 @@ namespace JSC_LSM.UI.Common
             {
                 responseModel.ResponseMessage = getAllSectionResponseModel.message;
                 responseModel.IsSuccess = getAllSectionResponseModel.isSuccess;
+            }
+            return null;
+        }
+        public async Task<List<SelectListItem>> GetSubject()
+        {
+            List<SelectListItem> subject = new List<SelectListItem>();
+            GetAllSubjectListResponseModel getAllSubjectResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllSubjectResponseModel = await _subjectRepository.GetAllSubjectDetails();
+
+            if (getAllSubjectResponseModel.Succeeded)
+            {
+                if (getAllSubjectResponseModel == null && getAllSubjectResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllSubjectResponseModel.message;
+                    responseModel.IsSuccess = getAllSubjectResponseModel.isSuccess;
+                }
+                if (getAllSubjectResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllSubjectResponseModel.message;
+                    responseModel.IsSuccess = getAllSubjectResponseModel.isSuccess;
+                    foreach (var item in getAllSubjectResponseModel.data)
+                    {
+                        subject.Add(new SelectListItem
+                        {
+                            Text = item.SubjectName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return subject;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllSubjectResponseModel.message;
+                responseModel.IsSuccess = getAllSubjectResponseModel.isSuccess;
             }
             return null;
         }

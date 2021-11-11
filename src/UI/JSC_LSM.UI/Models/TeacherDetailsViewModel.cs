@@ -1,31 +1,30 @@
-﻿using JSC_LMS.Application.CommonDtos;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById
+namespace JSC_LSM.UI.Models
 {
-    public class GetTeacherByIdVm
+    public class TeacherDetailsViewModel
     {
         public int Id { get; set; }
         public string UserType { get; set; }
         public string TeacherName { get; set; }
-        public string UserId { get; set; }
-
         public DateTime CreatedDate { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
-        public ClassDto Class { get; set; }
-        public SectionDto Section { get; set; }
-        public SubjectDto Subject { get; set; }
-        public SchoolDto School { get; set; }
+        public string Class{ get; set; }
+        public string Section { get; set; }
+        public string Subject { get; set; }
+        public string School{ get; set; }
         public string Mobile { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public CityDto City{ get; set; }
-        public StateDto State { get; set; }
-        public ZipDto Zip { get; set; }
+        public string City { get; set; }
+        public string State{ get; set; }
+        public string Zip { get; set; }
         public bool IsActive { get; set; }
+
     }
 }

@@ -9,7 +9,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
     public class CreateTeacherDto
     {
         [Required(ErrorMessage = "Teacher Name Is Required")]
-        [StringLength(150, ErrorMessage = "Institute Name length should not be more than 150 characters")]
+        [StringLength(150, ErrorMessage = "Teacher Name length should not be more than 150 characters")]
         public string TeacherName { get; set; }
         [Required(ErrorMessage = "UserType Is Required")]
         public string UserType { get; set; }
