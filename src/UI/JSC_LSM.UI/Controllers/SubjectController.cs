@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#region- Controller for Subject module:by Vishram Sawant
 namespace JSC_LSM.UI.Controllers
 {
     public class SubjectController : BaseController
@@ -30,6 +31,11 @@ namespace JSC_LSM.UI.Controllers
             _subjectRepository = subjectRepository;
         }
 
+        /// <summary>
+        /// Gives all the details in form of a list:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<IActionResult> ManageSubject()
         {
@@ -47,6 +53,11 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        /// <summary>
+        ///  Get method To Add a new Subject :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<IActionResult> AddSubject()
         {
@@ -57,6 +68,12 @@ namespace JSC_LSM.UI.Controllers
             subjectModel.Sections = await _common.GetSection();
             return View(subjectModel);
         }
+
+        /// <summary>
+        /// Post method To Add a new Subject :by Vishram Sawant
+        /// </summary>
+        /// <param name="subjectModel"></param>
+        /// <returns></returns>
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -133,6 +150,12 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        /// <summary>
+        /// Gives Subject details using Id :by Vishram Sawant
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<GetSubjectByIdResponseModel> GetSubjectById(int Id)
         {
@@ -142,6 +165,10 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
+        /// <summary>
+        ///  Gives all the Subject details:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<SubjectDetailsViewModel>> GetAllSubjectDetails()
         {
@@ -171,6 +198,13 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+
+        /// <summary>
+        /// Custom Pagination for Subject module:by Vishram Sawant
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<IEnumerable<SubjectDetailsViewModel>> GetAllSubjectsDetailsByPagination(int page = 1, int size = 5)
@@ -209,12 +243,22 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+        /// <summary>
+        ///  get School list  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllSchool()
         {
             var schools = await _common.GetSchool();
             return schools;
         }
+
+        /// <summary>
+        ///  get Class list  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllClass()
@@ -223,6 +267,11 @@ namespace JSC_LSM.UI.Controllers
             return classes;
         }
 
+        /// <summary>
+        ///  get Section list  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllSection()
         {
@@ -230,6 +279,10 @@ namespace JSC_LSM.UI.Controllers
             return sections;
         }
 
+        /// <summary>
+        ///  get Subject Name  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetSubjectName()
         {
@@ -246,6 +299,11 @@ namespace JSC_LSM.UI.Controllers
             return subjects;
         }
 
+        /// <summary>
+        /// Updates the Subject details of the given Id:by Vishram Sawant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> EditSubject(int id)
         {
@@ -277,6 +335,12 @@ namespace JSC_LSM.UI.Controllers
 
             return View(subjectData);
         }
+
+        /// <summary>
+        /// Post method to update the Subject details :by Vishram Sawant
+        /// </summary>
+        /// <param name="updateSubjectViewModel"></param>
+        /// <returns></returns>
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -349,11 +413,22 @@ namespace JSC_LSM.UI.Controllers
             return View(updateSubjectViewModel);
         }
 
+        /// <summary>
+        /// Get Method for Subject By Filters:by Vishram Sawant
+        /// </summary>
+        /// <param name="className"></param>
+        /// <param name="schoolName"></param>
+        /// <param name="sectionName"></param>
+        /// <param name="subjectName"></param>
+        /// <param name="createdDate"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<IEnumerable<SubjectDetailsViewModel>> GetSubjectByFilters(string className, string schoolName, string sectionName, string subjectName, DateTime createdDate, bool isActive)
         {
             var data = new List<SubjectDetailsViewModel>();
-            var dataList = await _subjectRepository.GetSubjectByFilters(schoolName, className, sectionName,subjectName, createdDate, isActive);
+            var dataList = await _subjectRepository.GetSubjectByFilters(schoolName, className, sectionName, subjectName, createdDate, isActive);
             if (dataList.data != null)
             {
                 foreach (var subjects in dataList.data)
@@ -384,3 +459,4 @@ namespace JSC_LSM.UI.Controllers
 
     }
 }
+#endregion
