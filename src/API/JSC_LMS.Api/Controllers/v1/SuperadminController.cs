@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin;
+using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminImage;
 using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassword;
 using JSC_LMS.Application.Features.Superadmin.Queries.GetSuperadminById;
 using MediatR;
@@ -50,6 +51,17 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var updateSuperadminChangePasswordCommand = new UpdateSuperadminChangePasswordCommand(updateSuperadminChangePasswordDto);
             var response = await _mediator.Send(updateSuperadminChangePasswordCommand);
+            return Ok(response);
+        }
+
+        [HttpPut("UpdateSuperadminImage", Name = "UpdateSuperadminImage")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateSuperadminImage(int _Id, string _LogoFileName, string _LoginImageFileName)
+        {
+            var updateSuperAdminImageCommand = new UpdateSuperAdminImageCommand() { Id = _Id, LogoFileName = _LogoFileName, LoginImageFileName = _LoginImageFileName };
+            var response = await _mediator.Send(updateSuperAdminImageCommand);
             return Ok(response);
         }
     }

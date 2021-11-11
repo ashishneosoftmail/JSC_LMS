@@ -32,10 +32,10 @@ namespace JSC_LMS.Persistence.Configurations
                 .HasColumnName("EmailSupport").HasColumnType("nvarchar(100)");
             builder
                .Property(b => b.Logo)
-               .HasColumnName("Logo").HasColumnType("varbinary(max)");
+               .HasColumnName("Logo").HasColumnType("nvarchar(max)");
             builder
                .Property(b => b.LoginImage)
-               .HasColumnName("LoginImage").HasColumnType("varbinary(max)");
+               .HasColumnName("LoginImage").HasColumnType("nvarchar(max)");
             builder
                 .Property(b => b.IsActive)
                 .IsRequired()

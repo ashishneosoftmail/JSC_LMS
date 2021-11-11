@@ -356,9 +356,9 @@ namespace JSC_LMS.Identity.Services
             return null;
         }
 
-        public async Task<ChangeUserPasswordResponse> ChangeUserPassword(ClaimsPrincipal User, string userid, string oldPassword, string newPassword)
+        public async Task<ChangeUserPasswordResponse> ChangeUserPassword(string userid, string oldPassword, string newPassword)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(userid);
             ChangeUserPasswordResponse changePassword = new ChangeUserPasswordResponse();
             if (user == null)
             {
@@ -368,8 +368,18 @@ namespace JSC_LMS.Identity.Services
                 changePassword.UserId = null;
                 return changePassword;
             }
-            var result = await _userManager.ChangePasswordAsync(user,
-            oldPassword, newPassword);
+
+            var verifyPassword = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, oldPassword);
+            if (verifyPassword != PasswordVerificationResult.Success)
+            {
+                changePassword.Succeeded = false;
+                changePassword.Errors = new List<string>();
+                changePassword.Errors.Add("Please enter correct password");
+                changePassword.UserId = null;
+                return changePassword;
+            }
+            user.PasswordHash = _passwordHasher.HashPassword(user, newPassword);
+            var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
             {
                 changePassword.Succeeded = false;

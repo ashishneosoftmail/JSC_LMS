@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin;
+using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassword;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -69,6 +71,43 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getSuperadminByUserIdResponseModel;
 
+        }
+
+        public async Task<SuperadminChangePasswordResponseModel> SuperAdminChangePassword(UpdateSuperadminChangePasswordDto updateSuperadminChangePasswordDto)
+        {
+            SuperadminChangePasswordResponseModel superadminChangePasswordResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateSuperadminChangePasswordDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Superadmin/UpdateSuperadminChangePassword", HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                superadminChangePasswordResponseModel = JsonConvert.DeserializeObject<SuperadminChangePasswordResponseModel>(_oApiResponse.data);
+                superadminChangePasswordResponseModel.Succeeded = true;
+            }
+
+            return superadminChangePasswordResponseModel;
+        }
+
+        public async Task<UpdateSuperadminImageResponseModel> UpdateSuperadminImage(int Id, string LogoImageFileName, string LoginImageFileName)
+        {
+            UpdateSuperadminImageResponseModel updateSuperadminImageResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateSuperadminImage + $"?_Id={Id}&_LogoFileName={LogoImageFileName}&_LoginImageFileName={LoginImageFileName}", HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateSuperadminImageResponseModel = JsonConvert.DeserializeObject<UpdateSuperadminImageResponseModel>(_oApiResponse.data);
+                updateSuperadminImageResponseModel.Succeeded = true;
+            }
+
+            return updateSuperadminImageResponseModel;
         }
     }
 }

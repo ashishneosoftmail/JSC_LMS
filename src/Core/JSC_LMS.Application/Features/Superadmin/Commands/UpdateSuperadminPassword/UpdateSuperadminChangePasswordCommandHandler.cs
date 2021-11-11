@@ -24,7 +24,7 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassw
 
             Response<string> UpdateSuperadminCommandResponse = new Response<string>();
 
-            var user = await _authenticationService.ChangeUserPassword(request.updateSuperadminChangePasswordDto.User, request.updateSuperadminChangePasswordDto.UserId, request.updateSuperadminChangePasswordDto.CurrentPassword, request.updateSuperadminChangePasswordDto.NewPassword);
+            var user = await _authenticationService.ChangeUserPassword(request.updateSuperadminChangePasswordDto.UserId, request.updateSuperadminChangePasswordDto.CurrentPassword, request.updateSuperadminChangePasswordDto.NewPassword);
             if (!user.Succeeded)
             {
                 UpdateSuperadminCommandResponse.Message = "Password Not Changed Successfully";

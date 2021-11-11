@@ -355,18 +355,20 @@
     }
 
     function searchPrincipal() {
-        $("#paginationContainer").remove();
+       
         var _schoolName = $("#schoolName :selected").text();
         var _principalName = $("#principalName :selected").text();
         var _isActive = $("#status :selected").val();
         var _date = $("#date").val();
-        $.get("/Principal/GetPrincipalByFilters?principalName=" + _principalName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
-            if (data.length > 0) {
-                $("#tableData").empty();
-                var id = 0;
-                data.forEach(function (principal) {
-                    id = id + 1;
-                    var result = ` <tr>
+        if (_schoolName != null && _principalName != null && _date != null) {
+            $("#paginationContainer").remove();
+            $.get("/Principal/GetPrincipalByFilters?principalName=" + _principalName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+                if (data.length > 0) {
+                    $("#tableData").empty();
+                    var id = 0;
+                    data.forEach(function (principal) {
+                        id = id + 1;
+                        var result = ` <tr>
                                 <td>${id}</td>
                                 <td>${principal.schoolName}</td>
                                 <td>${principal.name}</td>
@@ -384,17 +386,18 @@
 
                                 </td>
                             </tr>`;
-                    $("#tableData").append(result);
-                });
-            }
-            else {
-                $("#tableData").empty();
-                var emptyData = `<tr>
+                        $("#tableData").append(result);
+                    });
+                }
+                else {
+                    $("#tableData").empty();
+                    var emptyData = `<tr>
                 <td colspan="6" class="text-center">
                 No Record Found</tr ></td>`;
-                $("#tableData").append(emptyData);
-            }
-        });
+                    $("#tableData").append(emptyData);
+                }
+            });
+        }
     }
     function loadAllPrincipal(number = 1) {
         var size = $("#rowsPerPage :selected").val();
