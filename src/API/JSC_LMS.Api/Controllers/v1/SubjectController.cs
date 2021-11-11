@@ -31,24 +31,26 @@ namespace JSC_LMS.Api.Controllers.v1
 
 
         [HttpPost(Name = "AddSubject")]
-        public async Task<ActionResult> Create([FromBody] CreateSubjectCommand createSubjectCommand)
+        public async Task<ActionResult> Create(CreateSubjectDto createSubjectDto)
         {
+            var createSubjectCommand = new CreateSubjectCommand(createSubjectDto);
             var id = await _mediator.Send(createSubjectCommand);
             return Ok(id);
         }
 
-        [HttpPut(Name = "UpdateSubject")]
+        [HttpPut("UpdateSubject", Name = "UpdateSubject")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateSubjectCommand updateSubjectCommand)
+        public async Task<ActionResult> UpdateSubject(UpdateSubjectDto updateSubjectDto)
         {
+            var updateSubjectCommand = new UpdateSubjectCommand(updateSubjectDto);
             var response = await _mediator.Send(updateSubjectCommand);
             return Ok(response);
         }
 
 
-        [HttpGet("{id}", Name = "GetSubjectById")]
+        [HttpGet("id", Name = "GetSubjectById")]
         public async Task<ActionResult> GetSubjectById(int id)
         {
             var getSubjectDetailQuery = new GetSubjectQuery() { Id = id };
@@ -79,7 +81,7 @@ namespace JSC_LMS.Api.Controllers.v1
         [HttpGet("Filter", Name = "GetSubjectByFilter")]
         public async Task<ActionResult> GetSubjectFilter( string _ClassName, string _SubjectName, string _SchoolName, string _SectionName, bool _IsActive, DateTime _CreatedDate)
         {
-            var getSubjectByFilterQuery = new GetSubjectFilterQuery( _SchoolName, _SubjectName,_ClassName, _SectionName, _IsActive, _CreatedDate);
+            var getSubjectByFilterQuery = new GetSubjectFilterQuery(_SubjectName,  _SchoolName,  _ClassName,  _SectionName,  _IsActive,  _CreatedDate);
             return Ok(await _mediator.Send(getSubjectByFilterQuery));
         }
 

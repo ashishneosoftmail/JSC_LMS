@@ -1,112 +1,125 @@
-﻿
+﻿@model Pager
+
 @{
     ViewData["Title"] = "ManageSubject";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
+<br />
+<br />
+<br />
 
-<h4 class="mt-2">Manage Subject</h4>
-<br />
-<h6 class="font-weight-bold"> Search Filter</h6>
-<br />
-<div class="row">
-    <div class="col-sm-3">
-        <div class="form-group row">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+</style>
+
+
+<div class="container">
+    <div class="row">
+        <h2>Manage Subject</h2>
+        <h4>Search Filter</h4>
+    </div>
+    <div class="row">
+
+        <div class="form-group row col-sm-4">
             <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
             <div class="col-sm-7">
                 <select class="form-control" id="schoolName">
                     <option disabled selected hidden>Select School</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                 </select>
             </div>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="className" class="col-sm-5 col-form-label">Class Name</label>
+
+        <div class="form-group row col-sm-4">
+            <label for="className" class="col-sm-5 col-form-label">Class Name :</label>
             <div class="col-sm-7">
                 <select class="form-control" id="className">
                     <option disabled selected hidden>Select Class</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                 </select>
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="className" class="col-sm-5 col-form-label">Section Name</label>
+        <div class="form-group row col-sm-4">
+            <label for="sectionName" class="col-sm-5 col-form-label">Section Name :</label>
             <div class="col-sm-7">
-                <select class="form-control" id="className">
+                <select class="form-control" id="sectionName">
                     <option disabled selected hidden>Select Section</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
                 </select>
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="className" class="col-sm-5 col-form-label">Subject Name</label>
+
+        <div class="form-group row col-sm-4">
+            <label for="subjectName" class="col-sm-5 col-form-label">Subject Name :</label>
             <div class="col-sm-7">
-                <select class="form-control" id="className">
-                    <option disabled selected hidden>Select Subject</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                <select class="form-control" id="subjectName">
+                    <option disabled selected hidden>Select Section</option>
                 </select>
             </div>
         </div>
-    </div>
 
-
-</div>
-<div class="row mt-3">
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="status" class="col-sm-5 col-form-label">Status</label>
+        <div class="form-group row col-sm-4">
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
             <div class="col-sm-7">
                 <select class="form-control" id="status">
                     <option disabled selected hidden>Select Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
                 </select>
             </div>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="date" class="col-sm-5 col-form-label">Date</label>
+        <div class="form-group row col-sm-4">
+            <label for="date" class="col-sm-5 col-form-label">Date :</label>
             <div class="col-sm-7">
                 <input type="date" value="" class="form-control" id="date" />
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-1">
-        <div class="form-group row">
-            <button class="btn btn-primary">Search</button>
+        <div class="form-group row col-sm-2 btn-text-right">
+            <button type="button" class="btn btn-primary float-lg-end " onclick="searchSubject()">Search</button>
         </div>
     </div>
 </div>
-<div class="row mt-3">
-    <div class="col-sm-12">
+<div class="col-md-11">
 
-        <button class="btn btn-sm btn-primary pull-right m-2">Create </button>
-    </div>
+    <a asp-action="AddSubject" asp-controller="Subject" class="btn btn-primary btn-sm pull-right m-2"><span>Create New</span>   </a>
+
 </div>
+
 <div id="wrap" class="mt-3">
     <div class="container">
-        <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover table-responsive ">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped table-bordered table-hover">
             <thead>
                 <tr>
                     <th>#</th>
@@ -119,270 +132,82 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
+            <tbody id="tableData">
+                @*   @if (Model.Count() == 0)
+                    {
+                        <tr colspan="6">No Data Found</tr>
+                    }
+                    else
+                    {
+                        int i = 0;
+                        @foreach (var principal in Model)
+                        {
+                            <tr>
+                                <td>@(i = i + 1)</td>
+                                <td>@principal.SchoolName</td>
+                                <td>@principal.Name</td>
+                                <td>@principal.CreatedDate.ToShortDateString() </td>
 
-                    <td>
+                                <td>@(principal.IsActive == true ? "Active" : "Inactive")</td>
 
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
+                                <td>
+                                    <a asp-controller="Principal"
+                                       asp-action="Edit"
+                                       class="btn btn-link"
+                                       asp-route-Id="@principal.Id">Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(@principal.Id)">
+                                        View
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>B</td>
-                    <td>Science</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
+                                </td>
+                            </tr>
+                        }
+                    }*@
 
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>103</td>
-                    <td>Pqw</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>C</td>
-                    <td>History</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-
-
-
-
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>C</td>
-                    <td>Science</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>103</td>
-                    <td>Pqw</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>C</td>
-                    <td>History</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>103</td>
-                    <td>Pqw</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>103</td>
-                    <td>Pqw</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td>101</td>
-                    <td>Jim Ned High School</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Math</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-
-                    <td>
-
-                        <a href="" class="btn btn-link btn-sm">Edit</a>
-                        <a href="" class="btn btn-link btn-sm">Delete</a>
-
-                    </td>
-                </tr>
 
             </tbody>
         </table>
     </div>
+</div>
+
+<div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllSubject()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllSubject(1)">First</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllSubject(@(Model.CurrentPage-1))">Previous</button>
+                </li>
+            }
+            @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllSubject(@pge)">@pge</button>
+                </li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllSubject(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllSubject(@(Model.TotalPages))">Last</button>
+                </li>
+            }
+        </ul>
+    }
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -393,12 +218,253 @@
             "oLanguage": {
                 "sLengthMenu": "Rows_Per_Page _MENU_",
             },
-            @*"dom": '<"top"i>rt<"bottom"flp><"clear">'*@
+            "dom": '<"top"i>rt<"bottom"flp><"clear">'
         });
         $('.datatable').each(function () {
             var datatable = $(this);
             var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
-            length_sel.addClass('form-control input-lg');
+            length_sel.addSection('form-control input-lg');
         });
     });
+</script>
+
+<div class="container">
+    <!-- Button to Open the Modal -->
+    @*  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            create class
+        </button>*@
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center" id="viewUserModel">View  Detail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>
+                                <label>School Name</label>
+                            </th>
+                            <td>
+                                <span id="detailsShoolName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>ClassName</label>
+                            </th>
+                            <td>
+                                <span id="detailsName"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                <label>SectionName</label>
+                            </th>
+                            <td>
+                                <span id="detailsSecName"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                <label>SubjectName</label>
+                            </th>
+                            <td>
+                                <span id="detailsSubName"></span>
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <th>
+                                <label>Status</label>
+                            </th>
+                            <td>
+                                <span id="detailsStatus"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function loadData() {
+        console.log("worked");
+        loadSchoolList();
+        loadClassList();
+        loadSectionList();
+        loadSubjectList();
+        loadAllSubject();
+        
+
+    }
+    loadData();
+
+    function ShowSubjectlDetail(id) {
+        $.get("/Subject/GetSubjectById", { Id: id }, function (data) {
+            console.log(data)
+            if (data) {
+
+                $("#detailsShoolName").text(data.data.school.schoolName);
+
+                $("#detailsName").text(data.data.class.className);
+
+                $("#detailsSecName").text(data.data.section.sectionName);
+
+                $("#detailsSubName").text(data.data.subjectName);
+
+
+
+                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+            }
+        });
+    }
+
+    function loadSchoolList() {
+        $.get("/Subject/GetAllSchool", function (data) {
+            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            data.forEach(function (school) {
+                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+            });
+        });
+    }
+
+    function loadClassList() {
+        $.get("/Subject/GetAllClass", function (data) {
+            $("#className").append("<option disabled selected hidden>Select Class</option>");
+            data.forEach(function (classes) {
+                $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
+
+    function loadSectionList() {
+        $.get("/Subject/GetAllSection", function (data) {
+            $("#sectionName").append("<option disabled selected hidden>Select Section</option>");
+            data.forEach(function (sections) {
+                $('#sectionName').append('<option value="' + sections.value + '">' + sections.text + '</option>');
+            });
+        });
+    }
+
+
+    function loadSubjectList() {
+        $.get("/Subject/GetSubjectName", function (data) {
+            $("#subjectName").append("<option disabled selected hidden>Select Subject</option>");
+            data.forEach(function (subjects) {
+                $('#subjectName').append('<option value="' + subjects.value + '">' + subjects.text + '</option>');
+            });
+        });
+    }
+
+    function searchSubject() {
+        $("#paginationContainer").remove();
+        var _schoolName = $("#schoolName :selected").text();
+        var _className = $("#className :selected").text();
+        var _sectionName = $("#sectionName :selected").text();
+        var _subjectName = $("#subjectName :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+        $.get("/Subject/GetSubjectByFilters?className=" + _className + "&schoolName=" + _schoolName + "&sectionName=" + _sectionName + "&subjectName="+_subjectName  + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (subjects) {
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${subjects.schoolName}</td>
+                                <td>${subjects.className}</td>
+                                <td>${subjects.sectionName}</td>
+                                <td>${subjects.subjectName}</td>
+                                <td>${new Date(subjects.createdDate).toLocaleDateString()}</td>
+
+                                <td>${subjects.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                      <a href="/Subject/EditSubject/${subjects.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowSubjectlDetail(${subjects.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+    function loadAllSubject(number = 1) {
+        $.get(`/Subject/GetAllSubjectsDetailsByPagination?page=${number}`, function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (subjects) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${subjects.schoolName}</td>
+                                <td>${subjects.className}</td>
+                                 <td>${subjects.sectionName}</td>
+                                  <td>${subjects.subjectName}</td>
+                                <td>${new Date(subjects.createdDate).toLocaleDateString()}</td>
+
+                                <td>${subjects.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                      <a href="/Subject/EditSubject/${subjects.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+
+
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowSubjectlDetail(${subjects.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
 </script>

@@ -164,8 +164,24 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateSectionResponseModel;
         }
 
+        public async Task<GetAllSectionResponseModel> GetAllSection()
+        {
+            GetAllSectionResponseModel getAllSectionResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
 
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllSection, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllSectionResponseModel = JsonConvert.DeserializeObject<GetAllSectionResponseModel>(_oApiResponse.data);
+                getAllSectionResponseModel.isSuccess = true;
+            }
 
+            return getAllSectionResponseModel;
+
+        }
 
     }
 }

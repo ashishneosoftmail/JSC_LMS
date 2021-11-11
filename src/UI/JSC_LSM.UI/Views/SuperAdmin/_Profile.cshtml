@@ -1,0 +1,50 @@
+﻿@model UpdateSuperadminProfileInformationModel
+<style>
+    #div1 {
+        width: 620px;
+        height: 400px;
+        display: inline-block;
+        padding: 15px;
+        text-align: center;
+        border-style: solid;
+        border-color: lightgray;
+    }
+</style>
+<div class="container p-3 my-3" id="div1">
+    <h3>Profile Information</h3>
+    <br />
+    <br />
+    <form method="post" novalidate>
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="inputName" asp-for="Name" placeholder="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Mobile Support</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="inputNumber" asp-for="MobileSupport" placeholder="Mobile number">
+                <span asp-validation-for="MobileSupport" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Email Support</label>
+            <div class="col-sm-7">
+                <input type="email" class="form-control" id="inputEmail" asp-for="EmailSupport" placeholder="Admin@example.com">
+                <span asp-validation-for="EmailSupport" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+         
+        @*<a asp-controller="SuperAdmin" asp-action="ProfileUpdate" class="btn btn-primary">Update</a>*@
+    </form>
+</div>

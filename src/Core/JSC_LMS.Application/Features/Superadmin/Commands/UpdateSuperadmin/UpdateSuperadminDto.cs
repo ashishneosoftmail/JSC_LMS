@@ -7,7 +7,7 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin
 {
     public class UpdateSuperadminDto
     {
-        [Required(ErrorMessage = "Id Is Required")]
+
         public int Id { get; set; }
         [Required(ErrorMessage = "Name  Is Required")]
         public string Name { get; set; }
@@ -17,9 +17,5 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin
         [Required(ErrorMessage = "Email Is Required")]
         [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
         public string EmailSupport { get; set; }
-        public byte[] Logo { get; set; }
-        public byte[] LoginImage { get; set; }
-        public string UserId { get; set; }
-        public bool IsActive { get; set; }
     }
 }

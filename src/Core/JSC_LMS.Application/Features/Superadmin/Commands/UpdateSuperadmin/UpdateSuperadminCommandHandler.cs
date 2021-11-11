@@ -31,11 +31,13 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin
                 UpdateSuperadminCommandResponse.Message = "No User Found";
                 return UpdateSuperadminCommandResponse;
             }
-
+            superadminToUpdate.Name = request.updateSuperadminDto.Name;
+            superadminToUpdate.EmailSupport = request.updateSuperadminDto.EmailSupport;
+            superadminToUpdate.MobileSupport = request.updateSuperadminDto.MobileSupport;
 
             await _superadminRepository.UpdateAsync(superadminToUpdate);
 
-            return new Response<int>(request.updateSuperadminDto.Id, "Updated successfully ");
+            return new Response<int>(request.updateSuperadminDto.Id, " Updated successfully ");
         }
     }
 }

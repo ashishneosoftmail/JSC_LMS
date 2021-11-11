@@ -1,4 +1,4 @@
-﻿@model UpdateSectionViewModel
+﻿@model UpdateSubjectViewModel
 <style>
     .ButtonDesign {
         width: 10%;
@@ -22,10 +22,10 @@
     }
 </style>
 <div id="wrapper">
-    @if (ViewBag.GetSectionById != null)
+    @if (ViewBag.GetSubjectById != null)
     {
-        <script>alert("@ViewBag.GetSectionById")</script>
-        @*@ViewBag.GetSectionById = null;*@
+        <script>alert("@ViewBag.GetSubjectById")</script>
+        @*@ViewBag.GetSubjectById = null;*@
     }
 
 </div>
@@ -46,9 +46,9 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">Class Name :</label>
+                    <label for="inputClass" class="col-sm-2 col-form-label">Class Name :</label>
                     <div class="col-sm-7">
-                        <select class="form-control" asp-for="ClassId" id="school" asp-items="Model.Classes">
+                        <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
                             <option disabled selected hidden>Select Class</option>
                         </select>
                         <span asp-validation-for="ClassId" class="text-danger"></span>
@@ -56,13 +56,25 @@
                 </div>
                 <br />
 
+                <div class="form-group row">
+                    <label for="inputSection" class="col-sm-2 col-form-label">Section Name :</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" asp-for="SectionId" id="school" asp-items="Model.Sections">
+                            <option disabled selected hidden>Select School</option>
+                        </select>
+                        <span asp-validation-for="SectionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSectionName" class="col-sm-2 col-form-label">Section Name :</label><br />
+                    <label for="inputSubjectName" class="col-sm-2 col-form-label">Subject Name :</label><br />
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputSectionName" asp-for="SectionName" placeholder="Ex: Abc">
-                        <span asp-validation-for="SectionName" class="text-danger"></span>
+                        <input type="text" class="form-control" id="inputSubjectName" asp-for="SubjectName" placeholder="Ex: Abc">
+                        <span asp-validation-for="SubjectName" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -104,19 +116,19 @@
     </form>
 </div>
 <div id="wrapper">
-    @if (ViewBag.UpdateSectionSuccess != null)
+    @if (ViewBag.UpdateSubjectSuccess != null)
     {
-        <script>alert("@ViewBag.UpdateSectionSuccess")</script>
+        <script>alert("@ViewBag.UpdateSubjectSuccess")</script>
     }
-    @if (ViewBag.UpdateSectionError != null)
+    @if (ViewBag.UpdateSubjectError != null)
     {
-        <script>alert("@ViewBag.UpdateSectionError")</script>
+        <script>alert("@ViewBag.UpdateSubjectError")</script>
     }
 </div>
 <script type="text/javascript">
    @* loadSchoolList();*@
     function loadSchoolList() {
-        $.get("/Section/GetAllSchool", function (data) {
+        $.get("/Subject/GetAllSchool", function (data) {
             $("#schoolName").append("<option disabled selected hidden>Select School</option>");
             data.forEach(function (school) {
                 $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
@@ -126,10 +138,20 @@
 
     @* loadClassList();*@
     function loadClassList() {
-        $.get("/Section/GetAllClass", function (data) {
+        $.get("/Subject/GetAllClass", function (data) {
             $("#className").append("<option disabled selected hidden>Select Class</option>");
             data.forEach(function (classes) {
                 $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
+
+    @* loadSectionList();*@
+    function loadSectionList() {
+        $.get("/Subject/GetAllSection", function (data) {
+            $("#sectionName").append("<option disabled selected hidden>Select Section</option>");
+            data.forEach(function (sections) {
+                $('#sectionName').append('<option value="' + sections.value + '">' + sections.text + '</option>');
             });
         });
     }
