@@ -27,7 +27,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         public string ContactPerson { get; set; }
 
         [Required(ErrorMessage = "Phone Number Is Required")]
-        [RegularExpression(@"^\+?([0-9]{2})\)?[-. ]?([0-9]{5})[-. ]?([0-9]{5})$", ErrorMessage = "Please enter correct mobile number")]
+        [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
 
         public string UserId { get; set; }

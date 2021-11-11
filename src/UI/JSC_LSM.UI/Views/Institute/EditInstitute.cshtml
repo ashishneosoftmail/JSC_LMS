@@ -176,11 +176,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6" style="margin-left:10px">
+                    <div class="col-sm-6">
                         <div class="form-group row">
-                            <div class="col-sm-9">
-                                <label>Status :</label>
 
+                            <label for="status" class="col-sm-3 col-form-label">Status :</label>
+                            <div class="col-sm-9">
                                 <div class="form-check form-check-inline">
                                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", Checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
 
@@ -193,6 +193,7 @@
                             </div>
                         </div>
                     </div>
+                   
                 </div>
                     <br />
                     <div class="row">

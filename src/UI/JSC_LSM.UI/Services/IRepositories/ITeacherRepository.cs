@@ -21,5 +21,9 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<UpdateTeacherResponseModel> UpdateTeacher(UpdateTeacherDto updateTeacherDto);
 
         Task<GetTeacherByIdResponseModel> GetTeacherById(int Id);
+
+        //Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(int page, int size);
+
+        //Task<GetAllTeacherListResponseModel> GetAllTeacherDetails();
     }
 }
