@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadmin;
+using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassword;
 using JSC_LMS.Application.Features.Superadmin.Queries.GetSuperadminById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -39,6 +40,17 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getSuperadminDetailQuery = new GetSuperAdminByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getSuperadminDetailQuery));
+        }
+
+        [HttpPut("UpdateSuperadminChangePassword", Name = "UpdateSuperadminChangePassword")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateSuperadminChangePassword(UpdateSuperadminChangePasswordDto updateSuperadminChangePasswordDto)
+        {
+            var updateSuperadminChangePasswordCommand = new UpdateSuperadminChangePasswordCommand(updateSuperadminChangePasswordDto);
+            var response = await _mediator.Send(updateSuperadminChangePasswordCommand);
+            return Ok(response);
         }
     }
 }
