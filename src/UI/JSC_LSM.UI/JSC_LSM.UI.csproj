@@ -652,6 +652,8 @@
   <ItemGroup>
     <Folder Include="ViewModels\" />
     <Folder Include="wwwroot\Content\Images\" />
+    <Folder Include="wwwroot\Upload\Logos\" />
+    <Folder Include="wwwroot\Upload\LoginImages\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -10,7 +10,7 @@ namespace JSC_LMS.Application.Features.Superadmin.Queries.GetSuperadminById
         public string Name { get; set; }
         public string MobileSupport { get; set; }
         public string EmailSupport { get; set; }
-        public byte[] Logo { get; set; }
-        public byte[] LoginImage { get; set; }
+        public string Logo { get; set; }
+        public string LoginImage { get; set; }
     }
 }

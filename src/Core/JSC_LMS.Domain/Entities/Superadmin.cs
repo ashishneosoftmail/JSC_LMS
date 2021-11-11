@@ -11,8 +11,8 @@ namespace JSC_LMS.Domain.Entities
         public string Name { get; set; }
         public string MobileSupport { get; set; }
         public string EmailSupport { get; set; }
-        public byte[] Logo { get; set; }
-        public byte[] LoginImage { get; set; }
+        public string Logo { get; set; }
+        public string LoginImage { get; set; }
         public string UserId { get; set; }
         public bool IsActive { get; set; }
     }

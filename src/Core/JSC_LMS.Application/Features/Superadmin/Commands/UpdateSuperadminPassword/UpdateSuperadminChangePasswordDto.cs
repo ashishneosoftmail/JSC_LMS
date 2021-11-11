@@ -8,7 +8,6 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassw
 {
     public class UpdateSuperadminChangePasswordDto
     {
-        public ClaimsPrincipal User { get; set; }
         public string UserId { get; set; }
         [Required(ErrorMessage = "Current Password Is Required")]
         [DataType(DataType.Password)]
@@ -18,10 +17,6 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassw
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
 
-        [Required(ErrorMessage = "Confirm Password Is Required")]
-        [DataType(DataType.Password)]
-        [Compare("NewPassword", ErrorMessage =
-            "The new password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
+
     }
 }

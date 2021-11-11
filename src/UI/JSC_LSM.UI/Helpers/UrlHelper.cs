@@ -60,7 +60,7 @@ namespace JSC_LSM.UI.Helpers
         public static string UpdatePrincipalPersonalInformation = "/api/v1/Superadmin/UpdateSuperadmin";
         public static string GetSuperadminByUserId = "/api/v1/Superadmin/";
 
-       
+
         public static string AddNewSubject = "/api/v1/Subject";
         public static string UpdateSubject = "/api/v1/Subject/UpdateSubject";
         public static string GetSubjectByPagination = "/api/v1/Subject/Pagination";
@@ -68,6 +68,8 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllSubjectDetails = "/api/v1/Subject/all";
         public static string GetSubjectById = "/api/v1/Subject/id";
         public static string GetAllSection = "/api/v1/Section/all";
+        public static string SuperadminChangePassword = "/api/v1/Superadmin/UpdateSuperadminChangePassword";
+        public static string UpdateSuperadminImage = "/api/v1/Superadmin/UpdateSuperadminImage";
 
     }
 }

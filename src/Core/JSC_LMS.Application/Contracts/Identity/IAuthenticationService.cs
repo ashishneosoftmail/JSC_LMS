@@ -14,6 +14,6 @@ namespace JSC_LMS.Application.Contracts.Identity
         Task<RevokeTokenResponse> RevokeToken(RevokeTokenRequest request);
         Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request);
         Task<GetUserByIdResponse> GetUserById(string id);
-        Task<ChangeUserPasswordResponse> ChangeUserPassword(ClaimsPrincipal User, string userid, string oldPassword, string newPassword);
+        Task<ChangeUserPasswordResponse> ChangeUserPassword(string userid, string oldPassword, string newPassword);
     }
 }
