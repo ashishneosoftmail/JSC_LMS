@@ -1,5 +1,6 @@
 using JSC_LMS.Application.Models.Authentication;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Contracts.Identity
@@ -13,5 +14,6 @@ namespace JSC_LMS.Application.Contracts.Identity
         Task<RevokeTokenResponse> RevokeToken(RevokeTokenRequest request);
         Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request);
         Task<GetUserByIdResponse> GetUserById(string id);
+        Task<ChangeUserPasswordResponse> ChangeUserPassword(ClaimsPrincipal User, string userid, string oldPassword, string newPassword);
     }
 }

@@ -16,6 +16,8 @@
 <br />
 
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -93,7 +95,7 @@
     </div>
 </div>
 <div class="col-md-11">
-  
+
     <a asp-action="AddClass" asp-controller="Class" class="btn btn-primary btn-sm pull-right m-2"><span>Create New</span>   </a>
 
 </div>
@@ -245,9 +247,9 @@
                                 <span id="detailsName"></span>
                             </td>
                         </tr>
-                      
-                       
-                       
+
+
+
                         <tr>
                             <th>
                                 <label>Status</label>
@@ -283,11 +285,11 @@
             if (data) {
 
                 $("#detailsShoolName").text(data.data.school.schoolName);
-             
+
                 $("#detailsName").text(data.data.className);
-          
-             
-              
+
+
+
                 data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
             }
         });
@@ -353,7 +355,8 @@
         });
     }
     function loadAllClass(number = 1) {
-        $.get(`/Class/GetAllClasssDetailsByPagination?page=${number}`, function (data) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/Class/GetAllClasssDetailsByPagination?page=${number}&size=${size}`, function (data) {
             console.log(data);
             if (data.length > 0) {
                 $("#tableData").empty();

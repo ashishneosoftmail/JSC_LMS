@@ -128,7 +128,7 @@ namespace JSC_LSM.UI.Controllers
                             newSubjectModel.Schools = await _common.GetSchool();
                             newSubjectModel.Classes = await _common.GetClass();
                             newSubjectModel.Sections = await _common.GetSection();
-                            return View(newSubjectModel);
+                            return RedirectToAction("ManageSubject", "Subject");
                         }
                         else
                         {

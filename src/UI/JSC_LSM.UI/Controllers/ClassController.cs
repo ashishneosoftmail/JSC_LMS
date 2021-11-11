@@ -11,6 +11,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#region- Controller for Class module:by Vishram Sawant
 namespace JSC_LSM.UI.Controllers
 {
     public class ClassController : BaseController
@@ -26,6 +27,10 @@ namespace JSC_LSM.UI.Controllers
             _classRepository = classRepository;
         }
 
+        /// <summary>
+        ///  Gives all the details in form of a list:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> ManageClass()
         {
@@ -43,7 +48,10 @@ namespace JSC_LSM.UI.Controllers
            
         }
 
-
+        /// <summary>
+        ///   method To get Class Details :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> ClassDetails()
         {
             var page = 1;
@@ -59,7 +67,10 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
-
+        /// <summary>
+        ///  Get method To Add a new Class :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> AddClass()
         {
@@ -70,7 +81,11 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
+        /// <summary>
+        /// Post method To Add a new Class :by Vishram Sawant
+        /// </summary>
+        /// <param name="classModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddClass(ClassModel classModel)
@@ -117,7 +132,8 @@ namespace JSC_LSM.UI.Controllers
                             var newClassModel = new ClassModel();
 
                             newClassModel.Schools = await _common.GetSchool();
-                            return View(newClassModel);
+                           
+                            return RedirectToAction("ManageClass", "Class");
                         }
                         else
                         {
@@ -139,6 +155,12 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        /// <summary>
+        /// Gives Class details using Id :by Vishram Sawant
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<GetClassByIdResponseModel> GetClassById(int Id)
         {
@@ -150,7 +172,14 @@ namespace JSC_LSM.UI.Controllers
 
 
 
-
+        /// <summary>
+        /// Get Method for Class By Filters:by Vishram Sawant
+        /// </summary>
+        /// <param name="className"></param>
+        /// <param name="schoolName"></param>
+        /// <param name="createdDate"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<IEnumerable<ClassDetailsViewModel>> GetClassByFilters(string className, string schoolName, DateTime createdDate, bool isActive)
@@ -179,6 +208,11 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+        /// <summary>
+        /// Method to get All Class Details
+        /// </summary>
+        /// <returns></returns>
+
         [HttpGet]
         public async Task<IEnumerable<ClassDetailsViewModel>> GetAllClassDetails()
         {
@@ -204,6 +238,12 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+        /// <summary>
+        /// Custom Pagination for Class module:by Vishram Sawant
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<ClassDetailsViewModel>> GetAllClasssDetailsByPagination(int page = 1, int size = 5)
         {
@@ -237,8 +277,11 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
-     
 
+        /// <summary>
+        /// Method to get School List:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllSchool()
         {
@@ -246,6 +289,10 @@ namespace JSC_LSM.UI.Controllers
             return schools;
         }
 
+        /// <summary>
+        /// Method to get Class Name:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetClassName()
         {
@@ -262,6 +309,11 @@ namespace JSC_LSM.UI.Controllers
             return classes;
         }
 
+        /// <summary>
+        ///  Updates the Class details of the given Id:by Vishram Sawant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> EditClass(int id)
         {
@@ -288,6 +340,11 @@ namespace JSC_LSM.UI.Controllers
             return View(classData);
         }
 
+        /// <summary>
+        /// Post method to update the Class details :by Vishram Sawant
+        /// </summary>
+        /// <param name="updateClassViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditClass(UpdateClassViewModel updateClassViewModel)
@@ -364,7 +421,7 @@ namespace JSC_LSM.UI.Controllers
     }
 
 }
-
+#endregion
 
 
 
