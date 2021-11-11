@@ -15,7 +15,8 @@
 <br />
 <br />
 
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -316,7 +317,7 @@
         loadSectionList();
         loadSubjectList();
         loadAllSubject();
-        
+
 
     }
     loadData();
@@ -386,7 +387,7 @@
         var _subjectName = $("#subjectName :selected").text();
         var _isActive = $("#status :selected").val();
         var _date = $("#date").val();
-        $.get("/Subject/GetSubjectByFilters?className=" + _className + "&schoolName=" + _schoolName + "&sectionName=" + _sectionName + "&subjectName="+_subjectName  + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+        $.get("/Subject/GetSubjectByFilters?className=" + _className + "&schoolName=" + _schoolName + "&sectionName=" + _sectionName + "&subjectName=" + _subjectName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
             if (data.length > 0) {
                 $("#tableData").empty();
                 var id = 0;
@@ -425,7 +426,8 @@
         });
     }
     function loadAllSubject(number = 1) {
-        $.get(`/Subject/GetAllSubjectsDetailsByPagination?page=${number}`, function (data) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/Subject/GetAllSubjectsDetailsByPagination?page=${number}&size=${size}`, function (data) {
             console.log(data);
             if (data.length > 0) {
                 $("#tableData").empty();

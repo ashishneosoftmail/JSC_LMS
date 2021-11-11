@@ -65,6 +65,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById
             var teacherData = new GetTeacherByIdVm()
             {
                 Id = teacher.Id,
+                UserId = teacher.UserId,
                 AddressLine1 = teacher.AddressLine1,
                 AddressLine2 = teacher.AddressLine2,
                 CreatedDate = (DateTime)teacher.CreatedDate,
@@ -75,37 +76,37 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById
                // SubjectId = teacher.SubjectId,
                 TeacherName = teacher.TeacherName,
                 UserType = teacher.UserType,
-                SectionId = new SectionDto()
+                Section = new SectionDto()
                 {
                     Id = teacher.SectionId,
                     SectionName = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName
                 },
-                SchoolId = new SchoolDto()
+                School = new SchoolDto()
                 {
                     Id = teacher.SchoolId,
                     SchoolName = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName
                 },
-                ClassId = new ClassDto()
+                Class = new ClassDto()
                 {
                     Id = teacher.SchoolId,
                     ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
                 },
-                CityId = new CityDto()
+                City = new CityDto()
                 {
                     Id = (int)teacher.CityId,
                     CityName = (await _cityRepository.GetByIdAsync((int)teacher.CityId)).CityName
                 },
-                StateId = new StateDto()
+                State = new StateDto()
                 {
                     Id = (int)teacher.StateId,
                     StateName = (await _stateRepository.GetByIdAsync((int)teacher.StateId)).StateName
                 },
-                ZipId = new ZipDto()
+                Zip = new ZipDto()
                 {
                     Id = (int)teacher.ZipId,
                     Zipcode = (await _zipRepository.GetByIdAsync((int)teacher.ZipId)).Zipcode
                 },
-                SubjectId = new SubjectDto()
+                Subject = new SubjectDto()
                 {
                     Id = teacher.SchoolId,
                     SubjectName = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName

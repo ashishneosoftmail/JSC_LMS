@@ -9,6 +9,12 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
     public class UpdateTeacherCommand : IRequest<Response<int>>
     {
         public UpdateTeacherDto updateTeacherDto { get; set; }
+
+       
+        public UpdateTeacherCommand(UpdateTeacherDto _updateTeacherDto)
+        {
+            updateTeacherDto = _updateTeacherDto;
+        }
     }
 
 }

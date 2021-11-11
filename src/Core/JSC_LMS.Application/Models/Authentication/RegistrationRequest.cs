@@ -24,5 +24,11 @@ namespace JSC_LMS.Application.Models.Authentication
         [Required]
         [MinLength(6)]
         public string RoleName { get; set; }
+
+        [Required]
+        public string ClassName { get; set; }
+
+        [Required]
+        public int SchoolId { get; set; }
     }
 }

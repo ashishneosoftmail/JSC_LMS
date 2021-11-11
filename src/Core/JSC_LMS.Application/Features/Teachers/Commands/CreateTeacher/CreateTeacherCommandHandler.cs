@@ -41,36 +41,47 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
             }
             else
             {
-                var UserData = new RegistrationRequest() { FirstName = request.createTeacherDto.TeacherName, 
-                    LastName = "T", 
-                    UserName = request.createTeacherDto.Username,
-                    Email = request.createTeacherDto.Email, 
-                    Password = request.createTeacherDto.Password, 
-                    RoleName = "Teacher" };
-                var User = await _authenticationService.RegisterAsync(UserData);
-                var data = new Teacher()
+                var UserData = new RegistrationRequest()
                 {
-                    UserId = User.UserId,
-                    TeacherName = request.createTeacherDto.TeacherName,
-                    AddressLine1 = request.createTeacherDto.AddressLine1,
-                    AddressLine2 = request.createTeacherDto.AddressLine2,
-                    SubjectId = request.createTeacherDto.SubjectId,
-                    ClassId  = request.createTeacherDto.ClassId,
-                    CityId = request.createTeacherDto.CityId,
-                    StateId = request.createTeacherDto.StateId,
-                    ZipId = request.createTeacherDto.ZipId,
-                    UserType = request.createTeacherDto.UserType,
-                    IsActive = request.createTeacherDto.IsActive,
-                    SectionId = request.createTeacherDto.SectionId,
-                    Mobile = request.createTeacherDto.Mobile,
-                    SchoolId = request.createTeacherDto.SchoolId,
+                    FirstName = request.createTeacherDto.TeacherName,
+                    LastName = "T",
+                    UserName = request.createTeacherDto.Username,
+                    Email = request.createTeacherDto.Email,
+                    Password = request.createTeacherDto.Password,
+                    RoleName = "Teacher"
                 };
-                var teacher = await _teacherRepository.AddAsync(data);
-                createTeacherCommandResponse.Data = _mapper.Map<CreateTeacherDto>(teacher);
-                createTeacherCommandResponse.Succeeded = true;
-                createTeacherCommandResponse.Message = "success";
-            }
+                var User = await _authenticationService.RegisterAsync(UserData);
+                if (User.UserId == null)
+                {
 
+                    createTeacherCommandResponse.Succeeded = false;
+                    createTeacherCommandResponse.Message = "User Already Registered";
+                }
+                else
+                {
+                    var data = new Teacher()
+                    {
+                        UserId = User.UserId,
+                        TeacherName = request.createTeacherDto.TeacherName,
+                        AddressLine1 = request.createTeacherDto.AddressLine1,
+                        AddressLine2 = request.createTeacherDto.AddressLine2,
+                        SubjectId = request.createTeacherDto.SubjectId,
+                        ClassId = request.createTeacherDto.ClassId,
+                        CityId = request.createTeacherDto.CityId,
+                        StateId = request.createTeacherDto.StateId,
+                        ZipId = request.createTeacherDto.ZipId,
+                        UserType = request.createTeacherDto.UserType,
+                        IsActive = request.createTeacherDto.IsActive,
+                        SectionId = request.createTeacherDto.SectionId,
+                        Mobile = request.createTeacherDto.Mobile,
+                        SchoolId = request.createTeacherDto.SchoolId,
+                    };
+                    var teacher = await _teacherRepository.AddAsync(data);
+                    createTeacherCommandResponse.Data = _mapper.Map<CreateTeacherDto>(teacher);
+                    createTeacherCommandResponse.Succeeded = true;
+                    createTeacherCommandResponse.Message = "success";
+                }
+            }
             return createTeacherCommandResponse;
 
         }

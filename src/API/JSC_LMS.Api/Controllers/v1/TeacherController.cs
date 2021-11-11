@@ -31,17 +31,19 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger = logger;
         }
         [HttpPost(Name ="AddTeacher")]
-        public async Task<ActionResult> Create([FromBody] CreateTeacherCommand createTeacherCommand)
+        public async Task<ActionResult> Create(CreateTeacherDto createTeacherDto)
         {
+            var createTeacherCommand = new CreateTeacherCommand(createTeacherDto);
             var id = await _mediator.Send(createTeacherCommand);
             return Ok(id);
         }
-        [HttpPut(Name = "UpdateTeacher")]
+        [HttpPut("UpdateTeacher" , Name = "UpdateTeacher")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateTeacherCommand updateTeacherCommand)
+        public async Task<ActionResult> Update(UpdateTeacherDto updateTeacherDto)
         {
+            var updateTeacherCommand = new UpdateTeacherCommand(updateTeacherDto);
             var response = await _mediator.Send(updateTeacherCommand);
             return Ok(response);
         }

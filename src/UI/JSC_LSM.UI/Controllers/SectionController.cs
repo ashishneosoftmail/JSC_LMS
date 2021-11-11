@@ -10,18 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+#region- Controller for Section module:by Vishram Sawant
 namespace JSC_LSM.UI.Controllers
 {
     public class SectionController : BaseController
     {
-        // public IActionResult AddSection()
-        //{
-        //   return View();
-        //}
-        //public IActionResult ManageSection()
-        //{
-        //  return View();
-        // }
+      
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISectionRepository _sectionRepository;
@@ -33,6 +27,11 @@ namespace JSC_LSM.UI.Controllers
             _sectionRepository = sectionRepository;
             _classRepository = classRepository;
         }
+
+        /// <summary>
+        /// Gives all the details in form of a list:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> ManageSection()
         {
@@ -51,8 +50,11 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-     
 
+        /// <summary>
+        /// Get method To Add a new Section :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<IActionResult> AddSection()
@@ -65,7 +67,11 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
+        /// <summary>
+        /// Post method To Add a new Section :by Vishram Sawant
+        /// </summary>
+        /// <param name="sectionModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddSection(SectionModel sectionModel)
@@ -116,7 +122,7 @@ namespace JSC_LSM.UI.Controllers
 
                             newSectionModel.Schools = await _common.GetSchool();
                             newSectionModel.Classes = await _common.GetClass();
-                            return View(newSectionModel);
+                            return RedirectToAction("ManageSection", "Section");
                         }
                         else
                         {
@@ -138,6 +144,11 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        /// <summary>
+        /// Gives Section details using Id :by Vishram Sawant
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<GetSectionByIdResponseModel> GetSectionById(int Id)
         {
@@ -151,7 +162,10 @@ namespace JSC_LSM.UI.Controllers
 
 
 
- 
+        /// <summary>
+        ///  Gives all the Section details:by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<IEnumerable<SectionDetailsViewModel>> GetAllSectionDetails()
@@ -179,6 +193,13 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
+
+        /// <summary>
+        /// Custom Pagination for Section module:by Vishram Sawant
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<IEnumerable<SectionDetailsViewModel>> GetAllSectionsDetailsByPagination(int page = 1, int size = 5)
@@ -216,13 +237,21 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
+        /// <summary>
+        ///   get School list  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllSchool()
         {
             var schools = await _common.GetSchool();
             return schools;
         }
+
+        /// <summary>
+        ///  get Class list  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
 
         [HttpGet]
         public async Task<List<SelectListItem>> GetAllClass()
@@ -232,7 +261,10 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
+        /// <summary>
+        /// get Section Name  :by Vishram Sawant
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<SelectListItem>> GetSectionName()
         {
@@ -249,6 +281,12 @@ namespace JSC_LSM.UI.Controllers
             return sections;
         }
 
+
+        /// <summary>
+        /// Updates the Section details of the given Id:by Vishram Sawant
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> EditSection(int id)
         {
@@ -278,6 +316,12 @@ namespace JSC_LSM.UI.Controllers
             return View(sectionData);
         }
 
+
+        /// <summary>
+        /// Post method to update the Section details :by Vishram Sawant
+        /// </summary>
+        /// <param name="updateSectionViewModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSection(UpdateSectionViewModel updateSectionViewModel)
@@ -346,7 +390,15 @@ namespace JSC_LSM.UI.Controllers
             return View(updateSectionViewModel);
         }
 
-
+        /// <summary>
+        /// Get Method for Section By Filters:by Vishram Sawant
+        /// </summary>
+        /// <param name="className"></param>
+        /// <param name="schoolName"></param>
+        /// <param name="sectionName"></param>
+        /// <param name="createdDate"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IEnumerable<SectionDetailsViewModel>> GetSectionByFilters(string className, string schoolName, string sectionName, DateTime createdDate, bool isActive)
         {
@@ -379,3 +431,4 @@ namespace JSC_LSM.UI.Controllers
 
     }
 }
+#endregion

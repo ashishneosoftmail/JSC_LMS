@@ -1,0 +1,310 @@
+﻿@model Teacher
+@{
+    ViewData["Title"] = "AddTeacher";
+}
+
+<h4 class="m-3">Add Teacher</h4>
+
+<div class="m-2">
+    <div class="border border-dark p-4 m-3">
+        <div class="row">
+            <form method="post">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="user" class="col-sm-3 col-form-label">User Type</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="UserType" id="user">
+                                    <option value="" disabled selected>Select User</option>
+                                    <option value="Teacher"> Teacher</option>
+                                    <option value="Students"> Students</option>
+                                    <option value="Parents"> Parents</option>
+
+                                </select>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="name" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="TeacherName" class="form-control" id="name">
+                                <span asp-validation-for="TeacherName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="school" class="col-sm-3 col-form-label">Select School</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="SchoolId" asp-items="Model.Schools" id="school">
+                                    <option disabled selected hidden> Select School</option>
+
+                                </select>
+                                <span asp-validation-for="SchoolId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" asp-for="Email" class="form-control" id="email" placeholder="user@example.com">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="school" class="col-sm-3 col-form-label">Select Class</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="ClassId" asp-items="Model.Class" id="school">
+                                    <option disabled selected hidden> Select Class</option>
+
+                                </select>
+                                <span asp-validation-for="ClassId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    @*<div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="class" class="col-sm-3 col-form-label">Class</label>
+                            <div class="col-sm-9">
+                                <select asp-for="ClassId" class="form-control" id="class">
+                                    <option disabled selected hidden>Select Class</option>
+                                </select>
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>*@
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="Mobile" class="form-control" id="mobile">
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="section" class="col-sm-3 col-form-label">Section</label>
+                            <div class="col-sm-9">
+                                <select asp-for="SectionId" asp-items="Model.Section" class="form-control" id="section">
+                                    <option disabled selected hidden>Select Section</option>
+
+                                </select>
+                                <span asp-validation-for="SectionId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="address1" class="col-sm-3 col-form-label">Address 1</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="AddressLine1" class="form-control" id="address1">
+                                <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <br />
+                <div class="row">
+                    
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="subject" class="col-sm-3 col-form-label">Subject</label>
+                            <div class="col-sm-9">
+                                <select asp-for="SubjectId" asp-items="Model.Subject" class="form-control" id="class">
+                                    <option disabled selected hidden>Select Subject</option>
+
+                                </select>
+                            </div>
+                            <span asp-validation-for="SubjectId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="address2" class="col-sm-3 col-form-label">Address 2</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="AddressLine2" class="form-control" id="address2">
+                                <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="state" class="col-sm-3 col-form-label">State</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="StateId" asp-items="Model.States" aria-label="Default select example" id="state" onchange="GetCityById()">
+                                    <option value="" disabled selected>Select State</option>
+
+                                </select>
+                                <span asp-validation-for="StateId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="username" class="col-sm-3 col-form-label">Username</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="Username" class="form-control" id="username">
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+
+                <div class="row">
+                   
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="city" class="col-sm-3 col-form-label">City</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="CityId" id="city" onchange="GetZipByCityId()">
+                                    <option disabled selected hidden>Select City</option>
+
+                                </select>
+                                <span asp-validation-for="CityId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="password" class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" asp-for="Password" class="form-control" id="password">
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="zip" class="col-sm-3 col-form-label">Zip</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="ZipId" id="zip">
+                                </select>
+                                <span asp-validation-for="ZipId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                        <div class="form-group row">
+                            <label for="status" class="col-sm-3 col-form-label">Status</label>
+
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", Checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+                   
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <button asp-action="" asp-controller="Teacher" type="button" class="btn btn-danger  pull-right">Close</button>
+                                <span class="m-2 pull-right"></span>
+                                <button type="submit" class="btn btn-primary pull-right">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="wrapper">
+    @if (ViewBag.AddTeacherSuccess != null)
+    {
+        <script>alert("@ViewBag.AddTeacherSuccess")</script>
+    }
+    @if (ViewBag.AddTeacherError != null)
+    {
+        <script>alert("@ViewBag.AddTeacherError")</script>
+    }
+</div>
+<script type="text/javascript">
+    function GetCityById() {
+        var stateValue = $("#state :selected").val();
+        //You can check selected value using alert
+
+        if (stateValue != null) {
+            $.get("/Teacher/GetCityByStateId", { id: stateValue }, function (data) {
+                console.log(data);
+                $("#city").empty();
+                $("#zip").empty();
+                $("#zip").append("<option disabled selected hidden>Select Zip</option>");
+                $("#city").append("<option disabled selected hidden>Select City</option>");
+                data.forEach(function (city) {
+                    $('#city').append('<option value="' + city.value + '">' + city.text + '</option>');
+                });
+            });
+        }
+    }
+    function GetZipByCityId() {
+        var cityValue = $("#city :selected").val();
+        //You can check selected value using alert
+
+        if (cityValue != null) {
+            $.get("/Teacher/GetZipByCityId", { cityId: cityValue }, function (data) {
+                console.log(data);
+                $("#zip").empty();
+                $("#zip").append("<option disabled selected hidden>Select Zip</option>");
+                data.forEach(function (zip) {
+                    $('#zip').append('<option value="' + zip.value + '">' + zip.text + '</option>');
+                });
+            });
+        }
+    }
+</script>

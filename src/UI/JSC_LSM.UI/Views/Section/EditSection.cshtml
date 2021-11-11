@@ -30,7 +30,7 @@
 
 </div>
 <div class="container p-3 my-3 border fixed" id="div1">
-
+    <h3>Update Section</h3>
     <form method="post" novalidate>
         <div class="row">
             <div class="col">
@@ -75,12 +75,12 @@
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
                     @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
-                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
+                    <label class="form-check-label" for="inlineRadio1">Active</label>*@
                 </div>
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
                     @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
-                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+                    <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
 
@@ -90,13 +90,8 @@
             </div>
         </div>
 
-
-        <button type="button" class="btn btn-danger float-lg-end ButtonDesign">Cancel</button>
-        @*<a asp-controller="Principal"
-            asp-action="EditPrincipalData"
-            class="btn btn-primary float-lg-end ButtonDesign"
-            >Update</a>*@
-        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Update</button>
+        <a asp-action="ManageSection" asp-controller="Section" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
+        <button type="submit" class="btn btn-primary pull-right m-2 ">Update</button>
 
 
 

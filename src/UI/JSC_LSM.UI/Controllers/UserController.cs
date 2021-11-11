@@ -22,6 +22,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly ISchoolRepository _schoolRepository;
+        private readonly ISectionRepository _sectionRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        private readonly IClassRepository _classRepository;
         public UserController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
         {
             _stateRepository = stateRepository;
