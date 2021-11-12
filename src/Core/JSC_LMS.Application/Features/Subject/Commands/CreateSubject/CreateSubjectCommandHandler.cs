@@ -38,6 +38,15 @@ namespace JSC_LMS.Application.Features.Subject.Commands.CreateSubject
             }
             else
             {
+                var CheckExistingSubject = await _subjectRepository.IsSubjectName(request.createSubjectDto.SubjectName, request.createSubjectDto.SchoolId, request.createSubjectDto.ClassId,request.createSubjectDto.SectionId);
+                if (CheckExistingSubject)
+                {
+                    createSubjectCommandResponse.Succeeded = false;
+                    //createClassCommandResponse.Errors.Add("Class Already Existed");
+                    createSubjectCommandResponse.Message = "Subject Already Existed";
+
+                    return createSubjectCommandResponse;
+                }
                 var data = _mapper.Map<JSC_LMS.Domain.Entities.Subject>(request.createSubjectDto);
                 var subjectData = await _subjectRepository.AddAsync(data);
                 createSubjectCommandResponse.Data = _mapper.Map<CreateSubjectDto>(subjectData);

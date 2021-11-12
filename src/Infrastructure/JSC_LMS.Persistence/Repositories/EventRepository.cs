@@ -22,5 +22,7 @@ namespace JSC_LMS.Persistence.Repositories
             _logger.LogInformation("GetCategoriesWithEvents Completed");
             return Task.FromResult(matches);
         }
+
+       
     }
 }
