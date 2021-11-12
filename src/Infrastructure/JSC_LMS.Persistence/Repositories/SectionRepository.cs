@@ -14,7 +14,7 @@ namespace JSC_LMS.Persistence.Repositories
     {
 
         private readonly ILogger _logger;
-        protected readonly ApplicationDbContext _dbContext;
+      
         public SectionRepository(ApplicationDbContext dbContext, ILogger<Section> logger) : base(dbContext, logger)
         {
             _logger = logger;
@@ -27,7 +27,13 @@ namespace JSC_LMS.Persistence.Repositories
 
         }
 
-
+        public Task<bool> IsSectionName(string SectionName, int SchoolId, int ClassId)
+        {
+            _logger.LogInformation("GetSection Initiated");
+            var matches = _dbContext.Section.Any(e => (e.SectionName.Equals(SectionName) && e.SchoolId.Equals(SchoolId) && e.ClassId.Equals(ClassId)));
+            _logger.LogInformation("GetSection Completed");
+            return Task.FromResult(matches);
+        }
 
     }
 }

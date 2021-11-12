@@ -28,5 +28,13 @@ namespace JSC_LMS.Persistence.Repositories
             return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
 
         }
+
+        public Task<bool> IsClassName(string ClassName,int id)
+        {
+            _logger.LogInformation("GetClass Initiated");
+            var matches = _dbContext.Class.Any(e => e.ClassName.Equals(ClassName)&& e.SchoolId.Equals(id));
+            _logger.LogInformation("GetClass Completed");
+            return Task.FromResult(matches);
+        }
     }
 }

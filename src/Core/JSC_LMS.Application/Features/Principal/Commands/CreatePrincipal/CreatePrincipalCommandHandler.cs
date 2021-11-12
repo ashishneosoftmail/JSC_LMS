@@ -49,9 +49,9 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
                 var User = await _authenticationService.RegisterAsync(UserData);
                 if (User.UserId == null)
                 {
-                    
-                        createPrincipalCommandResponse.Succeeded = false;
-                        createPrincipalCommandResponse.Message = "User Already Registered";
+
+                    createPrincipalCommandResponse.Succeeded = false;
+                    createPrincipalCommandResponse.Message = "Email Or Username already registered";
                 }
                 else
                 {

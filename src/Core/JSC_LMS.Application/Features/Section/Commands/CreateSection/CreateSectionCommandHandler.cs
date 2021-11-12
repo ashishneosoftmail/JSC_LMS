@@ -38,6 +38,16 @@ namespace JSC_LMS.Application.Features.Section.Commands.CreateSection
             }
             else
             {
+                var CheckExistingSection = await _sectionRepository.IsSectionName(request.createSectionDto.SectionName, request.createSectionDto.SchoolId,request.createSectionDto.ClassId );
+                if (CheckExistingSection)
+                {
+                    createSectionCommandResponse.Succeeded = false;
+                    //createClassCommandResponse.Errors.Add("Class Already Existed");
+                    createSectionCommandResponse.Message = "Section Already Existed";
+
+                    return createSectionCommandResponse;
+                }
+
                 var data = _mapper.Map<JSC_LMS.Domain.Entities.Section>(request.createSectionDto);
                 var sectionData = await _sectionRepository.AddAsync(data);
                 createSectionCommandResponse.Data = _mapper.Map<CreateSectionDto>(sectionData);

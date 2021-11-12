@@ -40,6 +40,15 @@ namespace JSC_LMS.Application.Features.Class.Commands.CreateClass
             }
             else
             {
+                var CheckExistingClass = await _classRepository.IsClassName(request.createClassDto.ClassName,request.createClassDto.SchoolId);
+                if (CheckExistingClass)
+                {
+                    createClassCommandResponse.Succeeded = false;
+                    //createClassCommandResponse.Errors.Add("Class Already Existed");
+                    createClassCommandResponse.Message = "Class Already Existed";
+                   
+                    return createClassCommandResponse;
+                }
                 var data = _mapper.Map<JSC_LMS.Domain.Entities.Class>(request.createClassDto);
                 var classData = await _classRepository.AddAsync(data);
                 createClassCommandResponse.Data = _mapper.Map<CreateClassDto>(classData);
