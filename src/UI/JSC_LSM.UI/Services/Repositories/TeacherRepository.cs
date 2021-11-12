@@ -104,5 +104,42 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateTeacherResponseModel;
         }
 
+
+        public async Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(int page, int size)
+        {
+            GetAllTeacherByPaginationResponseModel getAllTeacherByPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllTeacherByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllTeacherByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllTeacherByPaginationResponseModel>(_oApiResponse.data);
+                getAllTeacherByPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllTeacherByPaginationResponseModel;
+        }
+
+        public async Task<GetAllTeacherListResponseModel> GetAllTeacherDetails()
+        {
+            GetAllTeacherListResponseModel getAllTeacherListResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllTeacherDetails, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllTeacherListResponseModel = JsonConvert.DeserializeObject<GetAllTeacherListResponseModel>(_oApiResponse.data);
+                getAllTeacherListResponseModel.Succeeded = true;
+            }
+
+            return getAllTeacherListResponseModel;
+        }
+
     }
 }

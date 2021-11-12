@@ -272,11 +272,90 @@ namespace JSC_LSM.UI.Controllers
             return View(updateTeacherViewModel);
         }
 
-
-        public ActionResult ManageStudentUsers()
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> ManageTeacherUsers()
         {
-            return View();
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _teacherRepository.GetAllTeacherDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+            ViewBag.GetTeacherById = TempData["GetTeacherById"] as string;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            return View(pager);
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<TeacherDetailsViewModel>> GetAllTeacherDetails()
+        {
+            var data = new List<TeacherDetailsViewModel>();
+
+            var dataList = await _teacherRepository.GetAllTeacherDetails();
+            foreach (var teacher in dataList.data)
+            {
+                data.Add(new TeacherDetailsViewModel()
+                {
+                    Id = teacher.Id,
+                    TeacherName = teacher.TeacherName,
+                    AddressLine1 = teacher.AddressLine1,
+                    AddressLine2 = teacher.AddressLine2,
+                    City = teacher.City.CityName,
+                    State = teacher.State.StateName,
+                    CreatedDate = (DateTime)teacher.CreatedDate,
+                    Email = teacher.Email,
+                    IsActive = teacher.IsActive,
+                    Mobile = teacher.Mobile,
+                    School = teacher.SchoolId.SchoolName,
+                    Class = teacher.ClassId.ClassName,
+                    Section = teacher.SectionId.SectionName,
+                    Subject = teacher.SubjectId.SubjectName,
+                    Username = teacher.Username,
+                    Zip = teacher.Zip.Zipcode
+                });
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<TeacherDetailsViewModel>> GetAllTeacherDetailsByPagination(int page = 1, int size = 5)
+        {
+            int recsCount = (await _teacherRepository.GetAllTeacherDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+
+            ViewBag.Pager = pager;
+            var data = new List<TeacherDetailsViewModel>();
+
+            var dataList = await _teacherRepository.GetTeacherByPagination(page, size);
+
+            foreach (var teacher in dataList.data.GetTeacherListPaginationDto)
+            {
+                data.Add(new TeacherDetailsViewModel()
+                {
+                         Id=teacher.Id,
+                         School=teacher.SchoolId.SchoolName,
+                         Class=teacher.ClassId.ClassName,
+                         Subject=teacher.SubjectId.SubjectName,
+                         Section=teacher.SectionId.SectionName,
+                         TeacherName = teacher.TeacherName,
+                         CreatedDate = (DateTime)teacher.CreatedDate,
+                         IsActive = teacher.IsActive
+
+                   
+                });
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<GetTeacherByIdResponseModel> GetTeacherById(int Id)
+        {
+
+            var principal = await _teacherRepository.GetTeacherById(Id);
+            return principal;
+        }
     }
 }

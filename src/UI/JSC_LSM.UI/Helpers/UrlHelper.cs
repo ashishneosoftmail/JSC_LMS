@@ -73,7 +73,7 @@ namespace JSC_LSM.UI.Helpers
         public static string UpdateSuperadminImage = "/api/v1/Superadmin/UpdateSuperadminImage";
 
         public static string GetTeacherById = "/api/v1/Teacher/";
-
-
+        public static string GetAllTeacherDetails = "/api/v1/Teacher/all";
+        public static string GetAllTeacherByPagination = "/api/v1/Teacher/Pagination";
     }
 }

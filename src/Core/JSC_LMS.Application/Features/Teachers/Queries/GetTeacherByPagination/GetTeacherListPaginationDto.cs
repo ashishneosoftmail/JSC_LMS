@@ -26,7 +26,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherByPagination
         //public SectionDto SectiontId { get; set; }
         public string UserType { get; set; }
         public bool IsActive { get; set; }
-        public SectionDto SectionId { get; internal set; }
+        public SectionDto SectionId { get;  set; }
 
     }
 }

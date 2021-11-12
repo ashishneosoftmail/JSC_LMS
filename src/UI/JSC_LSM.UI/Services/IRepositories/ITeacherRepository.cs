@@ -22,8 +22,10 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetTeacherByIdResponseModel> GetTeacherById(int Id);
 
-        //Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(int page, int size);
+        Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(int page, int size);
 
-        //Task<GetAllTeacherListResponseModel> GetAllTeacherDetails();
+        Task<GetAllTeacherListResponseModel> GetAllTeacherDetails();
+
+        //Task<GetAllTeacherByFiltersResponseModel> GetTeacherByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive);
     }
 }
