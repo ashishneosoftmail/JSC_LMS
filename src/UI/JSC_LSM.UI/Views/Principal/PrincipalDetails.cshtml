@@ -58,7 +58,7 @@
             <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
             <div class="col-sm-7">
                 <select class="form-control" id="schoolName">
-                    <option disabled selected hidden>Select School</option>
+                    <option value="" disabled selected hidden>Select School</option>
                 </select>
             </div>
         </div>
@@ -67,7 +67,7 @@
             <label for="principalName" class="col-sm-5 col-form-label">Principal Name :</label>
             <div class="col-sm-7">
                 <select class="form-control" id="principalName">
-                    <option disabled selected hidden>Select Principal</option>
+                    <option value="" disabled selected hidden>Select Principal</option>
                 </select>
             </div>
         </div>
@@ -76,8 +76,7 @@
             <label for="status" class="col-sm-5 col-form-label">Status :</label>
             <div class="col-sm-7">
                 <select class="form-control" id="status">
-                    <option disabled selected hidden>Select Status</option>
-                    <option value="true">Active</option>
+                    <option value="true" selected>Active</option>
                     <option value="false">Inactive</option>
                 </select>
             </div>
@@ -355,14 +354,20 @@
     }
 
     function searchPrincipal() {
-       
+
         var _schoolName = $("#schoolName :selected").text();
         var _principalName = $("#principalName :selected").text();
         var _isActive = $("#status :selected").val();
         var _date = $("#date").val();
-        if (_schoolName != null && _principalName != null && _date != null) {
-            $("#paginationContainer").remove();
-            $.get("/Principal/GetPrincipalByFilters?principalName=" + _principalName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+
+       @* var school = (_schoolName == "Select School") ? "" : _schoolName;
+        var principal = (_principalName == "Select Principal") ? "" : _principalName;
+        var isActive = (_principalName == "Select Status") ? "" : _isActive;
+        var date = (_date == "") ? "" : _date;*@
+
+        @*if (_schoolName != "Select School" && _principalName != "Select Principal" && _isActive != "Select Status") {*@
+        @* $("#paginationContainer").remove();*@
+        $.get("/Principal/GetPrincipalByFilters?principalName=" + _principalName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
                 if (data.length > 0) {
                     $("#tableData").empty();
                     var id = 0;
@@ -397,7 +402,7 @@
                     $("#tableData").append(emptyData);
                 }
             });
-        }
+       @* }*@
     }
     function loadAllPrincipal(number = 1) {
         var size = $("#rowsPerPage :selected").val();
