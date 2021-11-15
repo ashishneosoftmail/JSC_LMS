@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using JSC_LMS.Domain.Entities;
 namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
 {
     public class GetTeacherFilterQueryHandler : IRequestHandler<GetTeacherFilterQuery, Response<IEnumerable<GetTeacherByFilterDto>>>
@@ -49,28 +49,206 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allTeacher = await _teacherRepository.ListAllAsync();
-            var searchFilter = (allTeacher.Where<JSC_LMS.Domain.Entities.Teacher>(x => (x.TeacherName == request.TeacherName)&& (x.IsActive == request.IsActive) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString())).Select(x => (x)));
-            Response<IEnumerable<GetTeacherByFilterDto>> responseData = new Response<IEnumerable<GetTeacherByFilterDto>>();
-           
-            if (searchFilter.Count() < 1)
+
+            if (request.TeacherName != "Select Teacher")
             {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
+                allTeacher = allTeacher.Where<Teacher>(x => (x.TeacherName == request.TeacherName)).ToList();
+            }           
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
+            {
+                allTeacher = allTeacher.Where<Teacher>(x => x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()).ToList();
+            }
+            if (request.IsActive)
+            {
+                allTeacher = allTeacher.Where<Teacher>(x => x.IsActive == request.IsActive).ToList();
+            }
+            else
+            {
+                allTeacher = allTeacher.Where<Teacher>(x => x.IsActive == request.IsActive).ToList();
             }
 
+            Response<IEnumerable<GetTeacherByFilterDto>> responseData = new Response<IEnumerable<GetTeacherByFilterDto>>();
             List<GetTeacherByFilterDto> teacherList = new List<GetTeacherByFilterDto>();
-            foreach (var teacher in searchFilter)
+
+            foreach (var teacher in allTeacher)
             {
-                var section = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName == request.SectionName;
-                var classes  = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName == request.ClassName;
-                var subject = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName == request.SubjectName;
-                var user = await _authenticationService.GetUserById(teacher.UserId);
-
-
-                if (section && classes && subject)
+                if(request.SchoolName != "Select School" || request.ClassName != "Select Class" || request.SectionName != "Select Section" || request.SubjectName != "Select Subject")
+                { 
+                if (request.SchoolName != "Select School")
                 {
+                    var school = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName == request.SchoolName;
+
+                    if (school)
+                    {
+                        var user = await _authenticationService.GetUserById(teacher.UserId);
+                        teacherList.Add(new GetTeacherByFilterDto()
+                        {
+                            Id = teacher.Id,
+                            AddressLine1 = teacher.AddressLine1,
+                            AddressLine2 = teacher.AddressLine2,
+                            CreatedDate = (DateTime)teacher.CreatedDate,
+                            Mobile = teacher.Mobile,
+                            Username = user.Username,
+                            Email = user.Email,
+                            IsActive = teacher.IsActive,
+                            TeacherName = teacher.TeacherName,
+                            UserType = teacher.UserType,
+                            SectionId = new SectionDto()
+                            {
+                                Id = teacher.SectionId,
+                                SectionName = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName
+                            },
+                            SubjectId = new SubjectDto()
+                            {
+                                Id = teacher.SubjectId,
+                                SubjectName = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName
+                            },
+                            ClassId = new ClassDto()
+                            {
+                                Id = teacher.SchoolId,
+                                ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
+                            },
+                            SchoolId = new SchoolDto()
+                            {
+                                Id = teacher.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName
+                            }
+
+                        });
+                    }
+                }
+                if (request.ClassName != "Select Class")
+                {
+                    var classes = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName == request.ClassName;
+
+                    if (classes)
+                    {
+                        var user = await _authenticationService.GetUserById(teacher.UserId);
+                        teacherList.Add(new GetTeacherByFilterDto()
+                        {
+                            Id = teacher.Id,
+                            AddressLine1 = teacher.AddressLine1,
+                            AddressLine2 = teacher.AddressLine2,
+                            CreatedDate = (DateTime)teacher.CreatedDate,
+                            Mobile = teacher.Mobile,
+                            Username = user.Username,
+                            Email = user.Email,
+                            IsActive = teacher.IsActive,
+                            TeacherName = teacher.TeacherName,
+                            UserType = teacher.UserType,
+                            SectionId = new SectionDto()
+                            {
+                                Id = teacher.SectionId,
+                                SectionName = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName
+                            },
+                            SubjectId = new SubjectDto()
+                            {
+                                Id = teacher.SubjectId,
+                                SubjectName = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName
+                            },
+                            ClassId = new ClassDto()
+                            {
+                                Id = teacher.SchoolId,
+                                ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
+                            },
+                            SchoolId = new SchoolDto()
+                            {
+                                Id = teacher.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName
+                            }
+
+                        });
+                    }
+                }
+                if (request.SectionName != "Select Section")
+                {
+                    var section = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName == request.SectionName;
+                    if (section)
+                    {
+                        var user = await _authenticationService.GetUserById(teacher.UserId);
+                        teacherList.Add(new GetTeacherByFilterDto()
+                        {
+                            Id = teacher.Id,
+                            AddressLine1 = teacher.AddressLine1,
+                            AddressLine2 = teacher.AddressLine2,
+                            CreatedDate = (DateTime)teacher.CreatedDate,
+                            Mobile = teacher.Mobile,
+                            Username = user.Username,
+                            Email = user.Email,
+                            IsActive = teacher.IsActive,
+                            TeacherName = teacher.TeacherName,
+                            UserType = teacher.UserType,
+                            SectionId = new SectionDto()
+                            {
+                                Id = teacher.SectionId,
+                                SectionName = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName
+                            },
+                            SubjectId = new SubjectDto()
+                            {
+                                Id = teacher.SubjectId,
+                                SubjectName = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName
+                            },
+                            ClassId = new ClassDto()
+                            {
+                                Id = teacher.SchoolId,
+                                ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
+                            },
+                            SchoolId = new SchoolDto()
+                            {
+                                Id = teacher.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName
+                            }
+
+                        });
+                    }
+
+                }
+                if (request.SubjectName != "Select Subject")
+                {
+                    var subject = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName == request.SubjectName;
+                    if (subject)
+                    {
+                        var user = await _authenticationService.GetUserById(teacher.UserId);
+                        teacherList.Add(new GetTeacherByFilterDto()
+                        {
+                            Id = teacher.Id,
+                            AddressLine1 = teacher.AddressLine1,
+                            AddressLine2 = teacher.AddressLine2,
+                            CreatedDate = (DateTime)teacher.CreatedDate,
+                            Mobile = teacher.Mobile,
+                            Username = user.Username,
+                            Email = user.Email,
+                            IsActive = teacher.IsActive,
+                            TeacherName = teacher.TeacherName,
+                            UserType = teacher.UserType,
+                            SectionId = new SectionDto()
+                            {
+                                Id = teacher.SectionId,
+                                SectionName = (await _sectionRepository.GetByIdAsync(teacher.SectionId)).SectionName
+                            },
+                            SubjectId = new SubjectDto()
+                            {
+                                Id = teacher.SubjectId,
+                                SubjectName = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName
+                            },
+                            ClassId = new ClassDto()
+                            {
+                                Id = teacher.SchoolId,
+                                ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
+                            },
+                            SchoolId = new SchoolDto()
+                            {
+                                Id = teacher.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName
+                            }
+
+                        });
+                    }
+
+                }
+                }
+                else {
+                    var user = await _authenticationService.GetUserById(teacher.UserId);
                     teacherList.Add(new GetTeacherByFilterDto()
                     {
                         Id = teacher.Id,
@@ -81,7 +259,6 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
                         Username = user.Username,
                         Email = user.Email,
                         IsActive = teacher.IsActive,
-                        // SubjectId = teacher.SubjectId,
                         TeacherName = teacher.TeacherName,
                         UserType = teacher.UserType,
                         SectionId = new SectionDto()
@@ -98,21 +275,19 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
                         {
                             Id = teacher.SchoolId,
                             ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
+                        },
+                        SchoolId = new SchoolDto()
+                        {
+                            Id = teacher.SchoolId,
+                            SchoolName = (await _schoolRepository.GetByIdAsync(teacher.SchoolId)).SchoolName
                         }
 
-
-
                     });
-                    }
-            }
-            if (teacherList.Count() < 1)
-            {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
-            }
 
+                }
+
+            }
+         
             _logger.LogInformation("Hanlde Completed");
             return new Response<IEnumerable<GetTeacherByFilterDto>>(teacherList, "success");
 

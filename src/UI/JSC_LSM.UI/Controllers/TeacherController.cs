@@ -416,5 +416,84 @@ namespace JSC_LSM.UI.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllSchool()
+        {
+            var schools = await _common.GetSchool();
+            return schools;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllClass()
+        {
+            var classes = await _common.GetClass();
+            return classes;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllSection()
+        {
+            var sections = await _common.GetSection();
+            return sections;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetSubjectName()
+        {
+            var data = await _subjectRepository.GetAllSubjectDetails();
+            List<SelectListItem> subjects = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                subjects.Add(new SelectListItem
+                {
+                    Text = item.SubjectName,
+                    Value = Convert.ToString(item.Id)
+                });
+            }
+            return subjects;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetTeacherName()
+        {
+            var data = await _teacherRepository.GetAllTeacherDetails();
+            List<SelectListItem> teachers = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                teachers.Add(new SelectListItem
+                {
+                    Text = item.TeacherName,
+                    Value = Convert.ToString(item.Id)
+                });
+            }
+            return teachers;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<TeacherDetailsViewModel>> GetTeacherByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, DateTime CreatedDate, bool IsActive)
+        {
+            var data = new List<TeacherDetailsViewModel>();
+            var dataList = await _teacherRepository.GetTeacherByFilters(SchoolName, ClassName, SectionName,SubjectName,TeacherName, CreatedDate, IsActive);
+            if (dataList.data != null)
+            {
+                foreach (var teacher in dataList.data)
+                {
+                    data.Add(new TeacherDetailsViewModel()
+                    {
+                      
+                        Id = teacher.Id,
+                        School = teacher.SchoolId.SchoolName,
+                        Class = teacher.ClassId.ClassName,
+                        Subject = teacher.SubjectId.SubjectName,
+                        Section = teacher.SectionId.SectionName,
+                        TeacherName = teacher.TeacherName,
+                        CreatedDate = (DateTime)teacher.CreatedDate,
+                        IsActive = teacher.IsActive
+                    });
+                }
+            }
+            return data;
+        }
+
     }
 }

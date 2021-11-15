@@ -63,7 +63,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
                 {
 
                     createInstituteCommandResponse.Succeeded = false;
-                    createInstituteCommandResponse.Message = "User Already Registered";
+                    createInstituteCommandResponse.Message = "Email and/or Username already exists.";
                 }
                 else
                 {

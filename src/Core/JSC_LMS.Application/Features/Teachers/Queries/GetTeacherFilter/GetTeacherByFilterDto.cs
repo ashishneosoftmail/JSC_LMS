@@ -21,9 +21,10 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
         public ZipDto Zip { get; set; }
         public DateTime CreatedDate { get; set; }        
         public SubjectDto SubjectId { get; set; }
+        public SchoolDto SchoolId { get; set; }
         public ClassDto ClassId { get; set; }
         // public int SectionId { get; set; }
-        public SectionDto SectionId { get; internal set; }
+        public SectionDto SectionId { get;  set; }
         public bool IsActive { get; set; }
     }
 }

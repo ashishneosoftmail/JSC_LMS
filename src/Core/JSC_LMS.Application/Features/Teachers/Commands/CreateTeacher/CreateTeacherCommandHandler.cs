@@ -55,7 +55,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
                 {
 
                     createTeacherCommandResponse.Succeeded = false;
-                    createTeacherCommandResponse.Message = "User Already Registered";
+                    createTeacherCommandResponse.Message = "Email and/or Username already exists.";
                 }
                 else
                 {

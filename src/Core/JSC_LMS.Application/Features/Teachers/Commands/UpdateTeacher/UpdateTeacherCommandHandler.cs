@@ -56,7 +56,7 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
             {
                 UpdateTeacherCommandResponse.Errors = updateUser.Errors;
                 UpdateTeacherCommandResponse.Succeeded = false;
-                UpdateTeacherCommandResponse.Message = "User Already Exist";
+                UpdateTeacherCommandResponse.Message = "Email and/or Username already exists.";
                 return UpdateTeacherCommandResponse;
             }
             if (updateUser == null) throw new NotFoundException("User Not Found", request.updateTeacherDto.Email);

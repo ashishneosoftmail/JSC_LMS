@@ -141,5 +141,25 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllTeacherListResponseModel;
         }
 
+        public async Task<GetAllTeacherByFiltersResponseModel> GetTeacherByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, DateTime CreatedDate, bool IsActive)
+        {
+            GetAllTeacherByFiltersResponseModel getTeacherByFiltersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+
+
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Teacher/Filter?_schoolName={SchoolName}&_ClassName={ClassName}&_SectionName={SectionName}&_SubjectName={SubjectName}&_TeacherName={TeacherName}&_IsActive={IsActive}&_CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getTeacherByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllTeacherByFiltersResponseModel>(_oApiResponse.data);
+                getTeacherByFiltersResponseModel.Succeeded = true;
+            }
+
+            return getTeacherByFiltersResponseModel;
+        }
+
     }
 }
