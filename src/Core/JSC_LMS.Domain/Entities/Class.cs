@@ -22,5 +22,7 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Section> Section { get; set; }
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
+        public virtual ICollection<Academics> Academics { get; set; }
+
     }
 }

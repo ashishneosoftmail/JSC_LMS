@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211115115530_KnowledgeBase3")]
+    partial class KnowledgeBase3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -715,90 +717,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressLine1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("AddressLine2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Mobile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StateId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StudentName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("ZipId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("ClassId")
-                        .IsUnique();
-
-                    b.HasIndex("SectionId")
-                        .IsUnique();
-
-                    b.HasIndex("StateId");
-
-                    b.HasIndex("ZipId");
-
-                    b.ToTable("Student");
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -1188,33 +1106,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Student", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.City", "City")
-                        .WithMany("student")
-                        .HasForeignKey("CityId");
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", "Class")
-                        .WithOne("Student")
-                        .HasForeignKey("JSC_LMS.Domain.Entities.Student", "ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
-                        .WithOne("Student")
-                        .HasForeignKey("JSC_LMS.Domain.Entities.Student", "SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.State", "State")
-                        .WithMany("student")
-                        .HasForeignKey("StateId");
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Zip", "Zip")
-                        .WithMany("student")
-                        .HasForeignKey("ZipId");
                 });
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
