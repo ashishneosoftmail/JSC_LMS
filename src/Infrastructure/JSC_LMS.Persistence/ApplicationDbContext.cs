@@ -44,7 +44,6 @@ namespace JSC_LMS.Persistence
         public DbSet<Superadmin> Superadmin { get; set; }
         public DbSet<KnowledgeBase> KnowledgeBase { get; set; }
 
-        /*public DbSet<Academics> Academic { get; set; }*/
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

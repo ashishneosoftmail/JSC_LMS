@@ -19,69 +19,6 @@ namespace JSC_LMS.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Academics", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<decimal>("CutOff")
-                        .HasColumnType("decimal(18,7)");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("LastModifiedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("SchoolId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("SectionId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Academics");
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -1048,33 +985,6 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("ZipCode");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Academics", b =>
-                {
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", "Class")
-                        .WithMany("Academics")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
-                        .WithMany("Academics")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Subject", "Subject")
-                        .WithMany("Academics")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Teacher", "Teacher")
-                        .WithMany("Academics")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("JSC_LMS.Domain.Entities.City", b =>
                 {
                     b.HasOne("JSC_LMS.Domain.Entities.State", "State")
@@ -1194,27 +1104,30 @@ namespace JSC_LMS.Persistence.Migrations
                 {
                     b.HasOne("JSC_LMS.Domain.Entities.City", "City")
                         .WithMany("student")
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.Class", "Class")
                         .WithOne("Student")
                         .HasForeignKey("JSC_LMS.Domain.Entities.Student", "ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithOne("Student")
                         .HasForeignKey("JSC_LMS.Domain.Entities.Student", "SectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("JSC_LMS.Domain.Entities.State", "State")
                         .WithMany("student")
-                        .HasForeignKey("StateId");
+                        .HasForeignKey("StateId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.Zip", "Zip")
                         .WithMany("student")
-                        .HasForeignKey("ZipId");
+                        .HasForeignKey("ZipId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>

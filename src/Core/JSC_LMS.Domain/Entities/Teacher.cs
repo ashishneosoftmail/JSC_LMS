@@ -24,7 +24,6 @@ namespace JSC_LMS.Domain.Entities
         public int? StateId { get; set; }
         public int? ZipId { get; set; }
         public bool IsActive { get; set; }
-        public virtual ICollection<Academics> Academics { get; set; }
 
         /*    public State State { get; set; }
             public City City { get; set; }

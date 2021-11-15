@@ -33,6 +33,5 @@ namespace JSC_LMS.Domain.Entities
 
         public string Name { get; set; }
 
-        /* public virtual ICollection<Academic> Academic { get; set; }*/
     }
 }

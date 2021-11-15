@@ -16,14 +16,13 @@ namespace JSC_LMS.Domain.Entities
         public int ClassId { get; set; }
 
         public string SectionName { get; set; }
-       
+
         public bool IsActive { get; set; }
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
 
         public virtual Student Student { get; set; }
 
-        public virtual ICollection<Academics> Academics { get; set; }
 
 
     }
