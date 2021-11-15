@@ -11,7 +11,7 @@ namespace JSC_LMS.Domain.Entities
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
-        public virtual KnowledgeBase KnowledgeBase { get; set; }
+        public virtual ICollection<KnowledgeBase> KnowledgeBase { get; set; }
 
     }
 }

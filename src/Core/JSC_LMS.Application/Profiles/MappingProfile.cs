@@ -21,6 +21,8 @@ using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
+using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
+using JSC_LMS.Application.Features.KnowledgeBase.Commands.UpdateKnowledgeBase;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter;
@@ -159,8 +161,10 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Subject, GetSubjectFilterDto>();
             CreateMap<Section, GetSectionFilterDto>();
 
-
-
+            CreateMap<KnowledgeBase, CreateKnowledgeBaseDto>();
+            CreateMap<KnowledgeBase, CreateKnowledgeBaseDto>().ReverseMap();
+            CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>();
+            CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>().ReverseMap();
         }
     }
 }
