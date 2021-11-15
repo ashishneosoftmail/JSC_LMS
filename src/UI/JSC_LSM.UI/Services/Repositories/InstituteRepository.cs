@@ -1,5 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminChangePassword;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminProfileInformation;
 using JSC_LMS.Application.Models.Authentication;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
@@ -18,7 +20,7 @@ using System.Threading.Tasks;
 #region -developed by Shivani Goswami
 namespace JSC_LSM.UI.Services.Repositories
 {
-    
+
 
     public class InstituteRepository : IInstituteRepository
     {
@@ -198,9 +200,65 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateInstituteResponseModel;
         }
 
-        
+        public async Task<GetInstituteAdminByUserIdResponseModel> GetInstituteAdminByUserId(string UserId)
+        {
+            GetInstituteAdminByUserIdResponseModel getInstituteAdminByUserIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetInstituteByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getInstituteAdminByUserIdResponseModel = JsonConvert.DeserializeObject<GetInstituteAdminByUserIdResponseModel>(_oApiResponse.data);
+                getInstituteAdminByUserIdResponseModel.Succeeded = true;
+            }
+
+            return getInstituteAdminByUserIdResponseModel;
+        }
+
+        public async Task<UpdateInstituteAdminProfileInformationResponseModel> UpdateInstituteAdminPersonalInformation(UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto)
+        {
+            UpdateInstituteAdminProfileInformationResponseModel updateInstituteAdminProfileInformationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateInstituteAdminProfileInformationDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateInstituteAdminProfileInformation, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateInstituteAdminProfileInformationResponseModel = JsonConvert.DeserializeObject<UpdateInstituteAdminProfileInformationResponseModel>(_oApiResponse.data);
+                if (updateInstituteAdminProfileInformationResponseModel.Succeeded)
+                {
+                    updateInstituteAdminProfileInformationResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateInstituteAdminProfileInformationResponseModel.Succeeded = false;
+                }
+            }
+            return updateInstituteAdminProfileInformationResponseModel;
+        }
+        public async Task<UpdateInstituteAdminChangePasswordResponseModel> UpdateInstituteAdminChangePassword(UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto)
+        {
+            UpdateInstituteAdminChangePasswordResponseModel updateInstituteAdminChangePasswordResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateInstituteAdminChangePasswordDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateInstituteAdminChangePassword, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateInstituteAdminChangePasswordResponseModel = JsonConvert.DeserializeObject<UpdateInstituteAdminChangePasswordResponseModel>(_oApiResponse.data);
+                updateInstituteAdminChangePasswordResponseModel.Succeeded = true;
+            }
+            return updateInstituteAdminChangePasswordResponseModel;
+        }
     }
-
-
 }
 #endregion

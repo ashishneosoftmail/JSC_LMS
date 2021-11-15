@@ -68,7 +68,7 @@ namespace JSC_LSM.UI.Controllers
 
         }
         [HttpGet]
-        public async  Task<IActionResult> AddTeacher()
+        public async Task<IActionResult> AddTeacher()
         {
             ViewBag.AddInstituteSuccess = null;
             ViewBag.AddInstituteError = null;
@@ -154,11 +154,12 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-            public IActionResult EditTeacher()
+        public IActionResult EditTeacher()
         {
             return View();
 
         }
+
 
     }
 }

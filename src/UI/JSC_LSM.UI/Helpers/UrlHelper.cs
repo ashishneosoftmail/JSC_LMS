@@ -75,5 +75,9 @@ namespace JSC_LSM.UI.Helpers
         public static string GetTeacherById = "/api/v1/Teacher/";
         public static string GetAllTeacherDetails = "/api/v1/Teacher/all";
         public static string GetAllTeacherByPagination = "/api/v1/Teacher/Pagination";
+        public static string GetInstituteByUserId = "/api/v1/Institute/GetInstituteAdminByUserId";
+
+        public static string UpdateInstituteAdminProfileInformation = "/api/v1/Institute/UpdateInstituteAdminProfileInformation";
+        public static string UpdateInstituteAdminChangePassword = "/api/v1/Institute/UpdateInstituteAdminChangePassword";
     }
 }

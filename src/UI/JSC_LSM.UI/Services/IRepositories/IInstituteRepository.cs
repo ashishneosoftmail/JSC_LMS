@@ -1,5 +1,7 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminChangePassword;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminProfileInformation;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using System;
@@ -53,6 +55,10 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// <param name="updateInstituteDto"></param>
         /// <returns></returns>
         Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto);
+        Task<GetInstituteAdminByUserIdResponseModel> GetInstituteAdminByUserId(string UserId);
+        Task<UpdateInstituteAdminProfileInformationResponseModel> UpdateInstituteAdminPersonalInformation(UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto);
+
+        Task<UpdateInstituteAdminChangePasswordResponseModel> UpdateInstituteAdminChangePassword(UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto);
     }
 }
 #endregion
