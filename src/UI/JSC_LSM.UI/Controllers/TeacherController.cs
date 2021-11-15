@@ -12,6 +12,9 @@ using JSC_LSM.UI.Services.IRepositories;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher;
+using System.Data;
+using ClosedXML.Excel;
+using System.IO;
 
 namespace JSC_LSM.UI.Controllers
 {
@@ -357,5 +360,61 @@ namespace JSC_LSM.UI.Controllers
             var principal = await _teacherRepository.GetTeacherById(Id);
             return principal;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadExcel()
+        {
+            var data = new List<TeacherDetailsViewModel>();
+
+            var dataList = await _teacherRepository.GetAllTeacherDetails();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "TeacherData";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("User_type", typeof(string));
+            dt.Columns.Add("Teacher_Name", typeof(string));
+            dt.Columns.Add("AddressLine1", typeof(string));
+            dt.Columns.Add("AddressLine2", typeof(string));
+            dt.Columns.Add("Mobile", typeof(string));
+            dt.Columns.Add("Username", typeof(string));
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("IsActive", typeof(string));
+            dt.Columns.Add("City_Id", typeof(int));
+            dt.Columns.Add("City_Name", typeof(string));
+            dt.Columns.Add("State_Id", typeof(int));
+            dt.Columns.Add("State_Name", typeof(string));
+            dt.Columns.Add("Zip_Id", typeof(int));
+            dt.Columns.Add("ZipCode", typeof(string));
+            dt.Columns.Add("School_Id", typeof(int));
+            dt.Columns.Add("School_Name", typeof(string));
+            dt.Columns.Add("Class_Id", typeof(int));
+            dt.Columns.Add("Class_Name", typeof(string));
+            dt.Columns.Add("Section_Id", typeof(int));
+            dt.Columns.Add("Section_Name", typeof(string));
+            dt.Columns.Add("Subject_Id", typeof(int));
+            dt.Columns.Add("Subject_Name", typeof(string));
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            foreach (var _teacher in dataList.data)
+            {
+                dt.Rows.Add(_teacher.Id,_teacher.UserType, _teacher.TeacherName, _teacher.AddressLine1, _teacher.AddressLine2, _teacher.Mobile, _teacher.Username, _teacher.Email, _teacher.IsActive ? "Active" : "Inactive", _teacher.City.Id, _teacher.City.CityName, _teacher.State.Id, _teacher.State.StateName, _teacher.Zip.Id, _teacher.Zip.Zipcode, _teacher.SchoolId.Id, _teacher.SchoolId.SchoolName, _teacher.ClassId.Id, _teacher.ClassId.ClassName, _teacher.SectionId.Id, _teacher.SectionId.SectionName, _teacher.SubjectId.Id, _teacher.SubjectId.SubjectName, _teacher.CreatedDate?.ToShortDateString());
+            }
+            string fileName = "TeacherData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                //Add DataTable in worksheet  
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    //Return xlsx Excel File  
+                    /* return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);*/
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+            }
+        }
+
     }
 }

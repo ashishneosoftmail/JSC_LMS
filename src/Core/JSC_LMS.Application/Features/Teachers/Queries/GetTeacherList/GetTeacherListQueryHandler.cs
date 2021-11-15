@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JSC_LMS.Application.CommonDtos;
+using JSC_LMS.Application.Contracts.Identity;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Responses;
 using MediatR;
@@ -15,6 +16,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
     public class GetTeacherListQueryHandler : IRequestHandler<GetTeacherListQuery, Response<IEnumerable<GetTeacherListDto>>>
     {
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
         private readonly ISectionRepository _sectionRepository;
@@ -25,7 +27,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
         private readonly IZipRepository _zipRepository;
         private readonly ISubjectRepository _subjectRepository;
 
-        public GetTeacherListQueryHandler(IMapper mapper, ISubjectRepository subjectRepository, ISchoolRepository schoolRepository, IClassRepository classRepository, IZipRepository zipRepository, ISectionRepository sectionRepository, IStateRepository stateRepository, ICityRepository cityRepository, ITeacherRepository teacherRepository, ILogger<GetTeacherListQueryHandler> logger)
+        public GetTeacherListQueryHandler(IMapper mapper, ISubjectRepository subjectRepository, ISchoolRepository schoolRepository, IClassRepository classRepository, IZipRepository zipRepository, ISectionRepository sectionRepository, IStateRepository stateRepository, ICityRepository cityRepository, ITeacherRepository teacherRepository, ILogger<GetTeacherListQueryHandler> logger, IAuthenticationService authenticationService)
         {
             _mapper = mapper;
             _teacherRepository = teacherRepository;
@@ -37,6 +39,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
             _stateRepository = stateRepository;
             _zipRepository = zipRepository;
             _subjectRepository = subjectRepository;
+            _authenticationService = authenticationService;
 
         }
 
@@ -47,7 +50,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
             List<GetTeacherListDto> teacherList = new List<GetTeacherListDto>();
             foreach (var teacher in allTeachers)
             {
-                //var user = await _authenticationService.GetUserById(principal.UserId);
+                var user = await _authenticationService.GetUserById(teacher.UserId);
                 teacherList.Add(new GetTeacherListDto()
                 {
                     Id = teacher.Id,
@@ -55,8 +58,8 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
                     AddressLine2 = teacher.AddressLine2,
                     CreatedDate = (DateTime)teacher.CreatedDate,
                     Mobile = teacher.Mobile,
-                    // Username = teacher.Username,
-                    //  Email = teacher.Email,
+                    Username = user.Username,
+                    Email = user.Email,
                     IsActive = teacher.IsActive,
                     //SubjectId = teacher.SubjectId,
                     TeacherName = teacher.TeacherName,
@@ -73,7 +76,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
                     },
                     ClassId = new ClassDto()
                     {
-                        Id = teacher.SchoolId,
+                        Id = teacher.ClassId,
                         ClassName = (await _classRepository.GetByIdAsync(teacher.ClassId)).ClassName
                     },
                     City = new CityDto()
@@ -93,7 +96,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
                     },
                     SubjectId = new SubjectDto()
                     {
-                        Id = teacher.SchoolId,
+                        Id = teacher.SubjectId,
                         SubjectName = (await _subjectRepository.GetByIdAsync(teacher.SubjectId)).SubjectName
                     }
 
