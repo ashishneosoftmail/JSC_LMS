@@ -17,6 +17,7 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<School> School { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
         public ICollection<Principal> Principal { get; set; }
+        public ICollection<Student> student { get; set; }
 
     }
 }
