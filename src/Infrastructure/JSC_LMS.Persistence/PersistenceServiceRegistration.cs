@@ -34,7 +34,7 @@ namespace JSC_LMS.Persistence
             services.AddScoped<ISuperadminRepository, SuperadminRepository>();
             services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>();
 
-
+            services.AddScoped<IAcademicRepository, AcademicRepository>();
 
             return services;
         }

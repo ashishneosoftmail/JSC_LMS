@@ -3,6 +3,7 @@ using JSC_LMS.Domain.Common;
 using JSC_LMS.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -43,10 +44,14 @@ namespace JSC_LMS.Persistence
         public DbSet<Superadmin> Superadmin { get; set; }
         public DbSet<KnowledgeBase> KnowledgeBase { get; set; }
 
+        /*public DbSet<Academics> Academic { get; set; }*/
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
             modelBuilder.Entity<City>(b =>
             {
                 b.HasOne(e => e.State)

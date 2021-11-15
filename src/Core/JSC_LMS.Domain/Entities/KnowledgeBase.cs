@@ -1,6 +1,7 @@
 ﻿using JSC_LMS.Domain.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace JSC_LMS.Domain.Entities
@@ -8,6 +9,7 @@ namespace JSC_LMS.Domain.Entities
 
     public class KnowledgeBase : AuditableEntity
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public int CategoryId { get; set; }
         public string DocTitle { get; set; }
