@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JSC_LMS.Domain.Entities;
 
 namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
 {
@@ -34,19 +35,38 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
             
             _logger.LogInformation("Handle Initiated");
             var allInstitute = await _instituteRepository.ListAllAsync();
-            var searchFilter = (allInstitute.Where<JSC_LMS.Domain.Entities.Institute>(x => (x.InstituteName == request.InstituteName) && (x.LicenseExpiry.ToShortDateString() == request.LicenseExpiry.ToShortDateString()) && (x.IsActive == request.IsActive) && (x.City.CityName == request.Cityname) && (x.State.StateName == request.Statename)).Select(x => (x)));
+            //var searchFilter = (allInstitute.Where<JSC_LMS.Domain.Entities.Institute>(x => (x.InstituteName == request.InstituteName) || (x.LicenseExpiry.ToShortDateString() == request.LicenseExpiry.ToShortDateString()) || (x.IsActive == request.IsActive) || (x.City.CityName == request.Cityname) || (x.State.StateName == request.Statename)).Select(x => (x)));
 
+            if (request.InstituteName != null)
+            {
+                allInstitute = allInstitute.Where<Institute>(x => (x.InstituteName == request.InstituteName)).ToList();
+
+            }
+            if (request.Cityname != "Select City")
+            {
+                allInstitute = allInstitute.Where<Institute>(x => (x.City.CityName == request.Cityname)).ToList();
+            }
+            if (request.Statename != "Select State")
+            {
+                allInstitute = allInstitute.Where<Institute>(x => (x.State.StateName == request.Statename)).ToList();
+            }
+            if (request.LicenseExpiry.ToShortDateString() != "01-01-0001")
+            {
+                allInstitute = allInstitute.Where<Institute>(x => x.LicenseExpiry.ToShortDateString() == request.LicenseExpiry.ToShortDateString()).ToList();
+            }
+            if (request.IsActive)
+            {
+                allInstitute = allInstitute.Where<Institute>(x => x.IsActive == request.IsActive).ToList();
+            }
+            else
+            {
+                allInstitute = allInstitute.Where<Institute>(x => x.IsActive == request.IsActive).ToList();
+            }
 
             Response<IEnumerable<GetInstituteFilterVm>> responseData = new Response<IEnumerable<GetInstituteFilterVm>>();
-            if (searchFilter.Count() < 1)
-            {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
-            }
+           
             List<GetInstituteFilterVm> instituteList = new List<GetInstituteFilterVm>();
-            foreach (var institute in searchFilter)
+            foreach (var institute in allInstitute)
             {
                
                     var user = await _authenticationService.GetUserById(institute.UserId);

@@ -51,7 +51,6 @@
             <div class="col-sm-7">
                 <select class="form-control" id="schoolName">
                     <option disabled selected hidden>Select School</option>
-
                 </select>
             </div>
         </div>
@@ -69,9 +68,9 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="section" class="col-sm-5 col-form-label">Section</label>
+            <label for="sectionName" class="col-sm-5 col-form-label">Section</label>
             <div class="col-sm-7">
-                <select class="form-control" id="section">
+                <select class="form-control" id="sectionName">
                     <option disabled selected hidden>Select Section</option>
 
                 </select>
@@ -80,9 +79,9 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="subject" class="col-sm-5 col-form-label">Subject</label>
+            <label for="subjectName" class="col-sm-5 col-form-label">Subject</label>
             <div class="col-sm-7">
-                <select class="form-control" id="subject">
+                <select class="form-control" id="subjectName">
                     <option disabled selected hidden>Select Subject</option>
 
                 </select>
@@ -95,12 +94,22 @@
 <div class="row mt-3">
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="status" class="col-sm-5 col-form-label">Status</label>
+            <label for="teacherName" class="col-sm-5 col-form-label">Teacher Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="teacherName">
+                    <option disabled selected hidden>Select Teacher</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
             <div class="col-sm-7">
                 <select class="form-control" id="status">
                     <option disabled selected hidden>Select Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
                 </select>
             </div>
         </div>
@@ -113,21 +122,14 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="teacher" class="col-sm-5 col-form-label">Teacher Name</label>
-            <div class="col-sm-7">
-                <select class="form-control" id="teacher">
-                    <option disabled selected hidden>Select Teacher</option>
 
-                </select>
-            </div>
-        </div>
-    </div>
     <div class="col-sm-1">
         <div class="form-group row">
-            <button class="btn btn-primary">Search</button>
+            <button type="button" class="btn btn-primary float-lg-end " onclick="searchTeacher()">Search</button>
         </div>
+        @*<div class="form-group row">
+            <button class="btn btn-primary">Search</button>
+        </div>*@
     </div>
 </div>
 <div class="col-md-11">
@@ -381,6 +383,11 @@
     function loadData() {
         console.log("worked");
         /* loadStateList();*/
+        loadSchoolList();
+        loadClassList();
+        loadSectionList();
+        loadSubjectList();
+        loadTeachernameList();
         loadAllTeacher();
     }
     loadData();
@@ -406,6 +413,46 @@
                 $("#detailsStatus").text(data.data.school.schoolName);
                 data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
             }
+        });
+    }
+    function loadSchoolList() {
+        $.get("/Teacher/GetAllSchool", function (data) {
+            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            data.forEach(function (school) {
+                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+            });
+        });
+    }
+    function loadClassList() {
+        $.get("/Teacher/GetAllClass", function (data) {
+            $("#className").append("<option disabled selected hidden>Select Class</option>");
+            data.forEach(function (classes) {
+                $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
+    function loadSectionList() {
+        $.get("/Teacher/GetAllSection", function (data) {
+            $("#sectionName").append("<option disabled selected hidden>Select Section</option>");
+            data.forEach(function (sections) {
+                $('#sectionName').append('<option value="' + sections.value + '">' + sections.text + '</option>');
+            });
+        });
+    }
+    function loadSubjectList() {
+        $.get("/Teacher/GetSubjectName", function (data) {
+            $("#subjectName").append("<option disabled selected hidden>Select Subject</option>");
+            data.forEach(function (subjects) {
+                $('#subjectName').append('<option value="' + subjects.value + '">' + subjects.text + '</option>');
+            });
+        });
+    }
+    function loadTeachernameList() {
+        $.get("/Teacher/GetTeacherName", function (data) {
+            $("#teacherName").append("<option disabled selected hidden>Select Teacher</option>");
+            data.forEach(function (teachers) {
+                $('#teacherName').append('<option value="' + teachers.value + '">' + teachers.text + '</option>');
+            });
         });
     }
 
@@ -450,4 +497,52 @@
         });
     }
 
+    function searchTeacher() {
+        $("#paginationContainer").remove();
+
+        var _schoolName = $("#schoolName :selected").text();
+        var _className = $("#className :selected").text();
+        var _sectionName = $("#sectionName :selected").text();
+        var _subjectName = $("#subjectName :selected").text();
+        var _teacherName = $("#teacherName :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+
+        $.get("/Teacher/GetTeacherByFilters?schoolName=" + _schoolName + "&className=" + _className + "&sectionName=" + _sectionName + "&subjectName=" + _subjectName + "&teacherName=" + _teacherName + "&isActive=" + _isActive + "&createdDate=" + _date, function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (teacher) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                               <td>${id}</td>
+                                <td>${teacher.school}</td>
+                                <td>${teacher.class}</td>
+                                <td>${teacher.section}</td>
+                                <td>${teacher.subject}</td>
+                                <td>${teacher.teacherName}</td>
+                                <td>${new Date(teacher.createdDate).toLocaleDateString()}</td>
+
+                                <td>${teacher.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                    <a href="/Teacher/EditTeacher/${teacher.id}"  class="btn btn-link"  >Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowTeacherDetail(${teacher.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
 </script>

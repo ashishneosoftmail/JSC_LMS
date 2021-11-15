@@ -11,11 +11,12 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
         public string TeacherName { get; set; }
         public string ClassName { get; set; }
         public string SectionName { get; set; }
+        public string SchoolName { get; set; }
         public string SubjectName { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public GetTeacherFilterQuery(string _TeacherName,string _SubjectName, string _ClassName, string _SectionName ,bool _IsActive, DateTime _CreatedDate)
+        public GetTeacherFilterQuery(string _schoolName , string _ClassName, string _SectionName, string _SubjectName, string _TeacherName, bool _IsActive, DateTime _CreatedDate)
         {
             TeacherName = _TeacherName;
             ClassName = _ClassName;
@@ -23,6 +24,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
             SubjectName = _SubjectName;
             IsActive = _IsActive;
             CreatedDate = _CreatedDate;
+            SchoolName = _schoolName;
         }
     }
 }

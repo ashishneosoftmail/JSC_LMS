@@ -53,7 +53,7 @@
                         <li><a href="#">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</a></li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
+                        <li class="nav-item">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 @{
                                     //var name = Context.Session.GetString("FullName");
@@ -61,12 +61,12 @@
                                     <span class="hidden-xs"> <i> Welcome! @firstName</i></span>
                                 }
                             </a>
-                            <div class="dropdown-menu dropdown-menu-right">
+                            @*<div class="dropdown-menu dropdown-menu-right">
                                 <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>
                                 <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
-                            </div>
+                            </div>*@
                         </li>
                     </ul>
                 </div>
@@ -96,8 +96,8 @@
                             <span>Manage Profile</span>
                         </a>
                     </li>
-                 
-                
+
+
                     <li>
 
                         <a asp-action="InstituteDetails" asp-controller="Institute">
@@ -121,8 +121,8 @@
 
 
                     </li>
-                  
-                                    <li>
+
+                    <li>
                         <a asp-action="Logout" asp-controller="Account">
                             <span>Logout</span>
                         </a>

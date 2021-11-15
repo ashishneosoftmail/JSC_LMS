@@ -65,10 +65,11 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(dtos);
         }
 
-        [HttpGet("Filter",Name = "GetTeacherByFilter")]
-        public async Task<ActionResult> GetTeacherByFilter(string _TeacherName, string _ClassName, string _SubjectName,string _SectionName,  bool _IsActive, DateTime _CreatedDate)
+       
+       [HttpGet("Filter",Name = "GetTeacherByFilter")]
+        public async Task<ActionResult> GetTeacherByFilter(string _schoolName, string _ClassName, string _SectionName, string _SubjectName, string _TeacherName, bool _IsActive, DateTime _CreatedDate)
         {
-            var getTeachereByFilterQuery = new GetTeacherFilterQuery(_TeacherName, _SubjectName, _ClassName, _SectionName, _IsActive, _CreatedDate);
+            var getTeachereByFilterQuery = new GetTeacherFilterQuery(_schoolName, _ClassName, _SectionName,_SubjectName, _TeacherName,  _IsActive, _CreatedDate);
             return Ok(await _mediator.Send(getTeachereByFilterQuery));
         }
 

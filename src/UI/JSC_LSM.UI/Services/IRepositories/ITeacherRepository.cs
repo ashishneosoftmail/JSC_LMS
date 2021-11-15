@@ -25,7 +25,6 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(int page, int size);
 
         Task<GetAllTeacherListResponseModel> GetAllTeacherDetails();
-
-        //Task<GetAllTeacherByFiltersResponseModel> GetTeacherByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive);
+        Task<GetAllTeacherByFiltersResponseModel> GetTeacherByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, DateTime CreatedDate, bool IsActive);
     }
 }

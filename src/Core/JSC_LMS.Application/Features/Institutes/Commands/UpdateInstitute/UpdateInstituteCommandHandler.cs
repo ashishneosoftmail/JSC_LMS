@@ -69,7 +69,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
             {
                 UpdateInstituteCommandResponse.Errors = updateUser.Errors;
                 UpdateInstituteCommandResponse.Succeeded = false;
-                UpdateInstituteCommandResponse.Message = "User Already Exist";
+                UpdateInstituteCommandResponse.Message = "Email and/or Username already exists.";
                 return UpdateInstituteCommandResponse;
             }
             if (updateUser == null) throw new NotFoundException("User Not Found", request.updateInstituteDto.Email);
