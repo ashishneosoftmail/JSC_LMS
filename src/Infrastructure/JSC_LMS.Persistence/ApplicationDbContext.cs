@@ -41,7 +41,7 @@ namespace JSC_LMS.Persistence
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<Principal> Principal { get; set; }
         public DbSet<Superadmin> Superadmin { get; set; }
-
+        public DbSet<KnowledgeBase> KnowledgeBase { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
