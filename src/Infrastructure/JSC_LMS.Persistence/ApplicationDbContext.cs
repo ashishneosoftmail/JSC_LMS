@@ -43,7 +43,7 @@ namespace JSC_LMS.Persistence
         public DbSet<Principal> Principal { get; set; }
         public DbSet<Superadmin> Superadmin { get; set; }
         public DbSet<KnowledgeBase> KnowledgeBase { get; set; }
-
+        public DbSet<Students> Students { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

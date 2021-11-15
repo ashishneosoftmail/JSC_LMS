@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JSC_LMS.Domain.Entities
 {
-    public class Student : AuditableEntity
+    public class Students : AuditableEntity
     {
         public int Id { get; set; }
         public string UserType { get; set; }

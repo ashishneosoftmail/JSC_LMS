@@ -652,7 +652,7 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("States");
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Student", b =>
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.Students", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -733,7 +733,7 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasIndex("ZipId");
 
-                    b.ToTable("Student");
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Subject", b =>
@@ -1100,7 +1100,7 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("JSC_LMS.Domain.Entities.Student", b =>
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.Students", b =>
                 {
                     b.HasOne("JSC_LMS.Domain.Entities.City", "City")
                         .WithMany("student")
@@ -1109,13 +1109,13 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasOne("JSC_LMS.Domain.Entities.Class", "Class")
                         .WithOne("Student")
-                        .HasForeignKey("JSC_LMS.Domain.Entities.Student", "ClassId")
+                        .HasForeignKey("JSC_LMS.Domain.Entities.Students", "ClassId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithOne("Student")
-                        .HasForeignKey("JSC_LMS.Domain.Entities.Student", "SectionId")
+                        .HasForeignKey("JSC_LMS.Domain.Entities.Students", "SectionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

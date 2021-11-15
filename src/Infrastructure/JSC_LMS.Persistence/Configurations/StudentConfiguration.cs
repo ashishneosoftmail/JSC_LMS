@@ -7,9 +7,9 @@ using System.Text;
 
 namespace JSC_LMS.Persistence.Configurations
 {
-    public class StudentConfiguration : IEntityTypeConfiguration<Student>
+    public class StudentConfiguration : IEntityTypeConfiguration<Students>
     {
-        public void Configure(EntityTypeBuilder<Student> builder)
+        public void Configure(EntityTypeBuilder<Students> builder)
         {
             builder
                .HasKey(b => b.Id);
