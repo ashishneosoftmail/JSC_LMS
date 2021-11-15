@@ -47,4 +47,14 @@
         <button type="submit" class="btn btn-primary">Update</button>
         @*<a asp-controller="SuperAdmin" asp-action="ProfileUpdate" class="btn btn-primary">Update</a>*@
     </form>
+    <br />
+    @if (ViewBag.UpdatePrincipalSuccess != null)
+    {
+        <span class="text-success">@ViewBag.UpdatePrincipalSuccess</span>
+    }
+    @if (ViewBag.UpdatePrincipalError != null)
+    {
+        <span class="text-danger">@ViewBag.UpdatePrincipalError</span>
+
+    }
 </div>

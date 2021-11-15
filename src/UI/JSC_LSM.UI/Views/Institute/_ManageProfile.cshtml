@@ -1,0 +1,128 @@
+﻿@model ManageProfile
+@{
+    ViewData["Title"] = "ManageProfile";
+}
+<style>
+    #div1 {
+        width: 620px;
+        height: 400px;
+        display: inline-block;
+        padding: 15px;
+        text-align: center;
+        border-style: solid;
+        border-color: lightgray;
+    }
+</style>
+<div class="container p-3 my-3" id="div1">
+    <h3>Profile Information</h3>
+    <br />
+    <br />
+    <form method="post" novalidate asp-action="UpdateProfileInformation" asp-controller="Institute">
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="inputName" asp-for="ProfileInformation.Name" placeholder="Name">
+                <span asp-validation-for="ProfileInformation.Name" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Mobile Support</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="inputNumber" asp-for="ProfileInformation.Mobile" placeholder="Mobile number">
+                <span asp-validation-for="ProfileInformation.Mobile" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+
+
+        <br />
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <br />
+    @if (ViewBag.UpdateInstituteadminSuccess != null)
+    {
+        <span class="text-success">@ViewBag.UpdateInstituteadminSuccess</span>
+
+    }
+
+    @if (ViewBag.UpdateInstituteadminError != null)
+    {
+        <span class="text-danger">@ViewBag.UpdateInstituteadminError</span>
+
+    }
+</div>
+
+<style>
+    #div2 {
+        position: relative;
+        float: right;
+        width: 550px;
+        height: 700px;
+        margin-top: 100px;
+        display: inline-block;
+        padding: 5px;
+        text-align: center;
+        border-style: solid;
+        border-color: lightgray;
+    }
+</style>
+
+<div class="container p-3 my-3" id="div2">
+    <h3>Change Password</h3>
+    <br />
+    <br />
+    <form asp-action="InstituteAdminChangePassword" asp-controller="Institute" method="post">
+
+        <div class="form-group row ">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Old Password</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control" id="inputOld_Pass" asp-for="ChangePassword.CurrentPassword" autocomplete="off" placeholder="Old Password">
+                <span asp-validation-for="ChangePassword.CurrentPassword" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">New Password</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control" id="inputNew_Pass" asp-for="ChangePassword.NewPassword" autocomplete="off" placeholder="New Password">
+                <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <div class="form-group row">
+            <label for="inputPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+            <div class="col-sm-9">
+                <input type="password" class="form-control" id="inputConfirm_Pass" asp-for="ChangePassword.ConfirmPassword" autocomplete="off" placeholder="Confirm Password">
+                <span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>
+
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+    <br />
+    @if (ViewBag.UpdateInstituteadminChangePasswordSuccess != null)
+    {
+        <span class="text-success">@ViewBag.UpdateInstituteadminChangePasswordSuccess</span>
+
+    }
+
+    @if (ViewBag.UpdateInstituteadminChangePasswordError != null)
+    {
+        <span class="text-danger">@ViewBag.UpdateInstituteadminChangePasswordError</span>
+
+    }
+</div>
+

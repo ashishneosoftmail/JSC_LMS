@@ -1,11 +1,15 @@
 ﻿using JSC_LMS.Api.Utility;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminChangePassword;
+using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminProfileInformation;
+using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteAdminByUserId;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteById;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteByPagination;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
+using JSC_LMS.Application.Features.Superadmin.Queries.GetSuperadminById;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -61,7 +65,7 @@ namespace JSC_LMS.Api.Controllers.v1
             var response = await _mediator.Send(updateInstituteCommand);
             return Ok(response);
         }
-        
+
         /// <summary>
         /// Method to get the list of Institute : by Shivani Goswami
         /// </summary>
@@ -98,10 +102,10 @@ namespace JSC_LMS.Api.Controllers.v1
         /// <param name="IsActive"></param>
         /// <param name="LicenseExpiry"></param>
         /// <returns></returns>
-        [HttpGet("GetInstituteByFilter",Name = "GetInstituteByFilter")]
-        public async Task<ActionResult> GetInstituteByFilter(string InstituteName, string City,string State, bool IsActive, DateTime LicenseExpiry)
+        [HttpGet("GetInstituteByFilter", Name = "GetInstituteByFilter")]
+        public async Task<ActionResult> GetInstituteByFilter(string InstituteName, string City, string State, bool IsActive, DateTime LicenseExpiry)
         {
-            var getInstituteByFilterQuery = new GetInstituteFilterQuery(InstituteName, City,State, IsActive, LicenseExpiry);
+            var getInstituteByFilterQuery = new GetInstituteFilterQuery(InstituteName, City, State, IsActive, LicenseExpiry);
             return Ok(await _mediator.Send(getInstituteByFilterQuery));
         }
 
@@ -132,7 +136,32 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllInstitute Completed");
             return Ok(dtos);
         }
-       
+        [HttpGet("GetInstituteAdminByUserId", Name = "GetInstituteAdminByUserId")]
+        public async Task<ActionResult> GetInstituteAdminByUserId(string UserId)
+        {
+            var getInstituteadminByUserIdQuery = new GetInstituteAdminByUserIdQuery() { UserId = UserId };
+            return Ok(await _mediator.Send(getInstituteadminByUserIdQuery));
+        }
+        [HttpPut("UpdateInstituteAdminProfileInformation", Name = "UpdateInstituteAdminProfileInformation")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateInstituteAdminProfileInformation(UpdateInstituteAdminProfileInformationDto UudateInstituteAdminProfileInformationDto)
+        {
+            var updateInsituteAdminProfileInformation = new UpdateInstituteAdminProfileInformationCommand(UudateInstituteAdminProfileInformationDto);
+            var response = await _mediator.Send(updateInsituteAdminProfileInformation);
+            return Ok(response);
+        }
+        [HttpPut("UpdateInstituteAdminChangePassword", Name = "UpdateInstituteAdminChangePassword")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateInstituteAdminChangePassword(UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto)
+        {
+            var updateInstituteadminChangePasswordCommand = new UpdateInstituteAdminChangePasswordCommand(updateInstituteAdminChangePasswordDto);
+            var response = await _mediator.Send(updateInstituteadminChangePasswordCommand);
+            return Ok(response);
+        }
     }
 }
 #endregion

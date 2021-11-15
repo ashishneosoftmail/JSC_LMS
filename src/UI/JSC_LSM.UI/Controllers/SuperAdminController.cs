@@ -95,14 +95,14 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateSuperadminProfileInformationResponseModel.Succeeded;
                             ViewBag.UpdatePrincipalSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("Profile", "SuperAdmin");
+                            return View("Profile");
                         }
                         else
                         {
                             responseModel.ResponseMessage = updateSuperadminProfileInformationResponseModel.message;
                             responseModel.IsSuccess = updateSuperadminProfileInformationResponseModel.Succeeded;
                             ViewBag.UpdatePrincipalError = updateSuperadminProfileInformationResponseModel.message;
-                            return View(updateSuperadminProfileInformationModel);
+                            return View("Profile");
                         }
                     }
                 }
@@ -113,7 +113,7 @@ namespace JSC_LSM.UI.Controllers
                     ViewBag.UpdatePrincipalError = updateSuperadminProfileInformationResponseModel.message;
                 }
             }
-            return View(updateSuperadminProfileInformationModel);
+            return View("Profile");
         }
 
         [HttpPost]
@@ -212,7 +212,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = superadminChangePasswordResponseModel.Succeeded;
 
                             ViewBag.UpdateSuperadminChangePasswordSuccess = superadminChangePasswordResponseModel.message;
-                            return RedirectToAction("Profile", "SuperAdmin");
+                            return View("Profile");
 
                         }
                         else
@@ -220,7 +220,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = superadminChangePasswordResponseModel.message;
                             responseModel.IsSuccess = superadminChangePasswordResponseModel.Succeeded;
                             ViewBag.UpdateSuperadminChangePasswordError = superadminChangePasswordResponseModel.message;
-                            return RedirectToAction("Profile", "SuperAdmin");
+                            return View("Profile");
 
                         }
                     }
@@ -232,8 +232,7 @@ namespace JSC_LSM.UI.Controllers
                     ViewBag.UpdateSuperadminChangePasswordError = superadminChangePasswordResponseModel.message;
                 }
             }
-            return RedirectToAction("Profile", "SuperAdmin");
-
+            return View("Profile");
         }
         [NonAction]
         private string ProcessUploadFile(IFormFile formFile, string path)
