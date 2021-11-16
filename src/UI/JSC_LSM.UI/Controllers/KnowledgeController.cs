@@ -1,5 +1,6 @@
 ﻿
 using JSC_LMS.Application.Features.Common.Categories.Commands;
+using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -30,7 +31,6 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> KnowledgeBase()
         {
             KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
-            var category = await _common.GetAllCategory();
             knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
             return View(knowledgeBaseViewModel);
         }
@@ -90,6 +90,70 @@ namespace JSC_LSM.UI.Controllers
                 }
             }
             return View("KnowledgeBase");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddKnowledge(KnowledgeBaseViewModel KnowledgeBaseViewModel)
+        {
+            ViewBag.AddKnowledgeBaseSuccess = null;
+            ViewBag.AddKnowledgeBaseError = null;
+
+            CreateKnowledgeBaseDto createKnowledgeBaseDto = new CreateKnowledgeBaseDto();
+            KnowledgeBaseViewModel.Categories = await _common.GetAllCategory();
+            if (ModelState.IsValid)
+            {
+                createKnowledgeBaseDto.CategoryId = KnowledgeBaseViewModel.AddKnowledgeBase.CategoryId;
+                createKnowledgeBaseDto.DocTitle = KnowledgeBaseViewModel.AddKnowledgeBase.DocTitle;
+                createKnowledgeBaseDto.SubTitle = KnowledgeBaseViewModel.AddKnowledgeBase.SubTitle;
+                createKnowledgeBaseDto.SlugUrl = KnowledgeBaseViewModel.AddKnowledgeBase.SlugUrl;
+                createKnowledgeBaseDto.AddContent = KnowledgeBaseViewModel.AddKnowledgeBase.AddContent;
+                createKnowledgeBaseDto.IsActive = true;
+
+                AddKnowledgeBaseResponseModel addKnowledgeBaseResponseModel = null;
+                ViewBag.AddKnowledgeBaseSuccess = null;
+                ViewBag.AddKnowledgeBaseError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                addKnowledgeBaseResponseModel = await _knowledgebaseRepository.AddKnowledgeBase(createKnowledgeBaseDto);
+
+
+                if (addKnowledgeBaseResponseModel.Succeeded)
+                {
+                    if (addKnowledgeBaseResponseModel == null && addKnowledgeBaseResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
+                        responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
+                    }
+                    if (addKnowledgeBaseResponseModel != null)
+                    {
+                        if (addKnowledgeBaseResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
+                            responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
+                            ViewBag.AddKnowledgeBaseSuccess = "KnowledgeBase Added Successfully";
+                            ModelState.Clear();
+                            KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
+                            knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
+                            return View("KnowledgeBase", knowledgeBaseViewModel);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
+                            responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
+                            ViewBag.AddKnowledgeBaseError = addKnowledgeBaseResponseModel.message;
+                            return View("KnowledgeBase", KnowledgeBaseViewModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
+                    responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
+                    ViewBag.AddKnowledgeBaseError = addKnowledgeBaseResponseModel.message;
+                }
+            }
+            return View("KnowledgeBase", KnowledgeBaseViewModel);
         }
     }
 }

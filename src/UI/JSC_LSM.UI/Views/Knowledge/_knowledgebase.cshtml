@@ -36,7 +36,7 @@
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
-    <form>
+    <form asp-action="AddKnowledge" asp-controller="Knowledge">
         <div class="row">
             <div class="col">
 
@@ -56,7 +56,8 @@
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Doc Title</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title">
+                        <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="AddKnowledgeBase.DocTitle">
+                        <span asp-validation-for="AddKnowledgeBase.DocTitle" class="text-danger"></span>
                     </div>
                 </div>
                 <br />
@@ -68,28 +69,15 @@
             </div>
             <div class="col">
 
-
-
-
-
                 <a href="" data-toggle="modal" data-target=".bannerformmodal">+Add Category</a>
-
-
-
-
-
-
-
-
-
-
-
                 <br />
 
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Sub Title</label><br />
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title">
+                        <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="AddKnowledgeBase.SubTitle">
+                        <span asp-validation-for="AddKnowledgeBase.SubTitle" class="text-danger"></span>
+
                     </div>
                 </div>
                 <br />
@@ -101,7 +89,9 @@
             <div class="form-group row">
                 <label for="inputKnow" class="col-sm-1 col-form-label">Slug Url</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url">
+                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url" asp-for="AddKnowledgeBase.SlugUrl">
+                    <span asp-validation-for="AddKnowledgeBase.SlugUrl" class="text-danger"></span>
+
                 </div>
             </div>
             <br />
@@ -113,44 +103,12 @@
                 <label for="inputKnow" class="col-sm-1 col-form-label">Add Content</label>
                 <div class="col-sm-7">
 
-                    <textarea id="editor" placeholder="Add Content"></textarea>
+                    <textarea id="editor" placeholder="Add Content" asp-for="AddKnowledgeBase.AddContent"></textarea>
+                    <span asp-validation-for="AddKnowledgeBase.AddContent" class="text-danger"></span>
 
-
-                    @*<textarea class="text-input textarea" id="inputContent" placeholder="Add Content" rows="10" cols="75"></textarea>*@
                 </div>
             </div>
             <br /><br /><br />
-
-
-            <!--  <div class="container">
-                  <h2>Modal Example</h2>
-
-                  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-
-
-                  <div class="modal fade" id="myModal" role="dialog">
-                      <div class="modal-dialog">
-
-
-                          <div class="modal-content">
-                              <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                  <h4 class="modal-title">Modal Header</h4>
-                              </div>
-                              <div class="modal-body">
-                                  <p>Some text in the modal.</p>
-                              </div>
-                              <div class="modal-footer">
-                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                              </div>
-                          </div>
-
-                      </div>
-                  </div>
-
-              </div> -->
-
-
 
 
             <div class="container">
@@ -164,37 +122,10 @@
                     </div>
 
                     <div class="col">
-
-                        <button type="button" class="btn btn-primary">Save</button>
-
+                        <button type="submit" class="btn btn-primary">Save</button>
                         <button type="button" class="btn btn-danger">Cancel</button>
-
-
-
                     </div>
                 </div>
-
-
-                @*<div class="container mt-4 mb-4">
-                        <div class="row justify-content-md-center">
-                            <div class="col-md-12 col-lg-8">
-                                <h1 class="h2 mb-4">Submit issue</h1>
-                                <label>Describe the issue in detail</label>
-                                <div class="form-group">
-                                    <textarea id="editor"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </div>
-                    </div>*@
-
-
-
-
-
-
-
-
 
 
     </form>
@@ -241,6 +172,14 @@
     @if (ViewBag.AddCategoryError != null)
     {
         <script>alert("@ViewBag.AddCategoryError")</script>
+    }
+    @if (ViewBag.AddKnowledgeBaseSuccess != null)
+    {
+        <script>alert("@ViewBag.AddKnowledgeBaseSuccess")</script>
+    }
+    @if (ViewBag.AddKnowledgeBaseError != null)
+    {
+        <script>alert("@ViewBag.AddKnowledgeBaseError")</script>
     }
 </div>
 
