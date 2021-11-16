@@ -57,7 +57,8 @@ namespace JSC_LSM.UI
             services.AddScoped<ITeacherRepository, TeacherRepository>(s => new TeacherRepository());
 
             services.AddScoped<ISuperadminRepository, SuperadminRepository>(s => new SuperadminRepository());
-
+            services.AddScoped<ICategoryRepository, CategoryRepository>(s => new CategoryRepository());
+            services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>(s => new KnowledgeBaseRepository());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
