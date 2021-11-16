@@ -1,5 +1,6 @@
 using AutoMapper;
 using JSC_LMS.Application.CommonDtos;
+using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
@@ -166,6 +167,10 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<KnowledgeBase, CreateKnowledgeBaseDto>().ReverseMap();
             CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>();
             CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>().ReverseMap();
+
+
+            CreateMap<Academic, CreateAcademicDto>();
+            CreateMap<Academic, CreateAcademicDto>().ReverseMap();
 
             CreateMap<Category, CategoriesDto>();
             CreateMap<Category, CategoriesDto>().ReverseMap();

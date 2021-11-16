@@ -35,6 +35,10 @@ namespace JSC_LMS.Persistence
             services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
 
+            services.AddScoped<IAcademicRepository, AcademicRepository>();
+
+
+
             return services;
         }
     }
