@@ -25,6 +25,6 @@ namespace JSC_LMS.Application.Models.Authentication
         [MinLength(6)]
         public string RoleName { get; set; }
 
-      
+
     }
 }

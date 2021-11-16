@@ -17,8 +17,7 @@ namespace JSC_LMS.Domain.Entities
         public bool IsActive { get; set; }
 
         public School School { get; set; }
-        public ICollection<Students> student { get; set; }
-
+        public virtual ICollection<Students> Student { get; set; }
         public virtual ICollection<Section> Section { get; set; }
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
