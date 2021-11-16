@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
+using JSC_LMS.Application.Features.Academics.Queries.GetAcademicList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,14 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(response);
         }
 
-
+        [HttpGet("all", Name = "GetAllAcademic")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllAcademic()
+        {
+            _logger.LogInformation("GetAllAcademic Initiated");
+            var dtos = await _mediator.Send(new GetAcademicListQuery());
+            _logger.LogInformation("GetAllAcademic Completed");
+            return Ok(dtos);
+        }
     }
 }
