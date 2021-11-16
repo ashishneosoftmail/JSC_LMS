@@ -1,3 +1,4 @@
+using JSC_LMS.Application.Features.Academics.Queries.AcademicCsvExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
@@ -15,6 +16,7 @@ namespace JSC_LMS.Application.Contracts.Infrastructure
 
         byte[] ExportSchoolToCsv(List<SchoolCsvExportDto> schoolExportDtos);
         byte[] ExportTeacherToCsv(List<TeacherCsvExportDto> teacherExportDtos);
+        byte[] ExportAcademicToCsv(List<AcademicCsvExportDto> academicExportDtos);
 
 
     }
