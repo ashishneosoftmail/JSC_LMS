@@ -23,6 +23,7 @@
   </ItemGroup>
 	
   <ItemGroup>
+    <Folder Include="Features\Academics\Queries\" />
     <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseByFilter\" />
     <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseById\" />
     <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseByPagination\" />
