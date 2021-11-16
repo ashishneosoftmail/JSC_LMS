@@ -15,13 +15,13 @@
                             <label for="user" class="col-sm-3 col-form-label">User Type</label>
                             <div class="col-sm-9">
                                 <select class="form-control" asp-for="UserType" id="user">
-                                    <option value="" disabled selected>Select User</option>
+                                    <option  disabled selected>Select User</option>
                                     <option value="Teacher"> Teacher</option>
                                     <option value="Students"> Students</option>
                                     <option value="Parents"> Parents</option>
 
                                 </select>
-                                <span class="text-danger"></span>
+                                <span asp-validation-for="UserType" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                         <div class="form-group row">
                             <label for="school" class="col-sm-3 col-form-label">Select Class</label>
                             <div class="col-sm-9">
-                                <select class="form-control" asp-for="ClassId" asp-items="Model.Class" id="school">
+                                <select class="form-control" asp-for="ClassId" asp-items="Model.Class" id="class">
                                     <option disabled selected hidden> Select Class</option>
 
                                 </select>
@@ -80,17 +80,7 @@
                         </div>
                     </div>
 
-                    @*<div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="class" class="col-sm-3 col-form-label">Class</label>
-                            <div class="col-sm-9">
-                                <select asp-for="ClassId" class="form-control" id="class">
-                                    <option disabled selected hidden>Select Class</option>
-                                </select>
-                                <span asp-validation-for="Mobile" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>*@
+                    
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>

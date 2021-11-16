@@ -18,20 +18,21 @@ namespace JSC_LSM.UI.Controllers
 
 
         private readonly IStateRepository _stateRepository;
-        private readonly ITeacherRepository _teacherRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
-        public UserController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
+        public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
         {
             _stateRepository = stateRepository;
-            _teacherRepository = teacherRepository;
+            _studentRepository = studentRepository;
             _common = common;
             _apiBaseUrl = apiBaseUrl;
-            _schoolRepository = schoolRepository;
+            _classRepository=classRepository;
+            _sectionRepository = sectionRepository;
 
         }
 
@@ -45,6 +46,20 @@ namespace JSC_LSM.UI.Controllers
             var cities = await _common.GetAllZipByCityId(cityId);
             return cities;
         }
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllClass()
+        {
+            var classes = await _common.GetClass();
+            return classes;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllSection()
+        {
+            var sections = await _common.GetSection();
+            return sections;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -53,112 +68,26 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
-        public IActionResult AddStudent()
+        [HttpGet]
+        public async Task<IActionResult> AddStudent()
         {
-            return View();
+            ViewBag.AddStudentSuccess = null;
+            ViewBag.AddStudentError = null;
+            StudentModel student = new StudentModel();
+            student.States = await _common.GetAllStates();
+           // student.Schools = await _common.GetSchool();
+            student.Classes = await _common.GetClass();
+            student.Sections = await _common.GetSection();
+            return View(student);
+
         }
         public IActionResult AddParents()
         {
             return View();
 
         }
-        public IActionResult ManageTeacherUsers()
-        {
-            return View();
-
-        }
-        [HttpGet]
-        public async Task<IActionResult> AddTeacher()
-        {
-            ViewBag.AddInstituteSuccess = null;
-            ViewBag.AddInstituteError = null;
-            Teacher teacher = new Teacher();
-            teacher.States = await _common.GetAllStates();
-            teacher.Schools = await _common.GetSchool();
-            return View(teacher);
-
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTeacher(Teacher teacher)
-        {
-            ViewBag.AddTeacherSuccess = null;
-            ViewBag.AddTeacherError = null;
-            teacher.States = await _common.GetAllStates();
-            CreateTeacherDto createNewTeacher = new CreateTeacherDto();
-            if (ModelState.IsValid)
-            {
-                createNewTeacher.TeacherName = teacher.TeacherName;
-                createNewTeacher.AddressLine1 = teacher.AddressLine1;
-                createNewTeacher.AddressLine2 = teacher.AddressLine2;
-                createNewTeacher.SubjectId = teacher.SubjectId;
-                createNewTeacher.Email = teacher.Email;
-                createNewTeacher.Mobile = teacher.Mobile;
-                createNewTeacher.Password = teacher.Password;
-                createNewTeacher.Username = teacher.Username;
-                createNewTeacher.CityId = teacher.CityId;
-                createNewTeacher.StateId = teacher.StateId;
-                createNewTeacher.ZipId = teacher.ZipId;
-                createNewTeacher.SectionId = teacher.SectionId;
-                createNewTeacher.ClassId = teacher.ClassId;
-                createNewTeacher.IsActive = teacher.IsActive;
-                createNewTeacher.UserType = teacher.UserType;
-
-                TeacherResponseModel teacherResponseModel = null;
-                ViewBag.AddTeacherError = null;
-                ResponseModel responseModel = new ResponseModel();
-
-                teacherResponseModel = await _teacherRepository.CreateTeacher(createNewTeacher);
-
-                if (teacherResponseModel.Succeeded)
-                {
-                    if (teacherResponseModel == null && teacherResponseModel.data == null)
-                    {
-                        responseModel.ResponseMessage = teacherResponseModel.message;
-                        responseModel.IsSuccess = teacherResponseModel.Succeeded;
-                    }
-                    if (teacherResponseModel != null)
-                    {
-                        if (teacherResponseModel.data != null)
-                        {
-                            responseModel.ResponseMessage = teacherResponseModel.message;
-                            responseModel.IsSuccess = teacherResponseModel.Succeeded;
-
-                            ViewBag.AddTeacherSuccess = "Details Added Successfully";
-                            ModelState.Clear();
-                            var newTeacherModel = new Teacher();
-                            newTeacherModel.States = await _common.GetAllStates();
-                            return View(newTeacherModel);
-
-                        }
-                        else
-                        {
-                            responseModel.ResponseMessage = teacherResponseModel.message;
-                            responseModel.IsSuccess = teacherResponseModel.Succeeded;
-                            ViewBag.AddTeacherError = teacherResponseModel.message;
-                            return View(teacher);
-                        }
-                    }
-                }
-                else
-                {
-                    responseModel.ResponseMessage = teacherResponseModel.message;
-                    responseModel.IsSuccess = teacherResponseModel.Succeeded;
-                    ViewBag.AddTeacherError = teacherResponseModel.message;
-
-                }
-            }
-            return View(teacher);
-
-
-        }
-
-
-        public IActionResult EditTeacher()
-        {
-            return View();
-
-        }
+      
+       
 
 
     }
