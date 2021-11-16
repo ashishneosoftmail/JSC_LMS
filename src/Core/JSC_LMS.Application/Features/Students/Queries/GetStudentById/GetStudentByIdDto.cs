@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
+namespace JSC_LMS.Application.Features.Students.Queries.GetStudentById
 {
-    public class GetStudentListDto
+   public  class GetStudentByIdDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }
@@ -24,7 +24,6 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
         public SectionDto Section { get; set; }
         public string UserType { get; set; }
         public bool IsActive { get; set; }
-        
 
     }
 }
