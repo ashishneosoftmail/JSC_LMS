@@ -8,7 +8,7 @@
 <div class="m-2">
     <div class="border border-dark p-4 m-3">
         <div class="row">
-            <form>
+            <form method="post" asp-action="AddStudent" asp-controller="User">
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -17,7 +17,7 @@
                                 <select class="form-control" asp-for="UserType" id="user">
                                     <option value="" disabled selected>Select User</option>
                                     <option value="Teacher"> Teacher</option>
-                                    <option value="Students"> Student</option>
+                                    <option value="Student"> Student</option>
                                     <option value="Parents"> Parents</option>
 
                                 </select>
