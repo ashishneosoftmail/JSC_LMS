@@ -49,7 +49,9 @@ namespace JSC_LMS.Application.Features.Students.Commands.CreateStudent
                     LastName = "S", 
                     UserName = request.createStudentDto.Username, 
                     Email = request.createStudentDto.Email,
-                    Password = request.createStudentDto.Password };
+                    Password = request.createStudentDto.Password,
+                RoleName="Student"};
+                
                 var User = await _authenticationService.RegisterAsync(UserData);
                 if (User.UserId == null)
                 {

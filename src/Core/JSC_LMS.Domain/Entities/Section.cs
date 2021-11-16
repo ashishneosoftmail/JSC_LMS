@@ -21,7 +21,7 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
         public virtual ICollection<Academic> Academic { get; set; }
-        public virtual Students Student { get; set; }
+        public ICollection<Students> student { get; set; }
 
 
 
