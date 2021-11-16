@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JSC_LMS.Persistence.Repositories
 {
@@ -17,9 +18,14 @@ namespace JSC_LMS.Persistence.Repositories
             _logger = logger;
         }
 
-        //protected override IQueryable<Academic> GetQueryable()
-        //{
-        //    return _dbContext.Set<Academic>().Include(x => x.School);
-        //}
+        protected override IQueryable<Academic> GetQueryable()
+        {
+            return _dbContext.Set<Academic>().Include(y => y.School).Include(x => x.Teacher).Include(z => z.Subject).Include(a => a.Class).Include(b => b.Section);
+        }
+        public override async Task<Academic> GetByIdAsync(int id)
+        {
+            return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
+
+        }
     }
 }
