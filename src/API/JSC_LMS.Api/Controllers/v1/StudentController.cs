@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
+using JSC_LMS.Application.Features.Students.Queries.GetStudentById;
+using JSC_LMS.Application.Features.Students.Queries.GetStudentList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +43,23 @@ namespace JSC_LMS.Api.Controllers.v1
             var updateStudentCommand = new UpdateStudentCommand(updateStudentDto);
             var response = await _mediator.Send(updateStudentCommand);
             return Ok(response);
+        }
+
+        [HttpGet("all", Name = "GetAllStudent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllStudent()
+        {
+            _logger.LogInformation("GetAllStudent Initiated");
+            var dtos = await _mediator.Send(new GetStudentListQuery());
+            _logger.LogInformation("GetAllStudent Completed");
+            return Ok(dtos);
+        }
+
+        [HttpGet("id", Name = "GetStudentById")]
+        public async Task<ActionResult> GetStudentById(int id)
+        {
+            var getStudentDetailQuery = new GetStudentByIdQuery() { Id = id };
+            return Ok(await _mediator.Send(getStudentDetailQuery));
         }
     }
 }
