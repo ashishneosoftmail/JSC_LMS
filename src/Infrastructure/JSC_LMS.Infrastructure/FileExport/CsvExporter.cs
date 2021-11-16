@@ -1,5 +1,6 @@
 using CsvHelper;
 using JSC_LMS.Application.Contracts.Infrastructure;
+using JSC_LMS.Application.Features.Academics.Queries.AcademicCsvExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Institutes.Queries.InstituteFileExport.InstituteCsvExport;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
@@ -68,6 +69,18 @@ namespace JSC_LMS.Infrastructure
             {
                 using var csvWriter = new CsvWriter(streamWriter);
                 csvWriter.WriteRecords(teacherExportDtos);
+            }
+
+            return memoryStream.ToArray();
+        }
+
+        public byte[] ExportAcademicToCsv(List<AcademicCsvExportDto> academicExportDtos)
+        {
+            using var memoryStream = new MemoryStream();
+            using (var streamWriter = new StreamWriter(memoryStream))
+            {
+                using var csvWriter = new CsvWriter(streamWriter);
+                csvWriter.WriteRecords(academicExportDtos);
             }
 
             return memoryStream.ToArray();
