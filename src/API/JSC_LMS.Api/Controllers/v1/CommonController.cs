@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Common.Categories.Queries.GetCategoriesList;
+﻿using JSC_LMS.Application.Features.Common.Categories.Commands;
+using JSC_LMS.Application.Features.Common.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Common.Cities.Queries.GetCitiesListWithStateId;
 using JSC_LMS.Application.Features.Common.Roles.Commands.CreateRole;
 using JSC_LMS.Application.Features.Common.Roles.Commands.DeleteRole;
@@ -53,7 +54,17 @@ namespace JSC_LMS.Api.Controllers.v1
              var getRoleDetailQuery = new GetRoleQuery() { Id = id };
              return Ok(await _mediator.Send(getRoleDetailQuery));
          }*/
-
+        [HttpPost("AddCategory", Name = "AddCategories")]
+        public async Task<ActionResult> AddCategories(string categoryName, bool isActive)
+        {
+            var createCategoryCommand = new CreateCategoryCommand()
+            {
+                CategoryName = categoryName,
+                IsActive = isActive
+            };
+            var id = await _mediator.Send(createCategoryCommand);
+            return Ok(id);
+        }
         /// <summary>
         /// Adds the role into the database - developed by harsh chheda
         /// </summary>

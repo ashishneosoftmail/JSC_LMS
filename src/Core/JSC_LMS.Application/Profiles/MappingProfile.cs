@@ -172,7 +172,8 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Students, CreateStudentDto>();
             CreateMap<Students, CreateStudentDto>().ReverseMap();
-
+            CreateMap<Category, CreateCategoryDto>();
+            CreateMap<Category, CreateCategoryDto>().ReverseMap();
         }
     }
 }
