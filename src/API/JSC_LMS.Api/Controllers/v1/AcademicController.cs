@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
+using JSC_LMS.Application.Features.Academics.Queries.GetAcademicById;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -53,6 +54,13 @@ namespace JSC_LMS.Api.Controllers.v1
             var dtos = await _mediator.Send(new GetAcademicListQuery());
             _logger.LogInformation("GetAllAcademic Completed");
             return Ok(dtos);
+        }
+
+        [HttpGet("id", Name = "GetAcademicById")]
+        public async Task<ActionResult> GetAcademicById(int id)
+        {
+            var getAcademicDetailQuery = new GetAcademicByIdQuery() { Id = id };
+            return Ok(await _mediator.Send(getAcademicDetailQuery));
         }
     }
 }
