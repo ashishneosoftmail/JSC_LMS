@@ -50,5 +50,23 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return createCategoryResponseModel;
         }
+
+        public async Task<GetAllCategoryResponseModel> GetAllCategory()
+        {
+            GetAllCategoryResponseModel getAllCategoryResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCategory, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCategoryResponseModel = JsonConvert.DeserializeObject<GetAllCategoryResponseModel>(_oApiResponse.data);
+                getAllCategoryResponseModel.isSuccess = true;
+            }
+
+            return getAllCategoryResponseModel;
+        }
     }
 }

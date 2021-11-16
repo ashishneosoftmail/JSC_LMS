@@ -1,5 +1,7 @@
-﻿using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
+﻿using JSC_LMS.Api.Utility;
+using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
+using JSC_LMS.Application.Features.Academics.Queries.AcademicCsvExport;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicByFilter;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicById;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicByPagination;
@@ -81,6 +83,16 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllPagination Completed");
             return Ok(dtos);
         }
+
+        [HttpGet("export", Name = "Export")]
+        [FileResultContentType("text/csv")]
+        public async Task<FileResult> ExportAcademic()
+        {
+            var fileDto = await _mediator.Send(new GetAcademicCsvExportQuery());
+
+            return File(fileDto.Data, fileDto.ContentType, fileDto.AcademicExportFileName);
+        }
+
 
     }
 }

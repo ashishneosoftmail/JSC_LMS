@@ -11,6 +11,7 @@ namespace JSC_LSM.UI.Common
 {
     public class Common
     {
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IStateRepository _stateRepository;
         private readonly ICityRepository _cityRepository;
         private readonly IZipRepository _zipRepository;
@@ -19,8 +20,9 @@ namespace JSC_LSM.UI.Common
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
 
-        public Common(IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository ,IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository , ISubjectRepository subjectRepository)
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository)
         {
+            _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             _zipRepository = zipRepository;
@@ -28,6 +30,44 @@ namespace JSC_LSM.UI.Common
             _classRepository = classRepository;
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
+        }
+        [NonAction]
+        public async Task<List<SelectListItem>> GetAllCategory()
+        {
+            List<SelectListItem> category = new List<SelectListItem>();
+            GetAllCategoryResponseModel getAllCategoryResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllCategoryResponseModel = await _categoryRepository.GetAllCategory();
+
+            if (getAllCategoryResponseModel.isSuccess)
+            {
+                if (getAllCategoryResponseModel == null && getAllCategoryResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllCategoryResponseModel.message;
+                    responseModel.IsSuccess = getAllCategoryResponseModel.isSuccess;
+                }
+                if (getAllCategoryResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllCategoryResponseModel.message;
+                    responseModel.IsSuccess = getAllCategoryResponseModel.isSuccess;
+                    foreach (var item in getAllCategoryResponseModel.data)
+                    {
+                        category.Add(new SelectListItem
+                        {
+                            Text = item.CategoryName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return category;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllCategoryResponseModel.message;
+                responseModel.IsSuccess = getAllCategoryResponseModel.isSuccess;
+            }
+            return null;
         }
 
         [NonAction]

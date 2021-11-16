@@ -44,8 +44,10 @@
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Category</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputCategory" placeholder="select Category">
-
+                        <select class="form-control" asp-for="AddKnowledgeBase.CategoryId" id="school" asp-items="Model.Categories">
+                            <option disabled selected hidden>Select Category</option>
+                        </select>
+                        <span asp-validation-for="AddKnowledgeBase.CategoryId" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -224,7 +226,7 @@
                 </div>
                 <div class="modal-footer">
 
-                    
+
                 </div>
             </div>
         </div>

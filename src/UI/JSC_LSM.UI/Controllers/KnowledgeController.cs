@@ -14,20 +14,25 @@ namespace JSC_LSM.UI.Controllers
     public class KnowledgeController : BaseController
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IKnowledgeBaseRepository _knowledgebaseRepository;
-        public KnowledgeController(ICategoryRepository categoryRepository, IKnowledgeBaseRepository knowledgebaseRepository)
+        public KnowledgeController(ICategoryRepository categoryRepository, IKnowledgeBaseRepository knowledgebaseRepository, JSC_LSM.UI.Common.Common common)
         {
             _categoryRepository = categoryRepository;
             _knowledgebaseRepository = knowledgebaseRepository;
+            _common = common;
         }
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult KnowledgeBase()
+        public async Task<IActionResult> KnowledgeBase()
         {
-            return View();
+            KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
+            var category = await _common.GetAllCategory();
+            knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
+            return View(knowledgeBaseViewModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
