@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
+﻿using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
+using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
@@ -18,20 +19,21 @@ namespace JSC_LSM.UI.Controllers
 
 
         private readonly IStateRepository _stateRepository;
-        private readonly ITeacherRepository _teacherRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
-        public UserController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
+        public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
         {
             _stateRepository = stateRepository;
-            _teacherRepository = teacherRepository;
+            _studentRepository = studentRepository;
             _common = common;
             _apiBaseUrl = apiBaseUrl;
-            _schoolRepository = schoolRepository;
+            _classRepository=classRepository;
+            _sectionRepository = sectionRepository;
 
         }
 
@@ -45,6 +47,20 @@ namespace JSC_LSM.UI.Controllers
             var cities = await _common.GetAllZipByCityId(cityId);
             return cities;
         }
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllClass()
+        {
+            var classes = await _common.GetClass();
+            return classes;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllSection()
+        {
+            var sections = await _common.GetSection();
+            return sections;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -53,112 +69,106 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
-        public IActionResult AddStudent()
-        {
-            return View();
-        }
-        public IActionResult AddParents()
-        {
-            return View();
-
-        }
-        public IActionResult ManageTeacherUsers()
-        {
-            return View();
-
-        }
         [HttpGet]
-        public async Task<IActionResult> AddTeacher()
+        public async Task<IActionResult> AddStudent()
         {
-            ViewBag.AddInstituteSuccess = null;
-            ViewBag.AddInstituteError = null;
-            Teacher teacher = new Teacher();
-            teacher.States = await _common.GetAllStates();
-            teacher.Schools = await _common.GetSchool();
-            return View(teacher);
+            ViewBag.AddStudentSuccess = null;
+            ViewBag.AddStudentError = null;
+            StudentModel student = new StudentModel();
+            student.States = await _common.GetAllStates();
+           // student.Schools = await _common.GetSchool();
+            student.Classes = await _common.GetClass();
+            student.Sections = await _common.GetSection();
+            return View(student);
 
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTeacher(Teacher teacher)
+        public async Task<IActionResult> AddStudent(StudentModel studentModel)
         {
-            ViewBag.AddTeacherSuccess = null;
-            ViewBag.AddTeacherError = null;
-            teacher.States = await _common.GetAllStates();
-            CreateTeacherDto createNewTeacher = new CreateTeacherDto();
+            ViewBag.AddStudentSuccess = null;
+            ViewBag.AddStudentError = null;
+            studentModel.States = await _common.GetAllStates();
+            studentModel.Classes = await _common.GetClass();
+            studentModel.Sections = await _common.GetSection();
+            CreateStudentDto createNewStudent = new CreateStudentDto();
+            //studentModel.RoleName = "Student";
             if (ModelState.IsValid)
             {
-                createNewTeacher.TeacherName = teacher.TeacherName;
-                createNewTeacher.AddressLine1 = teacher.AddressLine1;
-                createNewTeacher.AddressLine2 = teacher.AddressLine2;
-                createNewTeacher.SubjectId = teacher.SubjectId;
-                createNewTeacher.Email = teacher.Email;
-                createNewTeacher.Mobile = teacher.Mobile;
-                createNewTeacher.Password = teacher.Password;
-                createNewTeacher.Username = teacher.Username;
-                createNewTeacher.CityId = teacher.CityId;
-                createNewTeacher.StateId = teacher.StateId;
-                createNewTeacher.ZipId = teacher.ZipId;
-                createNewTeacher.SectionId = teacher.SectionId;
-                createNewTeacher.ClassId = teacher.ClassId;
-                createNewTeacher.IsActive = teacher.IsActive;
-                createNewTeacher.UserType = teacher.UserType;
 
-                TeacherResponseModel teacherResponseModel = null;
-                ViewBag.AddTeacherError = null;
+                createNewStudent.ClassId = studentModel.ClassId;
+                createNewStudent.SectionId = studentModel.SectionId;
+                createNewStudent.AddressLine1 = studentModel.AddressLine1;
+                createNewStudent.AddressLine2 = studentModel.AddressLine2;
+                createNewStudent.StudentName = studentModel.StudentName;
+                createNewStudent.Email = studentModel.Email;
+                createNewStudent.Mobile = studentModel.Mobile;
+                createNewStudent.Password = studentModel.Password;
+                createNewStudent.Username = studentModel.Username;
+                createNewStudent.CityId = studentModel.CityId;
+                createNewStudent.StateId = studentModel.StateId;
+                createNewStudent.ZipId = studentModel.ZipId;
+                createNewStudent.IsActive = studentModel.IsActive;
+                createNewStudent.UserType = studentModel.UserType;
+
+
+                StudentResponseModel studentResponseModel = null;
+                ViewBag.AddStudentSuccess = null;
+                ViewBag.AddStudentError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                teacherResponseModel = await _teacherRepository.CreateTeacher(createNewTeacher);
+                studentResponseModel = await _studentRepository.AddNewStudent(createNewStudent);
 
-                if (teacherResponseModel.Succeeded)
+
+                if (studentResponseModel.Succeeded)
                 {
-                    if (teacherResponseModel == null && teacherResponseModel.data == null)
+                    if (studentResponseModel == null && studentResponseModel.data == null)
                     {
-                        responseModel.ResponseMessage = teacherResponseModel.message;
-                        responseModel.IsSuccess = teacherResponseModel.Succeeded;
+                        responseModel.ResponseMessage = studentResponseModel.message;
+                        responseModel.IsSuccess = studentResponseModel.Succeeded;
                     }
-                    if (teacherResponseModel != null)
+                    if (studentResponseModel != null)
                     {
-                        if (teacherResponseModel.data != null)
+                        if (studentResponseModel.data != null)
                         {
-                            responseModel.ResponseMessage = teacherResponseModel.message;
-                            responseModel.IsSuccess = teacherResponseModel.Succeeded;
-
-                            ViewBag.AddTeacherSuccess = "Details Added Successfully";
+                            responseModel.ResponseMessage = studentResponseModel.message;
+                            responseModel.IsSuccess = studentResponseModel.Succeeded;
+                            ViewBag.AddStudentSuccess = "Details Added Successfully";
                             ModelState.Clear();
-                            var newTeacherModel = new Teacher();
-                            newTeacherModel.States = await _common.GetAllStates();
-                            return View(newTeacherModel);
-
+                            var newStudentModel = new StudentModel();
+                            newStudentModel.States = await _common.GetAllStates();
+                            newStudentModel.Classes = await _common.GetClass();
+                            newStudentModel.Sections = await _common.GetSection();
+                            return View("AddStudent");
                         }
                         else
                         {
-                            responseModel.ResponseMessage = teacherResponseModel.message;
-                            responseModel.IsSuccess = teacherResponseModel.Succeeded;
-                            ViewBag.AddTeacherError = teacherResponseModel.message;
-                            return View(teacher);
+                            responseModel.ResponseMessage = studentResponseModel.message;
+                            responseModel.IsSuccess = studentResponseModel.Succeeded;
+                            ViewBag.AddPrincipalError = studentResponseModel.message;
+                            return View(studentModel);
                         }
                     }
                 }
                 else
                 {
-                    responseModel.ResponseMessage = teacherResponseModel.message;
-                    responseModel.IsSuccess = teacherResponseModel.Succeeded;
-                    ViewBag.AddTeacherError = teacherResponseModel.message;
-
+                    responseModel.ResponseMessage = studentResponseModel.message;
+                    responseModel.IsSuccess = studentResponseModel.Succeeded;
+                    ViewBag.AddPrincipalError = studentResponseModel.message;
                 }
             }
-            return View(teacher);
-
+            return View(studentModel);
 
         }
 
-
-        public IActionResult EditTeacher()
+        public IActionResult AddParents()
         {
             return View();
 
         }
+      
+       
 
 
     }
