@@ -18,7 +18,6 @@ namespace JSC_LMS.Domain.Entities
 
         public School School { get; set; }
         public virtual ICollection<Students> Student { get; set; }
-
         public virtual ICollection<Section> Section { get; set; }
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }

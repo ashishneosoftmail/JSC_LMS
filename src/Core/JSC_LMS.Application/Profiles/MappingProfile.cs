@@ -32,6 +32,7 @@ using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
 using JSC_LMS.Application.Features.Section.Commands.CreateSection;
 using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
 using JSC_LMS.Application.Features.Section.Queries.GetSectionFilter;
+using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Subject.Commands.CreateSubject;
 using JSC_LMS.Application.Features.Subject.Commands.UpdateSubject;
 using JSC_LMS.Application.Features.Subject.Queries.GetSubjectById;
@@ -167,8 +168,16 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>();
             CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>().ReverseMap();
 
+
             CreateMap<Academic, CreateAcademicDto>();
             CreateMap<Academic, CreateAcademicDto>().ReverseMap();
+
+            CreateMap<Category, CategoriesDto>();
+            CreateMap<Category, CategoriesDto>().ReverseMap();
+
+            CreateMap<Students, CreateStudentDto>();
+            CreateMap<Students, CreateStudentDto>().ReverseMap();
+
         }
     }
 }

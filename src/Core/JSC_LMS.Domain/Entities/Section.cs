@@ -24,5 +24,6 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Students> Student { get; set; }
 
 
+
     }
 }

@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.KnowledgeBase.Queries.GetKnowledgeBaseList
+namespace JSC_LMS.Application.Features.KnowledgeBase.Queries.GetKnowledgeBaseById
 {
-    public class GetKnowledgeBaseListDto
+    public class GetKnowledgeBaseByIdDto
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
