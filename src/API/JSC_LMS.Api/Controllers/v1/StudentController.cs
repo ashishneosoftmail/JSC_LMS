@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
+using JSC_LMS.Application.Features.Students.Queries.GetStudentByFilter;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentById;
+using JSC_LMS.Application.Features.Students.Queries.GetStudentByPagination;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -60,6 +62,23 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getStudentDetailQuery = new GetStudentByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getStudentDetailQuery));
+        }
+
+        [HttpGet("Pagination", Name = "GetAllStudentByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllStudentByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllStudent Initiated");
+            var dtos = await _mediator.Send(new GetStudentByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllStudent Completed");
+            return Ok(dtos);
+        }
+
+        [HttpGet("GetStudentByFilter", Name = "GetStudentByFilter")]
+        public async Task<ActionResult> GetStudentByFilter(string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate)
+        {
+            var getStudentByFilterQuery = new GetStudentByFilterQuery(ClassName, SectionName, StudentName, IsActive, CreatedDate);
+            return Ok(await _mediator.Send(getStudentByFilterQuery));
         }
     }
 }

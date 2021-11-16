@@ -7,15 +7,15 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
-{
-    
 
-    public class GetStudentListQueryHandler : IRequestHandler<GetStudentListQuery, Response<IEnumerable<GetStudentListDto>>>
+namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByPagination
+{
+    public class GetStudentByPaginationQueryHandler : IRequestHandler<GetStudentByPaginationQuery, Response<GetStudentListByPaginationResponse>>
     {
         private readonly IStudentRepository _studentRepository;
         private readonly IClassRepository _classRepository;
@@ -23,7 +23,8 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
         private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public GetStudentListQueryHandler(IMapper mapper, IStudentRepository studentRepository, IClassRepository classRepository, ISectionRepository sectionRepository,IAuthenticationService authenticationService, ILogger<GetStudentListQueryHandler> logger)
+        public GetStudentByPaginationQueryHandler(IMapper mapper, IStudentRepository studentRepository, IClassRepository classRepository, ISectionRepository sectionRepository, IAuthenticationService authenticationService, ILogger
+            <GetStudentByPaginationQueryHandler> logger)
         {
             _mapper = mapper;
             _studentRepository = studentRepository;
@@ -33,15 +34,17 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
             _authenticationService = authenticationService;
         }
 
-        public async Task<Response<IEnumerable<GetStudentListDto>>> Handle(GetStudentListQuery request, CancellationToken cancellationToken)
+        public async Task<Response<GetStudentListByPaginationResponse>> Handle(GetStudentByPaginationQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handle Initiated");
-            var allStudent = await _studentRepository.ListAllAsync();
-            List<GetStudentListDto> studentList = new List<GetStudentListDto>();
+            var allStudentCount = await _studentRepository.ListAllAsync();
+            var allStudent = await _studentRepository.GetPagedReponseAsync(request.page, request.size);
+            GetStudentListByPaginationResponse getStudentListByPaginationResponse = new GetStudentListByPaginationResponse();
+            List<GetStudentListPaginationDto> studentList = new List<GetStudentListPaginationDto>();
             foreach (var student in allStudent)
             {
                 var user = await _authenticationService.GetUserById(student.UserId);
-                studentList.Add(new GetStudentListDto()
+                studentList.Add(new GetStudentListPaginationDto()
                 {
                     Id = student.Id,
                     AddressLine1 = student.AddressLine1,
@@ -51,7 +54,7 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
                     Email = user.Email,
                     IsActive = student.IsActive,
                     StudentName = student.StudentName,
-                    UserType=student.UserType,
+                    UserType = student.UserType,
                     CreatedDate = (DateTime)student.CreatedDate,
                     City = _mapper.Map<CityDto>(student.City),
                     State = _mapper.Map<StateDto>(student.State),
@@ -66,10 +69,17 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentList
                         Id = student.SectionId,
                         SectionName = (await _sectionRepository.GetByIdAsync(student.SectionId)).SectionName
                     }
+
                 });
             }
-             _logger.LogInformation("Handle Completed");
-            return new Response<IEnumerable<GetStudentListDto>>(studentList, "success");
+            getStudentListByPaginationResponse.GetStudentListPaginationDto = studentList;
+            getStudentListByPaginationResponse.Count = allStudentCount.Count();
+
+            /* var principal = _mapper.Map<List<GetPrincipalListDto>>(allPrincipal);
+             _logger.LogInformation("Hanlde Completed");
+             return new Response<IEnumerable<GetPrincipalListDto>>(principal, "success");*/
+            _logger.LogInformation("Handle Completed");
+            return new Response<GetStudentListByPaginationResponse>(getStudentListByPaginationResponse, "success");
         }
 
     }
