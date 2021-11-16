@@ -165,6 +165,8 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<KnowledgeBase, CreateKnowledgeBaseDto>().ReverseMap();
             CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>();
             CreateMap<KnowledgeBase, UpdateKnowledgeBaseDto>().ReverseMap();
+            CreateMap<Category, CategoriesDto>();
+            CreateMap<Category, CategoriesDto>().ReverseMap();
         }
     }
 }

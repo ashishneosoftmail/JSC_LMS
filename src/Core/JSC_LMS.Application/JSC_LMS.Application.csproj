@@ -23,9 +23,6 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseByFilter\" />
-    <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseById\" />
-    <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseByPagination\" />
     <Folder Include="Features\School\Commands\DeleteSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchool\" />
     <Folder Include="Features\School\Queries\GetAllSchoolFilter\" />
