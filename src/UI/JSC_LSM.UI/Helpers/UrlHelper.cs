@@ -80,9 +80,13 @@ namespace JSC_LSM.UI.Helpers
         public static string UpdateInstituteAdminProfileInformation = "/api/v1/Institute/UpdateInstituteAdminProfileInformation";
         public static string UpdateInstituteAdminChangePassword = "/api/v1/Institute/UpdateInstituteAdminChangePassword";
 
+        public static string AddCategory = "/api/v1/Common/AddCategory";
+
+
         public static string AddNewStudent = "/api/v1/Student/Add";
         public static string GetAllStudentDetails = "/api/v1/Student/all";
         public static string GetStudentById = "/api/v1/Student/id";
         public static string GetAllStudentByPagination = "/api/v1/Student/Pagination";
+
     }
 }

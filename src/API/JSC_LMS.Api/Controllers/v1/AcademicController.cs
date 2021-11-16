@@ -1,6 +1,8 @@
 ﻿using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
+using JSC_LMS.Application.Features.Academics.Queries.GetAcademicByFilter;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicById;
+using JSC_LMS.Application.Features.Academics.Queries.GetAcademicByPagination;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -62,5 +64,23 @@ namespace JSC_LMS.Api.Controllers.v1
             var getAcademicDetailQuery = new GetAcademicByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getAcademicDetailQuery));
         }
+
+        [HttpGet("GetAcademicByFilter", Name = "GetAcademicByFilter")]
+        public async Task<ActionResult> GetStudentByFilter(string ClassName, string SchoolName, string SubjectName, string SectionName, string TeacherName, string Type, bool IsActive, DateTime CreatedDate)
+        {
+            var getAcademicByFilterQuery = new GetAcademicByFilterQuery(ClassName, SchoolName, SubjectName, SectionName, TeacherName,Type, IsActive, CreatedDate);
+            return Ok(await _mediator.Send(getAcademicByFilterQuery));
+        }
+
+        [HttpGet("Pagination", Name = "GetAllAcademicByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllAcademicByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllPagination Initiated");
+            var dtos = await _mediator.Send(new GetAcademicByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllPagination Completed");
+            return Ok(dtos);
+        }
+
     }
 }

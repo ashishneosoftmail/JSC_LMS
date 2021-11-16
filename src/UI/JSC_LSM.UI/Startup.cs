@@ -58,7 +58,12 @@ namespace JSC_LSM.UI
 
             services.AddScoped<ISuperadminRepository, SuperadminRepository>(s => new SuperadminRepository());
 
+
             services.AddScoped<IStudentRepository, StudentRepository>(s => new StudentRepository());
+
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>(s => new CategoryRepository());
+            services.AddScoped<IKnowledgeBaseRepository, KnowledgeBaseRepository>(s => new KnowledgeBaseRepository());
 
         }
 
