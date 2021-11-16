@@ -12,12 +12,13 @@ namespace JSC_LSM.UI.Models
     {
         public AddCategory AddCategory { get; set; }
         public AddKnowledgeBase AddKnowledgeBase { get; set; }
+        public List<SelectListItem> Categories { get; set; }
     }
     public class AddCategory : CreateCategoryDto
     {
     }
     public class AddKnowledgeBase : CreateKnowledgeBaseDto
     {
-        public List<SelectListItem> Categories { get; set; }
+
     }
 }

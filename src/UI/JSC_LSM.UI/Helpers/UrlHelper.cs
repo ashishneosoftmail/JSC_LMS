@@ -81,7 +81,7 @@ namespace JSC_LSM.UI.Helpers
         public static string UpdateInstituteAdminChangePassword = "/api/v1/Institute/UpdateInstituteAdminChangePassword";
 
         public static string AddCategory = "/api/v1/Common/AddCategory";
-
+        public static string GetAllCategory = "/api/v1/Common/GetAllCategory";
 
         public static string AddNewStudent = "/api/v1/Student/Add";
         public static string GetAllStudentDetails = "/api/v1/Student/all";
