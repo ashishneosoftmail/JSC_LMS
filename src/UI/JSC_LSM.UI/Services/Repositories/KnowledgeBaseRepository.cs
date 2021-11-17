@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
+using JSC_LMS.Application.Features.KnowledgeBase.Commands.UpdateKnowledgeBase;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -50,6 +51,50 @@ namespace JSC_LSM.UI.Services.Repositories
             }
 
             return aAddKnowledgeBaseResponseModel;
+        }
+
+        public async Task<UpdateKnowledgeBaseResponseModel> EditKnowledgeBase(UpdateKnowledgeBaseDto updateKnowledgeBaseDto)
+        {
+            UpdateKnowledgeBaseResponseModel updateKnowledgeBaseResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateKnowledgeBaseDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/KnowledgeBase/UpdateKnowledgeBase", HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateKnowledgeBaseResponseModel = JsonConvert.DeserializeObject<UpdateKnowledgeBaseResponseModel>(_oApiResponse.data);
+                if (updateKnowledgeBaseResponseModel.Succeeded)
+                {
+                    updateKnowledgeBaseResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateKnowledgeBaseResponseModel.Succeeded = false;
+                }
+            }
+
+            return updateKnowledgeBaseResponseModel;
+        }
+        public async Task<GetKnowledgeBaseByIdResponseModel> GetKnowlegebaseById(int id)
+        {
+            GetKnowledgeBaseByIdResponseModel getKnowledgeBaseByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetKnowledgeBaseById + id, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getKnowledgeBaseByIdResponseModel = JsonConvert.DeserializeObject<GetKnowledgeBaseByIdResponseModel>(_oApiResponse.data);
+                getKnowledgeBaseByIdResponseModel.Succeeded = true;
+            }
+
+            return getKnowledgeBaseByIdResponseModel;
         }
     }
 }

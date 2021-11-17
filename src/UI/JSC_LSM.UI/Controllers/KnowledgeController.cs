@@ -1,6 +1,7 @@
 ﻿
 using JSC_LMS.Application.Features.Common.Categories.Commands;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
+using JSC_LMS.Application.Features.KnowledgeBase.Commands.UpdateKnowledgeBase;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -27,7 +28,7 @@ namespace JSC_LSM.UI.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public async Task<IActionResult> KnowledgeBase()
         {
             KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
@@ -71,7 +72,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.AddCategorySuccess = "Category Added Successfully";
                             ModelState.Clear();
 
-                            return View("KnowledgeBase");
+                            return RedirectToAction("KnowledgeBase", "Knowledge");
                         }
                         else
                         {
@@ -113,6 +114,7 @@ namespace JSC_LSM.UI.Controllers
                 AddKnowledgeBaseResponseModel addKnowledgeBaseResponseModel = null;
                 ViewBag.AddKnowledgeBaseSuccess = null;
                 ViewBag.AddKnowledgeBaseError = null;
+
                 ResponseModel responseModel = new ResponseModel();
 
                 addKnowledgeBaseResponseModel = await _knowledgebaseRepository.AddKnowledgeBase(createKnowledgeBaseDto);
@@ -131,7 +133,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
                             responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
-                            ViewBag.AddKnowledgeBaseSuccess = "KnowledgeBase Added Successfully";
+                            ViewBag.AddKnowledgeBaseSuccess = "KnowledgeBase Updated Successfully";
                             ModelState.Clear();
                             KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
                             knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
@@ -142,7 +144,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
                             responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
                             ViewBag.AddKnowledgeBaseError = addKnowledgeBaseResponseModel.message;
-                            return View("KnowledgeBase", KnowledgeBaseViewModel);
+                            return View(KnowledgeBaseViewModel);
                         }
                     }
                 }
@@ -153,7 +155,94 @@ namespace JSC_LSM.UI.Controllers
                     ViewBag.AddKnowledgeBaseError = addKnowledgeBaseResponseModel.message;
                 }
             }
-            return View("KnowledgeBase", KnowledgeBaseViewModel);
+            return View(KnowledgeBaseViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditKnowledge(int id)
+        {
+            KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
+            var knowledgebase = await _knowledgebaseRepository.GetKnowlegebaseById(id);
+            if (knowledgebase.data == null)
+            {
+                TempData["GetKnowledgeBaseById"] = knowledgebase.message;
+                return RedirectToAction("KnowledgeBase", "Knowledge");
+            }
+
+            knowledgeBaseViewModel.UpdateKnowledgeBase = new UpdateKnowledgeBase()
+            {
+                Id = knowledgebase.data.Id,
+                CategoryId = knowledgebase.data.CategoryId,
+                DocTitle = knowledgebase.data.DocTitle,
+                SubTitle = knowledgebase.data.SubTitle,
+                SlugUrl = knowledgebase.data.SlugUrl,
+                AddContent = knowledgebase.data.AddContent
+            };
+            TempData["EditId"] = knowledgeBaseViewModel.UpdateKnowledgeBase.Id;
+            knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
+            return View(knowledgeBaseViewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditKnowledge(KnowledgeBaseViewModel knowledgeBaseViewModel)
+        {
+
+            ViewBag.UpdateKnowledgeBaseSuccess = null;
+            ViewBag.UpdatePrincipalError = null;
+            knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
+            UpdateKnowledgeBaseDto updateKnowledgeBaseDto = new UpdateKnowledgeBaseDto();
+            if (ModelState.IsValid)
+            {
+                updateKnowledgeBaseDto.Id = Convert.ToInt32(TempData["EditId"].ToString());
+                updateKnowledgeBaseDto.CategoryId = knowledgeBaseViewModel.UpdateKnowledgeBase.CategoryId;
+                updateKnowledgeBaseDto.DocTitle = knowledgeBaseViewModel.UpdateKnowledgeBase.DocTitle;
+                updateKnowledgeBaseDto.SubTitle
+                    = knowledgeBaseViewModel.UpdateKnowledgeBase.SubTitle;
+                updateKnowledgeBaseDto.SlugUrl = knowledgeBaseViewModel.UpdateKnowledgeBase.SlugUrl;
+                updateKnowledgeBaseDto.AddContent = knowledgeBaseViewModel.UpdateKnowledgeBase.AddContent;
+
+                UpdateKnowledgeBaseResponseModel updateKnowledgeBaseResponseModel = null;
+                ViewBag.UpdateKnowledgeBaseSuccess = null;
+                ViewBag.UpdateKnowledgeBaseError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateKnowledgeBaseResponseModel = await _knowledgebaseRepository.EditKnowledgeBase(updateKnowledgeBaseDto);
+
+
+                if (updateKnowledgeBaseResponseModel.Succeeded)
+                {
+                    if (updateKnowledgeBaseResponseModel == null && updateKnowledgeBaseResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateKnowledgeBaseResponseModel.message;
+                        responseModel.IsSuccess = updateKnowledgeBaseResponseModel.Succeeded;
+                    }
+                    if (updateKnowledgeBaseResponseModel != null)
+                    {
+                        if (updateKnowledgeBaseResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateKnowledgeBaseResponseModel.message;
+                            responseModel.IsSuccess = updateKnowledgeBaseResponseModel.Succeeded;
+                            ViewBag.UpdateKnowledgeBaseSuccess = "Details Updated Successfully";
+
+                            return RedirectToAction("KnowledgeBase", "Knowledge");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateKnowledgeBaseResponseModel.message;
+                            responseModel.IsSuccess = updateKnowledgeBaseResponseModel.Succeeded;
+                            ViewBag.UpdateKnowledgeBaseError = updateKnowledgeBaseResponseModel.message;
+                            return View(knowledgeBaseViewModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateKnowledgeBaseResponseModel.message;
+                    responseModel.IsSuccess = updateKnowledgeBaseResponseModel.Succeeded;
+                    ViewBag.UpdateKnowledgeBaseError = updateKnowledgeBaseResponseModel.message;
+                }
+            }
+            return View(knowledgeBaseViewModel);
         }
     }
 }

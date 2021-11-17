@@ -40,14 +40,13 @@
         <div class="row">
             <div class="col">
 
-
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Category</label>
                     <div class="col-sm-7">
-                        <select class="form-control" asp-for="AddKnowledgeBase.CategoryId" id="school" asp-items="Model.Categories">
+                        <select class="form-control" asp-for="UpdateKnowledgeBase.CategoryId" id="school" asp-items="Model.Categories">
                             <option disabled selected hidden>Select Category</option>
                         </select>
-                        <span asp-validation-for="AddKnowledgeBase.CategoryId" class="text-danger"></span>
+                        <span asp-validation-for="UpdateKnowledgeBase.CategoryId" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -56,8 +55,8 @@
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Doc Title</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="AddKnowledgeBase.DocTitle">
-                        <span asp-validation-for="AddKnowledgeBase.DocTitle" class="text-danger"></span>
+                        <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="UpdateKnowledgeBase.DocTitle">
+                        <span asp-validation-for="UpdateKnowledgeBase.DocTitle" class="text-danger"></span>
                     </div>
                 </div>
                 <br />
@@ -75,8 +74,8 @@
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Sub Title</label><br />
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="AddKnowledgeBase.SubTitle">
-                        <span asp-validation-for="AddKnowledgeBase.SubTitle" class="text-danger"></span>
+                        <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="UpdateKnowledgeBase.SubTitle">
+                        <span asp-validation-for="UpdateKnowledgeBase.SubTitle" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -89,8 +88,8 @@
             <div class="form-group row">
                 <label for="inputKnow" class="col-sm-1 col-form-label">Slug Url</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url" asp-for="AddKnowledgeBase.SlugUrl">
-                    <span asp-validation-for="AddKnowledgeBase.SlugUrl" class="text-danger"></span>
+                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url" asp-for="UpdateKnowledgeBase.SlugUrl">
+                    <span asp-validation-for="UpdateKnowledgeBase.SlugUrl" class="text-danger"></span>
 
                 </div>
             </div>
@@ -103,8 +102,8 @@
                 <label for="inputKnow" class="col-sm-1 col-form-label">Add Content</label>
                 <div class="col-sm-7">
 
-                    <textarea id="editor" placeholder="Add Content" asp-for="AddKnowledgeBase.AddContent"></textarea>
-                    <span asp-validation-for="AddKnowledgeBase.AddContent" class="text-danger"></span>
+                    <textarea id="editor" placeholder="Add Content" asp-for="UpdateKnowledgeBase.AddContent"></textarea>
+                    <span asp-validation-for="UpdateKnowledgeBase.AddContent" class="text-danger"></span>
 
                 </div>
             </div>
@@ -180,14 +179,6 @@
     @if (ViewBag.AddKnowledgeBaseError != null)
     {
         <script>alert("@ViewBag.AddKnowledgeBaseError")</script>
-    }
-    @if (ViewBag.UpdateKnowledgeBaseSuccess != null)
-    {
-        <script>alert("@ViewBag.UpdateKnowledgeBaseSuccess")</script>
-    }
-    @if (ViewBag.UpdateKnowledgeBaseError != null)
-    {
-        <script>alert("@ViewBag.UpdateKnowledgeBaseError")</script>
     }
 </div>
 
