@@ -96,5 +96,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllAcademicDetails = "/api/v1/Academic/all";
         public static string GetAcademicById = "/api/v1/Academic/id";
         public static string GetAllAcademicByPagination = "/api/v1/Academic/Pagination";
+        public static string AddNewAcademic = "/api/v1/Academic";
+        public static string UpdateAcademic = "/api/v1/Academic/UpdateAcademic";
     }
 }

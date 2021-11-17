@@ -1,5 +1,159 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+
+@model AcademicModel
+
+
 @{
+    ViewData["Title"] = "AddAcademic";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 }
+<style>
+    .ButtonDesign {
+        width: 10%;
+        margin-left: 1%;
+    }
+
+    form {
+        padding: inherit;
+        margin: 5px 5px 5px 5px;
+        border: 2px solid gray;
+        height: 100%;
+        /*  width : 100%;*/
+    }
+
+    input {
+        width: 90%;
+    }
+
+    div {
+        font-size: 16px;
+    }
+</style>
+
+
+
+<div class="container p-3 my-3 border fixed" id="div1">
+    <h3>Create Academic</h3>
+    <form method="post" novalidate>
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
+                            <option disabled selected hidden>Select School</option>
+                        </select>
+                        <span asp-validation-for="SchoolId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputClass" class="col-sm-2 col-form-label">Class Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
+                            <option disabled selected hidden>Select Class</option>
+                        </select>
+                        <span asp-validation-for="ClassId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSection" class="col-sm-2 col-form-label">Section Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="SectionId" id="class" asp-items="Model.Sections">
+                            <option disabled selected hidden>Select Section</option>
+                        </select>
+                        <span asp-validation-for="SectionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputSubject" class="col-sm-2 col-form-label">Subject Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="SubjectId" id="class" asp-items="Model.Subjects">
+                            <option disabled selected hidden>Select Subject</option>
+                        </select>
+                        <span asp-validation-for="SubjectId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputTeacher" class="col-sm-2 col-form-label">Teacher Name :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="TeacherId" id="class" asp-items="Model.Teachers">
+                            <option disabled selected hidden>Select Teacher</option>
+                        </select>
+                        <span asp-validation-for="TeacherId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputTeacher" class="col-sm-2 col-form-label">Type :</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" asp-for="Type" id="type" asp-items="Model.Types" >
+                            <option disabled selected hidden>Select Type</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+
+
+
+                <div class="form-group row">
+                    <label for="inputcutoff" class="col-sm-2 col-form-label">CutOFF Percentage:</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="inputcutoff" asp-for="CutOff" placeholder="CutOff">
+                        <span asp-validation-for="CutOff" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+                <label>Status :</label>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+                    @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+                    @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
+                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+                </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+
+                <br />
+
+
+            </div>
+        </div>
+
+
+        <a asp-action="ManageAcademic" asp-controller="Academic" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
+        <button type="submit" class="btn btn-primary pull-right m-2 ">Save</button>
+
+
+
+
+    </form>
+</div>
+<div id="wrapper">
+    @if (ViewBag.AddAcademicSuccess != null)
+    {
+        <script>alert("@ViewBag.AddAcademicSuccess")</script>
+    }
+    @if (ViewBag.AddAcademicError != null)
+    {
+        <script>alert("@ViewBag.AddAcademicError")</script>
+    }
+</div>

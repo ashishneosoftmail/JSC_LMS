@@ -53,6 +53,7 @@ namespace JSC_LMS.Application.Features.Academics.Queries.GetAcademicByPagination
                     IsActive = academic.IsActive,
                  
                     Type = academic.Type,
+                    CutOff=academic.CutOff,
                     CreatedDate = (DateTime)academic.CreatedDate,
                    
                     Class = new ClassDto()

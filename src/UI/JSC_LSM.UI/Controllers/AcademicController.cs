@@ -1,4 +1,6 @@
-﻿using JSC_LSM.UI.Models;
+﻿using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
+using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
+using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
@@ -53,10 +55,7 @@ namespace JSC_LSM.UI.Controllers
 
 
         }
-        public IActionResult AddAcademic()
-        {
-            return View();
-        }
+      
 
 
         [HttpGet]
@@ -181,10 +180,10 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<AcademicViewModel>> GetAcademicByFilters(string className, string schoolName, string sectionName, string subjectName,string teacherName,string Type, DateTime createdDate, bool isActive)
+        public async Task<IEnumerable<AcademicViewModel>> GetAcademicByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, string Type, DateTime CreatedDate, bool IsActive)
         {
             var data = new List<AcademicViewModel>();
-            var dataList = await _academicRepository.GetAcademicByFilters(schoolName, className, sectionName, subjectName,teacherName,Type, createdDate, isActive);
+            var dataList = await _academicRepository.GetAcademicByFilters( SchoolName, ClassName,  SectionName, SubjectName, TeacherName,  Type, CreatedDate,  IsActive);
             if (dataList.data != null)
             {
                 foreach (var academics in dataList.data)
@@ -216,6 +215,242 @@ namespace JSC_LSM.UI.Controllers
             }
             return data;
         }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAcademicName()
+        {
+            var data = await _academicRepository.GetAllAcademicDetails();
+            List<SelectListItem> academics = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                academics.Add(new SelectListItem
+                {
+                    Text = item.Type,
+                    Value = Convert.ToString(item.Type)
+
+
+                });
+            }
+            return academics;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditAcademic(int id)
+        {
+            var academic = await _academicRepository.GetAcademicById(id);
+            if (academic.data == null)
+            {
+                TempData["GetAcademicById"] = academic.message;
+                return RedirectToAction("ManageAcademic", "Academic");
+            }
+            var subjectData = new UpdateAcademicViewModel()
+            {
+                Id = academic.data.Id,
+                Type = academic.data.Type,
+                CutOff=academic.data.CutOff,
+
+                IsActive = academic.data.IsActive,
+
+                SchoolId = academic.data.School.Id,
+
+                ClassId = academic.data.Class.Id,
+
+                SectionId = academic.data.Section.Id,
+
+                SubjectId = academic.data.Subject.Id,
+
+                TeacherId = academic.data.Teacher.Id,
+
+
+            };
+            subjectData.Schools = await _common.GetSchool();
+            subjectData.Classes = await _common.GetClass();
+            subjectData.Sections = await _common.GetSection();
+            subjectData.Subjects = await _common.GetSubject();
+            subjectData.Teachers = await _common.GetTeacher();
+
+            return View(subjectData);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditAcademic(UpdateAcademicViewModel updateAcademicViewModel)
+        {
+            ViewBag.UpdateAcademicSuccess = null;
+            ViewBag.UpdateAcademicError = null;
+            updateAcademicViewModel.Schools = await _common.GetSchool();
+            updateAcademicViewModel.Classes = await _common.GetClass();
+            updateAcademicViewModel.Sections = await _common.GetSection();
+            updateAcademicViewModel.Subjects = await _common.GetSubject();
+            updateAcademicViewModel.Teachers = await _common.GetTeacher();
+            UpdateAcademicDto updateAcademic = new UpdateAcademicDto();
+            updateAcademic.Id = updateAcademicViewModel.Id;
+            if (ModelState.IsValid)
+            {
+
+                updateAcademic.SchoolId = updateAcademicViewModel.SchoolId;
+
+                updateAcademic.ClassId = updateAcademicViewModel.ClassId;
+
+                updateAcademic.SectionId = updateAcademicViewModel.SectionId;
+
+                updateAcademic.SubjectId = updateAcademicViewModel.SubjectId;
+
+                updateAcademic.TeacherId = updateAcademicViewModel.TeacherId;
+
+              
+
+                updateAcademic.Type = updateAcademicViewModel.Type;
+
+
+                updateAcademic.CutOff = updateAcademicViewModel.CutOff;
+
+
+                updateAcademic.IsActive = updateAcademicViewModel.IsActive;
+
+
+                UpdateAcademicResponseModel updateAcademicResponseModel = null;
+                ViewBag.UpdateSubjectSuccess = null;
+                ViewBag.UpdateSubjectError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateAcademicResponseModel = await _academicRepository.UpdateAcademic(updateAcademic);
+
+
+                if (updateAcademicResponseModel.Succeeded)
+                {
+                    if (updateAcademicResponseModel == null && updateAcademicResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateAcademicResponseModel.message;
+                        responseModel.IsSuccess = updateAcademicResponseModel.Succeeded;
+                    }
+                    if (updateAcademicResponseModel != null)
+                    {
+                        if (updateAcademicResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateAcademicResponseModel.message;
+                            responseModel.IsSuccess = updateAcademicResponseModel.Succeeded;
+                            ViewBag.UpdateAcademicSuccess = "Details Updated Successfully";
+
+                            return RedirectToAction("ManageAcademic", "Academic");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateAcademicResponseModel.message;
+                            responseModel.IsSuccess = updateAcademicResponseModel.Succeeded;
+                            ViewBag.UpdateAcademicError = updateAcademicResponseModel.message;
+                            return View(updateAcademicResponseModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateAcademicResponseModel.message;
+                    responseModel.IsSuccess = updateAcademicResponseModel.Succeeded;
+                    ViewBag.UpdateSubjectError = updateAcademicResponseModel.message;
+                }
+            }
+            return View(updateAcademicViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddAcademic()
+        {
+            AcademicModel academicModel = new AcademicModel();
+
+            academicModel.Schools = await _common.GetSchool();
+            academicModel.Classes = await _common.GetClass();
+            academicModel.Sections = await _common.GetSection();
+            academicModel.Subjects = await _common.GetSubject();
+            academicModel.Teachers = await _common.GetTeacher();
+            academicModel.Types = await GetAcademicName();
+
+            return View(academicModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddAcademic(AcademicModel academicModel)
+
+
+
+        {
+            ViewBag.AddAcademicSuccess = null;
+            ViewBag.AddAcademicError = null;
+
+            academicModel.Schools = await _common.GetSchool();
+            academicModel.Classes = await _common.GetClass();
+            academicModel.Sections = await _common.GetSection();
+            academicModel.Subjects = await _common.GetSubject();
+            academicModel.Teachers = await _common.GetTeacher();
+
+            CreateAcademicDto createNewAcademic = new CreateAcademicDto();
+
+            if (ModelState.IsValid)
+            {
+
+                createNewAcademic.SchoolId = academicModel.SchoolId;
+                createNewAcademic.ClassId = academicModel.ClassId;
+                createNewAcademic.SectionId = academicModel.SectionId;
+                createNewAcademic.SubjectId = academicModel.SubjectId;
+                createNewAcademic.TeacherId = academicModel.TeacherId;
+                createNewAcademic.CutOff = academicModel.CutOff;
+                createNewAcademic.Type = academicModel.Type;
+                createNewAcademic.IsActive = academicModel.IsActive;
+
+                AcademicResponseModel academicResponseModel = null;
+                ViewBag.AddAcademicSuccess = null;
+                ViewBag.AddAcademicError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                academicResponseModel = await _academicRepository.AddNewAcademic(createNewAcademic);
+
+
+                if (academicResponseModel.Succeeded)
+                {
+                    if (academicResponseModel == null && academicResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = academicResponseModel.message;
+                        responseModel.IsSuccess = academicResponseModel.Succeeded;
+                    }
+                    if (academicResponseModel != null)
+                    {
+                        if (academicResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = academicResponseModel.message;
+                            responseModel.IsSuccess = academicResponseModel.Succeeded;
+                            ViewBag.AddAcademicSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            var newAcademicModel = new AcademicModel();
+
+                            newAcademicModel.Schools = await _common.GetSchool();
+                            newAcademicModel.Classes = await _common.GetClass();
+                            newAcademicModel.Sections = await _common.GetSection();
+                            newAcademicModel.Subjects = await _common.GetSubject();
+                            newAcademicModel.Teachers = await _common.GetTeacher();
+                            return RedirectToAction("ManageAcademic", "Academic");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = academicResponseModel.message;
+                            responseModel.IsSuccess = academicResponseModel.Succeeded;
+                            ViewBag.AddAcademicError = academicResponseModel.message;
+                            return View(academicModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = academicResponseModel.message;
+                    responseModel.IsSuccess = academicResponseModel.Succeeded;
+                    ViewBag.AddAcademicError = academicResponseModel.message;
+                }
+            }
+            return View(academicModel);
+
+        }
+
+      
 
     }
 }
