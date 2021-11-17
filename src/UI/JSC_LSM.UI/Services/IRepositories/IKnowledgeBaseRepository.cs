@@ -13,5 +13,10 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<AddKnowledgeBaseResponseModel> AddKnowledgeBase(CreateKnowledgeBaseDto createKnowledgeBaseDto);
         Task<UpdateKnowledgeBaseResponseModel> EditKnowledgeBase(UpdateKnowledgeBaseDto updateKnowledgeBaseDto);
         Task<GetKnowledgeBaseByIdResponseModel> GetKnowlegebaseById(int id);
+
+        Task<GetAllKnowledgeBasePaginationResponseModel> GetAllKnowledgeBaseByPagination(int page, int size);
+        Task<GetAllKnowledgeBaseFilterResponseModel> GetAllKnowledgeBaseByFilters(string title, string subtitle, string category);
+        Task<GetAllKnowledgeBaseListResponseModel> GetAllKnowledgeBaseList();
+        Task DeleteKnowledgeBase(int id);
     }
 }

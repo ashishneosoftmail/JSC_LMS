@@ -41,7 +41,7 @@ namespace JSC_LMS.Application.Features.KnowledgeBase.Queries.GetKnowledgeBaseByI
             {
                 Id = knowledgeBase.Id,
                 CategoryId = knowledgeBase.CategoryId,
-                Category = _mapper.Map<CategoriesDto>(knowledgeBase.Category),
+                Category =new CategoriesDto() { Id=knowledgeBase.Category.Id,CategoryName=knowledgeBase.Category.CategoryName},
                 DocTitle = knowledgeBase.DocTitle,
                 AddContent = knowledgeBase.AddContent,
                 IsActive = knowledgeBase.IsActive,

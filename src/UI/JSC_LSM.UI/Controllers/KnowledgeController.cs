@@ -1,4 +1,5 @@
 ﻿
+using ClosedXML.Excel;
 using JSC_LMS.Application.Features.Common.Categories.Commands;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.UpdateKnowledgeBase;
@@ -6,8 +7,11 @@ using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -137,7 +141,7 @@ namespace JSC_LSM.UI.Controllers
                             ModelState.Clear();
                             KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
                             knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
-                            return View("KnowledgeBase", knowledgeBaseViewModel);
+                            return RedirectToAction("KnowledgeBaseList", "Knowledge");
                         }
                         else
                         {
@@ -224,7 +228,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateKnowledgeBaseResponseModel.Succeeded;
                             ViewBag.UpdateKnowledgeBaseSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("KnowledgeBase", "Knowledge");
+                            return RedirectToAction("KnowledgeBaseList", "Knowledge");
                         }
                         else
                         {
@@ -244,5 +248,139 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(knowledgeBaseViewModel);
         }
+        [HttpGet]
+        public async Task<IActionResult> KnowledgeBaseList()
+        {
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            if (page < 1)
+                page = 1;
+            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            return View(pager);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<KnowledgeBaseList>> GetAllKnowledgeBaseByPagination(int page = 1, int size = 5)
+        {
+            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+
+            ViewBag.Pager = pager;
+            var data = new List<KnowledgeBaseList>();
+
+            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseByPagination(page, size);
+
+            foreach (var knowledgeBase in dataList.data)
+            {
+                data.Add(new KnowledgeBaseList()
+                {
+                    Id = knowledgeBase.Id,
+                    DocTitle = knowledgeBase.DocTitle,
+                    CategoryName = knowledgeBase.Category.CategoryName,
+                    SubTitle = knowledgeBase.SubTitle
+                });
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetAllCategory()
+        {
+            var categories = await _common.GetAllCategory();
+            return categories;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<KnowledgeBaseList>> GetKnowledgeBaseByFilters(string title, string subtitle, string categoryname)
+        {
+            var data = new List<KnowledgeBaseList>();
+            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseByFilters(title, subtitle, categoryname);
+            if (dataList.data != null)
+            {
+                foreach (var knowledgeBase in dataList.data)
+                {
+                    data.Add(new KnowledgeBaseList()
+                    {
+                        Id = knowledgeBase.Id,
+                        DocTitle = knowledgeBase.DocTitle,
+                        CategoryName = knowledgeBase.Category.CategoryName,
+                        SubTitle = knowledgeBase.SubTitle
+                    });
+                }
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ViewKnowledgeBase(int id)
+        {
+            KnowledgeBaseList knowledgeBaseList = new KnowledgeBaseList();
+            var knowledgebase = await _knowledgebaseRepository.GetKnowlegebaseById(id);
+            if (knowledgebase.data == null)
+            {
+                TempData["GetKnowledgeBaseById"] = knowledgebase.message;
+                return RedirectToAction("KnowledgeBase", "Knowledge");
+            }
+
+            knowledgeBaseList = new KnowledgeBaseList()
+            {
+                Id = knowledgebase.data.Id,
+                CategoryName = knowledgebase.data.Category.CategoryName,
+                DocTitle = knowledgebase.data.DocTitle,
+                SubTitle = knowledgebase.data.SubTitle,
+                SlugUrl = knowledgebase.data.SlugUrl,
+                AddContent = knowledgebase.data.AddContent
+            };
+
+            return View(knowledgeBaseList);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DownloadExcel()
+        {
+            var data = new List<PrincipalDetailsViewModel>();
+
+            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseList();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "Knowledge Base";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Category Name", typeof(string));
+            dt.Columns.Add("Doc Title", typeof(string));
+            dt.Columns.Add("Sub Title", typeof(string));
+            dt.Columns.Add("Slug Url", typeof(string));
+            dt.Columns.Add("Add Context", typeof(string));
+            foreach (var knowledgeBase in dataList.data)
+            {
+                dt.Rows.Add(knowledgeBase.Id, knowledgeBase.Category.CategoryName, knowledgeBase.DocTitle, knowledgeBase.SubTitle, knowledgeBase.SlugUrl, knowledgeBase.AddContent);
+            }
+            string fileName = "KnowledgeBaseData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteKnowledge(int id)
+        {
+            await _knowledgebaseRepository.DeleteKnowledgeBase(id);
+            return RedirectToAction("KnowledgeBaseList");
+        }
+
     }
 }

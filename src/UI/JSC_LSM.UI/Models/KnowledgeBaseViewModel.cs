@@ -27,4 +27,13 @@ namespace JSC_LSM.UI.Models
     {
 
     }
+    public class KnowledgeBaseList
+    {
+        public int Id { get; set; }
+        public string DocTitle { get; set; }
+        public string SubTitle { get; set; }
+        public string AddContent { get; set; }
+        public string SlugUrl { get; set; }
+        public string CategoryName { get; set; }
+    }
 }
