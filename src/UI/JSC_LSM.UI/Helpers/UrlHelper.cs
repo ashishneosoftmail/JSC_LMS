@@ -88,6 +88,8 @@ namespace JSC_LSM.UI.Helpers
         public static string GetStudentById = "/api/v1/Student/id";
         public static string GetAllStudentByPagination = "/api/v1/Student/Pagination";
         public static string AddKnowledgeBase = "/api/v1/KnowledgeBase";
+        public static string EditKnowledgeBase = "/api/v1/KnowledgeBase/UpdateKnowledgeBase";
+        public static string GetKnowledgeBaseById = "/api/v1/KnowledgeBase/";
 
     }
 }
