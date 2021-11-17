@@ -1,5 +1,519 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Pager
+
 @{
+    ViewData["Title"] = "Manage Academics";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
+<br />
+<br />
+<br />
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <h2>Manage Academics</h2>
+        <h4>Search Filter</h4>
+    </div>
+    <div class="row">
+
+        <div class="form-group row col-sm-4">
+            <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="schoolName">
+                    <option value="" disabled selected hidden>Select School</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="className" class="col-sm-5 col-form-label">Class Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="className">
+                    <option value="" disabled selected hidden>Select Class</option>
+                </select>
+            </div>
+        </div>
+
+
+
+        <div class="form-group row col-sm-4">
+            <label for="sectionName" class="col-sm-5 col-form-label">Section Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="sectionName">
+                    <option disabled selected hidden>Select Section</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group row col-sm-4">
+            <label for="subjectName" class="col-sm-5 col-form-label">Subject Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="subjectName">
+                    <option disabled selected hidden>Select Section</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="form-group row col-sm-4">
+            <label for="teacherName" class="col-sm-5 col-form-label">Teacher Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="teacherName">
+                    <option value="" disabled selected hidden>Select Teacher</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="type" class="col-sm-5 col-form-label">Type:</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="type">
+                    <option value="" disabled selected hidden>Type</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="status">
+                    <option value="true" selected>Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row col-sm-4">
+            <label for="date" class="col-sm-5 col-form-label">Date :</label>
+            <div class="col-sm-7">
+                <input type="date" value="" class="form-control" id="date" />
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-2 btn-text-right">
+            <button type="button" class="btn btn-primary float-lg-end " onclick="searchAcademic()">Search</button>
+        </div>
+    </div>
+</div>
+<div class="col-md-11">
+    <a asp-controller="Principal" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
+
+    <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
+    <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
+    <a asp-action="AddPrincipal" asp-controller="Principal" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+
+</div>
+
+<div id="wrap" class="mt-3">
+    <div class="container">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>School Name</th>
+                    <th>Class Name</th>
+                    <th>Section Name</th>
+                    <th>Subject Name</th>
+                    <th>Teacher Name</th>
+                    <th>Type </th>
+                    <th>CutOff</th>
+                    <th>Created Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableData">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllAcademic()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllAcademic(1)">First</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllAcademic(@(Model.CurrentPage-1))">Previous</button>
+                </li>
+            }
+            @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllAcademic(@pge)">@pge</button>
+                </li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllAcademic(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllAcademic(@(Model.TotalPages))">Last</button>
+                </li>
+            }
+        </ul>
+    }
+</div>
+<div id="wrapper">
+    @if (ViewBag.AddAcademicSuccess != null)
+    {
+        <script>alert("@ViewBag.AddAcademicSuccess")</script>
+    }
+    @if (ViewBag.AddAcademicError != null)
+    {
+        <script>alert("@ViewBag.AddAcademicError")</script>
+    }
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+            searching: false,
+            "oLanguage": {
+                "sLengthMenu": "Rows_Per_Page _MENU_",
+            },
+            "dom": '<"top"i>rt<"bottom"flp><"clear">'
+        });
+        $('.datatable').each(function () {
+            var datatable = $(this);
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-lg');
+        });
+    });
+</script>
+
+<div class="container">
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center" id="viewUserModel">View Academic Detail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>
+                                <label>School Name</label>
+                            </th>
+                            <td>
+                                <span id="detailsShoolName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Class Name</label>
+                            </th>
+                            <td>
+                                <span id="detailsName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Section Name </label>
+                            </th>
+                            <td>
+                                <span id="detailsSectionName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Subject Name </label>
+                            </th>
+                            <td>
+                                <span id="detailsSubjectName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Teacher Name</label>
+                            </th>
+                            <td>
+                                <span id="detailsTeacherName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Type</label>
+                            </th>
+                            <td>
+                                <span id="detailsType"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>CutOff</label>
+                            </th>
+                            <td>
+                                <span id="detailsCutOff"></span>
+                            </td>
+                        </tr>
+                       
+                    
+                   
+                        <tr>
+                            <th>
+                                <label>Status</label>
+                            </th>
+                            <td>
+                                <span id="detailsStatus"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    function loadData() {
+        console.log("worked");
+        loadSchoolList();
+        loadClassList();
+        loadSectionList();
+        loadSubjectList();
+        loadTeacherList();
+        loadAcademicList();
+        loadAllAcademic();
+    }
+    loadData();
+
+    function ShowAcademicDetail(id) {
+        $.get("/Academic/GetAcademicById", { Id: id }, function (data) {
+            if (data) {
+
+                $("#detailsShoolName").text(data.data.school.schoolName);
+                $("#detailsName").text(data.data.class.className);
+                $("#detailsSectionName").text(data.data.section.sectionName);
+                $("#detailsSubjectName").text(data.data.subject.subjectName);
+                $("#detailsTeacherName").text(data.data.teacher.teacherName);
+                $("#detailsType").text(data.data.type);
+                $("#detailsCutOff").text(data.data.cutOff);
+              
+                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+            }
+        });
+    }
+
+    function loadSchoolList() {
+        $.get("/Academic/GetAllSchool", function (data) {
+            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            data.forEach(function (school) {
+                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+            });
+        });
+    }
+    function loadClassList() {
+        $.get("/Academic/GetAllClass", function (data) {
+            $("#className").append("<option disabled selected hidden>Select Class</option>");
+            data.forEach(function (classes) {
+                $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
+
+    function loadSectionList() {
+        $.get("/Academic/GetAllSection", function (data) {
+            $("#sectionName").append("<option disabled selected hidden>Select Section</option>");
+            data.forEach(function (section) {
+                $('#sectionName').append('<option value="' + section.value + '">' + section.text + '</option>');
+            });
+        });
+    }
+    function loadSubjectList() {
+        $.get("/Academic/GetAllSubject", function (data) {
+            $("#subjectName").append("<option disabled selected hidden>Select Subject</option>");
+            data.forEach(function (subject) {
+                $('#subjectName').append('<option value="' + subject.value + '">' + subject.text + '</option>');
+            });
+        });
+    }
+
+    function loadTeacherList() {
+        $.get("/Academic/GetAllTeacher", function (data) {
+            $("#teacherName").append("<option disabled selected hidden>Select Teacher</option>");
+            data.forEach(function (teacher) {
+                $('#teacherName').append('<option value="' + teacher.value + '">' + teacher.text + '</option>');
+            });
+        });
+    }
+    function loadAcademicList() {
+        $.get("/Academic/GetAcademicName", function (data) {
+            $("#type").append("<option disabled selected hidden>Select Type</option>");
+            data.forEach(function (academic) {
+                $('#type').append('<option value="' + academic.value + '">' + academic.text + '</option>');
+            });
+        });
+    }
+
+    function searchAcademic() {
+
+        var _schoolName = $("#schoolName :selected").text();
+        var _className = $("#className :selected").text();
+        var _sectionName = $("#sectionName :selected").text();
+        var _subjectName = $("#subjectName :selected").text();
+        var _teacherName = $("#teacherName :selected").text();
+        var _academicName = $("#academicName :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+
+    
+        $.get("/Academic/GetAcademicByFilters?academicName=" + _academicName + "&schoolName=" + _schoolName + "&className=" + _className + "&sectionName=" + _sectionName + "&subjectName=" + _subjectName + "&teacherName=" + _teacherName+ "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+                if (data.length > 0) {
+                    $("#tableData").empty();
+                    var id = 0;
+                    data.forEach(function (academic) {
+                        id = id + 1;
+                        var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${academic.schoolName}</td>
+                                 <td>${academic.className}</td>
+                                  <td>${academic.sectionName}</td>
+                                    <td>${academic.subjectName}</td>
+                                   <td>${academic.teacherName}</td>
+                                      <td>${academic.type}</td>
+                                      <td>${academic.cutOff}</td>
+                                <td>${new Date(academic.createdDate).toLocaleDateString()}</td>
+
+                                <td>${academic.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                   <a href="/Academic/EditAcademic/${academic.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowAcademicDetail(${academic.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                        $("#tableData").append(result);
+                    });
+                }
+                else {
+                    $("#tableData").empty();
+                    var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                    $("#tableData").append(emptyData);
+                }
+            });
+       @* }*@
+    }
+    function loadAllAcademic(number = 1) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/Academic/GetAllAcademicDetailsByPagination?page=${number}&size=${size}`, function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (academic) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${academic.schoolName}</td>
+                                 <td>${academic.className}</td>
+                                  <td>${academic.sectionName}</td>
+                                    <td>${academic.subjectName}</td>
+                                   <td>${academic.teacherName}</td>
+                                      <td>${academic.type}</td>
+                                       
+                                       <td>${academic.cutOff}</td>
+                                
+                                <td>${new Date(academic.createdDate).toLocaleDateString()}</td>
+
+                                <td>${academic.isActive ? "Active" : "Inactive"}</td>
+
+                                <td>
+                                    <a href="/Academic/EditAcademic/${academic.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowAcademicDetail(${academic.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+</script>
+

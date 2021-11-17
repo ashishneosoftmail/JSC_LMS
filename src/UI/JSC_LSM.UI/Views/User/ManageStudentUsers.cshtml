@@ -3,89 +3,128 @@
     Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 }
 
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+<style>
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+</style>
 <h4 class="m-3">Manage Student Users </h4>
-<div class="row m-3">
-    
+<div class="d-flex flex-row ">
+
+    <a asp-action="ManageTeacherUsers" asp-controller="Teacher" class="btn btn-primary m-2"><span>Teacher</span> </a>
+    <a asp-action="ManageStudentUsers" asp-controller="User" class="btn btn-primary m-2"><span>Student</span> </a>
+    <button class="btn btn-primary m-2">Parent</button>
+</div>
+<h6 class="font-weight-bold"> Search Filter</h6>
+<div class="row">
+
     <div class="col-sm-3">
         <div class="form-group row">
             <label for="className" class="col-sm-5 col-form-label">Class Name</label>
             <div class="col-sm-7">
                 <select class="form-control" id="className">
                     <option disabled selected hidden>Select Class</option>
-                   
+
                 </select>
             </div>
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="section" class="col-sm-4 col-form-label">Section</label>
+            <label for="sectionName" class="col-sm-5 col-form-label">Section</label>
             <div class="col-sm-7">
-                <select class="form-control" id="section">
+                <select class="form-control" id="sectionName">
                     <option disabled selected hidden>Select Section</option>
-                    
+
                 </select>
             </div>
         </div>
     </div>
-    
-
-
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="status" class="col-sm-4 col-form-label">Status</label>
+            <label for="studentName" class="col-sm-5 col-form-label">Student Name</label>
             <div class="col-sm-7">
-                <select class="form-control" id="status">
-                    <option disabled selected hidden>Select Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
+                <select class="form-control" id="studentName">
+                    <option disabled selected hidden>Select Student</option>
                 </select>
             </div>
         </div>
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="date" class="col-sm-4 col-form-label">Date</label>
+            <label for="date" class="col-sm-5 col-form-label">Date</label>
             <div class="col-sm-7">
                 <input type="date" value="" class="form-control" id="date" />
             </div>
         </div>
     </div>
-    <div class="row mt-3">
-    <div class="col-sm-6">
+</div>
+
+<div class="row mt-3">
+   
+    <div class="col-sm-3">
         <div class="form-group row">
-            <label for="student" class="col-sm-3 col-form-label">Student Name</label>
-            <div class="col-sm-6">
-                <select class="form-control" id="student">
-                    <option disabled selected hidden>Select Student</option>
-                   
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="status">
+                    
+                    <option selected value="true">Active</option>
+                    <option value="false">Inactive</option>
                 </select>
             </div>
         </div>
     </div>
-        </div>
-    
-</div>
-<div class="row m-3">
-    <div class="col-sm-12 d-flex flex-row justify-content-between">
-        <div class="col-sm-1">
-            <div class="form-group row">
-                <button class="btn btn-primary ">Search</button>
-            </div>
-        </div>
-        <div class="col-sm-1">
-            <button class="btn btn-sm btn-primary pull-right">Export</button>
+   
 
+    <div class="col-sm-1">
+        <div class="form-group row">
+            <button type="button" class="btn btn-primary float-lg-end pull-right " onclick="searchStudent()">Search</button>
         </div>
-       
-        
+        @*<div class="form-group row">
+                <button class="btn btn-primary">Search</button>
+            </div>*@
     </div>
 </div>
-<h5 class="m-3">Users List</h5>
+
+<div class="col-md-11">
+    <a asp-controller="User" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
+    <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
+    <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
+    <a asp-action="AddStudent" asp-controller="User" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+
+</div>
+
 <div id="wrap" class="m-3">
     <div class="container">
-        <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover table-responsive ">
+        <table cellpadding="0" cellspacing="0" border="0" class=" table table-striped table-bordered table-hover table-responsive ">
             <thead>
                 <tr>
                     <th>#</th>
@@ -98,51 +137,192 @@
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>XYZ</td>
-                    <td>A</td>
-                    <td>Peter</td>
-                    <td>19 - Jul - 2021</td>
-                    <td>Active</td>
-                    <td>
-                        
-                        <a class="btn btn-link btn-sm" data-toggle="modal" data-target="#myModal">Edit</a>
-
-                        
-                        @*<div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        
-                                        <h4 class="modal-title text-center">Edit User</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <label class="mr-3" for="studentName">Student Name</label><input id="studentName" /><br />
-                                        <label class="mr-3" for="class">Class</label><input id="class" /><br />
-                                        <label class="mr-3" for="section">Section</label><input id="section" /><br />
-                                        <label class="mr-3" for="subject">Subject</label><input id="subject" /><br />
-                                        <label class="mr-3" for="email">Email</label><input id="email" /><br />
-                                        <label class="mr-3" for="npass">New Password</label><input id="npass" /><br />
-                                        <label class="mr-3" for="cpass">Confirm Password</label><input id="cpass" /><br />
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-success" data-dismiss="modal">Update</button>
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>*@
-                    </td>
-                </tr>
-                        
+            <tbody id="tableData">
             </tbody>
         </table>
     </div>
 </div>
- 
+
+<div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllStudent()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllStudent(1)">First</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllStudent(@(Model.CurrentPage-1))">Previous</button>
+                </li>
+            }
+            @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllStudent(@pge)">@pge</button>
+                </li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllStudent(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllStudent(@(Model.TotalPages))">Last</button>
+                </li>
+            }
+        </ul>
+    }
+
+</div>
+
+<div class="container">
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center" id="viewUserModel">View User Detail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>
+                                <label>User type</label>
+                            </th>
+                            <td>
+                                <span id="detailsUserType"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Student name</label>
+                            </th>
+                            <td>
+                                <span id="detailsStudentName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Username</label>
+                            </th>
+                            <td>
+                                <span id="detailsUserName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Email</label>
+                            </th>
+                            <td>
+                                <span id="detailsEmail"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Mobile</label>
+                            </th>
+                            <td>
+                                <span id="detailsMobile"></span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th>
+                                <label>Class</label>
+                            </th>
+                            <td>
+                                <span id="detailsClass"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Section</label>
+                            </th>
+                            <td>
+                                <span id="detailsSection"></span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <th>
+                                <label>AddressLine 1</label>
+                            </th>
+                            <td>
+                                <span id="detailsAddressLine1"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>AddressLine 2</label>
+                            </th>
+                            <td>
+                                <span id="detailsAddressLine2"></span>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <th>
+                                <label>City</label>
+                            </th>
+                            <td>
+                                <span id="detailsCity"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>State</label>
+                            </th>
+                            <td>
+                                <span id="detailsState"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Zip</label>
+                            </th>
+                            <td>
+                                <span id="detailsZip"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Status</label>
+                            </th>
+                            <td>
+                                <span id="detailsStatus"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -153,7 +333,7 @@
             "oLanguage": {
                 "sLengthMenu": "Rows_Per_Page _MENU_",
             },
-            @*"dom": '<"top"i>rt<"bottom"flp><"clear">'*@
+            "dom": '<"top"i>rt<"bottom"flp><"clear">'
         });
         $('.datatable').each(function () {
             var datatable = $(this);
@@ -161,4 +341,144 @@
             length_sel.addClass('form-control input-lg');
         });
     });
+</script> 
+
+<script>
+    function loadData() {
+        console.log("worked");
+        loadClassList();
+        loadSectionList();
+        loadStudentnameList();
+        loadAllStudent();
+    }
+    loadData();
+
+    function ShowTeacherDetail(id) {
+        $.get("/User/GetStudentById", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                $("#detailsUserType").text(data.data.userType);
+                $("#detailsStudentName").text(data.data.studentName);
+                $("#detailsUserName").text(data.data.username);
+                $("#detailsEmail").text(data.data.email);
+                $("#detailsMobile").text(data.data.mobile);
+                $("#detailsClass").text(data.data.class.className);
+                $("#detailsSection").text(data.data.section.sectionName);
+                $("#detailsAddressLine1").text(data.data.addressLine1);
+                $("#detailsAddressLine2").text(data.data.addressLine2);
+                $("#detailsCity").text(data.data.city.cityName);
+                $("#detailsState").text(data.data.state.stateName);
+                $("#detailsZip").text(data.data.zip.zipcode);
+                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+            }
+        });
+    }
+    
+    function loadClassList() {
+        $.get("/User/GetAllClass", function (data) {
+            $("#className").append("<option disabled selected hidden>Select Class</option>");
+            data.forEach(function (classes) {
+                $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
+    function loadSectionList() {
+        $.get("/User/GetAllSection", function (data) {
+            $("#sectionName").append("<option disabled selected hidden>Select Section</option>");
+            data.forEach(function (sections) {
+                $('#sectionName').append('<option value="' + sections.value + '">' + sections.text + '</option>');
+            });
+        });
+    }
+   
+    function loadStudentnameList() {
+        $.get("/User/GetStudentName", function (data) {
+            $("#studentName").append("<option disabled selected hidden>Select Student</option>");
+            data.forEach(function (students) {
+                $('#studentName').append('<option value="' + students.value + '">' + students.text + '</option>');
+            });
+        });
+    }
+
+    function loadAllStudent(number = 1) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/User/GetAllStudentDetailsByPagination?page=${number}&size=${size}`, function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (student) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                               <td>${id}</td>
+                                <td>${student.className}</td>
+                                <td>${student.sectionName}</td>
+                                <td>${student.studentName}</td>
+                                <td>${new Date(student.createdDate).toLocaleDateString()}</td>
+                                <td>${student.isActive ? "Active" : "Inactive"}</td>
+                                <td>
+                                    <a href="/User/EditStudent/${student.id}"  class="btn btn-link"  >Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowTeacherDetail(${student.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+    function searchStudent() {
+        $("#paginationContainer").remove();
+
+       
+        var _className = $("#className :selected").text();
+        var _sectionName = $("#sectionName :selected").text();
+       
+        var _studentName = $("#studentName :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+
+        $.get("/User/GetStudentByFilters?className=" + _className + "&sectionName=" + _sectionName + "&studentName=" + _studentName + "&isActive=" + _isActive + "&createdDate=" + _date, function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (student) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                               <td>${id}</td>
+                                <td>${student.className}</td>
+                                <td>${student.sectionName}</td>
+                                <td>${student.studentName}</td>
+                                <td>${new Date(student.createdDate).toLocaleDateString()}</td>
+                                <td>${student.isActive ? "Active" : "Inactive"}</td>
+                                <td>
+                                    <a href="/User/EditStudent/${student.id}"  class="btn btn-link"  >Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowTeacherDetail(${student.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
 </script>

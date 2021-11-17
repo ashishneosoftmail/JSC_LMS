@@ -32,9 +32,7 @@ namespace JSC_LMS.Application.Features.Students.Commands.UpdateStudent
         [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
         [Required(ErrorMessage = "Username Is Required")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Password Is Required")]
-        [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
-        public string Password { get; set; }
+     
         [Required(ErrorMessage = "City Is Required")]
         public int CityId { get; set; }
         [Required(ErrorMessage = "State Is Required")]

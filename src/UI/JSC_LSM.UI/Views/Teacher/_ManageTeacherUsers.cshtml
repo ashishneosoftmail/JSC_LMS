@@ -107,8 +107,7 @@
             <label for="status" class="col-sm-5 col-form-label">Status :</label>
             <div class="col-sm-7">
                 <select class="form-control" id="status">
-                    <option disabled selected hidden>Select Status</option>
-                    <option value="true">Active</option>
+                    <option selected value="true">Active</option>
                     <option value="false">Inactive</option>
                 </select>
             </div>
@@ -410,7 +409,6 @@
                 $("#detailsCity").text(data.data.city.cityName);
                 $("#detailsState").text(data.data.state.stateName);
                 $("#detailsZip").text(data.data.zip.zipcode);
-                $("#detailsStatus").text(data.data.school.schoolName);
                 data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
             }
         });
