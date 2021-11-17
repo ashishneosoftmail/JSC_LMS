@@ -19,8 +19,9 @@ namespace JSC_LSM.UI.Common
         private readonly IClassRepository _classRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository)
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
@@ -30,6 +31,7 @@ namespace JSC_LSM.UI.Common
             _classRepository = classRepository;
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
+            _teacherRepository = teacherRepository;
         }
         [NonAction]
         public async Task<List<SelectListItem>> GetAllCategory()
@@ -337,6 +339,44 @@ namespace JSC_LSM.UI.Common
             }
             return null;
         }
+        public async Task<List<SelectListItem>> GetTeacher()
+        {
+            List<SelectListItem> teacher = new List<SelectListItem>();
+            GetAllTeacherListResponseModel getAllTeacherResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllTeacherResponseModel = await _teacherRepository.GetAllTeacherDetails();
+
+            if (getAllTeacherResponseModel.Succeeded)
+            {
+                if (getAllTeacherResponseModel == null && getAllTeacherResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllTeacherResponseModel.message;
+                    responseModel.IsSuccess = getAllTeacherResponseModel.isSuccess;
+                }
+                if (getAllTeacherResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllTeacherResponseModel.message;
+                    responseModel.IsSuccess = getAllTeacherResponseModel.isSuccess;
+                    foreach (var item in getAllTeacherResponseModel.data)
+                    {
+                        teacher.Add(new SelectListItem
+                        {
+                            Text = item.TeacherName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return teacher;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllTeacherResponseModel.message;
+                responseModel.IsSuccess = getAllTeacherResponseModel.isSuccess;
+            }
+            return null;
+        }
+
 
 
 

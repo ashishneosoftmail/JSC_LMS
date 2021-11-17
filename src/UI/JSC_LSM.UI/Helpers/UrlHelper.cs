@@ -91,5 +91,10 @@ namespace JSC_LSM.UI.Helpers
         public static string EditKnowledgeBase = "/api/v1/KnowledgeBase/UpdateKnowledgeBase";
         public static string GetKnowledgeBaseById = "/api/v1/KnowledgeBase/";
 
+
+        public static string GetAcademicByFilters = "/api/v1/Academic/GetAcademicByFilter";
+        public static string GetAllAcademicDetails = "/api/v1/Academic/all";
+        public static string GetAcademicById = "/api/v1/Academic/id";
+        public static string GetAllAcademicByPagination = "/api/v1/Academic/Pagination";
     }
 }
