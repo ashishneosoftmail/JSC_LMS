@@ -36,7 +36,7 @@
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
-    <form asp-action="EditKnowledge" asp-controller="Knowledge">
+    <form asp-action="AddKnowledge" asp-controller="Knowledge">
         <div class="row">
             <div class="col">
 
@@ -123,7 +123,7 @@
 
                     <div class="col">
                         <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-danger">Cancel</button>
+                        <a asp-controller="Knowledge" asp-action="KnowledgeBaseList" class="btn btn-danger">Cancel</a>
                     </div>
                 </div>
 

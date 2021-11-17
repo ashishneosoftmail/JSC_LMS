@@ -1,0 +1,92 @@
+﻿@model KnowledgeBaseList
+@using System.Web 
+@{
+    ViewData["Title"] = "ViewKnowledgeBase";
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+}
+<style>
+    .categoryName{
+        font-weight:bold;
+    }
+    .categoryText {
+        font-weight: 500;
+        font-size:14px;
+   
+    }
+</style>
+<h1 class="mt-5">View Knowledge Base</h1>
+
+<div class="container">
+    <div class="border p-5 border-dark">
+
+        <div class="row flex flex-row">
+            <div class="col-sm-5 col-md-3">
+
+                <h5 class="categoryName">Category </h5>
+            </div>
+            <div class="col-sm-5 col-md-5 pt-1">
+
+                <span class="categoryText">@Model.CategoryName</span>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row flex flex-row">
+                    <div class="col-sm-5 col-md-3">
+
+                        <h5 class="categoryName">DocTitle </h5>
+                    </div>
+                    <div class="col-sm-5 col-md-5 pt-1">
+
+                        <span class="categoryText">@Model.DocTitle</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="row flex flex-row">
+                    <div class="col-sm-5 col-md-3">
+
+                        <h5 class="categoryName">SubTitle </h5>
+                    </div>
+                    <div class="col-sm-5 col-md-5 pt-1">
+
+                        <span class="categoryText">@Model.SubTitle</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row flex flex-row">
+            <div class="col-sm-5 col-md-3">
+
+                <h5 class="categoryName">SlugUrl </h5>
+            </div>
+            <div class="col-sm-5 col-md-5 pt-1">
+                <a href="@Model.SlugUrl" class="categoryText">@Model.SlugUrl</a>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="row flex flex-row">
+            <div class="col-sm-5 col-md-3">
+
+                <h5 class="categoryName">Add Context </h5>
+            </div>
+            <div class="col-sm-5 col-md-9 pt-1">
+                @Html.Raw(HttpUtility.HtmlDecode(@Model.AddContent));
+
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <div>
+            
+        <a class="pull-right btn btn-danger" asp-controller="Knowledge" asp-action="KnowledgeBaseList" >Close</a>
+        </div> 
+    </div>
+</div>
