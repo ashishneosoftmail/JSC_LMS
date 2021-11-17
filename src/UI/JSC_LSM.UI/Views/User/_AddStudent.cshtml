@@ -27,6 +27,19 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
+                            <label for="address1" class="col-sm-3 col-form-label">Address 1</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="AddressLine1" class="form-control" id="address1" placeholder="Address 1">
+                                <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Student Name</label>
                             <div class="col-sm-9">
                                 <input type="text" asp-for="StudentName" class="form-control" id="StudentName" placeholder="Enter Name">
@@ -34,15 +47,63 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="address2" class="col-sm-3 col-form-label">Address 2</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="AddressLine2" class="form-control" id="address2" placeholder="Address 2">
+                                <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                   
+
                 </div>
                 <br />
                 <div class="row">
+                    
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="email" class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
                                 <input type="email" asp-for="Email" class="form-control" id="email" placeholder="user@example.com">
                                 <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="state" class="col-sm-3 col-form-label">State</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" asp-for="StateId" asp-items="Model.States" id="state" onchange="GetCityById()">
+                                    <option disabled selected hidden> Select State</option>
+                                </select>
+                                <span asp-validation-for="StateId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <br />
+                <div class="row">
+
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="Mobile" class="form-control" id="mobile" placeholder="Mobile Number">
+                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="city" class="col-sm-3 col-form-label">City</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
+                                    <option disabled selected hidden> Select City</option>
+                                </select>
+                                <span asp-validation-for="CityId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -63,33 +124,11 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="section" class="col-sm-3 col-form-label">Section</label>
+                            <label for="zip" class="col-sm-3 col-form-label">Zip</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="section" asp-for="SectionId" asp-items="Model.Sections">
-                                    <option disabled selected hidden> Select Section</option>
+                                <select class="form-control" id="zip" asp-for="ZipId">
                                 </select>
-                                <span asp-validation-for="SectionId" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="address1" class="col-sm-3 col-form-label">Address 1</label>
-                            <div class="col-sm-9">
-                                <input type="text" asp-for="AddressLine1" class="form-control" id="address1" placeholder="Address 1">
-                                <span asp-validation-for="AddressLine1" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="mobile" class="col-sm-3 col-form-label">Mobile</label>
-                            <div class="col-sm-9">
-                                <input type="text" asp-for="Mobile" class="form-control" id="mobile" placeholder="Mobile Number">
-                                <span asp-validation-for="Mobile" class="text-danger"></span>
+                                <span asp-validation-for="ZipId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -99,27 +138,15 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="city" class="col-sm-3 col-form-label">City</label>
+                            <label for="section" class="col-sm-3 col-form-label">Section</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
-                                    <option disabled selected hidden> Select City</option>
+                                <select class="form-control" id="section" asp-for="SectionId" asp-items="Model.Sections">
+                                    <option disabled selected hidden> Select Section</option>
                                 </select>
-                                <span asp-validation-for="CityId" class="text-danger"></span>
+                                <span asp-validation-for="SectionId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="address2" class="col-sm-3 col-form-label">Address 2</label>
-                            <div class="col-sm-9">
-                                <input type="text" asp-for="AddressLine2" class="form-control" id="address2" placeholder="Address 2">
-                                <span asp-validation-for="AddressLine2" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="username" class="col-sm-3 col-form-label">Username</label>
@@ -129,17 +156,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="state" class="col-sm-3 col-form-label">State</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" asp-for="StateId" asp-items="Model.States" id="state" onchange="GetCityById()">
-                                    <option disabled selected hidden> Select State</option>
-                                </select>
-                                <span asp-validation-for="StateId" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <br />
 
@@ -153,24 +170,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="zip" class="col-sm-3 col-form-label">Zip</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="zip" asp-for="ZipId">
-                                </select>
-                                <span asp-validation-for="ZipId" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <br />
-                <div class="row">
-
-                </div>
-                <br />
-                <div class="row">
                     <div class="col-sm-6">
 
                         <div class="form-group row">
@@ -191,20 +190,39 @@
                 </div>
                 <br />
                 <div class="row">
+
+                </div>
+                <br />
+                <div class="row">
+
+                </div>
+                <br />
+                <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">
                             <div class="col-sm-12">
 
-                                <a asp-action="AddStudent" asp-controller="User" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
+                                <a asp-action="ManageStudentUsers" asp-controller="User" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
                                 <span class="m-2 pull-right"></span>
                                 <button type="submit" class="btn btn-primary pull-right m-2">Save</button>
- </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+</div>
+
+<div id="wrapper">
+    @if (ViewBag.AddStudentSuccess != null)
+    {
+        <script>alert("@ViewBag.AddStudentSuccess")</script>
+    }
+    @if (ViewBag.AddStudentError != null)
+    {
+        <script>alert("@ViewBag.AddStudentError")</script>
+    }
 </div>
 
 <script type="text/javascript">
