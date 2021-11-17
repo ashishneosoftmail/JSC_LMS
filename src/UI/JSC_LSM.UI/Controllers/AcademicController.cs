@@ -268,6 +268,7 @@ namespace JSC_LSM.UI.Controllers
             subjectData.Sections = await _common.GetSection();
             subjectData.Subjects = await _common.GetSubject();
             subjectData.Teachers = await _common.GetTeacher();
+            subjectData.Types = await GetAcademicName();
 
             return View(subjectData);
         }

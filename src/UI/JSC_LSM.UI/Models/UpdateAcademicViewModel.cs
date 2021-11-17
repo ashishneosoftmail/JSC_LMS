@@ -14,6 +14,8 @@ namespace JSC_LSM.UI.Models
         public List<SelectListItem> Sections { get; set; }
         public List<SelectListItem> Subjects { get; set; }
 
+        public List<SelectListItem> Types { get; set; }
+
         public List<SelectListItem> Teachers{ get; set; }
     }
 }
