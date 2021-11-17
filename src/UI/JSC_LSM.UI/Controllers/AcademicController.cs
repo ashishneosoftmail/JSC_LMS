@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
+﻿using ClosedXML.Excel;
+using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -451,7 +454,54 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
-      
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadExcel()
+        {
+            var data = new List<AcademicViewModel>();
+
+            var dataList = await _academicRepository.GetAllAcademicDetails();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "AcademicData";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Type", typeof(string));
+            dt.Columns.Add("CutOff", typeof(decimal));
+            dt.Columns.Add("Subject_Id", typeof(int));
+            dt.Columns.Add("Subject_Name", typeof(string));
+            dt.Columns.Add("Class_Id", typeof(int));
+            dt.Columns.Add("Class_Name", typeof(string));
+            dt.Columns.Add("IsActive", typeof(string));
+            dt.Columns.Add("Section_Id", typeof(int));
+            dt.Columns.Add("Section_Name", typeof(string));
+            dt.Columns.Add("Teacher_Id", typeof(int));
+            dt.Columns.Add("Teacher_Name", typeof(string));
+            dt.Columns.Add("School_Id", typeof(int));
+            dt.Columns.Add("School_Name", typeof(string));
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            foreach (var _academic in dataList.data)
+            {
+                dt.Rows.Add(_academic.Id, _academic.Type, _academic.CutOff, _academic.Subject.Id, _academic.Subject.SubjectName, _academic.Class.Id, _academic.Class.ClassName, _academic.IsActive ? "Active" : "Inactive", _academic.Section.Id, _academic.Section.SectionName, _academic.Teacher.Id, _academic.Teacher.TeacherName, _academic.School.Id, _academic.School.SchoolName, _academic.CreatedDate.ToShortDateString());
+            }
+            string fileName = "AcademicData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                //Add DataTable in worksheet  
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    //Return xlsx Excel File  
+                    /* return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);*/
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+            }
+        }
+
+
 
     }
 }
