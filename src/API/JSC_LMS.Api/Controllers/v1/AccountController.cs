@@ -1,7 +1,13 @@
 using JSC_LMS.Application.Contracts.Identity;
+using JSC_LMS.Application.Features.ManageProfile.ChangePassword;
+using JSC_LMS.Application.Features.ManageProfile.UpdateProfileInfo;
 using JSC_LMS.Application.Models.Authentication;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+
 
 namespace JSC_LMS.Api.Controllers
 {
@@ -10,10 +16,13 @@ namespace JSC_LMS.Api.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        private readonly ILogger _logger;
         private readonly IAuthenticationService _authenticationService;
-        public AccountController(IAuthenticationService authenticationService)
+        public AccountController(IAuthenticationService authenticationService, IMediator mediator)
         {
             _authenticationService = authenticationService;
+            _mediator = mediator;
         }
 
         [HttpPost("authenticate")]
@@ -46,6 +55,7 @@ namespace JSC_LMS.Api.Controllers
                 return Ok(response);
         }
 
+
         [HttpPost("TemporaryPasswordValidateEmail")]
         public async Task<ActionResult<TemporaryPasswordEmailValidateResponse>> TemporaryPasswordEmailValidate(string email)
         {
@@ -61,6 +71,29 @@ namespace JSC_LMS.Api.Controllers
         public async Task<ActionResult<UpdateResetPasswordResponse>> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest UpdateResetPasswordRequest)
         {
             return Ok(await _authenticationService.UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest));
+        }
+
+        [HttpPut("UpdateChangePassword", Name = "UpdateChangePassword")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            var updateChangePasswordCommand = new ChangePasswordCommand(changePasswordDto);
+            var response = await _mediator.Send(updateChangePasswordCommand);
+            return Ok(response);
+        }
+
+
+        [HttpPut("UpdateProfileInformation", Name = "UpdateProfileInformation")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> UpdateProfileInformation(UpdateProfileInfoDto updateProfileInformationDto)
+        {
+            var updateProfileCommand = new UpdateProfileCommand(updateProfileInformationDto);
+            var response = await _mediator.Send(updateProfileCommand);
+            return Ok(response);
         }
 
     }

@@ -27,6 +27,7 @@ using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.UpdateKnowledgeBase;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
+using JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents;
 using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByFilter;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
@@ -188,6 +189,9 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Category, CreateCategoryDto>();
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Academic, GetAcademicListDto>();
+           
+                CreateMap<Parents, CreateParentsDto>();
+            CreateMap<Parents, CreateParentsDto>().ReverseMap();
 
         }
     }
