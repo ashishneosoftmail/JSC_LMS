@@ -54,5 +54,85 @@ namespace JSC_LSM.UI.Services.Repositories
             return authenticationResponseModel;
 
         }
+
+        public async Task<TemporaryPasswordEmailValidateResponse> TemporaryPasswordEmailValidate(string email)
+        {
+            TemporaryPasswordEmailValidateResponse temporaryPasswordEmailValidateResponse = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.ForgotPasswordValidateEmail + $"?email={email}", HttpMethod.Post, bytes, _sToken);
+            if (_oApiResponse.Success)
+            {
+                temporaryPasswordEmailValidateResponse = JsonConvert.DeserializeObject<TemporaryPasswordEmailValidateResponse>(_oApiResponse.data);
+                if (temporaryPasswordEmailValidateResponse.Succeeded)
+                {
+                    temporaryPasswordEmailValidateResponse.isSuccess = true;
+                }
+                else
+                {
+                    temporaryPasswordEmailValidateResponse.isSuccess = false;
+                }
+                return temporaryPasswordEmailValidateResponse;
+            }
+            else
+            {
+                temporaryPasswordEmailValidateResponse = JsonConvert.DeserializeObject<TemporaryPasswordEmailValidateResponse>(_oApiResponse.data);
+                if (temporaryPasswordEmailValidateResponse.Succeeded)
+                {
+                    temporaryPasswordEmailValidateResponse.isSuccess = true;
+                }
+                else
+                {
+                    temporaryPasswordEmailValidateResponse.isSuccess = false;
+                }
+                return temporaryPasswordEmailValidateResponse;
+            }
+
+
+        }
+        public async Task<VerifyTemporaryPasswordResponse> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest)
+        {
+            VerifyTemporaryPasswordResponse verifyTemporaryPasswordResponse = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(verfiyTemporaryPasswordRequest, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.VerifyTemporaryPassword, HttpMethod.Post, bytes, _sToken);
+            if (_oApiResponse.Success)
+            {
+                verifyTemporaryPasswordResponse = JsonConvert.DeserializeObject<VerifyTemporaryPasswordResponse>(_oApiResponse.data);
+                if (verifyTemporaryPasswordResponse.Succeeded)
+                {
+                    verifyTemporaryPasswordResponse.isSuccess = true;
+                }
+                else
+                {
+                    verifyTemporaryPasswordResponse.isSuccess = false;
+                }
+                return verifyTemporaryPasswordResponse;
+            }
+            else
+            {
+                verifyTemporaryPasswordResponse = JsonConvert.DeserializeObject<VerifyTemporaryPasswordResponse>(_oApiResponse.data);
+                if (verifyTemporaryPasswordResponse.Succeeded)
+                {
+                    verifyTemporaryPasswordResponse.isSuccess = true;
+                }
+                else
+                {
+                    verifyTemporaryPasswordResponse.isSuccess = false;
+                }
+                return verifyTemporaryPasswordResponse;
+            }
+
+        }
     }
 }

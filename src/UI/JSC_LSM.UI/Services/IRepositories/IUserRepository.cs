@@ -10,5 +10,7 @@ namespace JSC_LSM.UI.Services.IRepositories
     public interface IUserRepository
     {
         Task<AuthenticationResponseModel> UserAuthenticate(AuthenticationRequest authenticateRequest);
+        Task<TemporaryPasswordEmailValidateResponse> TemporaryPasswordEmailValidate(string email);
+        Task<VerifyTemporaryPasswordResponse> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest);
     }
 }
