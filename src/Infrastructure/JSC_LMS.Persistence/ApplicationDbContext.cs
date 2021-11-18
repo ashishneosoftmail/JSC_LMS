@@ -46,7 +46,12 @@ namespace JSC_LMS.Persistence
         public DbSet<Students> Students { get; set; }
         public DbSet<Academic> Academic { get; set; }
 
+        public DbSet<TemporaryPassword> TemporaryPassword { get; set; }
+
+
+
         public DbSet<Parents> Parents { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
