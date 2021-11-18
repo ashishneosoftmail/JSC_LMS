@@ -37,7 +37,7 @@ namespace JSC_LMS.Persistence
 
             services.AddScoped<IAcademicRepository, AcademicRepository>();
 
-
+            services.AddScoped<ITemporaryPasswordRepository, TemporaryPasswordRepository>();
 
             return services;
         }

@@ -8,6 +8,7 @@ namespace JSC_LMS.Identity
     {
         public IdentityDbContext(DbContextOptions<IdentityDbContext> options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
