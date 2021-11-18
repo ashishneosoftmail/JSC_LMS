@@ -3,14 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsList
+namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
 {
-    public class GetParentsListDto
+    public class GetParentsByIdDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string ParentName { get; set; }
-       
+        public string ParentName { get; set; }      
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public DateTime? CreatedDate { get; set; }
