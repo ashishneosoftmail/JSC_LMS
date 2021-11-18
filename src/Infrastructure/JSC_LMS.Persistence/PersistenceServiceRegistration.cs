@@ -36,6 +36,7 @@ namespace JSC_LMS.Persistence
             services.AddScoped<IStudentRepository, StudentRepository>();
 
             services.AddScoped<IAcademicRepository, AcademicRepository>();
+            services.AddScoped<IParentsRepository, ParentsRepository>();
 
 
 
