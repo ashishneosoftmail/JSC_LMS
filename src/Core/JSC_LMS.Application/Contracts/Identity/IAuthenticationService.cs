@@ -15,5 +15,8 @@ namespace JSC_LMS.Application.Contracts.Identity
         Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request);
         Task<GetUserByIdResponse> GetUserById(string id);
         Task<ChangeUserPasswordResponse> ChangeUserPassword(string userid, string oldPassword, string newPassword);
+        Task<TemporaryPasswordEmailValidateResponse> TempPasswordValidateEmail(string email);
+        Task<VerifyTemporaryPasswordResponse> VerifyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest);
+        Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest updateResetPasswordRequest);
     }
 }

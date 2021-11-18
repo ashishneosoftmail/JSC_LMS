@@ -45,5 +45,23 @@ namespace JSC_LMS.Api.Controllers
             else
                 return Ok(response);
         }
+
+        [HttpPost("TemporaryPasswordValidateEmail")]
+        public async Task<ActionResult<TemporaryPasswordEmailValidateResponse>> TemporaryPasswordEmailValidate(string email)
+        {
+            return Ok(await _authenticationService.TempPasswordValidateEmail(email));
+        }
+        [HttpPost("VerfiyTemporaryPassword")]
+        public async Task<ActionResult<VerifyTemporaryPasswordResponse>> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest)
+        {
+            return Ok(await _authenticationService.VerifyTemporaryPassword(verfiyTemporaryPasswordRequest));
+
+        }
+        [HttpPut("UpdateForgotPasswordToNewPassword")]
+        public async Task<ActionResult<UpdateResetPasswordResponse>> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest UpdateResetPasswordRequest)
+        {
+            return Ok(await _authenticationService.UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest));
+        }
+
     }
 }

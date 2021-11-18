@@ -1,5 +1,9 @@
 using JSC_LMS.Application.Contracts.Identity;
+using JSC_LMS.Application.Contracts.Infrastructure;
+using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Models.Authentication;
+using JSC_LMS.Application.Models.Mail;
+using JSC_LMS.Domain.Entities;
 using JSC_LMS.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -19,16 +23,18 @@ namespace JSC_LMS.Identity.Services
     public class AuthenticationService : IAuthenticationService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ITemporaryPasswordRepository _temporaryPasswordRepository;
         private readonly RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
         private readonly IdentityDbContext _context;
         private IPasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IEmailService _emailService;
         public AuthenticationService(UserManager<ApplicationUser> userManager,
             RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> roleManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
-            IdentityDbContext context, IPasswordHasher<ApplicationUser> passwordHasher)
+            IdentityDbContext context, IPasswordHasher<ApplicationUser> passwordHasher, IEmailService emailService, ITemporaryPasswordRepository temporaryPasswordRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,6 +42,8 @@ namespace JSC_LMS.Identity.Services
             _signInManager = signInManager;
             _context = context;
             _passwordHasher = passwordHasher;
+            _emailService = emailService;
+            _temporaryPasswordRepository = temporaryPasswordRepository;
         }
 
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
@@ -97,7 +105,7 @@ namespace JSC_LMS.Identity.Services
                     Id = user.Id,
                     LastName = user.LastName,
                     UserName = user.UserName,
-                    Role = new Role() { RoleId = roleId.Id.ToString(), RoleName = roleName[0] }
+                    Role = new Application.Models.Authentication.Role() { RoleId = roleId.Id.ToString(), RoleName = roleName[0] }
                 };
                 response.Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
             }
@@ -388,11 +396,125 @@ namespace JSC_LMS.Identity.Services
                 {
                     changePassword.Errors = new List<string>();
                     changePassword.Errors.Add(error.Description);
-                    return changePassword;
                 }
+                return changePassword;
             }
             await _signInManager.RefreshSignInAsync(user);
             return new ChangeUserPasswordResponse() { Succeeded = true, Errors = null, Message = "Password Changed Successfully", UserId = userid };
+        }
+        public string GeneratePassword()
+        {
+            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&";
+            var stringChars = new char[8];
+            var random = new Random();
+
+            for (int i = 0; i < stringChars.Length; i++)
+            {
+                stringChars[i] = chars[random.Next(chars.Length)];
+            }
+
+            var finalString = new String(stringChars);
+            return finalString;
+        }
+        public async Task<TemporaryPasswordEmailValidateResponse> TempPasswordValidateEmail(string email)
+        {
+            TemporaryPasswordEmailValidateResponse temporaryPasswordEmailValidateResponse = new TemporaryPasswordEmailValidateResponse();
+            var emailExist = await _userManager.FindByEmailAsync(email);
+            if (emailExist == null)
+            {
+                temporaryPasswordEmailValidateResponse.Succeeded = false;
+                temporaryPasswordEmailValidateResponse.message = "Email Doesn't Exist";
+                return temporaryPasswordEmailValidateResponse;
+            }
+            var password = GeneratePassword();
+            var user = await _userManager.FindByIdAsync(emailExist.Id);
+            var passwordHash = _passwordHasher.HashPassword(user, password);
+            var tempPasswordData = new TemporaryPassword()
+            {
+                Email = email,
+                PasswordHash = passwordHash,
+                IsActive = true,
+                UserId = emailExist.Id
+            };
+            var response = await _temporaryPasswordRepository.AddAsync(tempPasswordData);
+            Email emailData = new Email();
+            emailData.Body = $"Your Password is reset, Kindly use this Password : {password} to Log in on JSC_LMS Portal.";
+            emailData.To = email;
+            emailData.Subject = "JSC_LMS Forgot Password Recovery";
+            var sendEmail = await _emailService.SendEmail(emailData);
+            if (!sendEmail)
+            {
+                temporaryPasswordEmailValidateResponse.Succeeded = true;
+                temporaryPasswordEmailValidateResponse.message = "Email Sent UnSuccessfully";
+                return temporaryPasswordEmailValidateResponse;
+            }
+            if (sendEmail)
+            {
+                temporaryPasswordEmailValidateResponse.Succeeded = true;
+                temporaryPasswordEmailValidateResponse.message = "Email Sent Successfully";
+                return temporaryPasswordEmailValidateResponse;
+
+            }
+            temporaryPasswordEmailValidateResponse.Succeeded = false;
+            temporaryPasswordEmailValidateResponse.message = "User Doen't Exist";
+            return temporaryPasswordEmailValidateResponse;
+        }
+
+        public async Task<VerifyTemporaryPasswordResponse> VerifyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest)
+        {
+            VerifyTemporaryPasswordResponse verifyTemporaryPasswordResponse = new VerifyTemporaryPasswordResponse();
+            var getUserByEmail = (await _temporaryPasswordRepository.ListAllAsync()).LastOrDefault(x => x.Email == verfiyTemporaryPasswordRequest.Email && x.IsActive);
+            if (getUserByEmail != null)
+            {
+                var emailExist = await _userManager.FindByEmailAsync(verfiyTemporaryPasswordRequest.Email);
+                var user = await _userManager.FindByIdAsync(emailExist.Id);
+                var passwordHash = _passwordHasher.VerifyHashedPassword(user, getUserByEmail.PasswordHash, verfiyTemporaryPasswordRequest.TemporaryPassword);
+
+                if (passwordHash == PasswordVerificationResult.Success)
+                {
+                    if (getUserByEmail.IsActive)
+                    {
+                        verifyTemporaryPasswordResponse.Succeeded = true;
+                        verifyTemporaryPasswordResponse.message = "";
+                        getUserByEmail.IsActive = false;
+                        await _temporaryPasswordRepository.UpdateAsync(getUserByEmail);
+                    }
+                }
+                else
+                {
+                    verifyTemporaryPasswordResponse.Succeeded = false;
+                    verifyTemporaryPasswordResponse.message = "Invalid Password";
+                }
+                return verifyTemporaryPasswordResponse;
+            }
+            verifyTemporaryPasswordResponse.Succeeded = false;
+            verifyTemporaryPasswordResponse.message = "User Not Found";
+            return verifyTemporaryPasswordResponse;
+
+        }
+        public async Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest updateResetPasswordRequest)
+        {
+            UpdateResetPasswordResponse updateResetPasswordResponse = new UpdateResetPasswordResponse();
+            var user = await _userManager.FindByEmailAsync(updateResetPasswordRequest.Email);
+            if (user == null)
+            {
+                updateResetPasswordResponse.Succeeded = false;
+                updateResetPasswordResponse.message = "User Not Found";
+                return updateResetPasswordResponse;
+            }
+            var passwordHash = _passwordHasher.HashPassword(user, updateResetPasswordRequest.NewPassword);
+            user.PasswordHash = passwordHash;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                updateResetPasswordResponse.Succeeded = false;
+                updateResetPasswordResponse.message = "Password Not Updated Successfully";
+                return updateResetPasswordResponse;
+            }
+            await _signInManager.RefreshSignInAsync(user);
+            updateResetPasswordResponse.Succeeded = true;
+            updateResetPasswordResponse.message = "Password Updated Successfully";
+            return updateResetPasswordResponse;
         }
     }
 }
