@@ -5,11 +5,12 @@ using System.Text;
 
 namespace JSC_LMS.Domain.Entities
 {
-    public class Students : AuditableEntity
+    public class Parents : AuditableEntity
     {
         public int Id { get; set; }
         public string UserType { get; set; }
-        public string StudentName { get; set; }
+        public string ParentName { get; set; }
+        public string StudentId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public int ClassId { get; set; }
@@ -25,7 +26,6 @@ namespace JSC_LMS.Domain.Entities
         public City City { get; set; }
         public State State { get; set; }
         public Zip Zip { get; set; }
-        
 
     }
 }

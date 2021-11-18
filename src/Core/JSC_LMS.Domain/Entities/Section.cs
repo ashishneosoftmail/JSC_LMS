@@ -22,7 +22,7 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Teacher> Teacher { get; set; }
         public virtual ICollection<Academic> Academic { get; set; }
         public virtual ICollection<Students> Student { get; set; }
-
+        public ICollection<Parents> Parents { get; set; }
 
 
     }
