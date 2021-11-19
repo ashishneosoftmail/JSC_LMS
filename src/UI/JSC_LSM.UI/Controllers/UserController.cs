@@ -458,6 +458,9 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
-
+        public ActionResult AddParents()
+        {
+            return View();
+        }
     }
 }
