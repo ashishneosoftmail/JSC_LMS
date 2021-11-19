@@ -20,4 +20,6 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
         public int Id { get; set; }
         public string StudentName { get; set; }
     }
+
+   
 }
