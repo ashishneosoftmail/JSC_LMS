@@ -1,4 +1,4 @@
-﻿@model ParentsModel
+﻿@model UpdateParentsViewModel
 @{
     ViewData["Title"] = "AddParents";
 }
@@ -79,11 +79,11 @@
                         <div class="form-group row">
                             <label for="class" class="col-sm-3 col-form-label">Student</label>
                             <div class="col-sm-9">
-                                <select multiple asp-for="Students"  class="form-control" id="studentName">
+                                <select multiple asp-for="StudentId" asp-items="Model.Students" class="form-control" id="studentName">
                                     <option disabled selected hidden>Select Student</option>
 
                                 </select>
-                                <span asp-validation-for="Students" class="text-danger"></span>
+                                <span asp-validation-for="StudentId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <div class="form-group row">
                             <label for="city" class="col-sm-3 col-form-label">City</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
+                                <select class="form-control" id="city" asp-for="CityId" asp-items="Model.Classes" onchange="GetZipByCityId()">
                                     <option disabled selected hidden> Select City</option>
                                 </select>
                                 <span asp-validation-for="CityId" class="text-danger"></span>
@@ -160,7 +160,7 @@
                         <div class="form-group row">
                             <label for="zip" class="col-sm-3 col-form-label">Zip</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="zip" asp-for="ZipId">
+                                <select class="form-control" id="zip" asp-for="ZipId" asp-items="Model.ZipCode">
                                 </select>
                                 <span asp-validation-for="ZipId" class="text-danger"></span>
                             </div>
@@ -169,15 +169,7 @@
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="password" class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                                <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
+                   
                     <div class="col-sm-6">
 
                         <div class="form-group row">
@@ -227,14 +219,8 @@
 
 <script type="text/javascript">
 
-    function loadData() {
-        console.log("worked");
-
-        loadStudentnameList();
-
-    }
-    loadData();
-
+    
+   
     function GetCityById() {
         var stateValue = $("#state :selected").val();
         //You can check selected value using alert
@@ -268,12 +254,5 @@
         }
     }
 
-    function loadStudentnameList() {
-        $.get("/User/GetStudentName", function (data) {
-            $("#studentName").append("<option disabled selected hidden>Select Student</option>");
-            data.forEach(function (students) {
-                $('#studentName').append('<option value="' + students.value + '">' + students.text + '</option>');
-            });
-        });
-    }
+  
 </script>

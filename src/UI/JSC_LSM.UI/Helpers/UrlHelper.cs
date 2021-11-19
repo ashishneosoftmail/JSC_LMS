@@ -106,5 +106,8 @@ namespace JSC_LSM.UI.Helpers
         public static string VerifyTemporaryPassword = "/api/v1/Account/VerfiyTemporaryPassword";
         public static string UpdateForgotPasswordToNewPassword = "/api/v1/Account/UpdateForgotPasswordToNewPassword";
 
+        public static string AddNewParents = "/api/v1/Parents/Add";
+        public static string GetParentsById = "/api/v1/Parents/id";
+
     }
 }
