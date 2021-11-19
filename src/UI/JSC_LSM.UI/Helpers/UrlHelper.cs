@@ -104,6 +104,7 @@ namespace JSC_LSM.UI.Helpers
         public static string UpdateAcademic = "/api/v1/Academic/UpdateAcademic";
         public static string ForgotPasswordValidateEmail = "/api/v1/Account/TemporaryPasswordValidateEmail";
         public static string VerifyTemporaryPassword = "/api/v1/Account/VerfiyTemporaryPassword";
+        public static string UpdateForgotPasswordToNewPassword = "/api/v1/Account/UpdateForgotPasswordToNewPassword";
 
     }
 }

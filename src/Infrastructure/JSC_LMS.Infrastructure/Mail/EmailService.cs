@@ -5,6 +5,8 @@ using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace JSC_LMS.Infrastructure.Mail
@@ -12,12 +14,14 @@ namespace JSC_LMS.Infrastructure.Mail
     public class EmailService : IEmailService
     {
         public EmailSettings _emailSettings { get; }
+
         public ILogger<EmailService> _logger { get; }
 
         public EmailService(IOptions<EmailSettings> mailSettings, ILogger<EmailService> logger)
         {
             _emailSettings = mailSettings.Value;
             _logger = logger;
+
         }
 
         public async Task<bool> SendEmail(Email email)
@@ -45,6 +49,30 @@ namespace JSC_LMS.Infrastructure.Mail
             _logger.LogError("Email sending failed");
 
             return false;
+        }
+        public bool SendSmtpEmail(string fromEmail, string toEmail, string password, string subject, string body, string host, string port)
+        {
+            var fromMail = new MailAddress(fromEmail);
+            var toMail = new MailAddress(toEmail);
+            var emailPassowrd = password;
+            bool result = false;
+            using (MailMessage mm = new MailMessage(fromMail, toMail))
+            {
+                mm.Subject = subject;
+                mm.Body = body;
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = host;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = true;  // for gmail it will false
+                NetworkCredential NetworkCred = new NetworkCredential(Convert.ToString(fromMail), emailPassowrd);
+                smtp.Credentials = NetworkCred;
+                smtp.Port = Convert.ToInt32(port);
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.Send(mm);
+                result = true;
+            }
+            return result;
         }
     }
 }

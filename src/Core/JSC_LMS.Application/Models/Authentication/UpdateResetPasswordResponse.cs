@@ -10,5 +10,6 @@ namespace JSC_LMS.Application.Models.Authentication
         public string message { get; set; }
         public string statusCode { get; set; }
         public string data { get; set; }
+        public bool isSuccess { get; set; }
     }
 }

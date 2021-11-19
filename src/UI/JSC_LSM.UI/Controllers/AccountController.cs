@@ -172,6 +172,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public IActionResult ForgotPassword()
         {
+            HttpContext.Session.SetString("Email", "harsh2000c3294@gmail.com");
             return View();
         }
         [HttpPost]
@@ -181,7 +182,8 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.LoginError = null;
             if (ModelState.IsValid)
             {
-                HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
+                //HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
+                // HttpContext.Session.SetString("Email", "harsh2000c3294@gmail.com");
                 Email = HttpContext.Session.GetString("Email");
 
                 TemporaryPasswordEmailValidateResponse temporaryPasswordEmailValidateResponse = null;
@@ -281,6 +283,55 @@ namespace JSC_LSM.UI.Controllers
         public IActionResult UpdateForgotPassword()
         {
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateForgotPassword(ForgotPasswordChangePasswordModel forgotPasswordChangePasswordModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+                UpdateResetPasswordResponse updateResetPasswordResponse = null;
+
+                ResponseModel responseModel = new ResponseModel();
+                UpdateResetPasswordRequest updateResetPasswordRequest = new UpdateResetPasswordRequest();
+                updateResetPasswordRequest.NewPassword = forgotPasswordChangePasswordModel.NewPassword;
+                updateResetPasswordRequest.Email = HttpContext.Session.GetString("Email");
+                updateResetPasswordResponse = await _userRepository.UpdateForgotPasswordToNewPassword(updateResetPasswordRequest);
+
+                if (updateResetPasswordResponse.Succeeded)
+                {
+                    if (updateResetPasswordResponse == null)
+                    {
+                        responseModel.ResponseMessage = updateResetPasswordResponse.message;
+                        responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
+                    }
+                    if (updateResetPasswordResponse != null)
+                    {
+                        if (updateResetPasswordResponse.Succeeded)
+                        {
+                            responseModel.ResponseMessage = updateResetPasswordResponse.message;
+                            responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
+                            return RedirectToAction("Login","Account");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateResetPasswordResponse.message;
+                            responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
+                            ModelState.AddModelError("ConfirmPassword", updateResetPasswordResponse.message);
+                            return View("UpdateForgotPassword");
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateResetPasswordResponse.message;
+                    responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
+                    ModelState.AddModelError("ConfirmPassword", updateResetPasswordResponse.message);
+                    ViewBag.LoginError = responseModel.ResponseMessage;
+                }
+            }
+            return View("UpdateForgotPassword");
         }
     }
 }

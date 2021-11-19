@@ -134,5 +134,45 @@ namespace JSC_LSM.UI.Services.Repositories
             }
 
         }
+
+        public async Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest updateResetPasswordRequest)
+        {
+            UpdateResetPasswordResponse updateResetPasswordResponse = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateResetPasswordRequest, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateForgotPasswordToNewPassword, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.Success)
+            {
+                updateResetPasswordResponse = JsonConvert.DeserializeObject<UpdateResetPasswordResponse>(_oApiResponse.data);
+                if (updateResetPasswordResponse.Succeeded)
+                {
+                    updateResetPasswordResponse.isSuccess = true;
+                }
+                else
+                {
+                    updateResetPasswordResponse.isSuccess = false;
+                }
+                return updateResetPasswordResponse;
+            }
+            else
+            {
+                updateResetPasswordResponse = JsonConvert.DeserializeObject<UpdateResetPasswordResponse>(_oApiResponse.data);
+                if (updateResetPasswordResponse.Succeeded)
+                {
+                    updateResetPasswordResponse.isSuccess = true;
+                }
+                else
+                {
+                    updateResetPasswordResponse.isSuccess = false;
+                }
+                return updateResetPasswordResponse;
+            }
+        }
     }
 }

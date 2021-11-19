@@ -6,6 +6,7 @@ using JSC_LMS.Application.Models.Mail;
 using JSC_LMS.Domain.Entities;
 using JSC_LMS.Identity.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -30,11 +31,13 @@ namespace JSC_LMS.Identity.Services
         private readonly IdentityDbContext _context;
         private IPasswordHasher<ApplicationUser> _passwordHasher;
         private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
+        public SMTPEmailSettings _smtpEmailSettings { get; }
         public AuthenticationService(UserManager<ApplicationUser> userManager,
             RoleManager<Microsoft.AspNetCore.Identity.IdentityRole> roleManager,
             IOptions<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager,
-            IdentityDbContext context, IPasswordHasher<ApplicationUser> passwordHasher, IEmailService emailService, ITemporaryPasswordRepository temporaryPasswordRepository)
+            IdentityDbContext context, IPasswordHasher<ApplicationUser> passwordHasher, IEmailService emailService, ITemporaryPasswordRepository temporaryPasswordRepository, IOptions<SMTPEmailSettings> smtpEmailSettings, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -44,6 +47,8 @@ namespace JSC_LMS.Identity.Services
             _passwordHasher = passwordHasher;
             _emailService = emailService;
             _temporaryPasswordRepository = temporaryPasswordRepository;
+            _smtpEmailSettings = smtpEmailSettings.Value;
+            _configuration = configuration;
         }
 
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
@@ -437,11 +442,18 @@ namespace JSC_LMS.Identity.Services
                 UserId = emailExist.Id
             };
             var response = await _temporaryPasswordRepository.AddAsync(tempPasswordData);
-            Email emailData = new Email();
-            emailData.Body = $"Your Password is reset, Kindly use this Password : {password} to Log in on JSC_LMS Portal.";
-            emailData.To = email;
-            emailData.Subject = "JSC_LMS Forgot Password Recovery";
-            var sendEmail = await _emailService.SendEmail(emailData);
+            /*  Email emailData = new Email();
+              emailData.Body = $"Your Password is reset, Kindly use this Password : {password} to Log in on JSC_LMS Portal.";
+              emailData.To = email;
+              emailData.Subject = "JSC_LMS Forgot Password Recovery";
+              var sendEmail = await _emailService.SendEmail(emailData);*/
+            var fromEmail = "ashish.verma.neo01@gmail.com";
+            var host = "smtp.gmail.com";
+            var port = "587";
+            var smtppassword = "Ashish12!@";
+            var subject = "JSC_LMS Forgot Password Recovery";
+            var body = $"Your Password is reset, Kindly use this Password : {password} to Log in on JSC_LMS Portal.";
+            var sendEmail = _emailService.SendSmtpEmail(fromEmail, email, smtppassword, subject, body, host, port);
             if (!sendEmail)
             {
                 temporaryPasswordEmailValidateResponse.Succeeded = true;
