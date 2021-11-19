@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents;
+using JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents;
 
 namespace JSC_LSM.UI.Services.Repositories
 {
@@ -53,6 +54,52 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return parentsResponseModel;
 
+        }
+
+        public async Task<GetParentsByIdResponseModel> GetParentsById(int Id)
+        {
+            GetParentsByIdResponseModel getParentsByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetParentsById + "?id=" + Id, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getParentsByIdResponseModel = JsonConvert.DeserializeObject<GetParentsByIdResponseModel>(_oApiResponse.data);
+                getParentsByIdResponseModel.Succeeded = true;
+            }
+
+            return getParentsByIdResponseModel;
+
+        }
+
+        public async Task<UpdateParentsResponseModel> UpdateParents(UpdateParentsDto updateParentsDto)
+        {
+            UpdateParentsResponseModel updateParentsResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateParentsDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Parents/Update", HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateParentsResponseModel = JsonConvert.DeserializeObject<UpdateParentsResponseModel>(_oApiResponse.data);
+                if (updateParentsResponseModel.Succeeded)
+                {
+                    updateParentsResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateParentsResponseModel.Succeeded = false;
+                }
+            }
+
+            return updateParentsResponseModel;
         }
     }
 }

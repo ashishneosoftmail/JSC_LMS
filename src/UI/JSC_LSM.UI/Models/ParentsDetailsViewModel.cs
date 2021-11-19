@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 
 namespace JSC_LSM.UI.Models
 {
-    public class StudentDetailsViewModel
+    public class ParentsDetailsViewModel
     {
-
         public int Id { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
-        public string StudentName { get; set; }
+        public string ParentsName { get; set; }        
         public string UserType { get; set; }
         public string Mobile { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -24,5 +23,7 @@ namespace JSC_LSM.UI.Models
         public string ZipCode { get; set; }
         public string SectionName { get; set; }
         public string ClassName { get;  set; }
+        public List<int> StudentId { get; set; }
+
     }
 }
