@@ -262,7 +262,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = verifyTemporaryPasswordResponse.message;
                             responseModel.IsSuccess = verifyTemporaryPasswordResponse.Succeeded;
-                            ModelState.AddModelError("Email", verifyTemporaryPasswordResponse.message);
+                            ModelState.AddModelError("TemporaryPassword", verifyTemporaryPasswordResponse.message);
                             return View("TemporaryPassword");
                         }
                     }
@@ -271,7 +271,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = verifyTemporaryPasswordResponse.message;
                     responseModel.IsSuccess = verifyTemporaryPasswordResponse.Succeeded;
-                    ModelState.AddModelError("Email", verifyTemporaryPasswordResponse.message);
+                    ModelState.AddModelError("TemporaryPassword", verifyTemporaryPasswordResponse.message);
                     ViewBag.LoginError = responseModel.ResponseMessage;
                 }
             }
