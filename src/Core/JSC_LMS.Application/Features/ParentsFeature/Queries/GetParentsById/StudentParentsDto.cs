@@ -5,12 +5,11 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
 {
-    public class GetParentsByIdDto
+    public class StudentParentsDto
     {
         public int Id { get; set; }
         public string UserId { get; set; }
         public string ParentName { get; set; }
-        public string StudentName { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -22,8 +21,8 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
         public ClassDto Class { get; set; }
-        public SectionDto Section { get; set; }
-        public List<StudentDto> Student { get; set; }
+        public SectionDto Section { get; set; }       
+        public int StudentId { get; set; }
         public string UserType { get; set; }
         public bool IsActive { get; set; }
 

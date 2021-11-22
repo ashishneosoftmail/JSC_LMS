@@ -101,5 +101,62 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return updateParentsResponseModel;
         }
+
+        public async Task<GetAllParentsListResponseModel> GetAllParentsDetails()
+        {
+            GetAllParentsListResponseModel getAllParentsListResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllParentsDetails, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllParentsListResponseModel = JsonConvert.DeserializeObject<GetAllParentsListResponseModel>(_oApiResponse.data);
+                getAllParentsListResponseModel.Succeeded = true;
+            }
+
+            return getAllParentsListResponseModel;
+
+        }
+
+        public async Task<GetAllParentsByPaginationResponseModel> GetParentsByPagination(int page, int size)
+        {
+            GetAllParentsByPaginationResponseModel getAllParentsByPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllParentsByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllParentsByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllParentsByPaginationResponseModel>(_oApiResponse.data);
+                getAllParentsByPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllParentsByPaginationResponseModel;
+
+        }
+
+        public async Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(string ClassName, string SectionName, string StudentName, string ParentName, bool IsActive, DateTime CreatedDate)
+        {
+            GetAllParentsByFiltersResponseModel getParentsByFiltersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Parents/GetParentsByFilter?ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&ParentName={ParentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getParentsByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllParentsByFiltersResponseModel>(_oApiResponse.data);
+                getParentsByFiltersResponseModel.Succeeded = true;
+            }
+
+            return getParentsByFiltersResponseModel;
+
+        }
     }
 }
