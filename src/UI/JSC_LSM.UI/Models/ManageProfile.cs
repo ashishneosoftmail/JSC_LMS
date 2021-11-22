@@ -19,6 +19,8 @@ namespace JSC_LSM.UI.Models
         [Required(ErrorMessage = "Phone Number Is Required")]
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
+
+        public string RoleName { get; set; }
     }
     public class ChangePassword
     {

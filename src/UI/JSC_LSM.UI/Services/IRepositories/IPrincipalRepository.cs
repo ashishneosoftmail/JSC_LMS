@@ -52,6 +52,8 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// <returns></returns>
         Task<PrincipalResponseModel> AddNewPrinicipal(CreatePrincipalDto createPrincipalDto);
 
+        Task<GetPrincipalByUserIdResponseModel> GetPrincipalByUserId(string UserId);
+
     }
     #endregion
 }

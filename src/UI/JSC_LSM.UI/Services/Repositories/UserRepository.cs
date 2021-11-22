@@ -1,4 +1,6 @@
-﻿using JSC_LMS.Application.Models.Authentication;
+﻿using JSC_LMS.Application.Features.ManageProfile.ChangePassword;
+using JSC_LMS.Application.Features.ManageProfile.UpdateProfileInfo;
+using JSC_LMS.Application.Models.Authentication;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -54,5 +56,51 @@ namespace JSC_LSM.UI.Services.Repositories
             return authenticationResponseModel;
 
         }
+
+        public async Task<ChangePasswordResponseModel> UpdateChangePassword(ChangePasswordDto changePasswordDto)
+        {
+            ChangePasswordResponseModel changePasswordResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(changePasswordDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateChangePassword, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                changePasswordResponseModel = JsonConvert.DeserializeObject<ChangePasswordResponseModel>(_oApiResponse.data);
+                changePasswordResponseModel.Succeeded = true;
+            }
+            return changePasswordResponseModel;
+        }
+
+
+        public async Task<UpdateProfileInformationResponseModel> UpdatePersonalInformation(UpdateProfileInfoDto updateProfileInformationDto)
+        {
+            UpdateProfileInformationResponseModel updateProfileInformationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateProfileInformationDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateProfileInformation, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateProfileInformationResponseModel = JsonConvert.DeserializeObject<UpdateProfileInformationResponseModel>(_oApiResponse.data);
+                if (updateProfileInformationResponseModel.Succeeded)
+                {
+                    updateProfileInformationResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateProfileInformationResponseModel.Succeeded = false;
+                }
+            }
+            return updateProfileInformationResponseModel;
+        }
+
+
     }
 }

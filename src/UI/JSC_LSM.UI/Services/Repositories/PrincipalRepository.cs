@@ -186,6 +186,26 @@ namespace JSC_LSM.UI.Services.Repositories
             return updatePrincipalResponseModel;
         }
 
+
+        public async Task<GetPrincipalByUserIdResponseModel> GetPrincipalByUserId(string UserId)
+        {
+            GetPrincipalByUserIdResponseModel getPrincipalByUserIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetPrincipalByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getPrincipalByUserIdResponseModel = JsonConvert.DeserializeObject<GetPrincipalByUserIdResponseModel>(_oApiResponse.data);
+                getPrincipalByUserIdResponseModel.Succeeded = true;
+            }
+
+            return getPrincipalByUserIdResponseModel;
+        }
+
+
     }
 
 }
