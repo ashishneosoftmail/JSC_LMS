@@ -24,6 +24,7 @@ namespace JSC_LSM.UI.Models
         public string SectionName { get; set; }
         public string ClassName { get;  set; }
         public List<int> StudentId { get; set; }
+        public string StudentName { get; set; }
 
     }
 }

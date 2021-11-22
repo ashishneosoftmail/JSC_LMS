@@ -5,6 +5,8 @@ using JSC_LMS.Application.Features.ManageProfile.UpdateProfileInfo;
 
 using JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents;
 
+using JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents;
+
 using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
@@ -81,7 +83,6 @@ namespace JSC_LSM.UI.Controllers
             var sections = await _common.GetSection();
             return sections;
         }
-
        
        
         [HttpGet]
@@ -475,6 +476,9 @@ namespace JSC_LSM.UI.Controllers
             return data;
         }
 
+
+        //PARENTS
+
         [HttpGet]
         public async Task<IActionResult> AddParents()
         {           
@@ -641,6 +645,266 @@ namespace JSC_LSM.UI.Controllers
             return View(parentData);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditParents(UpdateParentsViewModel updateParentsViewModel)
+        {
+           
+            ViewBag.UpdateParentsError = null;
+            updateParentsViewModel.Classes = await _common.GetClass();
+            updateParentsViewModel.Sections = await _common.GetSection();
+            updateParentsViewModel.States = await _common.GetAllStates();
+            updateParentsViewModel.Cities = await _common.GetAllCityByStateId(updateParentsViewModel.StateId);
+            updateParentsViewModel.ZipCode = await _common.GetAllZipByCityId(updateParentsViewModel.CityId);
+            UpdateParentsDto updateParents = new UpdateParentsDto();
+            if (ModelState.IsValid)
+            {
+                updateParents.Id = updateParentsViewModel.Id;
+                updateParents.UserId = TempData["UserId"].ToString();
+                updateParents.ClassId = updateParentsViewModel.ClassId;
+                updateParents.SectionId = updateParentsViewModel.SectionId;
+                updateParents.AddressLine1 = updateParentsViewModel.AddressLine1;
+                updateParents.AddressLine2 = updateParentsViewModel.AddressLine2;
+                updateParents.ParentName = updateParentsViewModel.ParentName;
+                updateParents.UserType = updateParentsViewModel.UserType;
+                updateParents.Email = updateParentsViewModel.Email;
+                updateParents.Mobile = updateParentsViewModel.Mobile;
+                updateParents.Username = updateParentsViewModel.Username;
+                updateParents.CityId = updateParentsViewModel.CityId;
+                updateParents.StateId = updateParentsViewModel.StateId;
+                updateParents.ZipId = updateParentsViewModel.ZipId;
+                updateParents.IsActive = updateParentsViewModel.IsActive;
+                updateParents.StudentId = string.Join(",", updateParentsViewModel.StudentId);
+
+
+                UpdateParentsResponseModel updateParentsResponseModel = null;
+                
+                ViewBag.UpdateParentsError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateParentsResponseModel = await _parentsRepository.UpdateParents(updateParents);
+
+
+                if (updateParentsResponseModel.Succeeded)
+                {
+                    if (updateParentsResponseModel == null && updateParentsResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateParentsResponseModel.message;
+                        responseModel.IsSuccess = updateParentsResponseModel.Succeeded;
+                    }
+                    if (updateParentsResponseModel != null)
+                    {
+                        if (updateParentsResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateParentsResponseModel.message;
+                            responseModel.IsSuccess = updateParentsResponseModel.Succeeded;
+                            ViewBag.UpdateParentsSuccess = "Details Updated Successfully";
+
+                            return RedirectToAction("ManageParentsUsers", "User");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateParentsResponseModel.message;
+                            responseModel.IsSuccess = updateParentsResponseModel.Succeeded;
+                            ViewBag.UpdateParentsError = updateParentsResponseModel.message;
+                            return View(updateParentsResponseModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateParentsResponseModel.message;
+                    responseModel.IsSuccess = updateParentsResponseModel.Succeeded;
+                    ViewBag.UpdateParentsError = updateParentsResponseModel.message;
+                }
+            }
+            return View(updateParentsViewModel);
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetParentName()
+        {
+            var data = await _parentsRepository.GetAllParentsDetails();
+            List<SelectListItem> parents = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                parents.Add(new SelectListItem
+                {
+                   Text = item.ParentName,
+                    Value = Convert.ToString(item.Id)
+                });
+            }
+            return parents;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageParentsUsers()
+        {
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _parentsRepository.GetAllParentsDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+            ViewBag.GetParentById = TempData["GetParentById"] as string;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            return View(pager);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ParentsDetailsViewModel>> GetAllParentsDetails()
+        {
+            var data = new List<ParentsDetailsViewModel>();
+
+            var dataList = await _parentsRepository.GetAllParentsDetails();
+            foreach (var parents in dataList.data)
+            {
+                data.Add(new ParentsDetailsViewModel()
+                {
+                    Id = parents.Id,
+                    ParentsName = parents.ParentName,
+                    StudentName = parents.StudentName,
+                    ClassName = parents.ClassName,
+                    SectionName = parents.SectionName,
+                    IsActive = parents.IsActive,
+                    CreatedDate = parents.CreatedDate
+                });
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ParentsDetailsViewModel>> GetAllParentDetailsByPagination(int page = 1, int size = 5)
+        {
+            int recsCount = (await _parentsRepository.GetAllParentsDetails()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+
+            ViewBag.Pager = pager;
+            var data = new List<ParentsDetailsViewModel>();
+
+            var dataList = await _parentsRepository.GetParentsByPagination(page, size);
+
+            foreach (var parents in dataList.data.GetParentsListPaginationDto)
+            {
+                data.Add(new ParentsDetailsViewModel()
+                {
+                    Id = parents.Id,
+                    ParentsName = parents.ParentName,
+                    StudentName = parents.StudentName,
+                    ClassName = parents.ClassName,
+                    SectionName = parents.SectionName,
+                    IsActive = parents.IsActive,
+                    CreatedDate = parents.CreatedDate
+                });
+            }
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadExcelParents()
+        {
+            var data = new List<ParentsDetailsViewModel>();
+
+            var dataList = await _parentsRepository.GetAllParentsDetails();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "ParentsData";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("User_type", typeof(string));
+            dt.Columns.Add("Parents_Name", typeof(string));
+            dt.Columns.Add("Student_Name", typeof(string));
+            dt.Columns.Add("AddressLine1", typeof(string));
+            dt.Columns.Add("AddressLine2", typeof(string));
+            dt.Columns.Add("Mobile", typeof(string));
+            dt.Columns.Add("Username", typeof(string));
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("IsActive", typeof(string));
+            dt.Columns.Add("City_Name", typeof(string));
+            dt.Columns.Add("State_Name", typeof(string));
+            dt.Columns.Add("ZipCode", typeof(string));
+            dt.Columns.Add("Class_Name", typeof(string));
+            dt.Columns.Add("Section_Name", typeof(string));
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            foreach (var parent in dataList.data)
+            {
+                dt.Rows.Add(parent.Id, parent.UserType, parent.ParentName, parent.StudentName, parent.AddressLine1, parent.AddressLine2, parent.Mobile, parent.Username, parent.Email, parent.IsActive ? "Active" : "Inactive", parent.CityName, parent.State, parent.Zip, parent.ClassName, parent.SectionName, parent.CreatedDate?.ToShortDateString());
+
+            }
+            string fileName = "ParentsData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+            }
+        }
+
+        [HttpGet]
+        public async Task<ParentsDetailsViewModel> GetParentsById(int Id , string StudentName)
+        {
+            string std = null;
+            var parents = await _parentsRepository.GetParentsById(Id);
+            for ( int i=0;i< parents.data.Student.Count();i++ )
+            {
+                if(parents.data.Student[i].StudentName == StudentName)
+                {
+                    std = parents.data.Student[i].StudentName;
+                }
+            }
+            var data = new ParentsDetailsViewModel() {
+                Id = parents.data.Id,
+                ParentsName = parents.data.ParentName,
+                StudentName = std,
+                ClassName = parents.data.Class.ClassName,
+                SectionName = parents.data.Section.SectionName,
+                AddressLine1 = parents.data.AddressLine1,
+                AddressLine2 = parents.data.AddressLine2,
+                CityName = parents.data.City.CityName,
+                StateName = parents.data.State.StateName,
+                ZipCode = parents.data.Zip.Zipcode,
+                Username = parents.data.Username,
+                UserType = parents.data.UserType,
+                Email = parents.data.Email,
+                Mobile = parents.data.Mobile,
+                IsActive = parents.data.IsActive,
+                CreatedDate = parents.data.CreatedDate
+            };
+          
+            return data;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ParentsDetailsViewModel>> GetParentsByFilters(string ClassName, string SectionName, string StudentName,string ParentsName, bool IsActive, DateTime CreatedDate)
+        {
+            var data = new List<ParentsDetailsViewModel>();
+            var dataList = await _parentsRepository.GetParentsByFilters(ClassName, SectionName, StudentName,ParentsName, IsActive, CreatedDate);
+            if (dataList.data != null)
+            {
+                foreach (var student in dataList.data)
+                {
+                    data.Add(new ParentsDetailsViewModel()
+                    {
+                        Id = student.Id,
+                        StudentName = student.StudentName,                       
+                        ParentsName = student.ParentName,
+                        CreatedDate = student.CreatedDate,                       
+                        IsActive = student.IsActive,                        
+                        ClassName = student.ClassName,
+                        SectionName = student.SectionName
+                       
+                    });
+                }
+            }
+            return data;
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -114,7 +114,12 @@ namespace JSC_LSM.UI.Helpers
 
         public static string AddNewParents = "/api/v1/Parents/Add";
         public static string GetParentsById = "/api/v1/Parents/id";
+
         public static string GetTeacherByUserId = "/api/v1/Teacher/GetTeacherByUserId";
+
+        public static string GetAllParentsDetails = "/api/v1/Parents/all";
+        public static string GetAllParentsByPagination = "/api/v1/Parents/Pagination";
+
 
 
     }

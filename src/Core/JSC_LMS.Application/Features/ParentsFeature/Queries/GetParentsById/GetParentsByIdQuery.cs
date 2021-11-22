@@ -9,5 +9,6 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
     public class GetParentsByIdQuery : IRequest<Response<GetParentsByIdDto>>
     {
         public int Id { get; set; }
+       
     }
 }

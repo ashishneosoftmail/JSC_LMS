@@ -1,0 +1,513 @@
+﻿@{
+    ViewData["Title"] = "ManageParentsUsers ";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
+}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<style>
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+</style>
+<h4 class="m-3">Manage Parents Users </h4>
+<div class="d-flex flex-row ">
+
+    <a asp-action="ManageTeacherUsers" asp-controller="Teacher" class="btn btn-primary m-2"><span>Teacher</span> </a>
+    <a asp-action="ManageStudentUsers" asp-controller="User" class="btn btn-primary m-2"><span>Student</span> </a>
+    <a asp-action="ManageParentsUsers" asp-controller="User" class="btn btn-primary m-2"><span>Parents</span> </a>
+</div>
+<h6 class="font-weight-bold"> Search Filter</h6>
+<div class="row">
+
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="className" class="col-sm-5 col-form-label">Class Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="className">
+                    <option disabled selected hidden>Select Class</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="sectionName" class="col-sm-5 col-form-label">Section</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="sectionName">
+                    <option disabled selected hidden>Select Section</option>
+
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="studentName" class="col-sm-5 col-form-label">Student Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="studentName">
+                    <option disabled selected hidden>Select Student</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="parentName" class="col-sm-5 col-form-label">Parent Name</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="parentName">
+                    <option disabled selected hidden>Select Parent</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<div class="row mt-3">
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="date" class="col-sm-5 col-form-label">Date</label>
+            <div class="col-sm-7">
+                <input type="date" value="" class="form-control" id="date" />
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="form-group row">
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="status">
+
+                    <option selected value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-sm-1">
+        <div class="form-group row">
+            <button type="button" class="btn btn-primary float-lg-end pull-right " onclick="searchParents()">Search</button>
+        </div>
+     
+    </div>
+</div>
+
+<div class="col-md-11">
+    <a asp-controller="User" asp-action="DownloadExcelParents" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
+    <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
+    <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
+    <a asp-action="AddParents" asp-controller="User" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+
+</div>
+
+<div id="wrap" class="m-3">
+    <div class="container">
+        <table cellpadding="0" cellspacing="0" border="0" class=" table table-striped table-bordered table-hover table-responsive ">
+            <thead>
+                <tr>
+                    <th>#</th>
+
+                    <th>Class Name</th>
+                    <th>Section Name</th>
+                    <th>Student Name</th>
+                    <th>Parent Name</th>
+                    <th>Created Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableData">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllParents()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllParents(1)">First</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllParents(@(Model.CurrentPage-1))">Previous</button>
+                </li>
+            }
+            @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllParents(@pge)">@pge</button>
+                </li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllParents(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllParents(@(Model.TotalPages))">Last</button>
+                </li>
+            }
+        </ul>
+    }
+
+</div>
+
+<div class="container">
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title text-center" id="viewUserModel">View User Detail</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th>
+                                <label>User type</label>
+                            </th>
+                            <td>
+                                <span id="detailsUserType"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Parent name</label>
+                            </th>
+                            <td>
+                                <span id="detailsParentName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Student name</label>
+                            </th>
+                            <td>
+                                <span id="detailsStudentName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Username</label>
+                            </th>
+                            <td>
+                                <span id="detailsUserName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Email</label>
+                            </th>
+                            <td>
+                                <span id="detailsEmail"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Mobile</label>
+                            </th>
+                            <td>
+                                <span id="detailsMobile"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                <label>Class</label>
+                            </th>
+                            <td>
+                                <span id="detailsClass"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Section</label>
+                            </th>
+                            <td>
+                                <span id="detailsSection"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>
+                                <label>AddressLine 1</label>
+                            </th>
+                            <td>
+                                <span id="detailsAddressLine1"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>AddressLine 2</label>
+                            </th>
+                            <td>
+                                <span id="detailsAddressLine2"></span>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <th>
+                                <label>City</label>
+                            </th>
+                            <td>
+                                <span id="detailsCity"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>State</label>
+                            </th>
+                            <td>
+                                <span id="detailsState"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Zip</label>
+                            </th>
+                            <td>
+                                <span id="detailsZip"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <label>Status</label>
+                            </th>
+                            <td>
+                                <span id="detailsStatus"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+            searching: false,
+            "oLanguage": {
+                "sLengthMenu": "Rows_Per_Page _MENU_",
+            },
+            "dom": '<"top"i>rt<"bottom"flp><"clear">'
+        });
+        $('.datatable').each(function () {
+            var datatable = $(this);
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-lg');
+        });
+    });
+</script>
+
+<script>
+    function loadData() {
+        console.log("worked");
+        loadClassList();
+        loadSectionList();
+        loadStudentnameList();
+        loadParentnameList();
+        loadAllParents();
+    }
+    loadData();
+
+    function ShowParentDetail(id, name) {
+        $.get("/User/GetParentsById", {Id:id,StudentName:name},  function (data) {
+            console.log(data);
+            if (data) {
+                $("#detailsUserType").text(data.userType);
+                $("#detailsParentName").text(data.parentsName);
+                $("#detailsStudentName").text(data.studentName);
+                $("#detailsUserName").text(data.username);
+                $("#detailsEmail").text(data.email);
+                $("#detailsMobile").text(data.mobile);
+                $("#detailsClass").text(data.className);
+                $("#detailsSection").text(data.sectionName);
+                $("#detailsAddressLine1").text(data.addressLine1);
+                $("#detailsAddressLine2").text(data.addressLine2);
+                $("#detailsCity").text(data.cityName);
+                $("#detailsState").text(data.stateName);
+                $("#detailsZip").text(data.zipCode);
+                data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
+            }
+        });
+    }
+
+    function loadClassList() {
+        $.get("/User/GetAllClass", function (data) {
+            $("#className").append("<option disabled selected hidden>Select Class</option>");
+            data.forEach(function (classes) {
+                $('#className').append('<option value="' + classes.value + '">' + classes.text + '</option>');
+            });
+        });
+    }
+    function loadSectionList() {
+        $.get("/User/GetAllSection", function (data) {
+            $("#sectionName").append("<option disabled selected hidden>Select Section</option>");
+            data.forEach(function (sections) {
+                $('#sectionName').append('<option value="' + sections.value + '">' + sections.text + '</option>');
+            });
+        });
+    }
+
+    function loadStudentnameList() {
+        $.get("/User/GetStudentName", function (data) {
+            $("#studentName").append("<option disabled selected hidden>Select Student</option>");
+            data.forEach(function (students) {
+                $('#studentName').append('<option value="' + students.value + '">' + students.text + '</option>');
+            });
+        });
+    }
+    function loadParentnameList() {
+        $.get("/User/GetParentName", function (data) {
+            $("#studentName").append("<option disabled selected hidden>Select Parent</option>");
+            data.forEach(function (parents) {
+                $('#parentName').append('<option value="' + parents.value + '">' + parents.text + '</option>');
+            });
+        });
+    }
+
+    function loadAllParents(number = 1) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/User/GetAllParentDetailsByPagination?page=${number}&size=${size}`, function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (parent) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                               <td>${id}</td>
+                                <td>${parent.className}</td>
+                                <td>${parent.sectionName}</td>
+                                <td>${parent.studentName}</td>
+                                <td>${parent.parentsName}</td>
+                                <td>${new Date(parent.createdDate).toLocaleDateString()}</td>
+                                <td>${parent.isActive ? "Active" : "Inactive"}</td>
+                                <td>
+                                    <a href="/User/EditParents/${parent.id}"  class="btn btn-link"  >Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowParentDetail(${parent.id},'${parent.studentName}')">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="8" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+    function searchParents() {
+        $("#paginationContainer").remove();
+
+
+        var _className = $("#className :selected").text();
+        var _sectionName = $("#sectionName :selected").text();
+        var _parentsName = $("#parentName :selected").text();
+        var _studentName = $("#studentName :selected").text();
+        var _isActive = $("#status :selected").val();
+        var _date = $("#date").val();
+
+        $.get("/User/GetParentsByFilters?className=" + _className + "&sectionName=" + _sectionName + "&studentName=" + _studentName + "&parentsName=" + _parentsName + "&isActive=" + _isActive + "&createdDate=" + _date, function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (parent) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                               <td>${id}</td>
+                                <td>${parent.className}</td>
+                                <td>${parent.sectionName}</td>
+                                <td>${parent.studentName}</td>
+                                 <td>${parent.parentsName}</td>
+                                <td>${new Date(parent.createdDate).toLocaleDateString()}</td>
+                                <td>${parent.isActive ? "Active" : "Inactive"}</td>
+                                <td>
+                                    <a href="/User/EditParents/${parent.id}"  class="btn btn-link"  >Edit</a>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowParentDetail(${parent.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="8" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+</script>
