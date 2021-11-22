@@ -15,6 +15,7 @@ using JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher;
 using System.Data;
 using ClosedXML.Excel;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace JSC_LSM.UI.Controllers
 {
@@ -493,6 +494,21 @@ namespace JSC_LSM.UI.Controllers
                 }
             }
             return data;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageProfile()
+        {
+            var userId = Convert.ToInt32(Request.Cookies["Id"]);
+            var teacher = await _teacherRepository.GetTeacherById(userId);
+            var teachervm = new ManageProfile()
+            {
+                ProfileInformation = new ProfileInformation() { Mobile = teacher.data.Mobile, Name = teacher.data.TeacherName, Id = teacher.data.Id, RoleName = Convert.ToString(Request.Cookies["RoleName"] )}
+            };
+            TempData["TeacherId"] = teacher.data.Id;
+            HttpContext.Session.SetString("ProfilrInformationId", teacher.data.Id.ToString());
+            return View(teachervm);
+
         }
 
     }

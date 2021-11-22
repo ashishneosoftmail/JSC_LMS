@@ -102,6 +102,12 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllAcademicByPagination = "/api/v1/Academic/Pagination";
         public static string AddNewAcademic = "/api/v1/Academic";
         public static string UpdateAcademic = "/api/v1/Academic/UpdateAcademic";
+
+
+        public static string UpdateChangePassword= "/api/v1/Account/UpdateChangePassword";
+        public static string UpdateProfileInformation = "/api/v1/Account/UpdateProfileInformation";
+        public static string GetPrincipalByUserId = "/api/v1/Principal/GetPrincipalByUserId";
+
         public static string ForgotPasswordValidateEmail = "/api/v1/Account/TemporaryPasswordValidateEmail";
         public static string VerifyTemporaryPassword = "/api/v1/Account/VerfiyTemporaryPassword";
         public static string UpdateForgotPasswordToNewPassword = "/api/v1/Account/UpdateForgotPasswordToNewPassword";
@@ -110,6 +116,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetParentsById = "/api/v1/Parents/id";
         public static string GetAllParentsDetails = "/api/v1/Parents/all";
         public static string GetAllParentsByPagination = "/api/v1/Parents/Pagination";
+
 
 
     }

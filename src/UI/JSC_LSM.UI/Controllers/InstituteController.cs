@@ -7,6 +7,7 @@ using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -507,10 +508,12 @@ namespace JSC_LSM.UI.Controllers
             var instituteAdmin = await _instituteRepository.GetInstituteAdminByUserId(userId);
             var instituteadminvm = new ManageProfile()
             {
-                ProfileInformation = new ProfileInformation() { Mobile = instituteAdmin.data.Mobile, Name = instituteAdmin.data.Name, Id = instituteAdmin.data.Id }
+                ProfileInformation = new ProfileInformation() { Mobile = instituteAdmin.data.Mobile, Name = instituteAdmin.data.Name, Id = instituteAdmin.data.Id, RoleName = Convert.ToString(Request.Cookies["RoleName"]) }
             };
             TempData["InstituteAdminId"] = instituteAdmin.data.Id;
+            HttpContext.Session.SetString("ProfilrInformationId", instituteAdmin.data.Id.ToString());
             return View(instituteadminvm);
+
         }
 
         [HttpPost]

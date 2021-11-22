@@ -1,0 +1,19 @@
+﻿
+<style>
+    h2 {
+        padding-top: 3%;
+    }
+
+    ::-webkit-scrollbar {
+        display: block;
+        overflow: hidden; /* Hide scrollbars */
+    }
+</style>
+@{
+    ViewData["Title"] = "Manage Profile";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
+}
+
+<h1>ManageProfile</h1>
+
+@{ Html.RenderPartial("~/Views/User/_ManageProfile.cshtml"); }

@@ -1,6 +1,12 @@
 ﻿using ClosedXML.Excel;
+
+using JSC_LMS.Application.Features.ManageProfile.ChangePassword;
+using JSC_LMS.Application.Features.ManageProfile.UpdateProfileInfo;
+
 using JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents;
+
 using JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents;
+
 using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
@@ -33,7 +39,12 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
-        public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
+
+        private readonly IUserRepository _userRepository;
+    
+
+        public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository)
+
         {
             _stateRepository = stateRepository;
             _studentRepository = studentRepository;
@@ -41,7 +52,11 @@ namespace JSC_LSM.UI.Controllers
             _apiBaseUrl = apiBaseUrl;
             _classRepository=classRepository;
             _sectionRepository = sectionRepository;
+
+            _userRepository = userRepository;
+
             _parentsRepository = parentsRepository;
+
 
         }
 
@@ -889,6 +904,129 @@ namespace JSC_LSM.UI.Controllers
                 }
             }
             return data;
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ManageProfile ManageProfile)
+        {
+            ViewBag.UpdateChangePasswordSuccess = null;
+            ViewBag.UpdateChangePasswordError = null;
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            ChangePasswordDto changePasswordDto = new ChangePasswordDto();
+            if (ModelState.IsValid)
+            {
+                changePasswordDto.UserId = userId;
+                changePasswordDto.CurrentPassword = ManageProfile.ChangePassword.CurrentPassword;
+                changePasswordDto.NewPassword = ManageProfile.ChangePassword.NewPassword;
+
+                ChangePasswordResponseModel changePasswordResponseModel = null;
+                ViewBag.UpdateChangePasswordSuccess = null;
+                ViewBag.UpdateChangePasswordError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                changePasswordResponseModel = await _userRepository.UpdateChangePassword(changePasswordDto);
+
+
+                if (changePasswordResponseModel.Succeeded)
+                {
+                    if (changePasswordResponseModel == null && changePasswordResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = changePasswordResponseModel.message;
+                        responseModel.IsSuccess = changePasswordResponseModel.Succeeded;
+                    }
+                    if (changePasswordResponseModel != null)
+                    {
+                        if (changePasswordResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = changePasswordResponseModel.message;
+                            responseModel.IsSuccess = changePasswordResponseModel.Succeeded;
+
+                            ViewBag.UpdateChangePasswordSuccess = changePasswordResponseModel.message;
+                            return View("ManageProfile");
+
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = changePasswordResponseModel.message;
+                            responseModel.IsSuccess = changePasswordResponseModel.Succeeded;
+                            ViewBag.UpdateChangePasswordError = changePasswordResponseModel.message;
+                            return View("ManageProfile");
+
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = changePasswordResponseModel.message;
+                    responseModel.IsSuccess = changePasswordResponseModel.Succeeded;
+                    ViewBag.UpdateChangePasswordError = changePasswordResponseModel.message;
+                }
+            }
+            return View("ManageProfile");
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfileInformation(ManageProfile ManageProfile)
+        {
+            ViewBag.UpdateProfileSuccess = null;
+            ViewBag.UpdateProfileError = null;
+
+            UpdateProfileInfoDto updateProfileInformationDto = new UpdateProfileInfoDto();
+            if (ModelState.IsValid)
+            {
+
+                updateProfileInformationDto.Id = Convert.ToInt32(TempData["CommonId"].ToString());
+
+                updateProfileInformationDto.roleName = Convert.ToString(Request.Cookies["RoleName"]);
+                updateProfileInformationDto.Name = ManageProfile.ProfileInformation.Name;
+                updateProfileInformationDto.Mobile = ManageProfile.ProfileInformation.Mobile;
+
+                UpdateProfileInformationResponseModel updateProfileInformationResponseModel = null;
+                ViewBag.UpdateProfileSuccess = null;
+                ViewBag.UpdateProfileError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateProfileInformationResponseModel = await _userRepository.UpdatePersonalInformation(updateProfileInformationDto);
+
+
+                if (updateProfileInformationResponseModel.Succeeded)
+                {
+                    if (updateProfileInformationResponseModel == null && updateProfileInformationResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateProfileInformationResponseModel.message;
+                        responseModel.IsSuccess = updateProfileInformationResponseModel.Succeeded;
+                    }
+                    if (updateProfileInformationResponseModel != null)
+                    {
+                        if (updateProfileInformationResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateProfileInformationResponseModel.message;
+                            responseModel.IsSuccess = updateProfileInformationResponseModel.Succeeded;
+                            ViewBag.UpdateProfileSuccess = "Details Updated Successfully";
+
+                            return View("ManageProfile");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateProfileInformationResponseModel.message;
+                            responseModel.IsSuccess = updateProfileInformationResponseModel.Succeeded;
+                            ViewBag.UpdateProfileError = updateProfileInformationResponseModel.message;
+                            return View("ManageProfile");
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateProfileInformationResponseModel.message;
+                    responseModel.IsSuccess = updateProfileInformationResponseModel.Succeeded;
+                    ViewBag.UpdateProfileError = updateProfileInformationResponseModel.message;
+                }
+            }
+            return View("ManageProfile");
         }
 
     }
