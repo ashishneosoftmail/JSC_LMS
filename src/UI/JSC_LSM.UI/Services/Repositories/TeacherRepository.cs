@@ -161,5 +161,24 @@ namespace JSC_LSM.UI.Services.Repositories
             return getTeacherByFiltersResponseModel;
         }
 
+        public async Task<GetTeacherByUserIdResponseModel> GetTeacherByUserId(string UserId)
+        {
+            GetTeacherByUserIdResponseModel getTeacherByUserIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetTeacherByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getTeacherByUserIdResponseModel = JsonConvert.DeserializeObject<GetTeacherByUserIdResponseModel>(_oApiResponse.data);
+                getTeacherByUserIdResponseModel.Succeeded = true;
+            }
+
+            return getTeacherByUserIdResponseModel;
+        }
+
+
     }
 }

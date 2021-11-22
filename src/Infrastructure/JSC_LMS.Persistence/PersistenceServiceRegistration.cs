@@ -40,6 +40,10 @@ namespace JSC_LMS.Persistence
 
             services.AddScoped<ITemporaryPasswordRepository, TemporaryPasswordRepository>();
 
+            services.AddScoped<IFAQRepository, FAQRepository>();
+
+         
+
             return services;
         }
     }

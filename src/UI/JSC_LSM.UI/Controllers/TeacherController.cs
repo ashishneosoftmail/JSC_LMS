@@ -499,11 +499,11 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> ManageProfile()
         {
-            var userId = Convert.ToInt32(Request.Cookies["Id"]);
-            var teacher = await _teacherRepository.GetTeacherById(userId);
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var teacher = await _teacherRepository.GetTeacherByUserId(userId);
             var teachervm = new ManageProfile()
             {
-                ProfileInformation = new ProfileInformation() { Mobile = teacher.data.Mobile, Name = teacher.data.TeacherName, Id = teacher.data.Id, RoleName = Convert.ToString(Request.Cookies["RoleName"] )}
+                ProfileInformation = new ProfileInformation() { Mobile = teacher.data.Mobile, Name = teacher.data.Name, Id = teacher.data.Id, RoleName = Convert.ToString(Request.Cookies["RoleName"] )}
             };
             TempData["TeacherId"] = teacher.data.Id;
             HttpContext.Session.SetString("ProfilrInformationId", teacher.data.Id.ToString());

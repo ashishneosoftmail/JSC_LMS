@@ -51,6 +51,8 @@ namespace JSC_LMS.Persistence
 
 
         public DbSet<Parents> Parents { get; set; }
+        public DbSet<FAQ> FAQ { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

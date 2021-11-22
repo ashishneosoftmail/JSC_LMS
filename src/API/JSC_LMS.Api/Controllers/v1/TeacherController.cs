@@ -3,6 +3,7 @@ using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherById;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherByPagination;
+using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherByUserId;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter;
 using JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList;
 using JSC_LMS.Application.Features.Teachers.Queries.TeacherFileExport.TeacherCsvExport;
@@ -97,6 +98,13 @@ namespace JSC_LMS.Api.Controllers.v1
             var dtos = await _mediator.Send(new GetTeacherByPaginationQuery() { page = _page, size = _size });
             _logger.LogInformation("GetAllTeacher Completed");
             return Ok(dtos);
+        }
+
+        [HttpGet("GetTeacherByUserId", Name = "GetTeacherByUserId")]
+        public async Task<ActionResult> GetTeacherByUserId(string UserId)
+        {
+            var getTeacherByUserIdQuery = new GetTeacherByUserIdQuery() { UserId = UserId };
+            return Ok(await _mediator.Send(getTeacherByUserIdQuery));
         }
     }
 }
