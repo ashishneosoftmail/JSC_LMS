@@ -1,6 +1,10 @@
 ﻿using ClosedXML.Excel;
+
 using JSC_LMS.Application.Features.ManageProfile.ChangePassword;
 using JSC_LMS.Application.Features.ManageProfile.UpdateProfileInfo;
+
+using JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents;
+
 using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
 using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
@@ -26,14 +30,19 @@ namespace JSC_LSM.UI.Controllers
 
         private readonly IStateRepository _stateRepository;
         private readonly IStudentRepository _studentRepository;
+        private readonly IParentsRepository _parentsRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
+
         private readonly IUserRepository _userRepository;
         public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository)
+
+        public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository)
+
         {
             _stateRepository = stateRepository;
             _studentRepository = studentRepository;
@@ -41,7 +50,11 @@ namespace JSC_LSM.UI.Controllers
             _apiBaseUrl = apiBaseUrl;
             _classRepository=classRepository;
             _sectionRepository = sectionRepository;
+
             _userRepository = userRepository;
+
+            _parentsRepository = parentsRepository;
+
 
         }
 
@@ -148,7 +161,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = studentResponseModel.message;
                             responseModel.IsSuccess = studentResponseModel.Succeeded;
-                            ViewBag.AddPrincipalError = studentResponseModel.message;
+                            ViewBag.AddStudentError = studentResponseModel.message;
                             return View(studentModel);
                         }
                     }
@@ -157,7 +170,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = studentResponseModel.message;
                     responseModel.IsSuccess = studentResponseModel.Succeeded;
-                    ViewBag.AddPrincipalError = studentResponseModel.message;
+                    ViewBag.AddStudentError = studentResponseModel.message;
                 }
             }
             return View(studentModel);
@@ -171,7 +184,7 @@ namespace JSC_LSM.UI.Controllers
             if (student.data == null)
             {
                 TempData["GetStudentById"] = student.message;
-                return RedirectToAction("StudentDetails", "User");
+                return RedirectToAction("ManageStudentUsers", "User");
             }
             var studentData = new UpdateStudentViewModel()
             {
@@ -460,6 +473,172 @@ namespace JSC_LSM.UI.Controllers
                 }
             }
             return data;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddParents()
+        {           
+            ViewBag.AddParentsError = null;
+            ParentsModel parents = new ParentsModel();
+            parents.States = await _common.GetAllStates();
+            parents.Classes = await _common.GetClass();
+            parents.Sections = await _common.GetSection();
+            return View(parents);
+
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddParents(ParentsModel parentsModel)
+        {
+           
+            ViewBag.AddParentsError = null;
+            parentsModel.States = await _common.GetAllStates();
+            parentsModel.Classes = await _common.GetClass();
+            parentsModel.Sections = await _common.GetSection();
+            CreateParentsDto createNewParent = new CreateParentsDto();
+         
+            if (ModelState.IsValid)
+            {
+
+                createNewParent.ClassId = parentsModel.ClassId;
+                createNewParent.SectionId = parentsModel.SectionId;
+                createNewParent.AddressLine1 = parentsModel.AddressLine1;
+                createNewParent.AddressLine2 = parentsModel.AddressLine2;
+                createNewParent.ParentName = parentsModel.ParentName;
+                createNewParent.Email = parentsModel.Email;
+                createNewParent.Mobile = parentsModel.Mobile;
+                createNewParent.Password = parentsModel.Password;
+                createNewParent.Username = parentsModel.Username;
+                createNewParent.CityId = parentsModel.CityId;
+                createNewParent.StateId = parentsModel.StateId;
+                createNewParent.ZipId = parentsModel.ZipId;
+                createNewParent.IsActive = parentsModel.IsActive;
+                createNewParent.UserType = parentsModel.UserType;
+                createNewParent.StudentId = string.Join(",", parentsModel.Students);
+
+
+                ParentsResponseModel parentsResponseModel = null;
+                
+                ViewBag.AddStudentError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                parentsResponseModel = await _parentsRepository.AddNewParents(createNewParent);
+
+
+                if (parentsResponseModel.Succeeded)
+                {
+                    if (parentsResponseModel == null && parentsResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = parentsResponseModel.message;
+                        responseModel.IsSuccess = parentsResponseModel.Succeeded;
+                    }
+                    if (parentsResponseModel != null)
+                    {
+                        if (parentsResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = parentsResponseModel.message;
+                            responseModel.IsSuccess = parentsResponseModel.Succeeded;
+                           
+                            ModelState.Clear();
+                            var newParentModel = new ParentsModel();
+                            newParentModel.States = await _common.GetAllStates();
+                            newParentModel.Classes = await _common.GetClass();
+                            newParentModel.Sections = await _common.GetSection();
+                            return RedirectToAction("ManageParentsUsers", "User");
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = parentsResponseModel.message;
+                            responseModel.IsSuccess = parentsResponseModel.Succeeded;
+                            ViewBag.AddParentsError = parentsResponseModel.message;
+                            return View(parentsModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = parentsResponseModel.message;
+                    responseModel.IsSuccess = parentsResponseModel.Succeeded;
+                    ViewBag.AddParentsError = parentsResponseModel.message;
+                }
+            }
+            return View(parentsModel);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditParents(int id)
+        {
+            var parents = await _parentsRepository.GetParentsById(id);
+            if (parents.data == null)
+            {
+                TempData["GetParentsById"] = parents.message;
+                return RedirectToAction("ParentsDetails", "User");
+            }
+            List<int> tempStd = new List<int>();
+            foreach(var std in parents.data.Student)
+            {
+                tempStd.Add(std.Id);
+            }
+
+            var data = await _studentRepository.GetAllStudentDetails();
+            List<SelectListItem> students = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                foreach(var stdId in tempStd)
+                {
+                    if(item.Id == stdId)
+                    {
+                        students.Add(new SelectListItem
+                        {
+                            Text = item.StudentName,
+                            Value = Convert.ToString(item.Id),Selected=true
+                        });
+                        break;
+                    }
+                    else
+                    {
+                        students.Add(new SelectListItem
+                        {
+                            Text = item.StudentName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                        break;
+                    }
+                }
+               
+            }
+            var parentData = new UpdateParentsViewModel()
+            {
+                Id = parents.data.Id,
+                ParentName = parents.data.ParentName,
+                UserType = parents.data.UserType,
+                AddressLine1 = parents.data.AddressLine1,
+                UserId = parents.data.UserId,
+                AddressLine2 = parents.data.AddressLine2,
+                CityId = parents.data.City.Id,
+                StateId = parents.data.State.Id,
+                Email = parents.data.Email,
+                IsActive = parents.data.IsActive,
+                Mobile = parents.data.Mobile,
+                ClassId = parents.data.Class.Id,
+                SectionId = parents.data.Section.Id,
+                Username = parents.data.Username,
+                ZipId = parents.data.Zip.Id ,
+                StudentId = tempStd
+
+            };
+
+            parentData.Classes = await _common.GetClass();
+            parentData.Sections = await _common.GetSection();
+            parentData.Students = students;
+            TempData["UserId"] = parentData.UserId;
+            parentData.States = await _common.GetAllStates();
+            parentData.Cities = await _common.GetAllCityByStateId(parents.data.State.Id);
+            parentData.ZipCode = await _common.GetAllZipByCityId(parents.data.Zip.Id);
+            return View(parentData);
         }
 
 

@@ -14,7 +14,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents
         [Required(ErrorMessage = "Parent Name Is Required")]
         [StringLength(150, ErrorMessage = "Parent Name length should not be more than 150 characters")]
         public string ParentName { get; set; }
-        [Required(ErrorMessage = "Students data Is Required")]
+      
         public string StudentId { get; set; }
         [Required(ErrorMessage = "UserType Is Required")]
         public string UserType { get; set; }

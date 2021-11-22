@@ -3,7 +3,9 @@
     overflow-y: hidden;
     overflow-x: hidden;
 }
-
+body{
+    height:85vh;
+}
 .login-page {
     background-color: #EBF1F5;
 }

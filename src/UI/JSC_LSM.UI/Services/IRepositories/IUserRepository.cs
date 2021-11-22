@@ -12,9 +12,15 @@ namespace JSC_LSM.UI.Services.IRepositories
     public interface IUserRepository
     {
         Task<AuthenticationResponseModel> UserAuthenticate(AuthenticationRequest authenticateRequest);
+
         
              Task<ChangePasswordResponseModel> UpdateChangePassword(ChangePasswordDto changePasswordDto);
 
         Task<UpdateProfileInformationResponseModel> UpdatePersonalInformation(UpdateProfileInfoDto updateProfileInformationDto);
+
+        Task<TemporaryPasswordEmailValidateResponse> TemporaryPasswordEmailValidate(string email);
+        Task<VerifyTemporaryPasswordResponse> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest);
+        Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest UpdateResetPasswordRequest);
+
     }
 }

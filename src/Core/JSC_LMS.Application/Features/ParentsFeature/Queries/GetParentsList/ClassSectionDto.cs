@@ -15,4 +15,9 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsList
         public int Id { get; set; }
         public string ClassName { get; set; }
     }
+    public class StudentDto
+    {
+        public int Id { get; set; }
+        public string StudentName { get; set; }
+    }
 }

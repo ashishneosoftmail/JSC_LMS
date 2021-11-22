@@ -92,8 +92,8 @@ namespace JSC_LSM.UI.Helpers
         public static string GetKnowledgeBaseById = "/api/v1/KnowledgeBase/";
         public static string GetAllKnowledgeBase = "/api/v1/KnowledgeBase/all";
         public static string GetAllKnowledgeBasePagination = "/api/v1/KnowledgeBase/Pagination";
-        public static string GetAllKnowledgeBaseByFilter= "/api/v1/KnowledgeBase/GetKnowledgeBaseByFilter";
-        public static string DeleteKnowledgeBase= "/api/v1/KnowledgeBase/";
+        public static string GetAllKnowledgeBaseByFilter = "/api/v1/KnowledgeBase/GetKnowledgeBaseByFilter";
+        public static string DeleteKnowledgeBase = "/api/v1/KnowledgeBase/";
 
 
         public static string GetAcademicByFilters = "/api/v1/Academic/GetAcademicByFilter";
@@ -103,8 +103,18 @@ namespace JSC_LSM.UI.Helpers
         public static string AddNewAcademic = "/api/v1/Academic";
         public static string UpdateAcademic = "/api/v1/Academic/UpdateAcademic";
 
+
         public static string UpdateChangePassword= "/api/v1/Account/UpdateChangePassword";
         public static string UpdateProfileInformation = "/api/v1/Account/UpdateProfileInformation";
         public static string GetPrincipalByUserId = "/api/v1/Principal/GetPrincipalByUserId";
+
+        public static string ForgotPasswordValidateEmail = "/api/v1/Account/TemporaryPasswordValidateEmail";
+        public static string VerifyTemporaryPassword = "/api/v1/Account/VerfiyTemporaryPassword";
+        public static string UpdateForgotPasswordToNewPassword = "/api/v1/Account/UpdateForgotPasswordToNewPassword";
+
+        public static string AddNewParents = "/api/v1/Parents/Add";
+        public static string GetParentsById = "/api/v1/Parents/id";
+
+
     }
 }

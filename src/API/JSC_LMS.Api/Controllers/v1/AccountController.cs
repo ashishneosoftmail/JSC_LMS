@@ -55,6 +55,24 @@ namespace JSC_LMS.Api.Controllers
                 return Ok(response);
         }
 
+
+        [HttpPost("TemporaryPasswordValidateEmail")]
+        public async Task<ActionResult<TemporaryPasswordEmailValidateResponse>> TemporaryPasswordEmailValidate(string email)
+        {
+            return Ok(await _authenticationService.TempPasswordValidateEmail(email));
+        }
+        [HttpPost("VerfiyTemporaryPassword")]
+        public async Task<ActionResult<VerifyTemporaryPasswordResponse>> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest)
+        {
+            return Ok(await _authenticationService.VerifyTemporaryPassword(verfiyTemporaryPasswordRequest));
+
+        }
+        [HttpPut("UpdateForgotPasswordToNewPassword")]
+        public async Task<ActionResult<UpdateResetPasswordResponse>> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest UpdateResetPasswordRequest)
+        {
+            return Ok(await _authenticationService.UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest));
+        }
+
         [HttpPut("UpdateChangePassword", Name = "UpdateChangePassword")]
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,5 +95,6 @@ namespace JSC_LMS.Api.Controllers
             var response = await _mediator.Send(updateProfileCommand);
             return Ok(response);
         }
+
     }
 }

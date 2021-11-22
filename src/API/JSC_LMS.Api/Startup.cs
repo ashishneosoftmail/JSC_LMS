@@ -24,6 +24,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using JSC_LMS.Application.Models.Mail;
 
 namespace JSC_LMS.Api
 {
@@ -62,7 +63,6 @@ namespace JSC_LMS.Api
                 options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
             services.AddHealthcheckExtensionService(Configuration);
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
