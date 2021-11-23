@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
 using JSC_LMS.Application.Features.Announcement.Commands.UpdateAnnouncement;
+using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,16 @@ namespace JSC_LMS.Api.Controllers.v1
             var updateAnnouncementCommand = new UpdateAnnouncementCommand(updateAnnouncementDto);
             var response = await _mediator.Send(updateAnnouncementCommand);
             return Ok(response);
+        }
+
+        [HttpGet("all", Name = "GetAllAnnouncement")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllAnnouncement()
+        {
+            _logger.LogInformation("GetAllAnnouncement Initiated");
+            var dtos = await _mediator.Send(new GetAnnouncementListQuery());
+            _logger.LogInformation("GetAllAnnouncement Completed");
+            return Ok(dtos);
         }
     }
 }
