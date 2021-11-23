@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement
+namespace JSC_LMS.Application.Features.Announcement.Commands.UpdateAnnouncement
 {
-    public class CreateAnnouncementDto
+    public class UpdateAnnouncementDto
     {
-       
+        public int Id { get; set; }
         public bool IsActive { get; set; }
         [Required(ErrorMessage = "Schhol name Is Required")]
         public int SchoolId { get; set; }
@@ -26,5 +26,6 @@ namespace JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement
         public string AnnouncementTitle { get; set; }
         [Required(ErrorMessage = "Please give the announcement in brief details")]
         public string AnnouncementContent { get; set; }
+
     }
 }
