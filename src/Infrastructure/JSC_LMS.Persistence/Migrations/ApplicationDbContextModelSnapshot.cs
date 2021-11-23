@@ -317,6 +317,56 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("Events");
                 });
 
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.FAQ", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("FAQTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Question")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("FAQ");
+                });
+
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Institute", b =>
                 {
                     b.Property<int>("Id")
@@ -1297,6 +1347,15 @@ namespace JSC_LMS.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId1")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.FAQ", b =>
+                {
+                    b.HasOne("JSC_LMS.Domain.Entities.Category", "Category")
+                        .WithMany("FAQ")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Institute", b =>

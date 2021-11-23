@@ -14,6 +14,7 @@ using JSC_LMS.Api.Utility;
 using JSC_LMS.Application.Features.Principal.Queries.PrincipalFileExport.PrincipalCsvExport;
 using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByPagination;
+using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByUserId;
 
 #region-developed By Harsh Chheda
 namespace JSC_LMS.Api.Controllers.v1
@@ -124,6 +125,14 @@ namespace JSC_LMS.Api.Controllers.v1
 
             return File(fileDto.Data, fileDto.ContentType, fileDto.PrincipalExportFileName);
         }
+
+        [HttpGet("GetPrincipalByUserId", Name = "GetPrincipalByUserId")]
+        public async Task<ActionResult> GetPrincipalByUserId(string UserId)
+        {
+            var getPrincipalByUserIdQuery = new GetPrincipalByUserIdQuery() { UserId = UserId };
+            return Ok(await _mediator.Send(getPrincipalByUserIdQuery));
+        }
+
 
     }
 }

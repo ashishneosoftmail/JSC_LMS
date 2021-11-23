@@ -9,7 +9,8 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public string ParentName { get; set; }      
+        public string ParentName { get; set; }
+        public string StudentName { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public DateTime? CreatedDate { get; set; }

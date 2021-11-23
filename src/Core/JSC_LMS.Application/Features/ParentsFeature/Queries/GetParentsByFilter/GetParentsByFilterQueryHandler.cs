@@ -100,6 +100,11 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
                 data = data.Where(x => (x.ParentName == request.ParentName)).ToList();
 
             }
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
+            {
+                data = data.Where(x => (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString())).ToList();
+
+            }
 
             if (request.IsActive)
             {

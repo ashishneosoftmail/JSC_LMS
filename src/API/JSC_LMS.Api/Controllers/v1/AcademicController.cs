@@ -68,7 +68,7 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         [HttpGet("GetAcademicByFilter", Name = "GetAcademicByFilter")]
-        public async Task<ActionResult> GetStudentByFilter(string ClassName, string SchoolName, string SubjectName, string SectionName, string TeacherName, string Type, bool IsActive, DateTime CreatedDate)
+        public async Task<ActionResult> GetAcademicByFilter(string ClassName, string SchoolName, string SubjectName, string SectionName, string TeacherName, string Type, bool IsActive, DateTime CreatedDate)
         {
             var getAcademicByFilterQuery = new GetAcademicByFilterQuery(ClassName, SchoolName, SubjectName, SectionName, TeacherName,Type, IsActive, CreatedDate);
             return Ok(await _mediator.Send(getAcademicByFilterQuery));

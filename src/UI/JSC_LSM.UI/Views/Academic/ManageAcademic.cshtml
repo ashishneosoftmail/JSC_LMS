@@ -420,12 +420,12 @@
         var _sectionName = $("#sectionName :selected").text();
         var _subjectName = $("#subjectName :selected").text();
         var _teacherName = $("#teacherName :selected").text();
-        var _academicName = $("#academicName :selected").text();
+        var _academicName = $("#type :selected").text();
         var _isActive = $("#status :selected").val();
         var _date = $("#date").val();
 
     
-        $.get("/Academic/GetAcademicByFilters?academicName=" + _academicName + "&schoolName=" + _schoolName + "&className=" + _className + "&sectionName=" + _sectionName + "&subjectName=" + _subjectName + "&teacherName=" + _teacherName+ "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+        $.get("/Academic/GetAcademicByFilters?type=" + _academicName + "&schoolName=" + _schoolName + "&className=" + _className + "&sectionName=" + _sectionName + "&subjectName=" + _subjectName + "&teacherName=" + _teacherName+ "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
                 if (data.length > 0) {
                     $("#tableData").empty();
                     var id = 0;

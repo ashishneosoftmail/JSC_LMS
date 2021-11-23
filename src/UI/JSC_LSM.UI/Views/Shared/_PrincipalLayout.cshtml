@@ -61,7 +61,7 @@
                                 }
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>
+                                <a asp-action="ManageProfile" asp-controller="Principal" class="dropdown-item">Profile</a>
                                 <a asp-action="index" asp-controller="farmer" class="dropdown-item">Farmer List</a>
                                 <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
                                 <div class="dropdown-divider"></div>
@@ -105,21 +105,28 @@
 
                     </li>
                     <li>
-                        <a asp-action="ManageTeacherUsers" asp-controller="Teacher">
-                            <span>Manage Teacher</span>
-                        </a>
-
-                    </li>
-
-                    <li>
                         <a asp-action="ManageAcademic" asp-controller="Academic">
                             <span>Manage Academic</span>
                         </a>
 
                     </li>
                     <li>
+                        <a asp-action="ManageTeacherUsers" asp-controller="Teacher">
+                            <span>Manage Teacher</span>
+                        </a>
+
+                    </li>
+
+
+                    <li>
                         <a asp-action="ManageStudentUsers" asp-controller="User">
                             <span>Manage Student</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a asp-action="ManageParentsUsers" asp-controller="User">
+                            <span>Manage Parents</span>
                         </a>
 
                     </li>

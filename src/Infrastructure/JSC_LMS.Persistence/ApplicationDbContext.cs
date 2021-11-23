@@ -51,7 +51,11 @@ namespace JSC_LMS.Persistence
 
 
         public DbSet<Parents> Parents { get; set; }
+
         public DbSet<Circular> Circular { get; set; }
+
+        public DbSet<FAQ> FAQ { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

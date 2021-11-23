@@ -4,6 +4,7 @@ using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -476,7 +477,27 @@ namespace JSC_LSM.UI.Controllers
                     return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
                 }
 
+
             }
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ManageProfile()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            var principalvm = new ManageProfile()
+            {
+                ProfileInformation = new ProfileInformation() { Mobile = principal.data.Mobile, Name = principal.data.Name, Id = principal.data.Id,RoleName= Convert.ToString(Request.Cookies["RoleName"])
+        }
+            };
+            TempData["CommonId"] = principal.data.Id;
+            HttpContext.Session.SetString("ProfilrInformationId", principal.data.Id.ToString());
+            return View(principalvm);
+         
+
         }
     }
     #endregion

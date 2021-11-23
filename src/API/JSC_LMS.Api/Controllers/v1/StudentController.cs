@@ -5,6 +5,7 @@ using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentByFilter;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentById;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentByPagination;
+using JSC_LMS.Application.Features.Students.Queries.GetStudentByUserId;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -78,5 +79,14 @@ namespace JSC_LMS.Api.Controllers.v1
             var getStudentByFilterQuery = new GetStudentByFilterQuery(ClassName, SectionName, StudentName, IsActive, CreatedDate);
             return Ok(await _mediator.Send(getStudentByFilterQuery));
         }
+
+
+        [HttpGet("GetStudentByUserId", Name = "GetStudentByUserId")]
+        public async Task<ActionResult> GetPrincipalByUserId(string UserId)
+        {
+            var getStudentByUserIdQuery = new GetStudentByUserIdQuery() { UserId = UserId };
+            return Ok(await _mediator.Send(getStudentByUserIdQuery));
+        }
+
     }
 }

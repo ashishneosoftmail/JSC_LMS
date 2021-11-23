@@ -20,6 +20,6 @@ namespace JSC_LSM.UI.Models
 
         public string TeacherName { get; set; }
         public string SectionName { get; set; }
-        public string ClassName { get; internal set; }
+        public string ClassName { get;  set; }
     }
 }

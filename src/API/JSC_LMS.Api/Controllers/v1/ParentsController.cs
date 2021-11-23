@@ -12,6 +12,7 @@ using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsList;
 using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById;
 using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByPagination;
 using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter;
+using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentByUserId;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -78,6 +79,13 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getParentsByFilterQuery = new GetParentsByFilterQuery(ClassName, SectionName, StudentName,ParentName, IsActive, CreatedDate);
             return Ok(await _mediator.Send(getParentsByFilterQuery));
+        }
+
+        [HttpGet("GetParentByUserId", Name = "GetParentByUserId")]
+        public async Task<ActionResult> GetParentByUserId(string UserId)
+        {
+            var getParentByUserIdQuery = new GetParentByUserIdQuery() { UserId = UserId };
+            return Ok(await _mediator.Send(getParentByUserIdQuery));
         }
 
 
