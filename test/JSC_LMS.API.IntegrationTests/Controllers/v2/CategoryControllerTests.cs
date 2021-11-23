@@ -3,7 +3,7 @@ using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
 using JSC_LMS.Application.Models.Authentication;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using Newtonsoft.Json;
 using Shouldly;
 using System.Collections.Generic;

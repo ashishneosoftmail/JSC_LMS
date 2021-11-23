@@ -1,5 +1,5 @@
 using JSC_LMS.Application.Exceptions;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

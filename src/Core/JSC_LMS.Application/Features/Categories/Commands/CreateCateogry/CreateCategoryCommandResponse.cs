@@ -1,4 +1,4 @@
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 
 namespace JSC_LMS.Application.Features.Categories.Commands.CreateCateogry
 {

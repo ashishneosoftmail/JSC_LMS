@@ -3,7 +3,7 @@ using JSC_LMS.Application.Features.Events.Commands.CreateEvent;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using Newtonsoft.Json;
 using Shouldly;
 using System;

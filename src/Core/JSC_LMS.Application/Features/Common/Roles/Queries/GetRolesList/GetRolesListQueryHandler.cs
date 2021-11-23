@@ -2,7 +2,7 @@ using AutoMapper;
 using JSC_LMS.Application.Contracts.Identity;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Models.Authentication;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using JSC_LMS.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;

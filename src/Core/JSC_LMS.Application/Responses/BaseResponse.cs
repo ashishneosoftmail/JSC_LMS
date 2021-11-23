@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace JSC_LMS.Application.Responses
+namespace JSC_LMS.Application.Response
 {
 
 

@@ -2,7 +2,7 @@ using AutoMapper;
 using JSC_LMS.Application.Contracts.Infrastructure;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Models.Mail;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using JSC_LMS.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -38,7 +38,7 @@ namespace JSC_LMS.Application.Features.Events.Commands.CreateEvent
                 throw new Exceptions.ValidationException(validationResult);
 
             var @event = _mapper.Map<Event>(request);
-
+            _eventRepository.IsEventNameAndDateUnique("a", DateTime.Now);
             @event = await _eventRepository.AddAsync(@event);
 
             //Sending email notification to admin address
