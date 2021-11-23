@@ -1,9 +1,13 @@
 ﻿using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,8 +24,9 @@ namespace JSC_LSM.UI.Common
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly ITeacherRepository _teacherRepository;
-
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
@@ -32,6 +37,29 @@ namespace JSC_LSM.UI.Common
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
             _teacherRepository = teacherRepository;
+            _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
+        }
+        [NonAction]
+        public string ProcessUploadFile(IFormFile formFile, string path)
+        {
+            string uniqueFileName = null;
+            if (formFile != null)
+            {
+                if (!Directory.Exists(_webHostEnvironment.WebRootPath + path))
+                {
+                    Directory.CreateDirectory(_webHostEnvironment.WebRootPath + path);
+                }
+
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath + path);
+                uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(formFile.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    formFile.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
         [NonAction]
         public async Task<List<SelectListItem>> GetAllCategory()

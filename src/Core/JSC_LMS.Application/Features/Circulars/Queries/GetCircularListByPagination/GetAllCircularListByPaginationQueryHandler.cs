@@ -41,6 +41,7 @@ namespace JSC_LMS.Application.Features.Circulars.Queries.GetCircularListByPagina
                     IsActive = circular.IsActive,
                     SchoolId = circular.SchoolId,
                     Status = circular.Status,
+                    CreatedDate = circular.CreatedDate,
                     SchoolData = new SchoolDto() { Id = circular.School.Id, SchoolName = circular.School.SchoolName }
                 });
             }
