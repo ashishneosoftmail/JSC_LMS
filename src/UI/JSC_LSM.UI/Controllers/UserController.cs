@@ -722,18 +722,21 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<List<SelectListItem>> GetParentName()
+        public async Task<HashSet<SelectListItem>> GetParentName()
         {
             var data = await _parentsRepository.GetAllParentsDetails();
-            List<SelectListItem> parents = new List<SelectListItem>();
+            //List<SelectListItem> parents = new List<SelectListItem>();
+
+            HashSet<SelectListItem> parents = new HashSet<SelectListItem>();
             foreach (var item in data.data)
             {
                 parents.Add(new SelectListItem
                 {
-                   Text = item.ParentName,
+                    Text = item.ParentName,
                     Value = Convert.ToString(item.Id)
                 });
             }
+
             return parents;
         }
 
@@ -776,7 +779,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<ParentsDetailsViewModel>> GetAllParentDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _parentsRepository.GetAllParentsDetails()).data.Count();
+            int recsCount = (await _parentsRepository.GetAllParentsDetails()).data.Count();            
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -785,7 +788,7 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<ParentsDetailsViewModel>();
 
             var dataList = await _parentsRepository.GetParentsByPagination(page, size);
-
+           
             foreach (var parents in dataList.data.GetParentsListPaginationDto)
             {
                 data.Add(new ParentsDetailsViewModel()
