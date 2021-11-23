@@ -1,5 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using MediatR;
 using System;
 using System.Collections.Generic;

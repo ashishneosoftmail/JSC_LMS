@@ -3,7 +3,7 @@ using JSC_LMS.Application.CommonDtos;
 using JSC_LMS.Application.Contracts.Identity;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Features.Principal.Queries.GetPrincipalById;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

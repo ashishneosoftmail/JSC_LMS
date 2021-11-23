@@ -2,7 +2,7 @@ using AutoMapper;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Profiles;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using JSC_LMS.Application.UnitTests.Mocks;
 using JSC_LMS.Domain.Entities;
 using Microsoft.AspNetCore.DataProtection;

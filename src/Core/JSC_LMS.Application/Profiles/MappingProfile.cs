@@ -6,6 +6,8 @@ using JSC_LMS.Application.Features.Academics.Queries.GetAcademicList;
 using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
+using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
+using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularList;
 using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
 using JSC_LMS.Application.Features.Class.Queries.GetClassByFilter;
@@ -189,10 +191,13 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Category, CreateCategoryDto>();
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Academic, GetAcademicListDto>();
-           
-                CreateMap<Parents, CreateParentsDto>();
-            CreateMap<Parents, CreateParentsDto>().ReverseMap();
 
+            CreateMap<Parents, CreateParentsDto>();
+            CreateMap<Parents, CreateParentsDto>().ReverseMap();
+            CreateMap<Circular, CreateCircularDto>();
+            CreateMap<Circular, CreateCircularDto>().ReverseMap();
+            CreateMap<Circular, GetAllCircularListDto>();
+            CreateMap<Circular, GetAllCircularListDto>().ReverseMap();
         }
     }
 }

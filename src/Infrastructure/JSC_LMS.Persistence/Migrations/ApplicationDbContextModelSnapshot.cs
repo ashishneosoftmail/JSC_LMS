@@ -121,6 +121,59 @@ namespace JSC_LMS.Persistence.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.Circular", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CircularTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("DeletedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("File")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LastModifiedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("Circular");
+                });
+
             modelBuilder.Entity("JSC_LMS.Domain.Entities.City", b =>
                 {
                     b.Property<int>("Id")
@@ -1207,6 +1260,15 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasOne("JSC_LMS.Domain.Entities.Teacher", "Teacher")
                         .WithMany("Academic")
                         .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("JSC_LMS.Domain.Entities.Circular", b =>
+                {
+                    b.HasOne("JSC_LMS.Domain.Entities.School", "School")
+                        .WithMany("Circular")
+                        .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

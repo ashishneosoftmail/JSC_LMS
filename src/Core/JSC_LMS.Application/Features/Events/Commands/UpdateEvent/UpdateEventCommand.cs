@@ -1,4 +1,4 @@
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using MediatR;
 using System;
 

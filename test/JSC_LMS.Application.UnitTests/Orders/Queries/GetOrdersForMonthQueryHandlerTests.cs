@@ -2,7 +2,7 @@ using AutoMapper;
 using JSC_LMS.Application.Contracts.Persistence;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
 using JSC_LMS.Application.Profiles;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using JSC_LMS.Application.UnitTests.Mocks;
 using Moq;
 using Shouldly;

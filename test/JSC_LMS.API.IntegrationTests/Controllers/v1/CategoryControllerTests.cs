@@ -1,6 +1,6 @@
 using JSC_LMS.API.IntegrationTests.Base;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;

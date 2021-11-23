@@ -1,6 +1,6 @@
 using JSC_LMS.API.IntegrationTests.Base;
 using JSC_LMS.Application.Features.Orders.Queries.GetOrdersForMonth;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using Newtonsoft.Json;
 using Shouldly;
 using System.Collections.Generic;

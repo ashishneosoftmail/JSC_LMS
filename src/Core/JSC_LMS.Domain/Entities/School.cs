@@ -30,6 +30,7 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Subject> Subject { get; set; }
         public virtual ICollection<Teacher> Teacher { get; set; }
         public virtual ICollection<Academic> Academic { get; set; }
+        public virtual ICollection<Circular> Circular { get; set; }
         public Principal Principal { get; set; }
 
         public string Name { get; set; }

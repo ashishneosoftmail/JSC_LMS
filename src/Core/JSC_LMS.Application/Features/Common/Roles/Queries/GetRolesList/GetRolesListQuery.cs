@@ -1,5 +1,5 @@
 using JSC_LMS.Application.Models.Authentication;
-using JSC_LMS.Application.Responses;
+using JSC_LMS.Application.Response;
 using JSC_LMS.Domain.Entities;
 using MediatR;
 using System.Collections.Generic;
