@@ -24,6 +24,8 @@ using JSC_LMS.Application.Features.Events.Commands.UpdateEvent;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
+using JSC_LMS.Application.Features.FAQ.Commands.CreateFAQ;
+using JSC_LMS.Application.Features.FAQ.Commands.UpdateFAQ;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
@@ -193,6 +195,13 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Academic, GetAcademicListDto>();
 
+
+            CreateMap<FAQ, CreateFAQDto>();
+            CreateMap<FAQ, CreateFAQDto>().ReverseMap();
+
+            CreateMap<FAQ, UpdateFAQDto>();
+            CreateMap<FAQ, UpdateFAQDto>().ReverseMap();
+
             CreateMap<Parents, CreateParentsDto>();
             CreateMap<Parents, CreateParentsDto>().ReverseMap();
             CreateMap<Circular, CreateCircularDto>();
@@ -202,6 +211,7 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Announcement, CreateAnnouncementDto>();
             CreateMap<Announcement, CreateAnnouncementDto>().ReverseMap();
+
         }
     }
 }
