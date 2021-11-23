@@ -722,12 +722,12 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<HashSet<SelectListItem>> GetParentName()
+        public async Task<List<SelectListItem>> GetParentName()
         {
             var data = await _parentsRepository.GetAllParentsDetails();
-            //List<SelectListItem> parents = new List<SelectListItem>();
-
-            HashSet<SelectListItem> parents = new HashSet<SelectListItem>();
+           
+            List<SelectListItem> parents = new List<SelectListItem>();
+            
             foreach (var item in data.data)
             {
                 parents.Add(new SelectListItem
@@ -736,7 +736,7 @@ namespace JSC_LSM.UI.Controllers
                     Value = Convert.ToString(item.Id)
                 });
             }
-
+            parents = parents.GroupBy(x => x.Text).Select(x => x.First()).ToList();
             return parents;
         }
 

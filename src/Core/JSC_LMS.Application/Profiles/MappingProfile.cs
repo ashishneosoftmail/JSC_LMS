@@ -3,6 +3,7 @@ using JSC_LMS.Application.CommonDtos;
 using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
 using JSC_LMS.Application.Features.Academics.Queries.GetAcademicList;
+using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
 using JSC_LMS.Application.Features.Categories.Commands.CreateCateogry;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesList;
 using JSC_LMS.Application.Features.Categories.Queries.GetCategoriesListWithEvents;
@@ -23,6 +24,8 @@ using JSC_LMS.Application.Features.Events.Commands.UpdateEvent;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
+using JSC_LMS.Application.Features.FAQ.Commands.CreateFAQ;
+using JSC_LMS.Application.Features.FAQ.Commands.UpdateFAQ;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteList;
@@ -192,12 +195,23 @@ namespace JSC_LMS.Application.Profiles
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
             CreateMap<Academic, GetAcademicListDto>();
 
+
+            CreateMap<FAQ, CreateFAQDto>();
+            CreateMap<FAQ, CreateFAQDto>().ReverseMap();
+
+            CreateMap<FAQ, UpdateFAQDto>();
+            CreateMap<FAQ, UpdateFAQDto>().ReverseMap();
+
             CreateMap<Parents, CreateParentsDto>();
             CreateMap<Parents, CreateParentsDto>().ReverseMap();
             CreateMap<Circular, CreateCircularDto>();
             CreateMap<Circular, CreateCircularDto>().ReverseMap();
             CreateMap<Circular, GetAllCircularListDto>();
             CreateMap<Circular, GetAllCircularListDto>().ReverseMap();
+
+            CreateMap<Announcement, CreateAnnouncementDto>();
+            CreateMap<Announcement, CreateAnnouncementDto>().ReverseMap();
+
         }
     }
 }

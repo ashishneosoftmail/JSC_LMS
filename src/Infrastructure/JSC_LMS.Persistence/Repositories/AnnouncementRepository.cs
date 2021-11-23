@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Persistence.Repositories
 {
-   public class FAQRepository : BaseRepository<FAQ>, IFAQRepository
+    public class AnnouncementRepository : BaseRepository<Announcement>, IAnnouncementRepository
     {
         private readonly ILogger _logger;
-        public FAQRepository(ApplicationDbContext dbContext, ILogger<FAQ> logger) : base(dbContext, logger)
+        public AnnouncementRepository(ApplicationDbContext dbContext, ILogger<Announcement> logger) : base(dbContext, logger)
         {
             _logger = logger;
         }
 
-        protected override IQueryable<FAQ> GetQueryable()
+        protected override IQueryable<Announcement> GetQueryable()
         {
-            return _dbContext.Set<FAQ>().Include(x => x.Category);
+            return _dbContext.Set<Announcement>().Include(y => y.School).Include(x => x.Teacher).Include(z => z.Subject).Include(a => a.Class).Include(b => b.Section);
         }
-        public override async Task<FAQ> GetByIdAsync(int id)
+        public override async Task<Announcement> GetByIdAsync(int id)
         {
             return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
 

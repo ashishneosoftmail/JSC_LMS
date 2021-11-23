@@ -45,16 +45,11 @@ namespace JSC_LMS.Persistence
         public DbSet<KnowledgeBase> KnowledgeBase { get; set; }
         public DbSet<Students> Students { get; set; }
         public DbSet<Academic> Academic { get; set; }
-
         public DbSet<TemporaryPassword> TemporaryPassword { get; set; }
-
-
-
         public DbSet<Parents> Parents { get; set; }
-
         public DbSet<Circular> Circular { get; set; }
-
         public DbSet<FAQ> FAQ { get; set; }
+        public DbSet<Announcement> Announcement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
