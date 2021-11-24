@@ -119,6 +119,9 @@ namespace JSC_LSM.UI.Helpers
 
         public static string GetAllParentsDetails = "/api/v1/Parents/all";
         public static string GetAllParentsByPagination = "/api/v1/Parents/Pagination";
+        public static string AddCircular = "/api/v1/Circular";
+        public static string GetAllCircularByPagination = "/api/v1/Circular/Pagination";
+        public static string GetAllCircularList = "/api/v1/Circular/all";
 
 
         public static string AddFAQ = "/api/v1/FAQ";

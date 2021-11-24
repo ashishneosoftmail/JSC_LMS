@@ -14,6 +14,7 @@ namespace JSC_LMS.Application.Features.Circulars.Queries.GetCircularListByPagina
         public string File { get; set; }
         public bool Status { get; set; }
         public bool IsActive { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public SchoolDto SchoolData { get; set; }
     }
     public class SchoolDto

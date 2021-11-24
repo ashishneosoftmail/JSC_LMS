@@ -1,5 +1,8 @@
 ﻿using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
 using JSC_LMS.Application.Features.Announcement.Commands.UpdateAnnouncement;
+using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementbyFilter;
+using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementById;
+using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination;
 using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -50,6 +53,30 @@ namespace JSC_LMS.Api.Controllers.v1
             var dtos = await _mediator.Send(new GetAnnouncementListQuery());
             _logger.LogInformation("GetAllAnnouncement Completed");
             return Ok(dtos);
+        }
+
+        [HttpGet("id", Name = "GetAnnouncementById")]
+        public async Task<ActionResult> GetAcademicById(int id)
+        {
+            var getAnnouncementDetailQuery = new GetAnnouncementByIdQuery() { Id = id };
+            return Ok(await _mediator.Send(getAnnouncementDetailQuery));
+        }
+
+        [HttpGet("Pagination", Name = "GetAllAnnouncementByPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllAnnouncementByPagination(int _page, int _size)
+        {
+            _logger.LogInformation("GetAllPagination Initiated");
+            var dtos = await _mediator.Send(new GetAnnouncementByPaginationQuery() { page = _page, size = _size });
+            _logger.LogInformation("GetAllPagination Completed");
+            return Ok(dtos);
+        }
+
+        [HttpGet("Filter", Name = "GetAnnouncementByFilter")]
+        public async Task<ActionResult> GetAnnouncementByFilter(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
+        {
+            var getAnnouncementByFilterQuery = new GetAnnouncementByFilterQuery(SchoolName, ClassName, SectionName,  SubjectName, TeacherName, AnnouncementMadeBy, AnnouncementTitle, AnnouncementContent,CreatedDate);
+            return Ok(await _mediator.Send(getAnnouncementByFilterQuery));
         }
     }
 }

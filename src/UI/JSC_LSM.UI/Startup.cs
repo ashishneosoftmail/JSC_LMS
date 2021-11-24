@@ -68,8 +68,12 @@ namespace JSC_LSM.UI
             services.AddScoped<IAcademicRepository, AcademicRepository>(s => new AcademicRepository());
 
             services.AddScoped<IParentsRepository, ParentsRepository>(s => new ParentsRepository());
+            services.AddScoped<ICircularRepository, CircularRepository>(s => new CircularRepository());
+
+
 
             services.AddScoped<IFAQRepository, FAQRepository>(s => new FAQRepository());
+
 
 
         }
