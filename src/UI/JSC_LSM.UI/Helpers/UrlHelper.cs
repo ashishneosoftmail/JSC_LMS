@@ -121,6 +121,12 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllParentsByPagination = "/api/v1/Parents/Pagination";
 
 
-
+        public static string AddFAQ = "/api/v1/FAQ";
+        public static string EditFAQ = "/api/v1/FAQ/UpdateFAQBase";
+        public static string GetFAQById = "/api/v1/FAQ/";
+        public static string GetAllFAQ = "/api/v1/FAQ/all";
+        public static string GetAllFAQByPagination = "/api/v1/FAQ/Pagination";
+        public static string GetAllFAQByFilters = "/api/v1/FAQ/GetFAQByFilter";
+        public static string DeleteFAQ = "/api/v1/FAQ/";
     }
 }
