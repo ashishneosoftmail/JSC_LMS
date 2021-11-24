@@ -1,4 +1,5 @@
 ﻿using ClosedXML.Excel;
+using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminChangePassword;
@@ -10,6 +11,7 @@ using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -25,8 +27,10 @@ namespace JSC_LSM.UI.Controllers
     {
 
         private readonly IStateRepository _stateRepository;
+        private readonly ICircularRepository _circularRepository;
         private readonly IInstituteRepository _instituteRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
+        private readonly IConfiguration _configuration;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         /// <summary>
         /// constructor for institute controller
@@ -35,12 +39,14 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration)
         {
             _stateRepository = stateRepository;
+            _circularRepository = circularRepository;
             _instituteRepository = instituteRepository;
             _common = common;
             _apiBaseUrl = apiBaseUrl;
+            _configuration = configuration;
         }
         public IActionResult Index()
         {
@@ -634,6 +640,141 @@ namespace JSC_LSM.UI.Controllers
             }
             return View("ManageProfile");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)
+        {
+
+            int recsCount = (await _circularRepository.GetAllCircularList()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            ManageCircularModel model = new ManageCircularModel();
+            model.Pager = pager;
+            model.Schools = await _common.GetSchool();
+            var paginationData = await _circularRepository.GetAllCircularListByPagination(page, size);
+            List<CircularPagination> pagedData = new List<CircularPagination>();
+            foreach (var data in paginationData.data)
+            {
+                pagedData.Add(new CircularPagination()
+                {
+                    Id = data.Id,
+                    CircularTitle = data.CircularTitle,
+                    Description = data.Description,
+                    SchoolData = data.SchoolData,
+                    Status = data.Status,
+                    CreatedDate = data.CreatedDate,
+
+                });
+            }
+            model.CircularListPagination = pagedData;
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> SendCircular(string SendCircular, ManageCircularModel manageCircularModel)
+        {
+            ViewBag.AddCircularSuccess = null;
+            ViewBag.AddCircularError = null;
+            manageCircularModel.Schools = await _common.GetSchool();
+            CreateCircularDto createCircularDto = new CreateCircularDto();
+
+            if (ModelState.IsValid)
+            {
+                var CircularsPath = _configuration["Circulars"];
+                var filename = _common.ProcessUploadFile(manageCircularModel.AddCircular.fileUpload, CircularsPath);
+                createCircularDto.SchoolId = manageCircularModel.AddCircular.SchoolId;
+                createCircularDto.CircularTitle = manageCircularModel.AddCircular.CircularTitle;
+                createCircularDto.Description = manageCircularModel.AddCircular.Description;
+                createCircularDto.File = filename;
+                switch (SendCircular)
+                {
+                    case "Save":
+                        createCircularDto.Status = false;
+                        break;
+                    case "Send":
+                        createCircularDto.Status = true;
+                        break;
+                    default:
+                        createCircularDto.Status = false;
+                        break;
+                }
+                
+                createCircularDto.IsActive = true;
+                AddCircularResponseModel addCircularResponseModel = null;
+                ViewBag.AddCircularSuccess = null;
+                ViewBag.AddCircularError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                addCircularResponseModel = await _circularRepository.AddCircular(createCircularDto);
+
+
+                if (addCircularResponseModel.Succeeded)
+                {
+                    if (addCircularResponseModel == null && addCircularResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = addCircularResponseModel.message;
+                        responseModel.IsSuccess = addCircularResponseModel.Succeeded;
+                    }
+                    if (addCircularResponseModel != null)
+                    {
+                        if (addCircularResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = addCircularResponseModel.message;
+                            responseModel.IsSuccess = addCircularResponseModel.Succeeded;
+                            ViewBag.AddCircularSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            ManageCircularModel model = new ManageCircularModel();
+                            model.Schools = await _common.GetSchool();
+                            int recsCount = (await _circularRepository.GetAllCircularList()).data.Count();
+                            var page = 1;
+                            var size = 5;
+                            if (page < 1)
+                                page = 1;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            model.Pager = pager;
+                            var paginationData = await _circularRepository.GetAllCircularListByPagination(page, size);
+                            List<CircularPagination> pagedData = new List<CircularPagination>();
+                            foreach (var data in paginationData.data)
+                            {
+                                pagedData.Add(new CircularPagination()
+                                {
+                                    CircularTitle = data.CircularTitle,
+                                    Description = data.Description,
+                                    SchoolData = data.SchoolData,
+                                    Status = data.Status,
+                                    CreatedDate = data.CreatedDate,
+
+                                });
+                            }
+                            model.CircularListPagination = pagedData;
+                            return View("ManageCircular", model);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = addCircularResponseModel.message;
+                            responseModel.IsSuccess = addCircularResponseModel.Succeeded;
+
+
+                            ViewBag.AddCircularError = addCircularResponseModel.message;
+                            return View(manageCircularModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = addCircularResponseModel.message;
+                    responseModel.IsSuccess = addCircularResponseModel.Succeeded;
+                    ViewBag.AddCircularError = addCircularResponseModel.message;
+                }
+            }
+            return View(manageCircularModel);
+        }
+
     }
+
 }
 #endregion
