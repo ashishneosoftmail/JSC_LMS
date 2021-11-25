@@ -133,5 +133,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllFAQByPagination = "/api/v1/FAQ/Pagination";
         public static string GetAllFAQByFilters = "/api/v1/FAQ/GetFAQByFilter";
         public static string DeleteFAQ = "/api/v1/FAQ/";
+
+        public static string GetAnnouncementById = "/api/v1/Announcement/id";
     }
 }
