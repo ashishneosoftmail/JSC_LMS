@@ -511,5 +511,10 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        public IActionResult ManageAnnouncement()
+        {
+            return View();
+        }
+
     }
 }

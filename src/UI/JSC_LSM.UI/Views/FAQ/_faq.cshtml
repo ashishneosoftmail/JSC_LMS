@@ -1,0 +1,223 @@
+﻿
+@model FAQViewModel
+
+<style>
+
+    form {
+        padding: inherit;
+        margin: 5px 5px 5px 5px;
+        border: 2px solid black;
+    }
+
+    #inputSlug {
+        margin: left;
+        padding: left;
+        width: 850px;
+    }
+
+
+
+    button {
+        margin: 40px;
+        padding: 70px;
+    }
+
+
+    #requestacallform {
+        width: 250px;
+    }
+
+    #editor {
+        width: 100%;
+        height: 200px;
+    }
+</style>
+
+
+<div class="container p-3 my-3 border fixed" id="div1">
+
+    <form asp-action="AddFAQ" asp-controller="FAQ">
+        <div class="row">
+            <div class="col">
+
+
+                <div class="form-group row">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Category</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" asp-for="AddFAQ.CategoryId" id="school" asp-items="Model.Categories">
+                            <option disabled selected hidden>Select Category</option>
+                        </select>
+                        <span asp-validation-for="AddFAQ.CategoryId" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">FAQ Title</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="AddFAQ.FAQTitle">
+                        <span asp-validation-for="AddFAQ.FAQTitle" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+
+                <div class="form-group row">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Question</label><br />
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="AddFAQ.Question">
+                        <span asp-validation-for="AddFAQ.Question" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+
+                <br />
+                <br />
+
+            </div>
+            <div class="col">
+
+                <a href="" data-toggle="modal" data-target=".bannerformmodal">+Add Category</a>
+                <br />
+            </div>
+
+
+            <br />
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+
+                    <div class="form-group row">
+                        <label for="status" class="col-sm-3 col-form-label">Status</label>
+
+                        <div class="col-sm-9">
+                            <div class="form-check form-check-inline">
+                                @Html.RadioButtonFor(m => m.AddFAQ.IsActive, true, new { @class = "form-check-input", Checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+
+                            </div>
+                            <div class="form-check form-check-inline">
+                                @Html.RadioButtonFor(m => m.AddFAQ.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <br /><br /><br />
+
+            <div class="form-group row">
+
+                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content</label>
+                <div class="col-sm-7">
+
+                    <textarea id="editor" placeholder="Add Content" asp-for="AddFAQ.Content"></textarea>
+                    <span asp-validation-for="AddFAQ.Content" class="text-danger"></span>
+
+                </div>
+            </div>
+            <br /><br /><br />
+
+
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+
+                    </div>
+
+                    <div class="col-5">
+
+                    </div>
+
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <a asp-controller="FAQ" asp-action="FAQList" class="btn btn-danger">Cancel</a>
+                    </div>
+                </div>
+
+
+</form>
+</div>
+<div class="modal fade bannerformmodal" tabindex="-1" role="dialog" aria-labelledby="bannerformmodal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <h4 class="modal-title" id="myModalLabel">Category Name</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="requestacallform" method="post" asp-controller="FAQ" asp-action="AddCategory">
+
+                        <div class="form-group">
+                            <label>Add Category</label>
+                            <div class="input-group">
+
+                                <input id="first_name" asp-for="AddCategory.CategoryName" type="text" class="form-control" placeholder="Category Name" />
+                                <span asp-validation-for="AddCategory.CategoryName" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="wrapper">
+    @if (ViewBag.AddCategorySuccess != null)
+    {
+        <script>alert("@ViewBag.AddCategorySuccess")</script>
+    }
+    @if (ViewBag.AddCategoryError != null)
+    {
+        <script>alert("@ViewBag.AddCategoryError")</script>
+    }
+    @if (ViewBag.AddFAQSuccess != null)
+    {
+        <script>alert("@ViewBag.AddFAQSuccess")</script>
+    }
+    @if (ViewBag.AddFAQError != null)
+    {
+        <script>alert("@ViewBag.AddFAQError")</script>
+    }
+    @if (ViewBag.UpdateFAQSuccess != null)
+    {
+        <script>alert("@ViewBag.UpdateFAQSuccess")</script>
+    }
+    @if (ViewBag.UpdateFAQError != null)
+    {
+        <script>alert("@ViewBag.UpdateFAQError")</script>
+    }
+</div>
+
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+        selector: 'textarea#editor',
+        skin: 'bootstrap',
+        plugins: 'lists, link, image, media',
+        toolbar: 'h1 h2 bold italic strikethrough blockquote bullist numlist backcolor | link image media | removeformat help',
+        menubar: true
+    });
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
