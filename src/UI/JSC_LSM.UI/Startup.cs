@@ -37,7 +37,7 @@ namespace JSC_LSM.UI
 
             // ApiBaseUrl Keys
             services.Configure<ApiBaseUrl>(Configuration.GetSection("ApiBaseUrl"));
-
+            //services.AddAntiforgery(o => o.SuppressXFrameOptionsHeader = true);
 
             //services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserRepository, UserRepository>(s => new UserRepository());

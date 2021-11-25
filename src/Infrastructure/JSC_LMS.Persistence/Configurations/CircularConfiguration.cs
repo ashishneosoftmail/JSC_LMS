@@ -28,7 +28,6 @@ namespace JSC_LMS.Persistence.Configurations
               .HasColumnType("nvarchar(200)");
             builder
               .Property(b => b.File)
-              .IsRequired()
               .HasColumnType("nvarchar(max)");
             builder
               .Property(b => b.Status)

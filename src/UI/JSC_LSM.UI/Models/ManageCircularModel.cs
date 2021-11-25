@@ -18,10 +18,10 @@ namespace JSC_LSM.UI.Models
         public List<SelectListItem> Schools { get; set; }
         public Pager Pager { get; set; }
         public IEnumerable<CircularPagination> CircularListPagination { get; set; }
+        public EditCircular EditCircular { get; set; }
     }
     public class AddCircular : CreateCircularDto
     {
-        [Required(ErrorMessage = "File Is Required")]
         public IFormFile fileUpload { get; set; }
     }
     public class CircularPagination : GetAllCircularListByPaginationDto

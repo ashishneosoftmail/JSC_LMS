@@ -688,7 +688,12 @@ namespace JSC_LSM.UI.Controllers
             if (ModelState.IsValid)
             {
                 var CircularsPath = _configuration["Circulars"];
-                var filename = _common.ProcessUploadFile(manageCircularModel.AddCircular.fileUpload, CircularsPath);
+                string filename = null;
+                if (manageCircularModel.AddCircular.fileUpload != null)
+                {
+                    filename = _common.ProcessUploadFile(manageCircularModel.AddCircular.fileUpload, CircularsPath);
+                }
+
                 createCircularDto.SchoolId = manageCircularModel.AddCircular.SchoolId;
                 createCircularDto.CircularTitle = manageCircularModel.AddCircular.CircularTitle;
                 createCircularDto.Description = manageCircularModel.AddCircular.Description;
@@ -837,6 +842,11 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = model.Pager;
             model.Schools = await _common.GetSchool();
             return View("ManageCircular", model);
+        }
+
+        public async Task<IActionResult> UpdateCircular(ManageCircularModel manageCircularModel, string UpdateCircular, string Cancel)
+        {
+            return null;
         }
     }
 
