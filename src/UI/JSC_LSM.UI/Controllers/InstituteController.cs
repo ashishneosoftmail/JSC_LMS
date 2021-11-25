@@ -8,6 +8,7 @@ using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,6 +19,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 #region - Controller for Institiute module:by Shivani Goswami
@@ -32,6 +34,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IConfiguration _configuration;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         /// <summary>
         /// constructor for institute controller
         /// </summary>
@@ -39,13 +42,14 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
             _instituteRepository = instituteRepository;
             _common = common;
             _apiBaseUrl = apiBaseUrl;
+            _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
         }
         public IActionResult Index()
@@ -701,7 +705,7 @@ namespace JSC_LSM.UI.Controllers
                         createCircularDto.Status = false;
                         break;
                 }
-                
+
                 createCircularDto.IsActive = true;
                 AddCircularResponseModel addCircularResponseModel = null;
                 ViewBag.AddCircularSuccess = null;
@@ -774,6 +778,66 @@ namespace JSC_LSM.UI.Controllers
             return View(manageCircularModel);
         }
 
+        [HttpGet]
+        public async Task<GetCircularByIdResponseModel> ViewCircular(int Id)
+        {
+            var circular = await _circularRepository.GetCircularById(Id);
+            return circular;
+        }
+        [HttpGet]
+        public IActionResult ViewFileData(string fileName)
+        {
+            ViewCircularFileModel model = new ViewCircularFileModel();
+            model.FileName = fileName;
+
+            var FilePath = _configuration["Circulars"];
+            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath + FilePath);
+            model.FilePath = uploadsFolder + fileName;
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> DeleteCircular(int id)
+        {
+            await _circularRepository.DeleteCircular(id);
+            return RedirectToAction("ManageCircular");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchCircular(string circularTitle, string description, bool status)
+        {
+            List<CircularPagination> data = new List<CircularPagination>();
+            var dataList = await _circularRepository.GetAllCircularByFilterInstituteAdmin(circularTitle, description, status);
+            if (dataList.data != null)
+            {
+                foreach (var d in dataList.data)
+                {
+                    data.Add(new CircularPagination()
+                    {
+                        Id = d.Id,
+                        CircularTitle = d.CircularTitle,
+                        Description = d.Description,
+                        SchoolData = new JSC_LMS.Application.Features.Circulars.Queries.GetCircularListByPagination.SchoolDto() { Id = d.SchoolData.Id, SchoolName = d.SchoolData.SchoolName },
+                        Status = d.Status,
+                        CreatedDate = d.CreatedDate,
+
+                    });
+                }
+            }
+            ManageCircularModel model = new ManageCircularModel();
+            model.CircularListPagination = data;
+            if (dataList.data.Count() == 0)
+            {
+                model.Pager = new Pager(1, 1, 1);
+            }
+            else
+            {
+
+                model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
+            }
+            ViewBag.Pager = model.Pager;
+            model.Schools = await _common.GetSchool();
+            return View("ManageCircular", model);
+        }
     }
 
 }
