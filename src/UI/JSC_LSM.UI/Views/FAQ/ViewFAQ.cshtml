@@ -47,21 +47,13 @@
         </div>
         <br />
         <br />
-        <div class="row flex flex-row">
-            <div class="col-sm-5 col-md-3">
-
-                <h5 class="categoryName" id="status">Status </h5>
-            </div>
-            <div class="col-sm-5 col-md-5 pt-1">
-                <a href="@Model.IsActive" class="categoryText">@Model.IsActive</a>
-            </div>
-        </div>
+       
         <br />
         <br />
         <div class="row flex flex-row">
             <div class="col-sm-5 col-md-3">
 
-                <h5 class="categoryName">Add Content </h5>
+                <h5 class="categoryName">Added Content </h5>
             </div>
             <div class="col-sm-5 col-md-9 pt-1">
                 @Html.Raw(HttpUtility.HtmlDecode(@Model.Content));

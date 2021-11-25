@@ -61,6 +61,11 @@
                                 }
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
+
+                                <a asp-action="StudentManageProfile" asp-controller="User" class="dropdown-item">Profile</a>
+                                <a asp-action="index" asp-controller="farmer" class="dropdown-item">Farmer List</a>
+                                <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
+
                                 <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>
                                 
                                 <div class="dropdown-divider"></div>
@@ -89,6 +94,13 @@
                         <a href="~/Crop/Index">
                             <i class="fa fa-circle-o"></i> <span>Crop</span>
                         </a>
+                    </li>
+
+                    <li>
+                        <a asp-action="StudentManageProfile" asp-controller="User">
+                            <span>Manage Class</span>
+                        </a>
+
                     </li>
 
                 </ul>

@@ -20,5 +20,7 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetAllParentsByPaginationResponseModel> GetParentsByPagination(int page, int size);
 
+        Task<GetParentByUserIdResponseModel> GetParentByUserId(string UserId);
+
     }
 }

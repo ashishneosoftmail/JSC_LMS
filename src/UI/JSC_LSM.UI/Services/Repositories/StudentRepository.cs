@@ -159,5 +159,26 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
+
+
+
+        public async Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string UserId)
+        {
+            GetStudentByUserIdResponseModel getStudentByUserIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetStudentByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getStudentByUserIdResponseModel = JsonConvert.DeserializeObject<GetStudentByUserIdResponseModel>(_oApiResponse.data);
+                getStudentByUserIdResponseModel.Succeeded = true;
+            }
+
+            return getStudentByUserIdResponseModel;
+        }
+
     }
 }

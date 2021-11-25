@@ -21,5 +21,8 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<UpdateStudentResponseModel> UpdateStudent(UpdateStudentDto updateStudentDto);
 
         Task<StudentResponseModel> AddNewStudent(CreateStudentDto createStudentDto);
+
+        Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string UserId);
+
     }
 }

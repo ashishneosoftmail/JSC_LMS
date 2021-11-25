@@ -520,130 +520,130 @@ namespace JSC_LSM.UI.Controllers
             {
                 ProfileInformation = new ProfileInformation() { Mobile = instituteAdmin.data.Mobile, Name = instituteAdmin.data.Name, Id = instituteAdmin.data.Id, RoleName = Convert.ToString(Request.Cookies["RoleName"]) }
             };
-            TempData["InstituteAdminId"] = instituteAdmin.data.Id;
+            TempData["CommonId"] = instituteAdmin.data.Id;
             HttpContext.Session.SetString("ProfilrInformationId", instituteAdmin.data.Id.ToString());
             return View(instituteadminvm);
 
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateProfileInformation(ManageProfile ManageProfile)
-        {
-            ViewBag.UpdateInstituteadminSuccess = null;
-            ViewBag.UpdateInstituteadminError = null;
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> UpdateProfileInformation(ManageProfile ManageProfile)
+        //{
+        //    ViewBag.UpdateInstituteadminSuccess = null;
+        //    ViewBag.UpdateInstituteadminError = null;
 
-            UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto = new UpdateInstituteAdminProfileInformationDto();
-            if (ModelState.IsValid)
-            {
+        //    UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto = new UpdateInstituteAdminProfileInformationDto();
+        //    if (ModelState.IsValid)
+        //    {
 
-                updateInstituteAdminProfileInformationDto.Id = Convert.ToInt32(TempData["InstituteAdminId"].ToString());
-                updateInstituteAdminProfileInformationDto.Name = ManageProfile.ProfileInformation.Name;
-                updateInstituteAdminProfileInformationDto.Mobile = ManageProfile.ProfileInformation.Mobile;
+        //        updateInstituteAdminProfileInformationDto.Id = Convert.ToInt32(TempData["InstituteAdminId"].ToString());
+        //        updateInstituteAdminProfileInformationDto.Name = ManageProfile.ProfileInformation.Name;
+        //        updateInstituteAdminProfileInformationDto.Mobile = ManageProfile.ProfileInformation.Mobile;
 
-                UpdateInstituteAdminProfileInformationResponseModel updateInstituteAdminProfileInformationResponseModel = null;
-                ViewBag.UpdateInstituteadminSuccess = null;
-                ViewBag.UpdateInstituteadminError = null;
-                ResponseModel responseModel = new ResponseModel();
+        //        UpdateInstituteAdminProfileInformationResponseModel updateInstituteAdminProfileInformationResponseModel = null;
+        //        ViewBag.UpdateInstituteadminSuccess = null;
+        //        ViewBag.UpdateInstituteadminError = null;
+        //        ResponseModel responseModel = new ResponseModel();
 
-                updateInstituteAdminProfileInformationResponseModel = await _instituteRepository.UpdateInstituteAdminPersonalInformation(updateInstituteAdminProfileInformationDto);
-
-
-                if (updateInstituteAdminProfileInformationResponseModel.Succeeded)
-                {
-                    if (updateInstituteAdminProfileInformationResponseModel == null && updateInstituteAdminProfileInformationResponseModel?.data == null)
-                    {
-                        responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-                        responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-                    }
-                    if (updateInstituteAdminProfileInformationResponseModel != null)
-                    {
-                        if (updateInstituteAdminProfileInformationResponseModel?.data != null)
-                        {
-                            responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-                            responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-                            ViewBag.UpdateInstituteadminSuccess = "Details Updated Successfully";
-
-                            return View("ManageProfile");
-                        }
-                        else
-                        {
-                            responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-                            responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-                            ViewBag.UpdateInstituteadminError = updateInstituteAdminProfileInformationResponseModel.message;
-                            return View("ManageProfile");
-                        }
-                    }
-                }
-                else
-                {
-                    responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-                    responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-                    ViewBag.UpdateInstituteadminError = updateInstituteAdminProfileInformationResponseModel.message;
-                }
-            }
-            return View("ManageProfile");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> InstituteAdminChangePassword(ManageProfile ManageProfile)
-        {
-            ViewBag.UpdateInstituteadminChangePasswordSuccess = null;
-            ViewBag.UpdateInstituteadminChangePasswordError = null;
-            var userId = Convert.ToString(Request.Cookies["Id"]);
-            UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto = new UpdateInstituteAdminChangePasswordDto();
-            if (ModelState.IsValid)
-            {
-                updateInstituteAdminChangePasswordDto.UserId = userId;
-                updateInstituteAdminChangePasswordDto.CurrentPassword = ManageProfile.ChangePassword.CurrentPassword;
-                updateInstituteAdminChangePasswordDto.NewPassword = ManageProfile.ChangePassword.NewPassword;
-
-                UpdateInstituteAdminChangePasswordResponseModel updateInstituteAdminChangePasswordResponseModel = null;
-                ViewBag.UpdateInstituteadminChangePasswordSuccess = null;
-                ViewBag.UpdateInstituteadminChangePasswordError = null;
-                ResponseModel responseModel = new ResponseModel();
-
-                updateInstituteAdminChangePasswordResponseModel = await _instituteRepository.UpdateInstituteAdminChangePassword(updateInstituteAdminChangePasswordDto);
+        //        updateInstituteAdminProfileInformationResponseModel = await _instituteRepository.UpdateInstituteAdminPersonalInformation(updateInstituteAdminProfileInformationDto);
 
 
-                if (updateInstituteAdminChangePasswordResponseModel.Succeeded)
-                {
-                    if (updateInstituteAdminChangePasswordResponseModel == null && updateInstituteAdminChangePasswordResponseModel?.data == null)
-                    {
-                        responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-                        responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-                    }
-                    if (updateInstituteAdminChangePasswordResponseModel != null)
-                    {
-                        if (updateInstituteAdminChangePasswordResponseModel?.data != null)
-                        {
-                            responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-                            responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
+        //        if (updateInstituteAdminProfileInformationResponseModel.Succeeded)
+        //        {
+        //            if (updateInstituteAdminProfileInformationResponseModel == null && updateInstituteAdminProfileInformationResponseModel?.data == null)
+        //            {
+        //                responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
+        //                responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
+        //            }
+        //            if (updateInstituteAdminProfileInformationResponseModel != null)
+        //            {
+        //                if (updateInstituteAdminProfileInformationResponseModel?.data != null)
+        //                {
+        //                    responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
+        //                    responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
+        //                    ViewBag.UpdateInstituteadminSuccess = "Details Updated Successfully";
 
-                            ViewBag.UpdateInstituteadminChangePasswordSuccess = updateInstituteAdminChangePasswordResponseModel.message;
-                            return View("ManageProfile");
+        //                    return View("ManageProfile");
+        //                }
+        //                else
+        //                {
+        //                    responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
+        //                    responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
+        //                    ViewBag.UpdateInstituteadminError = updateInstituteAdminProfileInformationResponseModel.message;
+        //                    return View("ManageProfile");
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
+        //            responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
+        //            ViewBag.UpdateInstituteadminError = updateInstituteAdminProfileInformationResponseModel.message;
+        //        }
+        //    }
+        //    return View("ManageProfile");
+        //}
 
-                        }
-                        else
-                        {
-                            responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-                            responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-                            ViewBag.UpdateInstituteadminChangePasswordError = updateInstituteAdminChangePasswordResponseModel.message;
-                            return View("ManageProfile");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> InstituteAdminChangePassword(ManageProfile ManageProfile)
+        //{
+        //    ViewBag.UpdateInstituteadminChangePasswordSuccess = null;
+        //    ViewBag.UpdateInstituteadminChangePasswordError = null;
+        //    var userId = Convert.ToString(Request.Cookies["Id"]);
+        //    UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto = new UpdateInstituteAdminChangePasswordDto();
+        //    if (ModelState.IsValid)
+        //    {
+        //        updateInstituteAdminChangePasswordDto.UserId = userId;
+        //        updateInstituteAdminChangePasswordDto.CurrentPassword = ManageProfile.ChangePassword.CurrentPassword;
+        //        updateInstituteAdminChangePasswordDto.NewPassword = ManageProfile.ChangePassword.NewPassword;
 
-                        }
-                    }
-                }
-                else
-                {
-                    responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-                    responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-                    ViewBag.UpdateInstituteadminChangePasswordError = updateInstituteAdminChangePasswordResponseModel.message;
-                }
-            }
-            return View("ManageProfile");
-        }
+        //        UpdateInstituteAdminChangePasswordResponseModel updateInstituteAdminChangePasswordResponseModel = null;
+        //        ViewBag.UpdateInstituteadminChangePasswordSuccess = null;
+        //        ViewBag.UpdateInstituteadminChangePasswordError = null;
+        //        ResponseModel responseModel = new ResponseModel();
+
+        //        updateInstituteAdminChangePasswordResponseModel = await _instituteRepository.UpdateInstituteAdminChangePassword(updateInstituteAdminChangePasswordDto);
+
+
+        //        if (updateInstituteAdminChangePasswordResponseModel.Succeeded)
+        //        {
+        //            if (updateInstituteAdminChangePasswordResponseModel == null && updateInstituteAdminChangePasswordResponseModel?.data == null)
+        //            {
+        //                responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
+        //                responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
+        //            }
+        //            if (updateInstituteAdminChangePasswordResponseModel != null)
+        //            {
+        //                if (updateInstituteAdminChangePasswordResponseModel?.data != null)
+        //                {
+        //                    responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
+        //                    responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
+
+        //                    ViewBag.UpdateInstituteadminChangePasswordSuccess = updateInstituteAdminChangePasswordResponseModel.message;
+        //                    return View("ManageProfile");
+
+        //                }
+        //                else
+        //                {
+        //                    responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
+        //                    responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
+        //                    ViewBag.UpdateInstituteadminChangePasswordError = updateInstituteAdminChangePasswordResponseModel.message;
+        //                    return View("ManageProfile");
+
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
+        //            responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
+        //            ViewBag.UpdateInstituteadminChangePasswordError = updateInstituteAdminChangePasswordResponseModel.message;
+        //        }
+        //    }
+        //    return View("ManageProfile");
+        //}
 
         [HttpGet]
         public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)

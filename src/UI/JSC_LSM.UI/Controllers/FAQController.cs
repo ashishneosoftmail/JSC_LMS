@@ -302,10 +302,10 @@ namespace JSC_LSM.UI.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<FAQList>> GetFAQByFilters(string title, bool isactive, string categoryname)
+        public async Task<IEnumerable<FAQList>> GetFAQByFilters(string faqtitle, bool isactive, string categoryname)
         {
             var data = new List<FAQList>();
-            var dataList = await _faqRepository.GetAllFAQByFilters(title, isactive, categoryname);
+            var dataList = await _faqRepository.GetAllFAQByFilters(faqtitle, isactive, categoryname);
             if (dataList.data != null)
             {
                 foreach (var faq in dataList.data)
@@ -314,6 +314,7 @@ namespace JSC_LSM.UI.Controllers
                     {
                         Id = faq.Id,
                         FAQTitle = faq.FAQTitle,
+                        Content=faq.Content,
                         CategoryName = faq.Category.CategoryName,
                         IsActive = faq.IsActive
                     });

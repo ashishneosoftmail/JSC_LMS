@@ -14,6 +14,7 @@ using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
@@ -1030,6 +1031,51 @@ namespace JSC_LSM.UI.Controllers
                 }
             }
             return View("ManageProfile");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> StudentManageProfile()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var student = await _studentRepository.GetStudentByUserId(userId);
+            var studentvm = new ManageProfile()
+            {
+                ProfileInformation = new ProfileInformation()
+                {
+                    Mobile = student.data.Mobile,
+                    Name = student.data.Name,
+                    Id = student.data.Id,
+                    RoleName = Convert.ToString(Request.Cookies["RoleName"])
+                }
+            };
+            TempData["CommonId"] = student.data.Id;
+            HttpContext.Session.SetString("ProfilrInformationId", student.data.Id.ToString());
+            return View(studentvm);
+
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ParentManageProfile()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parent = await _parentsRepository.GetParentByUserId(userId);
+            var parentvm = new ManageProfile()
+            {
+                ProfileInformation = new ProfileInformation()
+                {
+                    Mobile = parent.data.Mobile,
+                    Name = parent.data.Name,
+                    Id = parent.data.Id,
+                    RoleName = Convert.ToString(Request.Cookies["RoleName"])
+                }
+            };
+            TempData["CommonId"] = parent.data.Id;
+            HttpContext.Session.SetString("ProfilrInformationId", parent.data.Id.ToString());
+            return View(parentvm);
+
+
         }
 
     }

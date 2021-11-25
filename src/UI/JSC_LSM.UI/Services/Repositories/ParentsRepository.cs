@@ -158,5 +158,25 @@ namespace JSC_LSM.UI.Services.Repositories
             return getParentsByFiltersResponseModel;
 
         }
+
+
+        public async Task<GetParentByUserIdResponseModel> GetParentByUserId(string UserId)
+        {
+            GetParentByUserIdResponseModel getParentByUserIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetParentByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getParentByUserIdResponseModel = JsonConvert.DeserializeObject<GetParentByUserIdResponseModel>(_oApiResponse.data);
+                getParentByUserIdResponseModel.Succeeded = true;
+            }
+
+            return getParentByUserIdResponseModel;
+        }
+
     }
 }
