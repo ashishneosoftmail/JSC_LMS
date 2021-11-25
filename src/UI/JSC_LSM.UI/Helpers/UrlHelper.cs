@@ -122,8 +122,13 @@ namespace JSC_LSM.UI.Helpers
         public static string AddCircular = "/api/v1/Circular";
         public static string GetAllCircularByPagination = "/api/v1/Circular/Pagination";
         public static string GetAllCircularList = "/api/v1/Circular/all";
+        public static string GetCircularById = "/api/v1/Circular/";
+        public static string DeleteCircularById = "/api/v1/Circular/";
+        public static string GetCircularByFilerInstituteAdmin = "/api/v1/Circular/GetCircularByFilter";
 
-
+        public static string AddAnnouncement = "/api/v1/Announcement/Add";
+        public static string GetAnnouncementByPagination = "/api/v1/Announcement/Pagination";
+        public static string GetAnnouncementList = "/api/v1/Announcement/all";
         public static string AddFAQ = "/api/v1/FAQ";
         public static string EditFAQ = "/api/v1/FAQ/UpdateFAQBase";
         public static string GetFAQById = "/api/v1/FAQ/";
@@ -134,5 +139,8 @@ namespace JSC_LSM.UI.Helpers
 
         public static string GetStudentByUserId = "/api/v1/Student/GetStudentByUserId";
         public static string GetParentByUserId = "/api/v1/Parents/GetParentByUserId";
+
+        public static string GetAnnouncementById = "/api/v1/Announcement/id";
+
     }
 }

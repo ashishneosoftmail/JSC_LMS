@@ -1,0 +1,19 @@
+﻿@model ViewCircularFileModel
+@{
+    ViewData["Title"] = "ViewFileData";
+    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+}
+
+
+<div class="d-flex flex-row justify-content-between align-items-center p-4 ml-3 mr-3 border-bottom">
+
+    <h5 class="pl-5">@Model.FileName</h5>
+    <a href="/Institute/ManageCircular" class="btn btn-danger">Close</a>
+</div>
+
+<iframe class="bg-white" src="@Model.FilePath" width="100%" height="100%" style="border:1px solid black;">
+</iframe>
+@*<object data="@Model.FilePath">
+        <embed src="@Model.FilePath" />
+    </object>*@
+@*<embed type=".xlxs" src="@Model.FilePath" width="300" height="200">*@
