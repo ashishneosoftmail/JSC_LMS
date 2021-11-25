@@ -16,6 +16,7 @@ using System.Data;
 using ClosedXML.Excel;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
 
 namespace JSC_LSM.UI.Controllers
 {
@@ -29,8 +30,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
+        private readonly IAnnouncementRepository _announcementRepository;
 
-        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository)
+        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IAnnouncementRepository announcementRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -40,6 +42,7 @@ namespace JSC_LSM.UI.Controllers
             _classRepository = classRepository;
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
+            _announcementRepository = announcementRepository;
 
         }
 
@@ -511,10 +514,143 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
-        public IActionResult ManageAnnouncement()
+       
+        [HttpGet]
+        public async Task<IActionResult> ManageAnnouncement(int page = 1, int size = 20)
         {
-            return View();
+
+            int recsCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.Pager = pager;
+            model.Classes = await _common.GetClass();
+            model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            var paginationData = await _announcementRepository.GetAnnouncementListByPagination(page, size);
+            List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
+            foreach (var data in paginationData.data)
+            {
+                pagedData.Add(new AnnouncementPagination()
+                {
+                    Id = data.Id,
+                   AnnouncementTitle = data.AnnouncementTitle,
+                   AnnouncementContent = data.AnnouncementContent,
+                    Class = data.Class,
+                    Section = data.Section,
+                    Subject = data.Subject,
+                    CreatedDate = data.CreatedDate,
+
+                });
+            }
+            model.AnnouncementPagination = pagedData;
+            return View(model);
         }
 
+        public async Task<IActionResult> AddAnnouncement(string AddAnnouncement, ManageAnnouncementModel manageAnnouncementModel)
+        {
+            ViewBag.AddAnnouncementSuccess = null;
+            ViewBag.AddAnnouncementError = null;
+            manageAnnouncementModel.Classes = await _common.GetClass();
+            manageAnnouncementModel.Sections = await _common.GetSection();
+            manageAnnouncementModel.Subjects = await _common.GetSubject();
+
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var teacher = await _teacherRepository.GetTeacherByUserId(userId);
+          
+            var school = await _teacherRepository.GetTeacherById(teacher.data.Id);
+            
+            
+            CreateAnnouncementDto createAnnouncementDto = new CreateAnnouncementDto();
+
+            if (ModelState.IsValid)
+            {
+                createAnnouncementDto.TeacherId = teacher.data.Id;
+                createAnnouncementDto.SchoolId = school.data.School.Id;
+                createAnnouncementDto.ClassId = manageAnnouncementModel.AddAnnouncement.ClassId;
+                createAnnouncementDto.SectionId = manageAnnouncementModel.AddAnnouncement.SectionId;
+                createAnnouncementDto.SubjectId = manageAnnouncementModel.AddAnnouncement.SubjectId;
+                createAnnouncementDto.AnnouncementTitle = manageAnnouncementModel.AddAnnouncement.AnnouncementTitle;
+                createAnnouncementDto.AnnouncementMadeBy = "Teacher";
+                createAnnouncementDto.AnnouncementContent = manageAnnouncementModel.AddAnnouncement.AnnouncementContent;
+
+                createAnnouncementDto.IsActive = true;
+                AddAnnouncementResponseModel addAnnouncementResponseModel = null;
+                ViewBag.AddAnnouncementSuccess = null;
+                ViewBag.AddAnnouncementError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                addAnnouncementResponseModel = await _announcementRepository.AddAnnouncement(createAnnouncementDto);
+
+
+                if (addAnnouncementResponseModel.Succeeded)
+                {
+                    if (addAnnouncementResponseModel == null && addAnnouncementResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = addAnnouncementResponseModel.message;
+                        responseModel.IsSuccess = addAnnouncementResponseModel.Succeeded;
+                    }
+                    if (addAnnouncementResponseModel != null)
+                    {
+                        if (addAnnouncementResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = addAnnouncementResponseModel.message;
+                            responseModel.IsSuccess = addAnnouncementResponseModel.Succeeded;
+                            ViewBag.AddAnnouncementSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            ManageAnnouncementModel model = new ManageAnnouncementModel();
+                            model.Classes = await _common.GetClass();
+                            model.Sections = await _common.GetSection();
+                            model.Subjects = await _common.GetSubject();
+                            int recsCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+                            var page = 1;
+                            var size = 5;
+                            if (page < 1)
+                                page = 1;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            model.Pager = pager;
+                            var paginationData = await _announcementRepository.GetAnnouncementListByPagination(page, size);
+                            List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
+                            foreach (var data in paginationData.data)
+                            {
+                                pagedData.Add(new AnnouncementPagination()
+                                {
+                                    Id = data.Id,
+                                    AnnouncementContent = data.AnnouncementContent,
+                                    AnnouncementTitle = data.AnnouncementTitle,
+                                    AnnouncementMadeBy=data.AnnouncementMadeBy,
+                                    Class = data.Class,
+                                    Section = data.Section,
+                                    Subject = data.Subject,
+                                    CreatedDate = data.CreatedDate,
+
+                                });
+                            }
+                            model.AnnouncementPagination = pagedData;
+                            return View("ManageAnnouncement", model);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = addAnnouncementResponseModel.message;
+                            responseModel.IsSuccess = addAnnouncementResponseModel.Succeeded;
+
+
+                            ViewBag.AddAnnouncementError = addAnnouncementResponseModel.message;
+                            return View(manageAnnouncementModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = addAnnouncementResponseModel.message;
+                    responseModel.IsSuccess = addAnnouncementResponseModel.Succeeded;
+                    ViewBag.AddCircularError = addAnnouncementResponseModel.message;
+                }
+            }
+            return View(manageAnnouncementModel);
+        }
     }
 }

@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination
 {
-    public class GetAnnouncementByPaginationQueryHandler : IRequestHandler<GetAnnouncementByPaginationQuery, Response<GetAnnouncementByPaginationResponse>>
+
+    public class GetAnnouncementByPaginationQueryHandler : IRequestHandler<GetAnnouncementByPaginationQuery, Response<IEnumerable<GetAnnouncementListByPaginationDto>>>
     {
         private readonly IClassRepository _classRepository;
         private readonly ISchoolRepository _schoolRepository;
@@ -22,7 +23,8 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPag
         private readonly ITeacherRepository _teacherRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public GetAnnouncementByPaginationQueryHandler(IMapper mapper, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ILogger<GetAnnouncementByPaginationQueryHandler> logger)
+        public GetAnnouncementByPaginationQueryHandler(IMapper mapper, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ILogger
+            <GetAnnouncementByPaginationQueryHandler> logger)
         {
             _mapper = mapper;
             _classRepository = classRepository;
@@ -33,20 +35,18 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPag
             _announcementRepository = announcementRepository;
             _logger = logger;
         }
-        public async Task<Response<GetAnnouncementByPaginationResponse>> Handle(GetAnnouncementByPaginationQuery request, CancellationToken cancellationToken)
+
+        public async Task<Response<IEnumerable<GetAnnouncementListByPaginationDto>>> Handle(GetAnnouncementByPaginationQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handle Initiated");
-            var allAnnouncementCount = await _announcementRepository.ListAllAsync();
             var allAnnouncement = await _announcementRepository.GetPagedReponseAsync(request.page, request.size);
-            GetAnnouncementByPaginationResponse getAnnouncementListByPaginationResponse = new GetAnnouncementByPaginationResponse();
             List<GetAnnouncementListByPaginationDto> announcementList = new List<GetAnnouncementListByPaginationDto>();
             foreach (var announcement in allAnnouncement)
             {
-
                 announcementList.Add(new GetAnnouncementListByPaginationDto()
                 {
                     Id = announcement.Id,
-                    AnnouncementMadeBy= announcement.AnnouncementMadeBy,
+                    AnnouncementMadeBy = announcement.AnnouncementMadeBy,
                     IsActive = announcement.IsActive,
                     AnnouncementTitle = announcement.AnnouncementTitle,
                     AnnouncementContent = announcement.AnnouncementContent,
@@ -81,12 +81,15 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPag
 
                 });
             }
-            getAnnouncementListByPaginationResponse.GetAnnouncementListPaginationDto = announcementList;
-            getAnnouncementListByPaginationResponse.Count = allAnnouncementCount.Count();
 
-             _logger.LogInformation("Handle Completed");
-            return new Response<GetAnnouncementByPaginationResponse>(getAnnouncementListByPaginationResponse, "success");
+            _logger.LogInformation("Hanlde Completed");
+            return new Response<IEnumerable<GetAnnouncementListByPaginationDto>>(announcementList, "success");
         }
 
     }
+
+
+
 }
+
+
