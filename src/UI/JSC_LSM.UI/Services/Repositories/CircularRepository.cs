@@ -88,5 +88,52 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getAllCircularListResponseModel;
         }
+
+        public async Task<GetCircularByIdResponseModel> GetCircularById(int Id)
+        {
+            GetCircularByIdResponseModel getCircularByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularById + Id, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getCircularByIdResponseModel = JsonConvert.DeserializeObject<GetCircularByIdResponseModel>(_oApiResponse.data);
+                getCircularByIdResponseModel.Succeeded = true;
+            }
+
+            return getCircularByIdResponseModel;
+        }
+
+        public async Task DeleteCircular(int id)
+        {
+
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteCircularById + id, HttpMethod.Delete, bytes, _sToken);
+        }
+
+        public async Task<GetAllCircularByFilterInstituteAdminResponseModel> GetAllCircularByFilterInstituteAdmin(string circularTitle, string description, bool status)
+        {
+            GetAllCircularByFilterInstituteAdminResponseModel getAllCircularByFilterInstituteAdminResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilerInstituteAdmin + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularByFilterInstituteAdminResponseModel = JsonConvert.DeserializeObject<GetAllCircularByFilterInstituteAdminResponseModel>(_oApiResponse.data);
+                getAllCircularByFilterInstituteAdminResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularByFilterInstituteAdminResponseModel;
+        }
     }
 }

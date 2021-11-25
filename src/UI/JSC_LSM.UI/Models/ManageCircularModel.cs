@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
+using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LMS.Application.Features.Circulars.Queries.GetCircularListByPagination;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,6 +26,11 @@ namespace JSC_LSM.UI.Models
     }
     public class CircularPagination : GetAllCircularListByPaginationDto
     {
+
+    }
+    public class EditCircular : UpdateCircularDto
+    {
+        public IFormFile fileUpload { get; set; }
 
     }
 }

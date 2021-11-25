@@ -12,5 +12,8 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<AddCircularResponseModel> AddCircular(CreateCircularDto createCircularDto);
         Task<GetAllCircularListByPaginationResponseModel> GetAllCircularListByPagination(int page, int size);
         Task<GetAllCircularListResponseModel> GetAllCircularList();
+        Task<GetCircularByIdResponseModel> GetCircularById(int id);
+        Task DeleteCircular(int id);
+        Task<GetAllCircularByFilterInstituteAdminResponseModel> GetAllCircularByFilterInstituteAdmin(string circularTitle, string description, bool status);
     }
 }
