@@ -68,30 +68,45 @@
     </div>
 </div>
 
-<!--<div class="col-md-11">
+<div class="col-md-12">
 
     <button type="button" class="btn btn-primary btn-sm pull-right m-2" data-toggle="modal" data-target="#myModal">
         Add Announcement
     </button>
-    <div class="container">-->
+    <div class="container">
         <!-- The Modal -->
-        <!--<div class="modal" id="myModal">
+        <div class="modal" id="myModal">
             <div class="modal-dialog">
-                <div class="modal-content">-->
+                <div class="modal-content">
 
                     <!-- Modal Header -->
-                    <!--<div class="modal-header">
+                    <div class="modal-header">
                         <h4 class="modal-title text-center">Add Announcement</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>-->
+                    </div>
 
                     <!-- Modal body -->
-                    <!--<div class="modal-body">
+                    <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="AddAnnouncement" asp-controller="Teacher">
 
                             <table class="table table-borderless">
+                                <tr>
+                                    <th>
+                                        <label>Select option</label>
+                                    </th>
+                                    <td>
+
+                                        <select class="form-control" asp-for="AddAnnouncement.AnnouncementMadeBy" id="announcementMadeBy">
+                                            @*<option disabled selected hidden> Select option</option>*@
+                                            <option selected value="Teacher"> Teacher</option>
+                                            @*<option value="Admin"> Admin</option>
+                                            <option value="Principal"> Principal</option>*@
+                                        </select>
+                                        <span asp-validation-for="AddAnnouncement.AnnouncementMadeBy" class="text-danger"></span>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>
                                         <label>Select Class</label>
@@ -151,7 +166,7 @@
 
                                     </td>
                                 </tr>
-                               
+
                             </table>
                             <div class="modal-footer">
                                 
@@ -170,7 +185,7 @@
         </div>
 
     </div>
-</div>-->
+</div>
 
 <div id="wrap" class="mt-3">
     <div class="container">
