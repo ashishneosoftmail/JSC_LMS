@@ -1,0 +1,289 @@
+﻿@model Pager
+
+@{
+    ViewData["Title"] = "FAQList";
+    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+<br />
+<br />
+<br />
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <h2>Manage FAQ</h2>
+        <h4>Search Filter</h4>
+    </div>
+    <div class="row">
+
+        <div class="form-group row col-sm-4">
+            <label for="faqTitle" class="col-sm-5 col-form-label">FAQTitle</label>
+            <div class="col-sm-7">
+                <input type="text" class="form-control" id="faqTitle" placeholder="Enter The Title">
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="status" class="col-sm-5 col-form-label">Status :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="status">
+                    <option disabled selected hidden>Select Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="faqCategory" class="col-sm-5 col-form-label">Category :</label>
+            <div class="col-sm-7">
+                <select class="form-select" id="faqCategory">
+                    @* <option value="" disabled selected>Select Category</option>*@
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-2 btn-text-right">
+            <button type="button" class="btn btn-primary float-lg-end " onclick="searchfaq()">Search</button>
+        </div>
+    </div>
+</div>
+<div class="col-md-11">
+    <a asp-controller="FAQ" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
+    <a asp-action="FAQ" asp-controller="FAQ" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+
+</div>
+
+<div id="wrap" class="mt-3">
+    <div class="container">
+        <table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>FAQTitle</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>Category</th>
+
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableData">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container" id="paginationContainer">
+    <span class="justify-content-start">
+        <label>Rows Per Page</label>
+        <select class="" id="rowsPerPage" onchange="loadAllFAQ()">
+            <option value="5" selected>5</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+    </span>
+    @if (Model.TotalPages > 0)
+    {
+        <ul class="pagination justify-content-end">
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllFAQ(1)">First</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllFAQ(@(Model.CurrentPage-1))">Previous</button>
+                </li>
+            }
+            @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllFAQ(@pge)">@pge</button>
+                </li>
+            }
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllFAQ(@(Model.CurrentPage + 1))">Next</button>
+                </li>
+                <li class="page-item">
+                    <button class="btn btn-link page-link" onclick="loadAllFAQ(@(Model.TotalPages))">Last</button>
+                </li>
+            }
+        </ul>
+    }
+</div>
+<div id="wrapper">
+    @if (ViewBag.AddCategorySuccess != null)
+    {
+        <script>alert("@ViewBag.AddCategorySuccess")</script>
+    }
+    @if (ViewBag.AddCategoryError != null)
+    {
+        <script>alert("@ViewBag.AddCategoryError")</script>
+    }
+    @if (ViewBag.AddFAQSuccess != null)
+    {
+        <script>alert("@ViewBag.AddFAQSuccess")</script>
+    }
+    @if (ViewBag.AddFAQError != null)
+    {
+        <script>alert("@ViewBag.AddFAQError")</script>
+    }
+    @if (ViewBag.UpdateFAQSuccess != null)
+    {
+        <script>alert("@ViewBag.UpdateFAQSuccess")</script>
+    }
+    @if (ViewBag.UpdateFAQeError != null)
+    {
+        <script>alert("@ViewBag.UpdateFAQError")</script>
+    }
+</div>
+<script>
+    function loadData() {
+        loadAllFAQ();
+        loadCategoryList();
+    }
+    loadData();
+    function loadCategoryList() {
+        $.get("/FAQ/GetAllCategory", function (data) {
+            $("#faqCategory").append("<option disabled selected hidden>Select Category</option>");
+            data.forEach(function (category) {
+                $('#faqCategory').append('<option value="' + category.value + '">' + category.text + '</option>');
+            });
+        });
+    }
+
+    function searchfaq() {
+
+        var _categoryName = $("#faqCategory :selected").text();
+        var _faqtitle = $("#faqTitle").val();
+        var _isActive = $("#status").val();
+
+
+        $.get("/FAQ/GetFAQByFilters?faqtitle=" + _faqtitle + "&isActive=" + _isActive+ "&categoryname=" + _categoryName, function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (faq) {
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+
+                                <td>${faq.faqTitle}</td>
+
+                                   <td>${faq.content}</td>
+
+                                   <td>${faq.isActive ? "Active" : "Inactive"}</td>
+                                
+                                <td>${faq.categoryName}</td>
+
+                                <td>
+                                    <a href="/FAQ/EditFAQ/${faq.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+<a href="/FAQ/ViewFAQ/${faq.id}"
+                                       class="btn btn-link"
+                                       >View</a>
+ <a href="/FAQ/DeleteFAQ/${faq.id}"
+                                       class="btn btn-link"
+                                       >Delete</a>
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+    function loadAllFAQ(number = 1) {
+        var size = $("#rowsPerPage :selected").val();
+        $.get(`/FAQ/GetAllFAQByPagination?page=${number}&size=${size}`, function (data) {
+            console.log(data);
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (faq) {
+
+                    id = id + 1;
+                    var result = ` <tr>
+                                <td>${id}</td>
+                                <td>${faq.faqTitle}</td>
+                                 <td>${faq.content}</td>
+                                   <td>${faq.isActive ? "Active" : "Inactive"}</td>
+                                <td>${faq.categoryName}</td>
+                                <td>
+                                    <a href="/FAQ/EditFAQ/${faq.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+
+                                   <a href="/FAQ/ViewFAQ/${faq.id}"
+                                       class="btn btn-link"
+                                       >View</a>
+ <a href="/FAQ/DeleteFAQ/${faq.id}"
+                                       class="btn btn-link"
+                                       >Delete</a>
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+</script>
+
