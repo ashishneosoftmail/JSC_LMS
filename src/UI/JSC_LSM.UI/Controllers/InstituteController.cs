@@ -516,7 +516,7 @@ namespace JSC_LSM.UI.Controllers
             {
                 ProfileInformation = new ProfileInformation() { Mobile = instituteAdmin.data.Mobile, Name = instituteAdmin.data.Name, Id = instituteAdmin.data.Id, RoleName = Convert.ToString(Request.Cookies["RoleName"]) }
             };
-            TempData["InstituteAdminId"] = instituteAdmin.data.Id;
+            TempData["CommonId"] = instituteAdmin.data.Id;
             HttpContext.Session.SetString("ProfilrInformationId", instituteAdmin.data.Id.ToString());
             return View(instituteadminvm);
 
