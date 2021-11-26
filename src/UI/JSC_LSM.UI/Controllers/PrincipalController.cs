@@ -24,17 +24,21 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IPrincipalRepository _principalRepository;
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IAnnouncementRepository _announcementRepository;
         /// <summary>
         /// Constructor For the PrincipalController - Developed By Harsh Chheda
         /// </summary>
         /// <param name="common"></param>
         /// <param name="schoolRepository"></param>
         /// <param name="principalRepository"></param>
-        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository)
+        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository , ITeacherRepository teacherRepository , IAnnouncementRepository announcementRepository)
         {
             _common = common;
             _schoolRepository = schoolRepository;
             _principalRepository = principalRepository;
+            _teacherRepository = teacherRepository;
+            _announcementRepository = announcementRepository;
         }
         public IActionResult Index()
         {
@@ -498,6 +502,128 @@ namespace JSC_LSM.UI.Controllers
             return View(principalvm);
          
 
+        }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetTeacherName()
+        {
+            var data = await _teacherRepository.GetAllTeacherDetails();
+            List<SelectListItem> teachers = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                teachers.Add(new SelectListItem
+                {
+                    Text = item.TeacherName,
+                    Value = Convert.ToString(item.TeacherName)
+                });
+            }
+            return teachers;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageAnnouncement(int page = 1, int size = 20)
+        {
+
+            int recsCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.Pager = pager;           
+            model.Classes = await _common.GetClass();
+            model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            var paginationData = await _announcementRepository.GetAnnouncementListByPagination(page, size);
+            List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
+            foreach (var data in paginationData.data)
+            {
+                pagedData.Add(new AnnouncementPagination()
+                {
+                    Id = data.Id,
+                    AnnouncementTitle = data.AnnouncementTitle,
+                    AnnouncementContent = data.AnnouncementContent,
+                    Class = data.Class,
+                    Section = data.Section,
+                    Subject = data.Subject,
+                    Teacher = data.Teacher,
+                    CreatedDate = data.CreatedDate,
+
+                });
+            }
+            model.AnnouncementPagination = pagedData;
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchAnnouncement( int ClassId, int SectionId, int SubjectId, string TeacherName, DateTime CreatedDate)
+        {
+            if (TeacherName == null)
+            {
+                TeacherName = "Select Teacher";
+            }
+            List<AnnouncementPagination> data = new List<AnnouncementPagination>();
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(0, ClassId, SectionId, SubjectId, TeacherName, "Select Type", null, null, CreatedDate);
+            if (dataList.data != null)
+            {
+                foreach (var d in dataList.data)
+                {
+                    data.Add(new AnnouncementPagination()
+                    {
+                        Id = d.Id,
+                        AnnouncementTitle = d.AnnouncementTitle,
+                        AnnouncementContent = d.AnnouncementContent,                       
+                        Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto()
+                        {
+                            Id = d.Class.Id,
+                            ClassName = d.Class.ClassName
+                        },
+                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto()
+                        {
+                            Id = d.Section.Id,
+                            SectionName = d.Section.SectionName
+                        },
+                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto()
+                        {
+                            Id = d.Subject.Id,
+                            SubjectName = d.Subject.SubjectName
+                        },
+                        Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto()
+                        {
+                            Id = d.Teacher.Id,
+                            TeacherName = d.Teacher.TeacherName
+                        },
+                        CreatedDate = d.CreatedDate
+
+                    });
+                }
+            }
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.AnnouncementPagination = data;
+            if (dataList.data.Count() == 0)
+            {
+                model.Pager = new Pager(1, 1, 1);
+            }
+            else
+            {
+
+                model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
+            }
+            ViewBag.Pager = model.Pager;
+            
+            model.Classes = await _common.GetClass();
+            model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            return View("ManageAnnouncement", model);
+        }
+
+        [HttpGet]
+        public async Task<GetAnnouncementByIdResponseModel> ViewAnnouncement(int Id)
+        {
+            var announcement = await _announcementRepository.GetAnnouncementById(Id);
+            return announcement;
         }
     }
     #endregion
