@@ -3,8 +3,10 @@ using JSC_LMS.Application.Features.Circulars.Commands.DeleteCircular;
 using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilter;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularList;
+using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularListBySchool;
 using JSC_LMS.Application.Features.Circulars.Queries.GetCircularById;
 using JSC_LMS.Application.Features.Circulars.Queries.GetCircularListByPagination;
+using JSC_LMS.Application.Features.Circulars.Queries.GetCircularListByPaginationBySchool;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -81,6 +83,22 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getKnowledgeBaseByFilterQuery = new GetAllCircularByFiltersQuery(_CircularTitle, _Description, _Status);
             return Ok(await _mediator.Send(getKnowledgeBaseByFilterQuery));
+        }
+
+        [HttpGet("GetCircularListBySchoolPagination", Name = "GetCircularListBySchoolPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetCircularListBySchoolPagination(int _page, int _size, int _schoolId)
+        {
+            var dtos = await _mediator.Send(new GetCircularListByPaginationBySchoolQuery() { page = _page, size = _size, SchoolId = _schoolId });
+            return Ok(dtos);
+        }
+
+        [HttpGet("GetAllCircularBySchool", Name = "GetAllCircularBySchool")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllCircularBySchool(int schoolid)
+        {
+            var dtos = await _mediator.Send(new GetAllCircularListBySchoolQuery() { SchoolId = schoolid });
+            return Ok(dtos);
         }
     }
 }
