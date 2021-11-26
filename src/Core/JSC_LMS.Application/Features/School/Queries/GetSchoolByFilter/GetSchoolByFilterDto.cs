@@ -1,9 +1,11 @@
 ﻿using JSC_LMS.Application.CommonDtos;
-using JSC_LMS.Application.Features.School.Queries.GetSchoolById;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace JSC_LMS.Application.Features.School.Queries.GetSchoolByFilter
 {
-    public class GetSchoolByFilterDto
+   public class GetSchoolByFilterDto
     {
         public int Id { get; set; }
         public string AddressLine1 { get; set; }
@@ -14,9 +16,10 @@ namespace JSC_LMS.Application.Features.School.Queries.GetSchoolByFilter
         public string Email { get; set; }
         public bool IsActive { get; set; }
 
+        public DateTime CreatedDate { get; set; }
         public CityDto City { get; set; }
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
-        public InstituteDto Institute { get; set; }
+        public InstituteFilterDto Institute { get; set; }
     }
 }
