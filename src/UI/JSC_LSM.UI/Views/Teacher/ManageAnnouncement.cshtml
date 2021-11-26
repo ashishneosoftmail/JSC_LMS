@@ -22,52 +22,58 @@
         border-top: none !important;
     }
 </style>
-<h2 class="mt-4">Manage Announcement</h2>
-<h6 class="font-weight-bold"> Search Filter</h6>
 
-<div class="row">
 
-    <div class="col-sm-4">
-        <div class="form-group row">
-            <label for="className" class="col-sm-4 col-form-label">Class Name</label>
-            <div class="col-sm-7">
-                <select class="form-control" id="className">
-                    <option disabled selected hidden>Select Class</option>
+<div class="container">
+    <div class="row">
+        <h2 class="mt-4">Manage Announcement</h2>
+        <h6 class="font-weight-bold"> Search Filter</h6>
+        <div class="row d-flex flex-row">
+            <form novalidate asp-action="SearchAnnouncement" asp-controller="Teacher" method="get" class="d-flex flex-row">
+               
+                <div class="form-group row col-sm-4">
+                    <label for="classId" class="col-sm-5 col-form-label">Class Name</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" asp-items="Model.Classes" id="ClassId" name="ClassId">
+                            <option disabled selected hidden>Select Class</option>
 
-                </select>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group row">
+                        <label for="sectionId" class="col-sm-5 col-form-label">Section</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" asp-items="Model.Sections" id="SectionId" name="SectionId">
+                                <option disabled selected hidden>Select Section</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group row">
+                        <label for="subjectId" class="col-sm-5 col-form-label">Subject</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" asp-items="Model.Subjects" id="SubjectId" name="SubjectId">
+                                <option disabled selected hidden>Select Subject</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                @*<div class="col-sm-1">
+            <div class="form-group row float-end">
+                <button type="button" class="btn btn-primary float-lg-end " >Search</button>
             </div>
+        </div>*@
+                <div class="form-group row col-sm-2 btn-text-right">
+                    <button type="Submit" class="btn btn-primary btn-sm float-lg-end">Search</button>
+                </div>
+            </form>
         </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="sectionName" class="col-sm-5 col-form-label">Section</label>
-            <div class="col-sm-7">
-                <select class="form-control" id="sectionName">
-                    <option disabled selected hidden>Select Section</option>
-
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-3">
-        <div class="form-group row">
-            <label for="subjectName" class="col-sm-5 col-form-label">Subject</label>
-            <div class="col-sm-7">
-                <select class="form-control" id="subjectName">
-                    <option disabled selected hidden>Select Subject</option>
-
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-1">
-        <div class="form-group row">
-            <button type="button" class="btn btn-primary float-lg-end " onclick="searchAnnouncement()">Search</button>
-        </div>
-
     </div>
 </div>
-
 <div class="col-md-12">
 
     <button type="button" class="btn btn-primary btn-sm pull-right m-2" data-toggle="modal" data-target="#myModal">
@@ -102,7 +108,7 @@
                                             @*<option disabled selected hidden> Select option</option>*@
                                             <option selected value="Teacher"> Teacher</option>
                                             @*<option value="Admin"> Admin</option>
-                                            <option value="Principal"> Principal</option>*@
+                                                <option value="Principal"> Principal</option>*@
                                         </select>
                                         <span asp-validation-for="AddAnnouncement.AnnouncementMadeBy" class="text-danger"></span>
                                     </td>
@@ -169,9 +175,9 @@
 
                             </table>
                             <div class="modal-footer">
-                                
+
                                 <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="AddAnnouncement" />
-                               
+
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
 

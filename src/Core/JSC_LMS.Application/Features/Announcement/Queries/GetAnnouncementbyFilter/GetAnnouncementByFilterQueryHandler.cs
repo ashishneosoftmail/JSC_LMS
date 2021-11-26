@@ -41,14 +41,14 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementbyFil
             var allAnnouncement = await _announcementRepository.ListAllAsync();
 
 
-            if (request.SchoolName != "Select School")
+            if (request.SchoolId>0)
             {
-                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.School.SchoolName == request.SchoolName)).ToList();
+                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.SchoolId == request.SchoolId)).ToList();
 
             }
-            if (request.ClassName != "Select Class")
+            if (request.ClassId > 0)
             {
-                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.Class.ClassName == request.ClassName)).ToList();
+                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.ClassId == request.ClassId)).ToList();
 
             }
             if (request.TeacherName != "Select Teacher")
@@ -56,14 +56,14 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementbyFil
                 allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.Teacher.TeacherName == request.TeacherName)).ToList();
 
             }
-            if (request.SectionName != "Select Section")
+            if (request.SectionId > 0)
             {
-                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.Section.SectionName == request.SectionName)).ToList();
+                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.SectionId == request.SectionId)).ToList();
 
             }
-            if (request.SubjectName != "Select Subject")
+            if (request.SubjectId > 0)
             {
-                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.Subject.SubjectName == request.SubjectName)).ToList();
+                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.SubjectId == request.SubjectId)).ToList();
 
             }
             if (request.AnnouncementTitle != null)

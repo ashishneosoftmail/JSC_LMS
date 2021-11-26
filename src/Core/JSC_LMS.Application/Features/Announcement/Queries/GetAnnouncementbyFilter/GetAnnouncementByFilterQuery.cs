@@ -8,23 +8,23 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementbyFil
 {
     public class GetAnnouncementByFilterQuery : IRequest<Response<IEnumerable<GetAnnouncementByFilterDto>>>
     {
-        public GetAnnouncementByFilterQuery( string _SchoolName, string _ClassName, string _SectionName, string _SubjectName,  string _TeacherName, string _AnnouncementMadeBy, string _AnnouncementTitle , string _AnnouncementContent,  DateTime _CreatedDate)
+        public GetAnnouncementByFilterQuery( int _SchoolId, int _ClassId, int _SectionId, int _SubjectId,  string _TeacherName, string _AnnouncementMadeBy, string _AnnouncementTitle , string _AnnouncementContent,  DateTime _CreatedDate)
         {
-            ClassName = _ClassName;
-            SchoolName = _SchoolName;
-            SubjectName = _SubjectName;
+            ClassId = _ClassId;
+            SchoolId = _SchoolId;
+            SubjectId = _SubjectId;
             TeacherName = _TeacherName;
-            SectionName = _SectionName;
+            SectionId = _SectionId;
             AnnouncementMadeBy = _AnnouncementMadeBy;
             AnnouncementTitle = _AnnouncementTitle;
             AnnouncementContent = _AnnouncementContent;           
             CreatedDate = _CreatedDate;
         }
-        public string ClassName { get; set; }
-        public string SubjectName { get; set; }
-        public string SchoolName { get; set; }
+        public int ClassId { get; set; }
+        public int SubjectId { get; set; }
+        public int SchoolId { get; set; }
         public string TeacherName { get; set; }
-        public string SectionName { get; set; }
+        public int SectionId { get; set; }
         public string AnnouncementMadeBy { get; set; }
         public string AnnouncementTitle { get; set; }
         public string AnnouncementContent { get; set; }
