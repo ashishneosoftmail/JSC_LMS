@@ -16,5 +16,8 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetAnnouncementByIdResponseModel> GetAnnouncementById(int Id);
         Task<UpdateAnnouncementResponseModel> UpdateAnnouncement(UpdateAnnouncementDto updateAnnouncementDto);
         Task<GetAnnouncementByFiltersResponseModel> GetAnnouncementByFilters(int SchoolId, int ClassId, int SectionId, int SubjectId, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate);
+
+        Task<GetAllAnnouncementListBySchoolPaginationResponseModel> GetAnnouncementListBySchoolPagination(int page, int size, int schoolid);
+        Task<GetAllAnnouncementListBySchoolResponseModel> GetAllAnnouncementBySchoolList(int schoolid);
     }
 }

@@ -43,7 +43,8 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherByUserId
             {
                 Id = teacher.Id,
                 Name = teacher.TeacherName,
-                Mobile = teacher.Mobile
+                Mobile = teacher.Mobile,
+                schoolid=teacher.SchoolId
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetTeacherByUserIdDto>(teacherData, "success");

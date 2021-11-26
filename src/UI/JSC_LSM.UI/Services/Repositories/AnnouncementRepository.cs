@@ -154,6 +154,40 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAnnouncementByFiltersResponseModel;
 
         }
+        public async Task<GetAllAnnouncementListBySchoolPaginationResponseModel> GetAnnouncementListBySchoolPagination(int page, int size, int schoolid)
+        {
+            GetAllAnnouncementListBySchoolPaginationResponseModel getAllAnnouncementListBySchoolPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
 
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllAnnouncementListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolPaginationResponseModel>(_oApiResponse.data);
+                getAllAnnouncementListBySchoolPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllAnnouncementListBySchoolPaginationResponseModel;
+        }
+
+        public async Task<GetAllAnnouncementListBySchoolResponseModel> GetAllAnnouncementBySchoolList(int schoolid)
+        {
+            GetAllAnnouncementListBySchoolResponseModel getAllAnnouncementListBySchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllAnnouncementBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllAnnouncementListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolResponseModel>(_oApiResponse.data);
+                getAllAnnouncementListBySchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllAnnouncementListBySchoolResponseModel;
+        }
     }
 }

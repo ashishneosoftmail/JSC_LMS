@@ -234,8 +234,9 @@
                         </td>
                         <td>
                             <div>
-                                <a href="/Teacher/EditAnnouncement/${item.Id}"
-                                   class="btn btn-link">Edit</a>
+                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editAnnouncement" onclick="EditAnnouncement(@item.Id)">
+                                    Edit
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -302,14 +303,155 @@
     }
 </div>
 
+<div class="col-md-11">
+
+
+    <div class="container">
+
+        <div class="modal" id="editAnnouncement">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">Edit Announcement</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateAnnouncement" asp-controller="Teacher">
+                            @Html.HiddenFor(m => m.UpdateAnnouncement.Id, new { id = "announcementId", name = "announcementId" })
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th>
+                                        <label>Select option</label>
+                                    </th>
+                                    <td>
+
+                                        <select class="form-control" asp-for="UpdateAnnouncement.AnnouncementMadeBy" id="announcementMadeBy">
+                                            @*<option disabled selected hidden> Select option</option>*@
+                                            <option selected value="Teacher"> Teacher</option>
+                                            @*<option value="Admin"> Admin</option>
+                        <option value="Principal"> Principal</option>*@
+                                        </select>
+                                        <span asp-validation-for="UpdateAnnouncement.AnnouncementMadeBy" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Select Class</label>
+                                    </th>
+                                    <td>
+
+                                        <select class="form-control" asp-for="UpdateAnnouncement.ClassId" asp-items="Model.Classes" id="updateClass">
+                                            <option disabled selected hidden> Select Class</option>
+                                        </select>
+                                        <span asp-validation-for="UpdateAnnouncement.ClassId" class="text-danger"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <label>Select Section</label>
+                                    </th>
+                                    <td>
+
+                                        <select class="form-control" asp-for="UpdateAnnouncement.SectionId" asp-items="Model.Sections" id="updateSection">
+                                            <option disabled selected hidden> Select Section</option>
+                                        </select>
+                                        <span asp-validation-for="UpdateAnnouncement.SectionId" class="text-danger"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <label>Select Subject</label>
+                                    </th>
+                                    <td>
+
+                                        <select class="form-control" asp-for="UpdateAnnouncement.SubjectId" asp-items="Model.Subjects" id="updateSubject">
+                                            <option disabled selected hidden> Select Subject</option>
+                                        </select>
+                                        <span asp-validation-for="UpdateAnnouncement.SubjectId" class="text-danger"></span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <label>Announcement Title</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="UpdateAnnouncement.AnnouncementTitle" id="announcementTitle" />
+                                        <span asp-validation-for="UpdateAnnouncement.AnnouncementTitle" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Announcement Content</label>
+                                    </th>
+                                    <td>
+                                        <textarea id="announcementContent" asp-for="UpdateAnnouncement.AnnouncementContent" rows="4" cols="40"></textarea>
+                                        <span asp-validation-for="UpdateAnnouncement.AnnouncementContent" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div class="modal-footer">
+                                
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="UpdateAnnouncement" />
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script>
-    function changePages() {
-        var _size = $("#rowsPerPage :selected").val();
-        //$.get("/Institute/ManageCircular", { page: 1, size=_size }, function (data) { }
-        $.ajax({
-            type: 'GET',
-            url: '/Teacher/ManageAnnouncement',
-            data: { page: 1, size=_size },
+
+    function ShowAnnouncementDetail(id) {
+        $.get("/Teacher/ViewAnnouncement", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                
+                $("#announcementMadeBy").text(data.data.announcementMadeBy);
+                $("#announcementContent").text(data.data.announcementContent);
+                $("#announcementTitle").text(data.data.announcementTitle);
+                $("#detailsContent").text(data.data.announcementContent);
+                $("#updateClass").text(data.data.class.className);
+                $("#updateSection").text(data.data.section.sectionName);
+                $("#updateSubject").text(data.data.subject.subjectName);
+            }
         });
+    }
+
+    function EditAnnouncement(id) {
+        $.get("/Teacher/ViewAnnouncement", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                $("#announcementId").val(data.data.id);
+                $("#announcementMadeBy").text(data.data.announcementMadeBy);
+                $("#announcementContent").text(data.data.announcementContent);
+                $("#announcementTitle").val(data.data.announcementTitle);
+                $("#detailsContent").text(data.data.announcementContent);               
+                $("#updateClass").find(`option[value="${data.data.class.id}"]`).attr('selected', 'selected');
+                $("#updateSection").find(`option[value="${data.data.section.id}"]`).attr('selected', 'selected');
+                $("#updateSubject").find(`option[value="${data.data.subject.id}"]`).attr('selected', 'selected');
+            }
+        });
+    }
 
 </script>
