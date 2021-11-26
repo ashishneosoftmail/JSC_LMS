@@ -34,6 +34,8 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IConfiguration _configuration;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        private readonly IAnnouncementRepository _announcementRepository;
+        private readonly ITeacherRepository _teacherRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         /// <summary>
         /// constructor for institute controller
@@ -42,7 +44,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository,IWebHostEnvironment webHostEnvironment)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
@@ -51,6 +53,8 @@ namespace JSC_LSM.UI.Controllers
             _apiBaseUrl = apiBaseUrl;
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
+            _announcementRepository = announcementRepository;
+            _teacherRepository = teacherRepository;
         }
         public IActionResult Index()
         {
@@ -526,125 +530,6 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdateProfileInformation(ManageProfile ManageProfile)
-        //{
-        //    ViewBag.UpdateInstituteadminSuccess = null;
-        //    ViewBag.UpdateInstituteadminError = null;
-
-        //    UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto = new UpdateInstituteAdminProfileInformationDto();
-        //    if (ModelState.IsValid)
-        //    {
-
-        //        updateInstituteAdminProfileInformationDto.Id = Convert.ToInt32(TempData["InstituteAdminId"].ToString());
-        //        updateInstituteAdminProfileInformationDto.Name = ManageProfile.ProfileInformation.Name;
-        //        updateInstituteAdminProfileInformationDto.Mobile = ManageProfile.ProfileInformation.Mobile;
-
-        //        UpdateInstituteAdminProfileInformationResponseModel updateInstituteAdminProfileInformationResponseModel = null;
-        //        ViewBag.UpdateInstituteadminSuccess = null;
-        //        ViewBag.UpdateInstituteadminError = null;
-        //        ResponseModel responseModel = new ResponseModel();
-
-        //        updateInstituteAdminProfileInformationResponseModel = await _instituteRepository.UpdateInstituteAdminPersonalInformation(updateInstituteAdminProfileInformationDto);
-
-
-        //        if (updateInstituteAdminProfileInformationResponseModel.Succeeded)
-        //        {
-        //            if (updateInstituteAdminProfileInformationResponseModel == null && updateInstituteAdminProfileInformationResponseModel?.data == null)
-        //            {
-        //                responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-        //                responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-        //            }
-        //            if (updateInstituteAdminProfileInformationResponseModel != null)
-        //            {
-        //                if (updateInstituteAdminProfileInformationResponseModel?.data != null)
-        //                {
-        //                    responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-        //                    responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-        //                    ViewBag.UpdateInstituteadminSuccess = "Details Updated Successfully";
-
-        //                    return View("ManageProfile");
-        //                }
-        //                else
-        //                {
-        //                    responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-        //                    responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-        //                    ViewBag.UpdateInstituteadminError = updateInstituteAdminProfileInformationResponseModel.message;
-        //                    return View("ManageProfile");
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            responseModel.ResponseMessage = updateInstituteAdminProfileInformationResponseModel.message;
-        //            responseModel.IsSuccess = updateInstituteAdminProfileInformationResponseModel.Succeeded;
-        //            ViewBag.UpdateInstituteadminError = updateInstituteAdminProfileInformationResponseModel.message;
-        //        }
-        //    }
-        //    return View("ManageProfile");
-        //}
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> InstituteAdminChangePassword(ManageProfile ManageProfile)
-        //{
-        //    ViewBag.UpdateInstituteadminChangePasswordSuccess = null;
-        //    ViewBag.UpdateInstituteadminChangePasswordError = null;
-        //    var userId = Convert.ToString(Request.Cookies["Id"]);
-        //    UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto = new UpdateInstituteAdminChangePasswordDto();
-        //    if (ModelState.IsValid)
-        //    {
-        //        updateInstituteAdminChangePasswordDto.UserId = userId;
-        //        updateInstituteAdminChangePasswordDto.CurrentPassword = ManageProfile.ChangePassword.CurrentPassword;
-        //        updateInstituteAdminChangePasswordDto.NewPassword = ManageProfile.ChangePassword.NewPassword;
-
-        //        UpdateInstituteAdminChangePasswordResponseModel updateInstituteAdminChangePasswordResponseModel = null;
-        //        ViewBag.UpdateInstituteadminChangePasswordSuccess = null;
-        //        ViewBag.UpdateInstituteadminChangePasswordError = null;
-        //        ResponseModel responseModel = new ResponseModel();
-
-        //        updateInstituteAdminChangePasswordResponseModel = await _instituteRepository.UpdateInstituteAdminChangePassword(updateInstituteAdminChangePasswordDto);
-
-
-        //        if (updateInstituteAdminChangePasswordResponseModel.Succeeded)
-        //        {
-        //            if (updateInstituteAdminChangePasswordResponseModel == null && updateInstituteAdminChangePasswordResponseModel?.data == null)
-        //            {
-        //                responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-        //                responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-        //            }
-        //            if (updateInstituteAdminChangePasswordResponseModel != null)
-        //            {
-        //                if (updateInstituteAdminChangePasswordResponseModel?.data != null)
-        //                {
-        //                    responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-        //                    responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-
-        //                    ViewBag.UpdateInstituteadminChangePasswordSuccess = updateInstituteAdminChangePasswordResponseModel.message;
-        //                    return View("ManageProfile");
-
-        //                }
-        //                else
-        //                {
-        //                    responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-        //                    responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-        //                    ViewBag.UpdateInstituteadminChangePasswordError = updateInstituteAdminChangePasswordResponseModel.message;
-        //                    return View("ManageProfile");
-
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            responseModel.ResponseMessage = updateInstituteAdminChangePasswordResponseModel.message;
-        //            responseModel.IsSuccess = updateInstituteAdminChangePasswordResponseModel.Succeeded;
-        //            ViewBag.UpdateInstituteadminChangePasswordError = updateInstituteAdminChangePasswordResponseModel.message;
-        //        }
-        //    }
-        //    return View("ManageProfile");
-        //}
-
         [HttpGet]
         public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)
         {
@@ -848,6 +733,124 @@ namespace JSC_LSM.UI.Controllers
         {
             return null;
         }
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetTeacherName()
+        {
+            var data = await _teacherRepository.GetAllTeacherDetails();
+            List<SelectListItem> teachers = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                teachers.Add(new SelectListItem
+                {
+                    Text = item.TeacherName,
+                    Value = Convert.ToString(item.TeacherName)
+                });
+            }
+            return teachers;
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ManageAnnouncement(int page = 1, int size = 20)
+        {
+
+            int recsCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.Pager = pager;
+            model.Schools = await _common.GetSchool();
+            model.Classes = await _common.GetClass();
+            model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            var paginationData = await _announcementRepository.GetAnnouncementListByPagination(page, size);
+            List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
+            foreach (var data in paginationData.data)
+            {
+                pagedData.Add(new AnnouncementPagination()
+                {
+                    Id = data.Id,
+                    AnnouncementTitle = data.AnnouncementTitle,
+                    AnnouncementContent = data.AnnouncementContent,
+                    School = data.School,
+                    Class = data.Class,
+                    Section = data.Section,
+                    Subject = data.Subject,
+                    Teacher = data.Teacher,
+                    CreatedDate = data.CreatedDate,
+
+                });
+            }
+            model.AnnouncementPagination = pagedData;
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchAnnouncement(int SchoolId, int ClassId, int SectionId, int SubjectId , string TeacherName , DateTime CreatedDate)
+        {
+            if(TeacherName == null)
+            {
+                TeacherName = "Select Teacher";
+            }
+            List<AnnouncementPagination> data = new List<AnnouncementPagination>();            
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(SchoolId, ClassId, SectionId, SubjectId, TeacherName, "Select Type", null, null, CreatedDate);
+            if (dataList.data != null)
+            {
+                foreach (var d in dataList.data)
+                {
+                    data.Add(new AnnouncementPagination()
+                    {
+                        Id = d.Id,
+                        AnnouncementTitle = d.AnnouncementTitle,
+                        AnnouncementContent = d.AnnouncementContent,
+                        School = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SchoolDto() { 
+                            Id = d.School.Id, SchoolName = d.School.SchoolName },
+                        Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto() { 
+                            Id = d.Class.Id, ClassName = d.Class.ClassName },
+                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() {
+                            Id = d.Section.Id, SectionName = d.Section.SectionName },
+                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { 
+                            Id = d.Subject.Id, SubjectName = d.Subject.SubjectName },
+                        Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto()
+                        {
+                            Id = d.Teacher.Id , TeacherName = d.Teacher.TeacherName
+                        },
+                        CreatedDate = d.CreatedDate
+
+                    });
+                }
+            }
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.AnnouncementPagination = data;
+            if (dataList.data.Count() == 0)
+            {
+                model.Pager = new Pager(1, 1, 1);
+            }
+            else
+            {
+
+                model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
+            }
+            ViewBag.Pager = model.Pager;
+            model.Schools = await _common.GetSchool();
+            model.Classes = await _common.GetClass();
+            model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            return View("ManageAnnouncement", model);
+        }
+
+        [HttpGet]
+        public async Task<GetAnnouncementByIdResponseModel> ViewAnnouncement(int Id)
+        {
+            var announcement = await _announcementRepository.GetAnnouncementById(Id);
+            return announcement;
+        }
+
     }
 
 }
