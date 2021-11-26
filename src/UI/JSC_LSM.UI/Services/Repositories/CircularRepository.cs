@@ -163,5 +163,41 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return updateCircularResponseModel;
         }
+
+        public async Task<GetAllCircularListBySchoolPaginationResponseModel> GetCircularListBySchoolPagination(int page, int size, int schoolid)
+        {
+            GetAllCircularListBySchoolPaginationResponseModel getAllCircularListBySchoolPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllCircularListBySchoolPaginationResponseModel>(_oApiResponse.data);
+                getAllCircularListBySchoolPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularListBySchoolPaginationResponseModel;
+        }
+
+        public async Task<GetAllCircularListBySchoolResponseModel> GetAllCircularBySchoolList(int schoolid)
+        {
+            GetAllCircularListBySchoolResponseModel getAllCircularListBySchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCircularBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllCircularListBySchoolResponseModel>(_oApiResponse.data);
+                getAllCircularListBySchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularListBySchoolResponseModel;
+        }
     }
 }

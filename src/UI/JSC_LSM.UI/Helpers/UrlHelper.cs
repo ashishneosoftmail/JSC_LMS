@@ -142,6 +142,8 @@ namespace JSC_LSM.UI.Helpers
         public static string GetParentByUserId = "/api/v1/Parents/GetParentByUserId";
 
         public static string GetAnnouncementById = "/api/v1/Announcement/id";
+        public static string GetCircularListBySchoolPagination = "/api/v1/Circular/GetCircularListBySchoolPagination";
+        public static string GetAllCircularBySchool = "/api/v1/Circular/GetAllCircularBySchool";
 
     }
 }

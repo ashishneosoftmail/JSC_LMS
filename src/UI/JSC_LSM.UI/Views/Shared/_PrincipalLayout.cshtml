@@ -62,7 +62,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a asp-action="ManageProfile" asp-controller="Principal" class="dropdown-item">Profile</a>
-                               
+
                                 <div class="dropdown-divider"></div>
                                 <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
                             </div>
@@ -116,7 +116,12 @@
 
                     </li>
 
+                    <li>
+                        <a asp-action="ManageCircular" asp-controller="Principal">
+                            <span>Manage Circular</span>
+                        </a>
 
+                    </li>
                     <li>
                         <a asp-action="ManageStudentUsers" asp-controller="User">
                             <span>Manage Student</span>

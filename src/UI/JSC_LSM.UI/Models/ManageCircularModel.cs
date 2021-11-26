@@ -28,6 +28,7 @@ namespace JSC_LSM.UI.Models
     {
 
     }
+
     public class EditCircular : UpdateCircularDto
     {
         public IFormFile fileUpload { get; set; }

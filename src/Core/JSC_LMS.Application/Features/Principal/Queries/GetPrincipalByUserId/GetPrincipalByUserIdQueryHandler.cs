@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByUserId
 {
-   public class GetPrincipalByUserIdQueryHandler : IRequestHandler<GetPrincipalByUserIdQuery, Response<GetPrincipalByUserIdDto>>
+    public class GetPrincipalByUserIdQueryHandler : IRequestHandler<GetPrincipalByUserIdQuery, Response<GetPrincipalByUserIdDto>>
     {
         private readonly IPrincipalRepository _principalRepository;
 
@@ -27,11 +27,11 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByUserId
 
         public async Task<Response<GetPrincipalByUserIdDto>> Handle(GetPrincipalByUserIdQuery request, CancellationToken cancellationToken)
         {
-            
-                _logger.LogInformation("Handle Initiated");
-                Response<GetPrincipalByUserIdDto> responseData = new Response<GetPrincipalByUserIdDto>();
-                var principal = (await _principalRepository.ListAllAsync()).Where<JSC_LMS.Domain.Entities.Principal>(e => e.UserId == request.UserId).FirstOrDefault();
-                if (principal == null)
+
+            _logger.LogInformation("Handle Initiated");
+            Response<GetPrincipalByUserIdDto> responseData = new Response<GetPrincipalByUserIdDto>();
+            var principal = (await _principalRepository.ListAllAsync()).Where<JSC_LMS.Domain.Entities.Principal>(e => e.UserId == request.UserId).FirstOrDefault();
+            if (principal == null)
             {
                 responseData.Succeeded = true;
                 responseData.Message = "Data Doesn't Exist";
@@ -42,7 +42,8 @@ namespace JSC_LMS.Application.Features.Principal.Queries.GetPrincipalByUserId
             {
                 Id = principal.Id,
                 Name = principal.Name,
-                Mobile = principal.Mobile
+                Mobile = principal.Mobile,
+                schoolid = principal.SchoolId
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetPrincipalByUserIdDto>(principalData, "success");
