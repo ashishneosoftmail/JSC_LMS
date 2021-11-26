@@ -2,6 +2,7 @@
 using JSC_LMS.Application.Features.Circulars.Commands.DeleteCircular;
 using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilter;
+using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilterAndSchool;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularList;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularListBySchool;
 using JSC_LMS.Application.Features.Circulars.Queries.GetCircularById;
@@ -99,6 +100,12 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var dtos = await _mediator.Send(new GetAllCircularListBySchoolQuery() { SchoolId = schoolid });
             return Ok(dtos);
+        }
+        [HttpGet("GetCircularByFilterAndSchool", Name = "GetCircularByFilterAndSchool")]
+        public async Task<ActionResult> GetCircularByFilterAndSchool(string _CircularTitle, string _Description, bool _Status, int schoolid)
+        {
+            var getAllCircularByFilterAndSchoolQuery = new GetAllCircularByFilterAndSchoolQuery(_CircularTitle, _Description, _Status, schoolid);
+            return Ok(await _mediator.Send(getAllCircularByFilterAndSchoolQuery));
         }
     }
 }

@@ -534,6 +534,9 @@ namespace JSC_LSM.UI.Controllers
             ManageCircularModel model = new ManageCircularModel();
             model.Pager = pager;
             model.Schools = await _common.GetSchool();
+            model.AddCircular = new AddCircular() { SchoolId = principal.data.schoolid };
+            model.EditCircular = new EditCircular() { SchoolId = principal.data.schoolid };
+            //model.AddCircular.SchoolId = principal.data.schoolid;
             var paginationData = await _circularRepository.GetCircularListBySchoolPagination(page, size, principal.data.schoolid);
             List<CircularPagination> pagedData = new List<CircularPagination>();
             foreach (var data in paginationData.data)
@@ -561,7 +564,8 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.AddCircularError = null;
             manageCircularModel.Schools = await _common.GetSchool();
             CreateCircularDto createCircularDto = new CreateCircularDto();
-
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             if (ModelState.IsValid)
             {
                 var CircularsPath = _configuration["Circulars"];
@@ -614,7 +618,7 @@ namespace JSC_LSM.UI.Controllers
                             ModelState.Clear();
                             ManageCircularModel model = new ManageCircularModel();
                             model.Schools = await _common.GetSchool();
-                            int recsCount = (await _circularRepository.GetAllCircularList()).data.Count();
+                            int recsCount = (await _circularRepository.GetAllCircularBySchoolList(principal.data.schoolid)).data.Count();
                             var page = 1;
                             var size = 5;
                             if (page < 1)
@@ -637,6 +641,9 @@ namespace JSC_LSM.UI.Controllers
                                 });
                             }
                             model.CircularListPagination = pagedData;
+                            model.AddCircular = new AddCircular() { SchoolId = principal.data.schoolid };
+                            model.EditCircular = new EditCircular() { SchoolId = principal.data.schoolid };
+
                             return View("ManageCircular", model);
                         }
                         else
@@ -687,8 +694,10 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> SearchCircular(string circularTitle, string description, bool status)
         {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             List<CircularPagination> data = new List<CircularPagination>();
-            var dataList = await _circularRepository.GetAllCircularByFilterInstituteAdmin(circularTitle, description, status);
+            var dataList = await _circularRepository.GetAllCircularListByFilterAndSchool(circularTitle, description, status, principal.data.schoolid);
             if (dataList.data != null)
             {
                 foreach (var d in dataList.data)
@@ -716,13 +725,20 @@ namespace JSC_LSM.UI.Controllers
 
                 model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
             }
+
+            model.AddCircular = new AddCircular() { SchoolId = principal.data.schoolid };
+            model.EditCircular = new EditCircular() { SchoolId = principal.data.schoolid };
+
             ViewBag.Pager = model.Pager;
             model.Schools = await _common.GetSchool();
             return View("ManageCircular", model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateCircular(ManageCircularModel manageCircularModel, string UpdateCircular)
         {
+
             ViewBag.UpdateCircularSuccess = null;
             ViewBag.UpdateCircularError = null;
             manageCircularModel.Schools = await _common.GetSchool();
@@ -787,7 +803,9 @@ namespace JSC_LSM.UI.Controllers
                             ModelState.Clear();
                             ManageCircularModel model = new ManageCircularModel();
                             model.Schools = await _common.GetSchool();
-                            int recsCount = (await _circularRepository.GetAllCircularList()).data.Count();
+                            var userId = Convert.ToString(Request.Cookies["Id"]);
+                            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+                            int recsCount = (await _circularRepository.GetAllCircularBySchoolList(principal.data.schoolid)).data.Count();
                             var page = 1;
                             var size = 5;
                             if (page < 1)
@@ -809,6 +827,10 @@ namespace JSC_LSM.UI.Controllers
 
                                 });
                             }
+
+                            model.AddCircular = new AddCircular() { SchoolId = principal.data.schoolid };
+                            model.EditCircular = new EditCircular() { SchoolId = principal.data.schoolid };
+
                             model.CircularListPagination = pagedData;
                             return View("ManageCircular", model);
                         }

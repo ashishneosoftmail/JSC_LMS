@@ -19,5 +19,6 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<UpdateCircularResponseModel> EditCircular(UpdateCircularDto updateCircular);
         Task<GetAllCircularListBySchoolPaginationResponseModel> GetCircularListBySchoolPagination(int page, int size, int schoolid);
         Task<GetAllCircularListBySchoolResponseModel> GetAllCircularBySchoolList(int schoolid);
+        Task<GetAllCircularListByFilterAndSchoolResponseModel> GetAllCircularListByFilterAndSchool(string circularTitle, string description, bool status, int schoolid);
     }
 }

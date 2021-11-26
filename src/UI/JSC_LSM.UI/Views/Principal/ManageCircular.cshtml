@@ -376,7 +376,7 @@
 
 
                     <div class="modal-body">
-                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Pricipal">
+                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Principal">
                             @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
                             <table class="table table-borderless">
                                 @Html.HiddenFor(m => m.EditCircular.SchoolId, new { id = "editSchoolId", name = "editSchoolId" })
