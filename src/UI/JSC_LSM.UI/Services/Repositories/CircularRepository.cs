@@ -199,5 +199,23 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getAllCircularListBySchoolResponseModel;
         }
+
+        public async Task<GetAllCircularListByFilterAndSchoolResponseModel> GetAllCircularListByFilterAndSchool(string circularTitle, string description, bool status, int schoolid)
+        {
+            GetAllCircularListByFilterAndSchoolResponseModel getAllCircularListByFilterAndSchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilterAndSchool + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularListByFilterAndSchoolResponseModel = JsonConvert.DeserializeObject<GetAllCircularListByFilterAndSchoolResponseModel>(_oApiResponse.data);
+                getAllCircularListByFilterAndSchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularListByFilterAndSchoolResponseModel;
+        }
     }
 }

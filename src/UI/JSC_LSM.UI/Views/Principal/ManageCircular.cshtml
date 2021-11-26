@@ -215,8 +215,8 @@
                                         </button>
                                         @* <a href="/Institute/EditCircular/@item.Id"
                                             class="btn btn-link">Edit</a>*@
-                                        <a href="/Principal/DeleteCircular/@item.Id"
-                                           class="btn btn-link">Delete</a>
+                                        @*                                        <a href="/Principal/DeleteCircular/@item.Id"
+                                            class="btn btn-link">Delete</a>*@
                                     </div>}
 
                             </td>
@@ -376,7 +376,7 @@
 
 
                     <div class="modal-body">
-                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Pricipal">
+                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Principal">
                             @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
                             <table class="table table-borderless">
                                 @Html.HiddenFor(m => m.EditCircular.SchoolId, new { id = "editSchoolId", name = "editSchoolId" })
