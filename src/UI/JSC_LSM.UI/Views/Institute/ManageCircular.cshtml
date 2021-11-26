@@ -281,6 +281,14 @@
     {
         <script>alert("@ViewBag.AddCircularError")</script>
     }
+    @if (ViewBag.UpdateCircularSuccess != null)
+    {
+        <script>alert("@ViewBag.UpdateCircularSuccess")</script>
+    }
+    @if (ViewBag.UpdateCircularError != null)
+    {
+        <script>alert("@ViewBag.UpdateCircularError")</script>
+    }
 </div>
 
 <div class="col-md-11">
@@ -364,9 +372,9 @@
                     </div>
 
 
-                    <div class="modal-body" >
+                    <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Institute">
-
+                            @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
@@ -403,34 +411,36 @@
                                 <tr>
                                     <th>
                                         <label>File</label>  :
-                                      
+
                                     </th>
                                     <td>
                                         <div class="row">
-                                            <span id="filenameremove" asp-for="EditCircular.Fi">
+                                            <span id="filenameremove">
 
 
                                             </span>
-                                            <a href="" id="filenameremove" asp-for="EditCircular.Fi" ></a>
-                                            <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeFileName()">
+                                            @Html.HiddenFor(m => m.EditCircular.File, new { id = "filename", name = "filename" })
+                                            @*<input type="hidden" id="filename" name="filename" asp-for="EditCircular.File" />*@
+                                            <a id="filenameremove" asp-for="EditCircular.File"></a>
+                                            <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeFileName()" value="checked">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                       
+
                                     </td>
-                                      
-                                   
-                                    </tr>
-                               
-                                    <tr>
-                                        <td colspan="2">
+
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
 
                                         @Html.TextBoxFor(m => m.EditCircular.fileUpload, new { type = "file" })
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
 
-                                       
-                               
+
+
                             </table>
                             <div class="modal-footer">
                                 <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Send" name="UpdateCircular" />
@@ -468,6 +478,7 @@
     function removeFileName() {
         $('#filenameremove').text("");
         $('#removeButton').remove();
+        $("#filename").val(null);
     }
     function ShowCircularDetail(id) {
         $.get("/Institute/ViewCircular", { Id: id }, function (data) {
@@ -491,12 +502,16 @@
         $.get("/Institute/ViewCircular", { Id: id }, function (data) {
             console.log(data);
             if (data) {
-                $("#detailsSchoolName").text(data.data.schoolData.schoolName);
+
+                $("#updateschool").find(`option[value="${data.data.schoolId}"]`).attr('selected', 'selected');
                 $("#updateCirculartitle").val(data.data.circularTitle);
+                $("#circularId").val(data.data.id);
                 $("#updateDescription").text(data.data.description);
                 if (data.data.file != null) {
                     $("#filenameremove").text(data.data.file);
-                    
+                    $("#filename").val(data.data.file);
+                    $("#filenameremove").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+
                 }
                 else {
                     $('#removeButton').remove();
