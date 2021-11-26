@@ -73,9 +73,9 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         [HttpGet("Filter", Name = "GetAnnouncementByFilter")]
-        public async Task<ActionResult> GetAnnouncementByFilter(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
+        public async Task<ActionResult> GetAnnouncementByFilter(int SchoolId, int ClassId, int SectionId, int SubjectId, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
         {
-            var getAnnouncementByFilterQuery = new GetAnnouncementByFilterQuery(SchoolName, ClassName, SectionName,  SubjectName, TeacherName, AnnouncementMadeBy, AnnouncementTitle, AnnouncementContent,CreatedDate);
+            var getAnnouncementByFilterQuery = new GetAnnouncementByFilterQuery(SchoolId, ClassId, SectionId,  SubjectId, TeacherName, AnnouncementMadeBy, AnnouncementTitle, AnnouncementContent,CreatedDate);
             return Ok(await _mediator.Send(getAnnouncementByFilterQuery));
         }
     }

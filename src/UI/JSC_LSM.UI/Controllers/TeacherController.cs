@@ -548,7 +548,8 @@ namespace JSC_LSM.UI.Controllers
             model.AnnouncementPagination = pagedData;
             return View(model);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddAnnouncement(string AddAnnouncement, ManageAnnouncementModel manageAnnouncementModel)
         {
             ViewBag.AddAnnouncementSuccess = null;
@@ -652,5 +653,47 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(manageAnnouncementModel);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchAnnouncement(int ClassId, int SectionId, int SubjectId)
+        {
+            List<AnnouncementPagination> data = new List<AnnouncementPagination>();
+            DateTime date = new DateTime(0001,01,01,0,0,0);
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(0,ClassId,SectionId,SubjectId,"Select Teacher", "Select Type",null,null, date);
+            if (dataList.data != null)
+            {
+                foreach (var d in dataList.data)
+                {
+                    data.Add(new AnnouncementPagination()
+                    {
+                        Id = d.Id,
+                        AnnouncementTitle = d.AnnouncementTitle,
+                        AnnouncementContent = d.AnnouncementContent,
+                         Class= new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto(){ Id = d.Class.Id, ClassName = d.Class.ClassName },
+                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() { Id = d.Section.Id, SectionName = d.Section.SectionName },
+                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { Id = d.Subject.Id, SubjectName = d.Subject.SubjectName },
+                        CreatedDate = d.CreatedDate
+
+                    });
+                }
+            }
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.AnnouncementPagination = data;
+            if (dataList.data.Count() == 0)
+            {
+                model.Pager = new Pager(1, 1, 1);
+            }
+            else
+            {
+
+                model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
+            }
+            ViewBag.Pager = model.Pager;
+            model.Classes = await _common.GetClass();
+            model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            return View("ManageAnnouncement", model);
+        }
+
     }
 }

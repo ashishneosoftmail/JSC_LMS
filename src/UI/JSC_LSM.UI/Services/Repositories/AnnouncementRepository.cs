@@ -136,7 +136,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateAnnouncementResponseModel;
         }
 
-        public async Task<GetAnnouncementByFiltersResponseModel> GetAnnouncementByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
+        public async Task<GetAnnouncementByFiltersResponseModel> GetAnnouncementByFilters(int SchoolId, int ClassId, int SectionId, int SubjectId, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
         {
             GetAnnouncementByFiltersResponseModel getAnnouncementByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -144,7 +144,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);          
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Announcement/Filter?SchoolName ={SchoolName}&ClassName={ClassName}&SectionName={SectionName}&SubjectName={SubjectName}&TeacherName={TeacherName}&AnnouncementMadeBy={AnnouncementMadeBy}&AnnouncementTitle={AnnouncementTitle}&AnnouncementContent={AnnouncementContent}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Announcement/Filter?SchoolId ={SchoolId}&ClassId={ClassId}&SectionId={SectionId}&SubjectId={SubjectId}&TeacherName={TeacherName}&AnnouncementMadeBy={AnnouncementMadeBy}&AnnouncementTitle={AnnouncementTitle}&AnnouncementContent={AnnouncementContent}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAnnouncementByFiltersResponseModel = JsonConvert.DeserializeObject<GetAnnouncementByFiltersResponseModel>(_oApiResponse.data);

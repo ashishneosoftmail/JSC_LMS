@@ -62,8 +62,6 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a asp-action="ManageProfile" asp-controller="Teacher" class="dropdown-item">Profile</a>
-                                <a asp-action="index" asp-controller="farmer" class="dropdown-item">Farmer List</a>
-                                <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
                                 <div class="dropdown-divider"></div>
                                 <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
                             </div>
@@ -83,18 +81,9 @@
 
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">MAIN NAVIGATION</li>
-
-
-
                     <li>
-                        <a href="~/Crop/Index">
-                            <i class="fa fa-circle-o"></i> <span>Crop</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a asp-action="ManageProfile" asp-controller="Teacher">
-                            <span>Manage Teacher</span>
+                        <a asp-action="ManageAnnouncement" asp-controller="Teacher">
+                            <span>Manage Announcement</span>
                         </a>
 
                     </li>
