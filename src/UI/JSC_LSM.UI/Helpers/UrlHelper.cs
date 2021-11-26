@@ -104,7 +104,7 @@ namespace JSC_LSM.UI.Helpers
         public static string UpdateAcademic = "/api/v1/Academic/UpdateAcademic";
 
 
-        public static string UpdateChangePassword= "/api/v1/Account/UpdateChangePassword";
+        public static string UpdateChangePassword = "/api/v1/Account/UpdateChangePassword";
         public static string UpdateProfileInformation = "/api/v1/Account/UpdateProfileInformation";
         public static string GetPrincipalByUserId = "/api/v1/Principal/GetPrincipalByUserId";
 
@@ -125,6 +125,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetCircularById = "/api/v1/Circular/";
         public static string DeleteCircularById = "/api/v1/Circular/";
         public static string GetCircularByFilerInstituteAdmin = "/api/v1/Circular/GetCircularByFilter";
+        public static string EditCircular = "/api/v1/Circular/UpdateCircular";
 
         public static string AddAnnouncement = "/api/v1/Announcement/Add";
         public static string GetAnnouncementByPagination = "/api/v1/Announcement/Pagination";

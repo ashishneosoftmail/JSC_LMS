@@ -209,11 +209,14 @@
 
                                 else
                                 {<div>
-                                        <a href="/Institute/EditCircular/@item.Id"
-                                           class="btn btn-link">Edit</a>
-                                        <a href="/Institute/DeleteCircular/@item.Id"
-                                           class="btn btn-link">Delete</a>
-                                    </div>}
+    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCircular" onclick="EditCircular(@item.Id)">
+        Edit
+    </button>
+   @* <a href="/Institute/EditCircular/@item.Id"
+       class="btn btn-link">Edit</a>*@
+    <a href="/Institute/DeleteCircular/@item.Id"
+       class="btn btn-link">Delete</a>
+</div>}
 
                             </td>
                         </tr>
@@ -280,6 +283,14 @@
     {
         <script>alert("@ViewBag.AddCircularError")</script>
     }
+    @if (ViewBag.UpdateCircularSuccess != null)
+    {
+        <script>alert("@ViewBag.UpdateCircularSuccess")</script>
+    }
+    @if (ViewBag.UpdateCircularError != null)
+    {
+        <script>alert("@ViewBag.UpdateCircularError")</script>
+    }
 </div>
 
 <div class="col-md-11">
@@ -345,91 +356,112 @@
     </div>
 </div>
 
-@*<div class="col-md-11">
+<div class="col-md-11">
 
 
-        <div class="container">
+    <div class="container">
 
-            <div class="modal" id="editCircular">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-
-                        <div class="modal-header">
-                            <h4 class="modal-title text-center">Edit Circular</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
+        <div class="modal" id="editCircular">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
 
-                        <div class="modal-body">
-                            <form method="post" novalidate enctype="multipart/form-data" asp-action="SendCircular" asp-controller="Institute">
-
-                                <table class="table table-borderless">
-                                    <tr>
-                                        <th>
-                                            <label>Select School</label>
-                                        </th>
-                                        <td>
-
-                                            <select class="form-control" asp-for="AddCircular.SchoolId" asp-items="Model.Schools" id="school">
-                                                <option disabled selected hidden> Select School</option>
-                                            </select>
-                                            <span asp-validation-for="AddCircular.SchoolId" class="text-danger"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label>Circular Title</label>
-                                        </th>
-                                        <td>
-                                            <input type="text" class="form-control" asp-for="AddCircular.CircularTitle" id="circulartitle" />
-                                            <span asp-validation-for="AddCircular.CircularTitle" class="text-danger"></span>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label>Description</label>
-                                        </th>
-                                        <td>
-                                            <textarea id="description" asp-for="AddCircular.Description" rows="4" cols="40"></textarea>
-                                            <span asp-validation-for="AddCircular.Description" class="text-danger"></span>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            <label>File</label>
-                                        </th>
-                                        <td>
-
-                                            @Html.TextBoxFor(m => m.AddCircular.fileUpload, new { type = "file" })
-                                            <br />
-                                            @Html.ValidationMessageFor(m => m.AddCircular.fileUpload, "", new { @class = "text-danger" })
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Send" name="SendCircular" />
-                                    <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="SendCircular" />
-
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                </div>
-
-                            </form>
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">Edit Circular</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
 
-                        </div>
+                    <div class="modal-body">
+                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Institute">
+                            @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
+                            <table class="table table-borderless">
+                                <tr>
+                                    <th>
+                                        <label>Select School</label>
+                                    </th>
+                                    <td>
+
+                                        <select class="form-control" asp-for="EditCircular.SchoolId" asp-items="Model.Schools" id="updateschool">
+                                            <option disabled selected hidden> Select School</option>
+                                        </select>
+                                        <span asp-validation-for="EditCircular.SchoolId" class="text-danger"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Circular Title</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="EditCircular.CircularTitle" id="updateCirculartitle" />
+                                        <span asp-validation-for="EditCircular.CircularTitle" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Description</label>
+                                    </th>
+                                    <td>
+                                        <textarea id="updateDescription" asp-for="EditCircular.Description" rows="4" cols="40"></textarea>
+                                        <span asp-validation-for="EditCircular.Description" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>File</label>  :
+
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <span id="filenameremove">
+                                            </span>
+                                            @Html.HiddenFor(m => m.EditCircular.File, new { id = "filename", name = "filename" })
+                                            <a id="filenameremove"></a>
+                                            <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeFileName()" value="checked">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+
+                                        @Html.TextBoxFor(m => m.EditCircular.fileUpload, new { type = "file" })
+                                    </td>
+                                </tr>
+
+
+
+                            </table>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Send" name="UpdateCircular" />
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="UpdateCircular" />
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+
+
+                        </form>
+
 
                     </div>
+
                 </div>
             </div>
-
         </div>
+
     </div>
-*@
+</div>
+
 
 
 
@@ -445,14 +477,54 @@
        s
     }*@
 
+    function removeFileName() {
+        $('#filenameremove').text("");
+        $('#removeButton').remove();
+        $("#filename").val(null);
+    }
+
+
     function ShowCircularDetail(id) {
         $.get("/Institute/ViewCircular", { Id: id }, function (data) {
             console.log(data);
             if (data) {
                 $("#detailsSchoolName").text(data.data.schoolData.schoolName); $("#detailsCircularTitle").text(data.data.circularTitle);
                 $("#detailsSchoolName").text(data.data.schoolData.schoolName); $("#detailsDescription").text(data.data.description);
+
+                if (data.data.file != null) {
+
+                    $("#detailsUploadedFile").text(data.data.file);
+                    $("#detailsUploadedFile").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+                } else {
+                    $("#detailsUploadedFile").text("No File Uploaded");
+                    $("#detailsUploadedFile").attr("href", "#")
+                }
+            }
+        });
+    }
+
+    function EditCircular(id) {
+        $.get("/Institute/ViewCircular", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+
+                $("#updateschool").find(`option[value="${data.data.schoolId}"]`).attr('selected', 'selected');
+                $("#updateCirculartitle").val(data.data.circularTitle);
+                $("#circularId").val(data.data.id);
+                $("#updateDescription").text(data.data.description);
+                if (data.data.file != null) {
+                    $("#filenameremove").text(data.data.file);
+                    $("#filename").val(data.data.file);
+                    $("#filenameremove").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+
+                }
+                else {
+                    $('#removeButton').remove();
+                }
+
                 $("#detailsUploadedFile").text(data.data.file);
                 $("#detailsUploadedFile").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+
             }
         });
     }

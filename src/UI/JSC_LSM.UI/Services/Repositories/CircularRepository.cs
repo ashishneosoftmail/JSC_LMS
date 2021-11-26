@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
+using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -134,6 +135,33 @@ namespace JSC_LSM.UI.Services.Repositories
             }
 
             return getAllCircularByFilterInstituteAdminResponseModel;
+        }
+
+        public async Task<UpdateCircularResponseModel> EditCircular(UpdateCircularDto updateCircular)
+        {
+            UpdateCircularResponseModel updateCircularResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateCircular, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.EditCircular, HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateCircularResponseModel = JsonConvert.DeserializeObject<UpdateCircularResponseModel>(_oApiResponse.data);
+                if (updateCircularResponseModel.Succeeded)
+                {
+                    updateCircularResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateCircularResponseModel.Succeeded = false;
+                }
+            }
+
+            return updateCircularResponseModel;
         }
     }
 }

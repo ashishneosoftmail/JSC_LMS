@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
+using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute;
 using JSC_LMS.Application.Features.Institutes.Commands.UpdateInstituteAdminChangePassword;
@@ -729,9 +730,114 @@ namespace JSC_LSM.UI.Controllers
             return View("ManageCircular", model);
         }
 
-        public async Task<IActionResult> UpdateCircular(ManageCircularModel manageCircularModel, string UpdateCircular, string Cancel)
+        public async Task<IActionResult> UpdateCircular(ManageCircularModel manageCircularModel, string UpdateCircular)
         {
-            return null;
+            ViewBag.UpdateCircularSuccess = null;
+            ViewBag.UpdateCircularError = null;
+            manageCircularModel.Schools = await _common.GetSchool();
+            UpdateCircularDto updateCircularDto = new UpdateCircularDto();
+            if (ModelState.IsValid)
+            {
+                updateCircularDto.Id = manageCircularModel.EditCircular.Id;
+                updateCircularDto.SchoolId = manageCircularModel.EditCircular.SchoolId;
+                updateCircularDto.CircularTitle = manageCircularModel.EditCircular.CircularTitle;
+                updateCircularDto.Description = manageCircularModel.EditCircular.Description;
+                switch (UpdateCircular)
+                {
+                    case "Save":
+                        updateCircularDto.Status = false;
+                        break;
+                    case "Send":
+                        updateCircularDto.Status = true;
+                        break;
+                    default:
+                        updateCircularDto.Status = false;
+                        break;
+                }
+                updateCircularDto.IsActive = true;
+
+                if (manageCircularModel.EditCircular.File == null)
+                {
+                    updateCircularDto.File = null;
+                }
+                if (manageCircularModel.EditCircular.File != null)
+                {
+                    updateCircularDto.File = manageCircularModel.EditCircular.File;
+                }
+                if (manageCircularModel.EditCircular.fileUpload != null)
+                {
+                    var CircularsPath = _configuration["Circulars"];
+
+                    updateCircularDto.File = _common.ProcessUploadFile(manageCircularModel.EditCircular.fileUpload, CircularsPath);
+                }
+                UpdateCircularResponseModel updateCircularResponseModel = null;
+                ViewBag.UpdateCircularSuccess = null;
+                ViewBag.UpdateCircularError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateCircularResponseModel = await _circularRepository.EditCircular(updateCircularDto);
+
+
+                if (updateCircularResponseModel.Succeeded)
+                {
+                    if (updateCircularResponseModel == null && updateCircularResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateCircularResponseModel.message;
+                        responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
+                    }
+                    if (updateCircularResponseModel != null)
+                    {
+                        if (updateCircularResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateCircularResponseModel.message;
+                            responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
+                            ViewBag.UpdateCircularSuccess = "Details Updated Successfully";
+
+                            ModelState.Clear();
+                            ManageCircularModel model = new ManageCircularModel();
+                            model.Schools = await _common.GetSchool();
+                            int recsCount = (await _circularRepository.GetAllCircularList()).data.Count();
+                            var page = 1;
+                            var size = 5;
+                            if (page < 1)
+                                page = 1;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            model.Pager = pager;
+                            var paginationData = await _circularRepository.GetAllCircularListByPagination(page, size);
+                            List<CircularPagination> pagedData = new List<CircularPagination>();
+                            foreach (var data in paginationData.data)
+                            {
+                                pagedData.Add(new CircularPagination()
+                                {
+                                    CircularTitle = data.CircularTitle,
+                                    Description = data.Description,
+                                    SchoolData = data.SchoolData,
+                                    Status = data.Status,
+                                    CreatedDate = data.CreatedDate,
+
+                                });
+                            }
+                            model.CircularListPagination = pagedData;
+                            return View("ManageCircular", model);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateCircularResponseModel.message;
+                            responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
+                            ViewBag.UpdateCircularError = updateCircularResponseModel.message;
+                            return View(manageCircularModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateCircularResponseModel.message;
+                    responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
+                    ViewBag.UpdateCircularError = updateCircularResponseModel.message;
+                }
+            }
+            return View(manageCircularModel);
         }
 
         [HttpGet]

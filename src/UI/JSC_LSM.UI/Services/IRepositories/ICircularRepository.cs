@@ -1,4 +1,5 @@
 ﻿using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
+using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LSM.UI.ResponseModels;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetCircularByIdResponseModel> GetCircularById(int id);
         Task DeleteCircular(int id);
         Task<GetAllCircularByFilterInstituteAdminResponseModel> GetAllCircularByFilterInstituteAdmin(string circularTitle, string description, bool status);
+        Task<UpdateCircularResponseModel> EditCircular(UpdateCircularDto updateCircular);
     }
 }
