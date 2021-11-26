@@ -17,6 +17,7 @@ using ClosedXML.Excel;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
+using JSC_LMS.Application.Features.Announcement.Commands.UpdateAnnouncement;
 
 namespace JSC_LSM.UI.Controllers
 {
@@ -693,6 +694,106 @@ namespace JSC_LSM.UI.Controllers
             model.Sections = await _common.GetSection();
             model.Subjects = await _common.GetSubject();
             return View("ManageAnnouncement", model);
+        }
+
+        public async Task<IActionResult> UpdateAnnouncement(ManageAnnouncementModel manageAnnouncementModel, string UpdateAnnouncement)
+        {
+            ViewBag.UpdateAnnouncementSuccess = null;
+            ViewBag.UpdateAnnouncementError = null;
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var teacher = await _teacherRepository.GetTeacherByUserId(userId);
+
+            var school = await _teacherRepository.GetTeacherById(teacher.data.Id);
+
+            manageAnnouncementModel.Classes = await _common.GetClass();
+            manageAnnouncementModel.Sections = await _common.GetSection();
+            manageAnnouncementModel.Subjects = await _common.GetSubject();
+            UpdateAnnouncementDto updateAnnouncementDto = new UpdateAnnouncementDto();
+            if (ModelState.IsValid)
+            {
+                updateAnnouncementDto.TeacherId = teacher.data.Id;
+                updateAnnouncementDto.SchoolId = school.data.School.Id;
+                updateAnnouncementDto.ClassId = manageAnnouncementModel.AddAnnouncement.ClassId;
+                updateAnnouncementDto.SectionId = manageAnnouncementModel.AddAnnouncement.SectionId;
+                updateAnnouncementDto.SubjectId = manageAnnouncementModel.AddAnnouncement.SubjectId;
+                updateAnnouncementDto.AnnouncementTitle = manageAnnouncementModel.AddAnnouncement.AnnouncementTitle;
+                updateAnnouncementDto.AnnouncementMadeBy = "Teacher";
+                updateAnnouncementDto.AnnouncementContent = manageAnnouncementModel.AddAnnouncement.AnnouncementContent;
+                updateAnnouncementDto.IsActive = true;
+
+                UpdateAnnouncementResponseModel updateAnnouncementResponseModel = null;
+                ViewBag.UpdateAnnouncementSuccess = null;
+                ViewBag.UpdateAnnouncementError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateAnnouncementResponseModel = await _announcementRepository.UpdateAnnouncement(updateAnnouncementDto);
+
+
+                if (updateAnnouncementResponseModel.Succeeded)
+                {
+                    if (updateAnnouncementResponseModel == null && updateAnnouncementResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateAnnouncementResponseModel.message;
+                        responseModel.IsSuccess = updateAnnouncementResponseModel.Succeeded;
+                    }
+                    if (updateAnnouncementResponseModel != null)
+                    {
+                        if (updateAnnouncementResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateAnnouncementResponseModel.message;
+                            responseModel.IsSuccess = updateAnnouncementResponseModel.Succeeded;
+                            ViewBag.UpdateAnnouncementSuccess = "Details Updated Successfully";
+
+                            ModelState.Clear();
+                            ManageAnnouncementModel model = new ManageAnnouncementModel();
+                            model.Classes = await _common.GetClass();
+                            model.Sections = await _common.GetSection();
+                            model.Subjects = await _common.GetSubject();
+                            int recsCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+                            var page = 1;
+                            var size = 5;
+                            if (page < 1)
+                                page = 1;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            model.Pager = pager;
+                            var paginationData = await _announcementRepository.GetAnnouncementListByPagination(page, size);
+                            List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
+                            foreach (var data in paginationData.data)
+                            {
+                                pagedData.Add(new AnnouncementPagination()
+                                {
+                                    Id = data.Id,
+                                    AnnouncementContent = data.AnnouncementContent,
+                                    AnnouncementTitle = data.AnnouncementTitle,
+                                    AnnouncementMadeBy = data.AnnouncementMadeBy,
+                                    Class = data.Class,
+                                    Section = data.Section,
+                                    Subject = data.Subject,
+                                    CreatedDate = data.CreatedDate,
+
+                                });
+                            }
+                            model.AnnouncementPagination = pagedData;
+                            return View("ManageAnnouncement", model);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateAnnouncementResponseModel.message;
+                            responseModel.IsSuccess = updateAnnouncementResponseModel.Succeeded;
+                            ViewBag.UpdateAnnouncementError = updateAnnouncementResponseModel.message;
+                            return View(manageAnnouncementModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateAnnouncementResponseModel.message;
+                    responseModel.IsSuccess = updateAnnouncementResponseModel.Succeeded;
+                    ViewBag.UpdateAnnouncementError = updateAnnouncementResponseModel.message;
+                }
+            }
+            return View(manageAnnouncementModel);
         }
 
     }

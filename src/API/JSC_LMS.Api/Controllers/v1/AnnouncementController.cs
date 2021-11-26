@@ -1,9 +1,11 @@
 ﻿using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
 using JSC_LMS.Application.Features.Announcement.Commands.UpdateAnnouncement;
+using JSC_LMS.Application.Features.Announcement.Queries.GetAllAnnouncementListBySchool;
 using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementbyFilter;
 using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementById;
 using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination;
 using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementList;
+using JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementListByPaginationBySchool;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -77,6 +79,22 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getAnnouncementByFilterQuery = new GetAnnouncementByFilterQuery(SchoolId, ClassId, SectionId,  SubjectId, TeacherName, AnnouncementMadeBy, AnnouncementTitle, AnnouncementContent,CreatedDate);
             return Ok(await _mediator.Send(getAnnouncementByFilterQuery));
+        }
+
+        [HttpGet("GetAnnouncementListBySchoolPagination", Name = "GetAnnouncementListBySchoolPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAnnouncementListBySchoolPagination(int _page, int _size, int _schoolId)
+        {
+            var dtos = await _mediator.Send(new GetAnnouncementListByPaginationBySchoolQuery() { page = _page, size = _size, SchoolId = _schoolId });
+            return Ok(dtos);
+        }
+
+        [HttpGet("GetAllAnnouncementBySchool", Name = "GetAllAnnouncementBySchool")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllAnnouncementBySchool(int schoolid)
+        {
+            var dtos = await _mediator.Send(new GetAllAnnouncementListBySchoolQuery() { SchoolId = schoolid });
+            return Ok(dtos);
         }
     }
 }
