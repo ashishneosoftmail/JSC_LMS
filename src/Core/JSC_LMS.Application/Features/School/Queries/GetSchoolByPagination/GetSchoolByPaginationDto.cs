@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.School.Queries.SchoolFileExport.SchoolCsvExport
+namespace JSC_LMS.Application.Features.School.Queries.GetSchoolByPagination
 {
-    public class SchoolCsvExportDto
+  public  class GetSchoolByPaginationDto
     {
         public int Id { get; set; }
         public string AddressLine1 { get; set; }
@@ -16,11 +16,10 @@ namespace JSC_LMS.Application.Features.School.Queries.SchoolFileExport.SchoolCsv
         public string Email { get; set; }
         public bool IsActive { get; set; }
 
+        public DateTime CreatedDate { get; set; }
         public CityDto City { get; set; }
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
-
-        public InstituteExportDto Institute { get; set; }
-
+        public InstitutePaginationDto Institute { get; set; }
     }
 }
