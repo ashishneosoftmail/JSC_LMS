@@ -947,7 +947,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = changePasswordResponseModel.Succeeded;
 
                             ViewBag.UpdateChangePasswordSuccess = changePasswordResponseModel.message;
-                            return View("ManageProfile");
+                            return RedirectToAction("Index", "Home");
 
                         }
                         else
@@ -955,7 +955,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = changePasswordResponseModel.message;
                             responseModel.IsSuccess = changePasswordResponseModel.Succeeded;
                             ViewBag.UpdateChangePasswordError = changePasswordResponseModel.message;
-                            return View("ManageProfile");
+                            return RedirectToAction("Index", "Home");
 
                         }
                     }
@@ -1012,14 +1012,14 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateProfileInformationResponseModel.Succeeded;
                             ViewBag.UpdateProfileSuccess = "Details Updated Successfully";
 
-                            return View("ManageProfile");
+                            return RedirectToAction("Index", "Home");
                         }
                         else
                         {
                             responseModel.ResponseMessage = updateProfileInformationResponseModel.message;
                             responseModel.IsSuccess = updateProfileInformationResponseModel.Succeeded;
                             ViewBag.UpdateProfileError = updateProfileInformationResponseModel.message;
-                            return View("ManageProfile");
+                            return RedirectToAction("Index", "Home");
                         }
                     }
                 }

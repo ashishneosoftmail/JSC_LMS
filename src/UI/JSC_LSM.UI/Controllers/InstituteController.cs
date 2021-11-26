@@ -531,6 +531,7 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+
         [HttpGet]
         public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)
         {
