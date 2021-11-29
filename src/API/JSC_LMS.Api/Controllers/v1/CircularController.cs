@@ -3,6 +3,7 @@ using JSC_LMS.Application.Features.Circulars.Commands.DeleteCircular;
 using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilter;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilterAndSchool;
+using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilterSchoolAndCreatedDate;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularList;
 using JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularListBySchool;
 using JSC_LMS.Application.Features.Circulars.Queries.GetCircularById;
@@ -106,6 +107,13 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getAllCircularByFilterAndSchoolQuery = new GetAllCircularByFilterAndSchoolQuery(_CircularTitle, _Description, _Status, schoolid);
             return Ok(await _mediator.Send(getAllCircularByFilterAndSchoolQuery));
+        }
+
+        [HttpGet("GetCircularByFilterSchoolAndCreatedDate", Name = "GetCircularByFilterSchoolAndCreatedDate")]
+        public async Task<ActionResult> GetCircularByFilterSchoolAndCreatedDate(string _CircularTitle, string _Description, DateTime _CreatedDate, int schoolid)
+        {
+            var getAllCircularByFilterSchoolAndCreatedDateQuery = new GetAllCircularByFilterSchoolAndCreatedDateQuery(_CircularTitle, _Description, _CreatedDate, schoolid);
+            return Ok(await _mediator.Send(getAllCircularByFilterSchoolAndCreatedDateQuery));
         }
     }
 }
