@@ -661,6 +661,9 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
 
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
@@ -687,6 +690,8 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasIndex("CityId");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("SchoolId");
 
                     b.HasIndex("SectionId");
 
@@ -1020,6 +1025,9 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("SchoolId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
@@ -1046,6 +1054,8 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasIndex("CityId");
 
                     b.HasIndex("ClassId");
+
+                    b.HasIndex("SchoolId");
 
                     b.HasIndex("SectionId");
 
@@ -1500,6 +1510,12 @@ namespace JSC_LMS.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("JSC_LMS.Domain.Entities.School", "SchoolData")
+                        .WithMany("Parents")
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithMany("Parents")
                         .HasForeignKey("SectionId")
@@ -1589,6 +1605,12 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasOne("JSC_LMS.Domain.Entities.Class", "Class")
                         .WithMany("Student")
                         .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("JSC_LMS.Domain.Entities.School", "SchoolData")
+                        .WithMany("Students")
+                        .HasForeignKey("SchoolId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

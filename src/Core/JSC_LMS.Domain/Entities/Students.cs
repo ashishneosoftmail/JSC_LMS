@@ -25,7 +25,9 @@ namespace JSC_LMS.Domain.Entities
         public City City { get; set; }
         public State State { get; set; }
         public Zip Zip { get; set; }
-        
+        public int SchoolId { get; set; }
+        public School SchoolData { get; set; }
+
 
     }
 }

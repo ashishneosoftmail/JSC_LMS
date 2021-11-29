@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByUserId
 {
-   public class GetStudentByUserIdQueryHandler : IRequestHandler<GetStudentByUserIdQuery, Response<GetStudentByUserIdDto>>
+    public class GetStudentByUserIdQueryHandler : IRequestHandler<GetStudentByUserIdQuery, Response<GetStudentByUserIdDto>>
     {
 
         private readonly IStudentRepository _studentRepository;
@@ -43,7 +43,8 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByUserId
             {
                 Id = student.Id,
                 Name = student.StudentName,
-                Mobile = student.Mobile
+                Mobile = student.Mobile,
+                Schoolid = student.SchoolId
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetStudentByUserIdDto>(studentData, "success");

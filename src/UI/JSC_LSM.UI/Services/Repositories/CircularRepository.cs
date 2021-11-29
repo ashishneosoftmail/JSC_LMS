@@ -163,5 +163,77 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return updateCircularResponseModel;
         }
+
+        public async Task<GetAllCircularListBySchoolPaginationResponseModel> GetCircularListBySchoolPagination(int page, int size, int schoolid)
+        {
+            GetAllCircularListBySchoolPaginationResponseModel getAllCircularListBySchoolPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllCircularListBySchoolPaginationResponseModel>(_oApiResponse.data);
+                getAllCircularListBySchoolPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularListBySchoolPaginationResponseModel;
+        }
+
+        public async Task<GetAllCircularListBySchoolResponseModel> GetAllCircularBySchoolList(int schoolid)
+        {
+            GetAllCircularListBySchoolResponseModel getAllCircularListBySchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCircularBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllCircularListBySchoolResponseModel>(_oApiResponse.data);
+                getAllCircularListBySchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularListBySchoolResponseModel;
+        }
+
+        public async Task<GetAllCircularListByFilterAndSchoolResponseModel> GetAllCircularListByFilterAndSchool(string circularTitle, string description, bool status, int schoolid)
+        {
+            GetAllCircularListByFilterAndSchoolResponseModel getAllCircularListByFilterAndSchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilterAndSchool + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllCircularListByFilterAndSchoolResponseModel = JsonConvert.DeserializeObject<GetAllCircularListByFilterAndSchoolResponseModel>(_oApiResponse.data);
+                getAllCircularListByFilterAndSchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllCircularListByFilterAndSchoolResponseModel;
+        }
+
+        public async Task<GetCircularByFilterSchoolAndCreatedDateResponseModel> GetAllCircularListByFilterSchoolAndCreatedDate(string circularTitle, string description, DateTime createdDate, int schoolid)
+        {
+            GetCircularByFilterSchoolAndCreatedDateResponseModel getCircularByFilterSchoolAndCreatedDateResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilterSchoolAndCreatedDate + $"?_CircularTitle={circularTitle}&_Description={description}&_CreatedDate={createdDate:yyyy/MM/dd}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getCircularByFilterSchoolAndCreatedDateResponseModel = JsonConvert.DeserializeObject<GetCircularByFilterSchoolAndCreatedDateResponseModel>(_oApiResponse.data);
+                getCircularByFilterSchoolAndCreatedDateResponseModel.Succeeded = true;
+            }
+
+            return getCircularByFilterSchoolAndCreatedDateResponseModel;
+        }
     }
 }

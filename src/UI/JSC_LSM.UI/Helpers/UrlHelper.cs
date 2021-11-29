@@ -142,6 +142,20 @@ namespace JSC_LSM.UI.Helpers
         public static string GetParentByUserId = "/api/v1/Parents/GetParentByUserId";
 
         public static string GetAnnouncementById = "/api/v1/Announcement/id";
+        public static string GetCircularListBySchoolPagination = "/api/v1/Circular/GetCircularListBySchoolPagination";
+        public static string GetAllCircularBySchool = "/api/v1/Circular/GetAllCircularBySchool";
+
+        public static string GetAnnouncementListBySchoolPagination = "/api/v1/Announcement/GetAnnouncementListBySchoolPagination";
+        public static string GetAllAnnouncementBySchool = "/api/v1/Announcement/GetAllAnnouncementBySchool";
+
+        public static string GetCircularByFilterAndSchool = "/api/v1/Circular/GetCircularByFilterAndSchool";
+
+        public static string GetAllAnnouncementBySchoolClassSection = "/api/v1/Announcement/GetAllAnnouncementBySchoolClassSection";
+        public static string GetAnnouncementListBySchoolClassSectionPagination = "/api/v1/Announcement/GetAnnouncementListBySchoolClassSectionPagination";
+
+        public static string GetCircularByFilterSchoolAndCreatedDate = "/api/v1/Circular/GetCircularByFilterSchoolAndCreatedDate";
+
+
 
 
         public static string AddNewSchool = "/api/v1/School";
