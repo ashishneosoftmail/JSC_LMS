@@ -10,5 +10,7 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByUserId
         public string Name { get; set; }
         public string Mobile { get; set; }
         public int Schoolid { get; set; }
+        public int Classid { get; set; }
+        public int Sectionid { get; set; }
     }
 }
