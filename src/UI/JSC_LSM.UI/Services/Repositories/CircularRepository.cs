@@ -217,5 +217,23 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getAllCircularListByFilterAndSchoolResponseModel;
         }
+
+        public async Task<GetCircularByFilterSchoolAndCreatedDateResponseModel> GetAllCircularListByFilterSchoolAndCreatedDate(string circularTitle, string description, DateTime createdDate, int schoolid)
+        {
+            GetCircularByFilterSchoolAndCreatedDateResponseModel getCircularByFilterSchoolAndCreatedDateResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilterSchoolAndCreatedDate + $"?_CircularTitle={circularTitle}&_Description={description}&_CreatedDate={createdDate:yyyy/MM/dd}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getCircularByFilterSchoolAndCreatedDateResponseModel = JsonConvert.DeserializeObject<GetCircularByFilterSchoolAndCreatedDateResponseModel>(_oApiResponse.data);
+                getCircularByFilterSchoolAndCreatedDateResponseModel.Succeeded = true;
+            }
+
+            return getCircularByFilterSchoolAndCreatedDateResponseModel;
+        }
     }
 }

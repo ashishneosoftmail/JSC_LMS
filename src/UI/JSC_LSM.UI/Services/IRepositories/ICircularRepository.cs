@@ -20,5 +20,6 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<GetAllCircularListBySchoolPaginationResponseModel> GetCircularListBySchoolPagination(int page, int size, int schoolid);
         Task<GetAllCircularListBySchoolResponseModel> GetAllCircularBySchoolList(int schoolid);
         Task<GetAllCircularListByFilterAndSchoolResponseModel> GetAllCircularListByFilterAndSchool(string circularTitle, string description, bool status, int schoolid);
+        Task<GetCircularByFilterSchoolAndCreatedDateResponseModel> GetAllCircularListByFilterSchoolAndCreatedDate(string circularTitle, string description, DateTime createdDate, int schoolid);
     }
 }
