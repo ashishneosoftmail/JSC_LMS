@@ -4,6 +4,18 @@
 	  <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Features\School\Commands\DeleteSchool\**" />
+    <Compile Remove="Features\School\Queries\GetAllSchoolFilter\**" />
+    <Compile Remove="Features\School\Queries\GetAllSchool\**" />
+    <EmbeddedResource Remove="Features\School\Commands\DeleteSchool\**" />
+    <EmbeddedResource Remove="Features\School\Queries\GetAllSchoolFilter\**" />
+    <EmbeddedResource Remove="Features\School\Queries\GetAllSchool\**" />
+    <None Remove="Features\School\Commands\DeleteSchool\**" />
+    <None Remove="Features\School\Queries\GetAllSchoolFilter\**" />
+    <None Remove="Features\School\Queries\GetAllSchool\**" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="10.1.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
@@ -26,10 +38,6 @@
     <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseByFilter\" />
     <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseById\" />
     <Folder Include="Features\KnowledgeBase\Queries\GetKnowledgeBaseByPagination\" />
-
-    <Folder Include="Features\School\Commands\DeleteSchool\" />
-    <Folder Include="Features\School\Queries\GetAllSchool\" />
-    <Folder Include="Features\School\Queries\GetAllSchoolFilter\" />
     <Folder Include="Features\School\Queries\GetSchoolById\" />
     <Folder Include="Features\School\Queries\GetSchoolByPagination\" />
 

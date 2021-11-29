@@ -1,4 +1,4 @@
-﻿@model SchoolModel
+﻿@model UpdateSchoolViewModel
 <style>
     .ButtonDesign {
         width: 10%;
@@ -21,7 +21,14 @@
         font-size: 16px;
     }
 </style>
+<div id="wrapper">
+    @if (ViewBag.GetSchoolById != null)
+    {
+        <script>alert("@ViewBag.GetSchoolById")</script>
+        @*@ViewBag.GetSchoolById = null;*@
+    }
 
+</div>
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form method="post" novalidate>
@@ -56,11 +63,10 @@
                 </div>
                 <br />
 
-
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">State :</label>
                     <div class="col-sm-7">
-                        <select class="form-select" aria-label="Default select example" onchange="GetCityById()" id="principalState" asp-for="StateId" asp-items="Model.States">
+                        <select class="form-select" aria-label="Default select example" asp-for="StateId" asp-items="Model.States" onchange="GetCityById()" id="principalState">
                             <option value="" disabled selected>Select State</option>
                         </select>
                         <span asp-validation-for="StateId" class="text-danger"></span>
@@ -72,7 +78,7 @@
                 <div class="form-group row">
                     <label for="inputZip" class="col-sm-2 col-form-label">Zip :</label>
                     <div class="col-sm-7">
-                        <select class="form-control" id="zip" asp-for="ZipId">
+                        <select class="form-control" id="zip" asp-for="ZipId" asp-items="Model.ZipCode">
                             <option disabled selected hidden>Select Zip</option>
                         </select>
                         <span asp-validation-for="ZipId" class="text-danger"></span>
@@ -81,12 +87,20 @@
                 <br />
 
 
-             
+                @*<div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
+                        <div class="col-sm-7">
+                            <input class="form-control" type="password" id="inputPassword" asp-for="Password" placeholder="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />*@
+
 
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchoolName" class="col-sm-2 col-form-label">School Name :</label><br />
+                    <label for="inputPrincipalName" class="col-sm-2 col-form-label">School Name :</label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputSchoolName" asp-for="SchoolName" placeholder="Ex: Abc Xyz">
                         <span asp-validation-for="SchoolName" class="text-danger"></span>
@@ -118,7 +132,7 @@
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">City :</label>
                     <div class="col-sm-7">
-                        <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
+                        <select class="form-control" id="city" asp-for="CityId" asp-items="Model.Cities" onchange="GetZipByCityId()">
                             <option disabled selected hidden>Select City</option>
                         </select>
                         <span asp-validation-for="CityId" class="text-danger"></span>
@@ -128,19 +142,25 @@
                 <br />
 
 
-       
+                <div class="form-group row">
+                    <label for="inputUserName" class="col-sm-2 col-form-label">Contact Person:</label>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="inputUserName" asp-for="ContactPerson" placeholder="Ex : Username123">
+                        <span asp-validation-for="ContactPerson" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <br />
 
                 <label>Status :</label>
 
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
-                    @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
-                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
+
                 </div>
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
-                    @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
-                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
 
@@ -152,7 +172,8 @@
 
 
         <a asp-controller="School" asp-action="SchoolDetails" class="btn btn-danger float-lg-end ButtonDesign">Cancel</a>
-        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Save</button>
+
+        <button type="submit" class="btn btn-primary float-lg-end ButtonDesign">Update</button>
 
 
 
@@ -160,16 +181,25 @@
     </form>
 </div>
 <div id="wrapper">
-    @if (ViewBag.AddSchoolSuccess != null)
+    @if (ViewBag.UpdateSchoolSuccess != null)
     {
-        <script>alert("@ViewBag.AddSchoolSuccess")</script>
+        <script>alert("@ViewBag.UpdateSchoolSuccess")</script>
     }
-    @if (ViewBag.AddSchoolError != null)
+    @if (ViewBag.UpdateSchoolError != null)
     {
-        <script>alert("@ViewBag.AddSchoolError")</script>
+        <script>alert("@ViewBag.UpdateSchoolError")</script>
     }
 </div>
 <script type="text/javascript">
+   @* loadSchoolList();*@
+    function loadInstituteList() {
+        $.get("/School/GetAllInstitute", function (data) {
+            $("#instituteName").append("<option disabled selected hidden>Select Institute</option>");
+            data.forEach(function (institute) {
+                $('#instituteName').append('<option value="' + institute.value + '">' + institute.text + '</option>');
+            });
+        });
+    }
     function GetCityById() {
         var stateValue = $("#schoolState :selected").val();
         //You can check selected value using alert

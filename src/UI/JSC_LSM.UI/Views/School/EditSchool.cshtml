@@ -1,7 +1,4 @@
-﻿
-
-
-<style>
+﻿<style>
     h2 {
         padding-top: 3%;
     }
@@ -12,10 +9,10 @@
     }
 </style>
 @{
-    ViewData["Title"] = "Add New School";
+    ViewData["Title"] = "EditSchool";
     Layout = "~/Views/Shared/_InstituteLayout.cshtml";
 }
 
-<h2>Add School Details</h2>
+<h1 class="mt-3">Edit Principal</h1>
 
-@{ Html.RenderPartial("_addschool"); }
+@{ Html.RenderPartial("_UpdateSchool"); }
