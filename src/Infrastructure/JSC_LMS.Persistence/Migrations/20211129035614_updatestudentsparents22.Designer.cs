@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211129035614_updatestudentsparents22")]
+    partial class updatestudentsparents22
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -661,7 +663,7 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int?>("SchoolId")
                         .HasColumnType("int");
 
                     b.Property<int>("SectionId")
@@ -1025,7 +1027,7 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int?>("SchoolId")
                         .HasColumnType("int");
 
                     b.Property<int>("SectionId")
@@ -1513,8 +1515,7 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasOne("JSC_LMS.Domain.Entities.School", "SchoolData")
                         .WithMany("Parents")
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithMany("Parents")
@@ -1611,8 +1612,7 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasOne("JSC_LMS.Domain.Entities.School", "SchoolData")
                         .WithMany("Students")
                         .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithMany("Student")

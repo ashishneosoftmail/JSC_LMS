@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211129035140_updatestudentsparents")]
+    partial class updatestudentsparents
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -661,7 +663,7 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int?>("SchoolId")
                         .HasColumnType("int");
 
                     b.Property<int>("SectionId")
@@ -691,7 +693,9 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("SchoolId")
+                        .IsUnique()
+                        .HasFilter("[SchoolId] IS NOT NULL");
 
                     b.HasIndex("SectionId");
 
@@ -1025,7 +1029,7 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int?>("SchoolId")
                         .HasColumnType("int");
 
                     b.Property<int>("SectionId")
@@ -1055,7 +1059,9 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("SchoolId");
+                    b.HasIndex("SchoolId")
+                        .IsUnique()
+                        .HasFilter("[SchoolId] IS NOT NULL");
 
                     b.HasIndex("SectionId");
 
@@ -1511,10 +1517,9 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("JSC_LMS.Domain.Entities.School", "SchoolData")
-                        .WithMany("Parents")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithOne("Parents")
+                        .HasForeignKey("JSC_LMS.Domain.Entities.Parents", "SchoolId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithMany("Parents")
@@ -1609,10 +1614,9 @@ namespace JSC_LMS.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("JSC_LMS.Domain.Entities.School", "SchoolData")
-                        .WithMany("Students")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .WithOne("Students")
+                        .HasForeignKey("JSC_LMS.Domain.Entities.Students", "SchoolId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.Section", "Section")
                         .WithMany("Student")

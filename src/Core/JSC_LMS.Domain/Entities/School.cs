@@ -15,7 +15,7 @@ namespace JSC_LMS.Domain.Entities
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string ContactPerson { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; }        
         public int? CityId { get; set; }
         public int? StateId { get; set; }
         public int? ZipId { get; set; }
@@ -31,9 +31,11 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Teacher> Teacher { get; set; }
         public virtual ICollection<Academic> Academic { get; set; }
         public virtual ICollection<Circular> Circular { get; set; }
-        public Principal Principal { get; set; }
+        public Principal Principal { get; set; }       
         public string Name { get; set; }
         public virtual ICollection<Announcement> Announcement { get; set; }
+        public ICollection<Students> Students { get; set; }
+        public ICollection<Parents> Parents { get; set; }
 
     }
 }

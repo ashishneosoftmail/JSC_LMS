@@ -301,6 +301,14 @@
     {
         <script>alert("@ViewBag.AddAnnouncementError")</script>
     }
+    @if (ViewBag.UpdateAnnouncementSuccess != null)
+    {
+        <script>alert("@ViewBag.UpdateAnnouncementSuccess")</script>
+    }
+    @if (ViewBag.UpdateAnnouncementError != null)
+    {
+        <script>alert("@ViewBag.UpdateAnnouncementError")</script>
+    }
 </div>
 
 <div class="col-md-11">
