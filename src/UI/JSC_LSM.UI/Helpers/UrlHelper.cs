@@ -149,7 +149,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllAnnouncementBySchool = "/api/v1/Announcement/GetAllAnnouncementBySchool";
 
         public static string GetCircularByFilterAndSchool = "/api/v1/Circular/GetCircularByFilterAndSchool";
-
-
+        public static string GetAllAnnouncementBySchoolClassSection = "/api/v1/Announcement/GetAllAnnouncementBySchoolClassSection";
+        public static string GetAnnouncementListBySchoolClassSectionPagination = "/api/v1/Announcement/GetAnnouncementListBySchoolClassSectionPagination";
     }
 }

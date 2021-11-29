@@ -189,5 +189,41 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getAllAnnouncementListBySchoolResponseModel;
         }
+
+        public async Task<GetAllAnnouncementListBySchoolClassSectionResponseModel> GetAllAnnouncementBySchoolClassSectionList(int schoolid, int classid, int sectionid)
+        {
+            GetAllAnnouncementListBySchoolClassSectionResponseModel getAllAnnouncementListBySchoolClassSectionResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+           
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllAnnouncementBySchoolClassSection + $"?schoolid={schoolid}&classid={classid}&sectionid={sectionid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllAnnouncementListBySchoolClassSectionResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolClassSectionResponseModel>(_oApiResponse.data);
+                getAllAnnouncementListBySchoolClassSectionResponseModel.Succeeded = true;
+            }
+
+            return getAllAnnouncementListBySchoolClassSectionResponseModel;
+        }
+
+        public async Task<GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel> GetAnnouncementListBySchoolClassSectionPagination(int page, int size, int schoolid, int classid, int sectionid)
+        {
+            GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel getAllAnnouncementListBySchoolClassSectionPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementListBySchoolClassSectionPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}&_classid={classid}&_sectionid={sectionid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllAnnouncementListBySchoolClassSectionPaginationResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel>(_oApiResponse.data);
+                getAllAnnouncementListBySchoolClassSectionPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllAnnouncementListBySchoolClassSectionPaginationResponseModel;
+        }
     }
 }
