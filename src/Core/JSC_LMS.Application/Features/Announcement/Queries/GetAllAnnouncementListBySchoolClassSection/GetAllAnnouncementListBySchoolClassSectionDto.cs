@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Application.Features.Announcement.Queries.GetAllAnnouncementListBySchool
+namespace JSC_LMS.Application.Features.Announcement.Queries.GetAllAnnouncementListBySchoolClassSection
 {
-    public class GetAllAnnouncementListBySchoolDto
+   public class GetAllAnnouncementListBySchoolClassSectionDto
     {
         public int Id { get; set; }
         public string AnnouncementMadeBy { get; set; }

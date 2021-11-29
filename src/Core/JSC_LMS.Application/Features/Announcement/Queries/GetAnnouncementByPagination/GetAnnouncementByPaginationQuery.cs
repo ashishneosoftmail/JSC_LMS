@@ -12,5 +12,6 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPag
     {
         public int page { get; set; }
         public int size { get; set; }
+       
     }
 }

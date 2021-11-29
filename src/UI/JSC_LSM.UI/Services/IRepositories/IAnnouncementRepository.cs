@@ -19,5 +19,7 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetAllAnnouncementListBySchoolPaginationResponseModel> GetAnnouncementListBySchoolPagination(int page, int size, int schoolid);
         Task<GetAllAnnouncementListBySchoolResponseModel> GetAllAnnouncementBySchoolList(int schoolid);
+        Task<GetAllAnnouncementListBySchoolClassSectionResponseModel> GetAllAnnouncementBySchoolClassSectionList(int schoolid , int classid,int sectionid);
+        Task<GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel> GetAnnouncementListBySchoolClassSectionPagination(int page, int size, int schoolid , int classid, int sectionid);
     }
 }

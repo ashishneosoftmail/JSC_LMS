@@ -32,5 +32,10 @@ namespace JSC_LMS.Persistence.Repositories
         {
             return await GetQueryable().Where<Announcement>(x => x.SchoolId == schoolid).Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
         }
+
+        public async Task<IReadOnlyList<Announcement>> GetPagedReponseAsyncBySchoolIdClassIdSectionId(int page, int size, int schoolid, int classid, int sectionid)
+        {
+            return await GetQueryable().Where<Announcement>(x => x.SchoolId == schoolid).Where<Announcement>(x => x.ClassId == classid).Where<Announcement>(x => x.SectionId == sectionid).Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+        }
     }
 }
