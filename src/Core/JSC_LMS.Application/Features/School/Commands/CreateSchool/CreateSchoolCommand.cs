@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.School.Commands.CreateSchool
 {
     public class CreateSchoolCommand : IRequest<Response<CreateSchoolDto>>
     {
+        public CreateSchoolCommand(CreateSchoolDto _createSchoolDto)
+        {
+            createSchoolDto = _createSchoolDto;
+        }
         public CreateSchoolDto createSchoolDto { get; set; }
     }
 }

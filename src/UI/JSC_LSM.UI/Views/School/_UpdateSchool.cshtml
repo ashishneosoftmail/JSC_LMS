@@ -66,7 +66,7 @@
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">State :</label>
                     <div class="col-sm-7">
-                        <select class="form-select" aria-label="Default select example" asp-for="StateId" asp-items="Model.States" onchange="GetCityById()" id="principalState">
+                        <select class="form-select" aria-label="Default select example" asp-for="StateId" asp-items="Model.States" onchange="GetCityById()" id="schoolState">
                             <option value="" disabled selected>Select State</option>
                         </select>
                         <span asp-validation-for="StateId" class="text-danger"></span>
@@ -145,7 +145,7 @@
                 <div class="form-group row">
                     <label for="inputUserName" class="col-sm-2 col-form-label">Contact Person:</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="inputUserName" asp-for="ContactPerson" placeholder="Ex : Username123">
+                        <input type="text" class="form-control" id="contactperson" asp-for="ContactPerson" placeholder="Ex : Username123">
                         <span asp-validation-for="ContactPerson" class="text-danger"></span>
 
                     </div>

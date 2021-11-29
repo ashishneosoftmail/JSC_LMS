@@ -60,7 +60,7 @@
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">State :</label>
                     <div class="col-sm-7">
-                        <select class="form-select" aria-label="Default select example" onchange="GetCityById()" id="principalState" asp-for="StateId" asp-items="Model.States">
+                        <select class="form-select" aria-label="Default select example" onchange="GetCityById()" id="stateName" asp-for="StateId" asp-items="Model.States">
                             <option value="" disabled selected>Select State</option>
                         </select>
                         <span asp-validation-for="StateId" class="text-danger"></span>
@@ -118,7 +118,7 @@
                 <div class="form-group row">
                     <label for="inputState" class="col-sm-2 col-form-label">City :</label>
                     <div class="col-sm-7">
-                        <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
+                        <select class="form-control" id="cityName" asp-for="CityId" onchange="GetZipByCityId()">
                             <option disabled selected hidden>Select City</option>
                         </select>
                         <span asp-validation-for="CityId" class="text-danger"></span>
@@ -171,24 +171,24 @@
 </div>
 <script type="text/javascript">
     function GetCityById() {
-        var stateValue = $("#schoolState :selected").val();
+        var stateValue = $("#stateName :selected").val();
         //You can check selected value using alert
 
         if (stateValue != null) {
             $.get("/School/GetCityByStateId", { id: stateValue }, function (data) {
                 console.log(data);
-                $("#city").empty();
+                $("#cityName").empty();
                 $("#zip").empty();
                 $("#zip").append("<option disabled selected hidden>Select Zip</option>");
-                $("#city").append("<option disabled selected hidden>Select City</option>");
+                $("#cityName").append("<option disabled selected hidden>Select City</option>");
                 data.forEach(function (city) {
-                    $('#city').append('<option value="' + city.value + '">' + city.text + '</option>');
+                    $('#cityName').append('<option value="' + city.value + '">' + city.text + '</option>');
                 });
             });
         }
     }
     function GetZipByCityId() {
-        var cityValue = $("#city :selected").val();
+        var cityValue = $("#cityName :selected").val();
         //You can check selected value using alert
 
         if (cityValue != null) {

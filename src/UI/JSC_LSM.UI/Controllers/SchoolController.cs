@@ -70,7 +70,7 @@ namespace JSC_LSM.UI.Controllers
                 createNewSchool.SchoolName = schoolModel.SchoolName;
                 createNewSchool.Email = schoolModel.Email;
                 createNewSchool.Mobile = schoolModel.Mobile;
-            
+                createNewSchool.ContactPerson = createNewSchool.ContactPerson;
                 createNewSchool.CityId = schoolModel.CityId;
                 createNewSchool.StateId = schoolModel.StateId;
                 createNewSchool.ZipId = schoolModel.ZipId;
@@ -131,7 +131,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _schoolRepository.GetAllSchoolDetails()).data.Count();
+            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
             if (page < 1)
                 page = 1;
             ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
@@ -174,7 +174,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<SchoolViewModel>> GetAllSchoolDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _schoolRepository.GetAllSchoolDetails()).data.Count();
+            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -224,7 +224,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetSchoolName()
         {
-            var data = await _schoolRepository.GetAllSchoolDetails();
+            var data = await _schoolRepository.GetAllSchool();
             List<SelectListItem> school = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -259,6 +259,7 @@ namespace JSC_LSM.UI.Controllers
                 IsActive = school.data.IsActive,
                 Mobile = school.data.Mobile,
                InstituteId= school.data.Institute.Id,
+               ContactPerson=school.data.ContactPerson,
               
                 ZipId = school.data.Zip.Id
             };
@@ -291,7 +292,7 @@ namespace JSC_LSM.UI.Controllers
                 updatePrincipal.SchoolName = updateSchoolViewModel.SchoolName;
                 updatePrincipal.Email = updateSchoolViewModel.Email;
                 updatePrincipal.Mobile = updateSchoolViewModel.Mobile;
-               
+                updatePrincipal.ContactPerson = updatePrincipal.ContactPerson;
                 updatePrincipal.CityId = updateSchoolViewModel.CityId;
                 updatePrincipal.StateId = updateSchoolViewModel.StateId;
                 updatePrincipal.ZipId = updateSchoolViewModel.ZipId;
@@ -341,8 +342,16 @@ namespace JSC_LSM.UI.Controllers
             }
             return View(updateSchoolViewModel);
         }
-       
+
+
+
+     
+
         }
 
+
+
     }
+
+
 

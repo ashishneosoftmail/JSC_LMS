@@ -18,7 +18,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// Get All School  - Developed By Harsh Chheda
         /// </summary>
         /// <returns></returns>
-        Task<GetAllSchoolResponseModel> GetAllSchoolDetails();
+        Task<GetAllSchoolResponseModel> GetAllSchool();
 
         Task<SchoolResponseModel> AddNewSchool(CreateSchoolDto createSchoolDto);
 

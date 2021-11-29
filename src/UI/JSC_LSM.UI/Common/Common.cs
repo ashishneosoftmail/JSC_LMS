@@ -262,7 +262,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> school = new List<SelectListItem>();
             GetAllSchoolResponseModel getAllSchoolResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllSchoolResponseModel = await _schoolRepository.GetAllSchoolDetails();
+            getAllSchoolResponseModel = await _schoolRepository.GetAllSchool();
 
             if (getAllSchoolResponseModel.isSuccess)
             {

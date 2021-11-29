@@ -83,24 +83,6 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllSchoolResponseModel> GetAllSchoolDetails()
-        {
-            GetAllSchoolResponseModel getAllSchoolListResponseModel = null;
-            _aPIRepository = new APIRepository(_configuration);
-
-            _oApiResponse = new APICommunicationResponseModel<string>();
-            byte[] content = Array.Empty<byte>();
-            var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllSchoolDetails, HttpMethod.Get, bytes, _sToken);
-            if (_oApiResponse.data != null)
-            {
-                getAllSchoolListResponseModel = JsonConvert.DeserializeObject<GetAllSchoolResponseModel>(_oApiResponse.data);
-                getAllSchoolListResponseModel.Succeeded = true;
-            }
-
-            return getAllSchoolListResponseModel;
-
-        }
         public async Task<GetSchoolByIdResponseModel> GetSchoolById(int Id)
         {
             GetSchoolByIdResponseModel getSchoolByIdResponseModel = null;

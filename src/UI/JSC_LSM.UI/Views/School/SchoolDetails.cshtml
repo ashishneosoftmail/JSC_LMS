@@ -66,7 +66,7 @@
         <div class="form-group row col-sm-4">
             <label for="schoolName" class="col-sm-5 col-form-label">School Name :</label>
             <div class="col-sm-7">
-                <select class="form-control" id="schoolName">
+                <select class="form-control" id="name">
                     <option value="" disabled selected hidden>Select School</option>
                 </select>
             </div>
@@ -75,7 +75,7 @@
         <div class="form-group row col-sm-4">
             <label for="city" class="col-sm-5 col-form-label">City Name :</label>
             <div class="col-sm-7">
-                <select class="form-control" id="city">
+                <select class="form-control" id="cityName">
                     <option value="" disabled selected hidden>Select City</option>
                 </select>
             </div>
@@ -84,7 +84,7 @@
         <div class="form-group row col-sm-4">
             <label for="state" class="col-sm-5 col-form-label">State Name :</label>
             <div class="col-sm-7">
-                <select class="form-control" id="state">
+                <select class="form-control" id="stateName">
                     <option value="" disabled selected hidden>Select State</option>
                 </select>
             </div>
@@ -336,16 +336,16 @@
 
 <script type="text/javascript">
     function GetCityById() {
-        var stateValue = $("#schoolState :selected").val();
+        var stateValue = $("#stateName :selected").val();
         //You can check selected value using alert
 
         if (stateValue != null) {
             $.get("/School/GetCityByStateId", { id: stateValue }, function (data) {
                 console.log(data);
-                $("#city").empty();
-                $("#city").append("<option disabled selected hidden>Select City</option>");
+                $("#cityName").empty();
+                $("#cityName").append("<option disabled selected hidden>Select City</option>");
                 data.forEach(function (city) {
-                    $('#city').append('<option value="' + city.value + '">' + city.text + '</option>');
+                    $('#cityName').append('<option value="' + city.value + '">' + city.text + '</option>');
                 });
             });
         }
@@ -371,7 +371,7 @@
                 $("#detailsInstituteName").text(data.data.institute.instituteName);
                 $("#detailsAddressLine1").text(data.data.addressLine1);
                 $("#detailsAddressLine2").text(data.data.addressLine2);
-                $("#detailsSchoolName").text(data.data.schoolname);
+                $("#detailsShoolName").text(data.data.name);
                 $("#detailsEmail").text(data.data.email);
                 $("#detailsMobile").text(data.data.mobile);
                 $("#detailsCity").text(data.data.city.cityName);
@@ -393,9 +393,9 @@
     }
     function loadSchoolList() {
         $.get("/School/GetSchoolName", function (data) {
-            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+            $("#name").append("<option disabled selected hidden>Select School</option>");
             data.forEach(function (school) {
-                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
+                $('#name').append('<option value="' + school.value + '">' + school.text + '</option>');
             });
         });
     }
@@ -406,9 +406,9 @@
 
     function loadStateList() {
         $.get("/School/GetAllState", function (data) {
-            $("#schoolState").append("<option disabled selected hidden>Select State</option>");
+            $("#stateName").append("<option disabled selected hidden>Select State</option>");
             data.forEach(function (state) {
-                $('#schoolState').append('<option value="' + state.value + '">' + state.text + '</option>');
+                $('#stateName').append('<option value="' + state.value + '">' + state.text + '</option>');
             });
         });
     }
@@ -419,15 +419,15 @@
     function searchSchool() {
 
         var _instituteName = $("#instituteName :selected").text();
-        var _schoolName = $("#schoolName :selected").text();
+        var _schoolName = $("#name :selected").text();
         var _isActive = $("#status :selected").val();
 
-        var _stateName = $("#schoolState :selected").text();
-        var _cityName = $("#city :selected").text();
+        var _stateName = $("#stateName :selected").text();
+        var _cityName = $("#cityName :selected").text();
         var _date = $("#date").val();
 
 
-        $.get("/School/GetSchoolByFilters?instituteName=" + _instituteName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&city=" + _cityName,"&state="+ _stateName, "&isActive=" + _isActive, function (data) {
+        $.get("/School/GetSchoolByFilters?instituteName=" + _instituteName + "&name=" + _schoolName + "&createdDate=" + _date + "&cityName=" + _cityName,"&stateName="+ _stateName, "&isActive=" + _isActive, function (data) {
                 if (data.length > 0) {
                     $("#tableData").empty();
                     var id = 0;
@@ -436,9 +436,9 @@
                         var result = ` <tr>
                                 <td>${id}</td>
                                 <td>${school.instituteName}</td>
-                                <td>${school.schoolname}</td>
-                                 <td>${school.city}</td>
-                                  <td>${school.state}</td>
+                                <td>${school.name}</td>
+                                 <td>${school.cityName}</td>
+                                  <td>${school.stateName}</td>
                                 
                                 <td>${new Date(school.createdDate).toLocaleDateString()}</td>
 
@@ -480,9 +480,9 @@
                     var result = ` <tr>
                                 <td>${id}</td>
                                 <td>${school.instituteName}</td>
-                                <td>${school.schoolname}</td>
-                                  <td>${school.city}</td>
-                                   <td>${school.state}</td>
+                                <td>${school.name}</td>
+                                  <td>${school.cityName}</td>
+                                   <td>${school.stateName}</td>
 
                                 <td>${new Date(school.createdDate).toLocaleDateString()}</td>
 
