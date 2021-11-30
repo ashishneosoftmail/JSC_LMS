@@ -70,7 +70,7 @@ namespace JSC_LMS.Application.Features.Students.Commands.UpdateStudent
             //studentToUpdate.UserType = request.updateStudentDto.UserType;
             studentToUpdate.AddressLine1 = request.updateStudentDto.AddressLine1;
             studentToUpdate.AddressLine2 = request.updateStudentDto.AddressLine2;
-           
+            studentToUpdate.SchoolId = request.updateStudentDto.SchoolId;
             studentToUpdate.UserId = updateUser.UserId;
             studentToUpdate.Mobile = request.updateStudentDto.Mobile;
             studentToUpdate.CityId = request.updateStudentDto.CityId;

@@ -2,11 +2,13 @@
 using System.Threading.Tasks;
 using JSC_LMS.Application.Features.Students.Commands.CreateStudent;
 using JSC_LMS.Application.Features.Students.Commands.UpdateStudent;
+using JSC_LMS.Application.Features.Students.Queries.GetAllStudentListBySchool;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentByFilter;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentById;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentByPagination;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentByUserId;
 using JSC_LMS.Application.Features.Students.Queries.GetStudentList;
+using JSC_LMS.Application.Features.Students.Queries.GetStudentListByPaginationBySchool;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -86,6 +88,22 @@ namespace JSC_LMS.Api.Controllers.v1
         {
             var getStudentByUserIdQuery = new GetStudentByUserIdQuery() { UserId = UserId };
             return Ok(await _mediator.Send(getStudentByUserIdQuery));
+        }
+
+        [HttpGet("GetAllStudentBySchool", Name = "GetAllStudentBySchool")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllStudentBySchool(int schoolid)
+        {
+            var dtos = await _mediator.Send(new GetAllStudentListBySchoolQuery() { SchoolId = schoolid });
+            return Ok(dtos);
+        }
+
+        [HttpGet("GetStudentListBySchoolPagination", Name = "GetStudentListBySchoolPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetStudentListBySchoolPagination(int _page, int _size, int _schoolId)
+        {
+            var dtos = await _mediator.Send(new GetStudentListByPaginationBySchoolQuery() { page = _page, size = _size, SchoolId = _schoolId });
+            return Ok(dtos);
         }
 
     }

@@ -13,6 +13,8 @@ using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById;
 using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByPagination;
 using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter;
 using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentByUserId;
+using JSC_LMS.Application.Features.ParentsFeature.Queries.GetAllParentsListBySchool;
+using JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsListByPaginationBySchool;
 
 namespace JSC_LMS.Api.Controllers.v1
 {
@@ -88,6 +90,21 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(await _mediator.Send(getParentByUserIdQuery));
         }
 
+        [HttpGet("GetAllParentsBySchool", Name = "GetAllParentsBySchool")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllParentsBySchool(int schoolid)
+        {
+            var dtos = await _mediator.Send(new GetAllParentsListBySchoolQuery() { SchoolId = schoolid });
+            return Ok(dtos);
+        }
 
+
+        [HttpGet("GetParentsListBySchoolPagination", Name = "GetParentsListBySchoolPagination")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetParentsListBySchoolPagination(int _page, int _size, int _schoolId)
+        {
+            var dtos = await _mediator.Send(new GetParentsListByPaginationBySchoolQuery() { page = _page, size = _size, SchoolId = _schoolId });
+            return Ok(dtos);
+        }
     }
 }

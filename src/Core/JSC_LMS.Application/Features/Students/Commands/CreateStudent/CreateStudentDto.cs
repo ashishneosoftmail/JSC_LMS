@@ -47,7 +47,8 @@ namespace JSC_LMS.Application.Features.Students.Commands.CreateStudent
         [Required(ErrorMessage = "Section Is Required")]
         public int SectionId { get; set; }
 
-
+        [Required(ErrorMessage = "School Is Required")]
+        public int SchoolId { get; set; }
 
     }
 }
