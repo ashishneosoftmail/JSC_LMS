@@ -38,6 +38,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ISchoolRepository _schoolRepository;
         /// <summary>
         /// constructor for institute controller
         /// </summary>
@@ -45,7 +46,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository,IWebHostEnvironment webHostEnvironment)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
@@ -56,10 +57,20 @@ namespace JSC_LSM.UI.Controllers
             _configuration = configuration;
             _announcementRepository = announcementRepository;
             _teacherRepository = teacherRepository;
+            _schoolRepository = schoolRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var institutebyUserId = await _instituteRepository.GetInstituteAdminByUserId(userId);
+            var instituteinformation = await _instituteRepository.GetInstituteById(institutebyUserId.data.Id);
+            Institute_InformationModel model = new Institute_InformationModel();
+            model.InstituteName = instituteinformation.data.InstituteName;
+            model.LicensePeriod = Convert.ToInt32(instituteinformation.data.LicenseExpiry.Subtract(DateTime.Today).TotalDays);
+            model.LicenseExpiryDate = instituteinformation.data.LicenseExpiry;
+            var schoolList = (await _schoolRepository.GetAllSchool()).data.Count(x => x.Institute.Id == instituteinformation.data.Id);
+            model.NoOfSchools = schoolList;
+            return View(model);
         }
 
         /// <summary>
@@ -897,13 +908,13 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAnnouncement(int SchoolId, int ClassId, int SectionId, int SubjectId , string TeacherName , DateTime CreatedDate)
+        public async Task<IActionResult> SearchAnnouncement(int SchoolId, int ClassId, int SectionId, int SubjectId, string TeacherName, DateTime CreatedDate)
         {
-            if(TeacherName == null)
+            if (TeacherName == null)
             {
                 TeacherName = "Select Teacher";
             }
-            List<AnnouncementPagination> data = new List<AnnouncementPagination>();            
+            List<AnnouncementPagination> data = new List<AnnouncementPagination>();
             var dataList = await _announcementRepository.GetAnnouncementByFilters(SchoolId, ClassId, SectionId, SubjectId, TeacherName, "Select Type", null, null, CreatedDate);
             if (dataList.data != null)
             {
@@ -914,17 +925,30 @@ namespace JSC_LSM.UI.Controllers
                         Id = d.Id,
                         AnnouncementTitle = d.AnnouncementTitle,
                         AnnouncementContent = d.AnnouncementContent,
-                        School = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SchoolDto() { 
-                            Id = d.School.Id, SchoolName = d.School.SchoolName },
-                        Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto() { 
-                            Id = d.Class.Id, ClassName = d.Class.ClassName },
-                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() {
-                            Id = d.Section.Id, SectionName = d.Section.SectionName },
-                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { 
-                            Id = d.Subject.Id, SubjectName = d.Subject.SubjectName },
+                        School = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SchoolDto()
+                        {
+                            Id = d.School.Id,
+                            SchoolName = d.School.SchoolName
+                        },
+                        Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto()
+                        {
+                            Id = d.Class.Id,
+                            ClassName = d.Class.ClassName
+                        },
+                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto()
+                        {
+                            Id = d.Section.Id,
+                            SectionName = d.Section.SectionName
+                        },
+                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto()
+                        {
+                            Id = d.Subject.Id,
+                            SubjectName = d.Subject.SubjectName
+                        },
                         Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto()
                         {
-                            Id = d.Teacher.Id , TeacherName = d.Teacher.TeacherName
+                            Id = d.Teacher.Id,
+                            TeacherName = d.Teacher.TeacherName
                         },
                         CreatedDate = d.CreatedDate
 

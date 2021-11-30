@@ -35,7 +35,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly ICircularRepository _circularRepository;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
-
+        private readonly IInstituteRepository _instituteRepository;
 
         /// <summary>
         /// Constructor For the PrincipalController - Developed By Harsh Chheda
@@ -44,8 +44,8 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="schoolRepository"></param>
         /// <param name="principalRepository"></param>
 
-       
-        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+
+        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository)
 
         {
             _circularRepository = circularRepository;
@@ -56,11 +56,19 @@ namespace JSC_LSM.UI.Controllers
             _announcementRepository = announcementRepository;
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
-
+            _instituteRepository = instituteRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principalUserID = await _principalRepository.GetPrincipalByUserId(userId);
+            var principalData = await _principalRepository.GetPrincipalById(principalUserID.data.Id);
+            var school = await _schoolRepository.GetSchoolById(principalData.data.School.Id);
+            var institute = await _instituteRepository.GetInstituteById(school.data.Institute.Id);
+            PrincipalInformation model = new PrincipalInformation();
+            model.SchoolName = school.data.SchoolName;
+            model.InstituteName = institute.data.InstituteName;
+            return View(model);
         }
         [HttpGet]
 
@@ -891,12 +899,12 @@ namespace JSC_LSM.UI.Controllers
             var pager = new Pager(recsCount, page, size);
             ViewBag.Pager = pager;
             ManageAnnouncementModel model = new ManageAnnouncementModel();
-            model.Pager = pager;           
+            model.Pager = pager;
             model.Classes = await _common.GetClass();
             model.Sections = await _common.GetSection();
             model.Subjects = await _common.GetSubject();
             model.Teachers = await GetTeacherName();
-            var paginationData = await _announcementRepository.GetAnnouncementListBySchoolPagination(page, size , principal.data.schoolid);
+            var paginationData = await _announcementRepository.GetAnnouncementListBySchoolPagination(page, size, principal.data.schoolid);
             List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
             foreach (var data in paginationData.data)
             {
@@ -910,7 +918,7 @@ namespace JSC_LSM.UI.Controllers
                     Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { Id = data.Subject.Id, SubjectName = data.Subject.SubjectName },
                     Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto() { Id = data.Teacher.Id, TeacherName = data.Teacher.TeacherName },
                     CreatedDate = data.CreatedDate,
-                    
+
 
                 });
             }
@@ -919,7 +927,7 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAnnouncement( int ClassId, int SectionId, int SubjectId, string TeacherName, DateTime CreatedDate)
+        public async Task<IActionResult> SearchAnnouncement(int ClassId, int SectionId, int SubjectId, string TeacherName, DateTime CreatedDate)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var principal = await _principalRepository.GetPrincipalByUserId(userId);
@@ -937,7 +945,7 @@ namespace JSC_LSM.UI.Controllers
                     {
                         Id = d.Id,
                         AnnouncementTitle = d.AnnouncementTitle,
-                        AnnouncementContent = d.AnnouncementContent,                       
+                        AnnouncementContent = d.AnnouncementContent,
                         Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto()
                         {
                             Id = d.Class.Id,
@@ -975,7 +983,7 @@ namespace JSC_LSM.UI.Controllers
                 model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
             }
             ViewBag.Pager = model.Pager;
-            
+
             model.Classes = await _common.GetClass();
             model.Sections = await _common.GetSection();
             model.Subjects = await _common.GetSubject();
