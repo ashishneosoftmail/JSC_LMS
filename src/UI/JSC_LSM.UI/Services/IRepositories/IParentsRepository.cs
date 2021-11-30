@@ -16,11 +16,13 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetAllParentsListResponseModel> GetAllParentsDetails();
 
-        Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(string ClassName, string SectionName, string StudentName, string ParentName,bool IsActive, DateTime CreatedDate);
+        Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(int SchoolId , string ClassName, string SectionName, string StudentName, string ParentName,bool IsActive, DateTime CreatedDate);
 
         Task<GetAllParentsByPaginationResponseModel> GetParentsByPagination(int page, int size);
 
         Task<GetParentByUserIdResponseModel> GetParentByUserId(string UserId);
+        Task<GetAllParentsListBySchoolPaginationResponseModel> GetParentsListBySchoolPagination(int page, int size, int schoolid);
+        Task<GetAllParentsListBySchoolResponseModel> GetAllParentsBySchoolList(int schoolid);
 
     }
 }

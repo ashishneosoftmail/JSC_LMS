@@ -51,6 +51,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents
                 {
                     var data = new JSC_LMS.Domain.Entities.Parents()
                     {
+                        SchoolId = request.createParentDto.SchoolId,
                         ClassId = request.createParentDto.ClassId,
                         SectionId = request.createParentDto.SectionId,
                         UserId = User.UserId,

@@ -164,7 +164,9 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllSchoolDetails = "/api​/v1​/School​/GetAllSchool";
         public static string GetSchoolByFilters = "​/api/v1/School/GetSchoolByFilters";
         public static string GetSchoolByPagination = "/api/v1/School/Pagination";
-
-
+        public static string GetAllStudentBySchool = "/api/v1/Student/GetAllStudentBySchool";
+        public static string GetStudentListBySchoolPagination = "/api/v1/Student/GetStudentListBySchoolPagination";
+        public static string GetAllParentsBySchool = "/api/v1/Parents/GetAllParentsBySchool";
+        public static string GetParentsListBySchoolPagination = "/api/v1/Parents/GetParentsListBySchoolPagination";
     }
 }

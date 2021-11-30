@@ -14,7 +14,7 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetStudentByIdResponseModel> GetStudentById(int Id);
 
-        Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate);
+        Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(int SchoolId , string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate);
 
         Task<GetAllStudentByPaginationResponseModel> GetStudentByPagination(int page, int size);
 
@@ -23,6 +23,8 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<StudentResponseModel> AddNewStudent(CreateStudentDto createStudentDto);
 
         Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string UserId);
+        Task<GetAllStudentListBySchoolPaginationResponseModel> GetStudentListBySchoolPagination(int page, int size, int schoolid);
+        Task<GetAllStudentListBySchoolResponseModel> GetAllStudentBySchoolList(int schoolid);
 
     }
 }

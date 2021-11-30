@@ -50,6 +50,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents
         [Required(ErrorMessage = "Section Is Required")]
         public int SectionId { get; set; }
 
-
+        [Required(ErrorMessage = "School Is Required")]
+        public int SchoolId { get; set; }
     }
 }

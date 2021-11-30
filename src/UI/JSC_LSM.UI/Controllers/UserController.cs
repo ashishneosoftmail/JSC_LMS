@@ -34,6 +34,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IStateRepository _stateRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IParentsRepository _parentsRepository;
+        private readonly IPrincipalRepository _principalRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly ISchoolRepository _schoolRepository;
@@ -44,18 +45,17 @@ namespace JSC_LSM.UI.Controllers
         private readonly IUserRepository _userRepository;
     
 
-        public UserController(IStateRepository stateRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository)
+        public UserController(IStateRepository stateRepository, IPrincipalRepository principalRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository)
 
         {
             _stateRepository = stateRepository;
+            _principalRepository = principalRepository;
             _studentRepository = studentRepository;
             _common = common;
             _apiBaseUrl = apiBaseUrl;
             _classRepository=classRepository;
             _sectionRepository = sectionRepository;
-
             _userRepository = userRepository;
-
             _parentsRepository = parentsRepository;
 
 
@@ -106,6 +106,9 @@ namespace JSC_LSM.UI.Controllers
         {
             ViewBag.AddStudentSuccess = null;
             ViewBag.AddStudentError = null;
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            
             studentModel.States = await _common.GetAllStates();
             studentModel.Classes = await _common.GetClass();
             studentModel.Sections = await _common.GetSection();
@@ -113,7 +116,7 @@ namespace JSC_LSM.UI.Controllers
             //studentModel.RoleName = "Student";
             if (ModelState.IsValid)
             {
-
+                createNewStudent.SchoolId = principal.data.schoolid;
                 createNewStudent.ClassId = studentModel.ClassId;
                 createNewStudent.SectionId = studentModel.SectionId;
                 createNewStudent.AddressLine1 = studentModel.AddressLine1;
@@ -221,6 +224,9 @@ namespace JSC_LSM.UI.Controllers
         {
             ViewBag.UpdateStudentSuccess = null;
             ViewBag.UpdateStudentError = null;
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+           
             updateStudentViewModel.Classes = await _common.GetClass();
             updateStudentViewModel.Sections = await _common.GetSection();
             updateStudentViewModel.States = await _common.GetAllStates();
@@ -229,6 +235,7 @@ namespace JSC_LSM.UI.Controllers
             UpdateStudentDto updateStudent = new UpdateStudentDto();
             if (ModelState.IsValid)
             {
+                updateStudent.SchoolId = principal.data.schoolid;
                 updateStudent.Id = updateStudentViewModel.Id;
                 updateStudent.UserId = TempData["UserId"].ToString();
                 updateStudent.ClassId = updateStudentViewModel.ClassId;
@@ -293,7 +300,9 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetStudentName()
         {
-            var data = await _studentRepository.GetAllStudentDetails();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            var data = await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid);
             List<SelectListItem> students = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -312,7 +321,10 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _studentRepository.GetAllStudentDetails()).data.Count();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            int recsCount = (await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid)).data.Count();
+
             if (page < 1)
                 page = 1;
             ViewBag.GetStudentById = TempData["GetStudentById"] as string;
@@ -325,8 +337,9 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<StudentDetailsViewModel>> GetAllStudentDetails()
         {
             var data = new List<StudentDetailsViewModel>();
-
-            var dataList = await _studentRepository.GetAllStudentDetails();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            var dataList = await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid);
             foreach (var student in dataList.data)
             {
                 data.Add(new StudentDetailsViewModel()
@@ -354,7 +367,9 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<StudentDetailsViewModel>> GetAllStudentDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _studentRepository.GetAllStudentDetails()).data.Count();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            int recsCount = (await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -362,9 +377,9 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             var data = new List<StudentDetailsViewModel>();
 
-            var dataList = await _studentRepository.GetStudentByPagination(page, size);
+            var dataList = await _studentRepository.GetStudentListBySchoolPagination(page, size , principal.data.schoolid);
 
-            foreach (var student in dataList.data.GetStudentListPaginationDto)
+            foreach (var student in dataList.data)
             {
                 data.Add(new StudentDetailsViewModel()
                 {
@@ -448,8 +463,10 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<StudentDetailsViewModel>> GetStudentByFilters( string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate)
         {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             var data = new List<StudentDetailsViewModel>();
-            var dataList = await _studentRepository.GetStudentByFilters( ClassName, SectionName,  StudentName, IsActive, CreatedDate);
+            var dataList = await _studentRepository.GetStudentByFilters( principal.data.schoolid, ClassName, SectionName,  StudentName, IsActive, CreatedDate);
             if (dataList.data != null)
             {
                 foreach (var student in dataList.data)
@@ -484,10 +501,13 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> AddParents()
         {           
             ViewBag.AddParentsError = null;
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             ParentsModel parents = new ParentsModel();
             parents.States = await _common.GetAllStates();
             parents.Classes = await _common.GetClass();
             parents.Sections = await _common.GetSection();
+          
             return View(parents);
 
         }
@@ -502,11 +522,13 @@ namespace JSC_LSM.UI.Controllers
             parentsModel.States = await _common.GetAllStates();
             parentsModel.Classes = await _common.GetClass();
             parentsModel.Sections = await _common.GetSection();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             CreateParentsDto createNewParent = new CreateParentsDto();
          
             if (ModelState.IsValid)
             {
-
+                createNewParent.SchoolId = principal.data.schoolid;
                 createNewParent.ClassId = parentsModel.ClassId;
                 createNewParent.SectionId = parentsModel.SectionId;
                 createNewParent.AddressLine1 = parentsModel.AddressLine1;
@@ -576,6 +598,8 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> EditParents(int id)
         {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             var parents = await _parentsRepository.GetParentsById(id);
             if (parents.data == null)
             {
@@ -588,7 +612,7 @@ namespace JSC_LSM.UI.Controllers
                 tempStd.Add(std.Id);
             }
 
-            var data = await _studentRepository.GetAllStudentDetails();
+            var data = await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid);
             List<SelectListItem> students = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -650,7 +674,8 @@ namespace JSC_LSM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditParents(UpdateParentsViewModel updateParentsViewModel)
         {
-           
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
             ViewBag.UpdateParentsError = null;
             updateParentsViewModel.Classes = await _common.GetClass();
             updateParentsViewModel.Sections = await _common.GetSection();
@@ -661,6 +686,7 @@ namespace JSC_LSM.UI.Controllers
             if (ModelState.IsValid)
             {
                 updateParents.Id = updateParentsViewModel.Id;
+                updateParents.SchoolId = principal.data.schoolid;
                 updateParents.UserId = TempData["UserId"].ToString();
                 updateParents.ClassId = updateParentsViewModel.ClassId;
                 updateParents.SectionId = updateParentsViewModel.SectionId;
@@ -746,7 +772,9 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _parentsRepository.GetAllParentsDetails()).data.Count();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            int recsCount = (await _parentsRepository.GetAllParentsBySchoolList(principal.data.schoolid)).data.Count();
             if (page < 1)
                 page = 1;
             ViewBag.GetParentById = TempData["GetParentById"] as string;
@@ -759,8 +787,10 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<ParentsDetailsViewModel>> GetAllParentsDetails()
         {
             var data = new List<ParentsDetailsViewModel>();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
 
-            var dataList = await _parentsRepository.GetAllParentsDetails();
+            var dataList = await _parentsRepository.GetAllParentsBySchoolList(principal.data.schoolid);
             foreach (var parents in dataList.data)
             {
                 data.Add(new ParentsDetailsViewModel()
@@ -780,7 +810,9 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<ParentsDetailsViewModel>> GetAllParentDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _parentsRepository.GetAllParentsDetails()).data.Count();            
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            int recsCount = (await _parentsRepository.GetAllParentsBySchoolList(principal.data.schoolid)).data.Count();            
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -788,9 +820,9 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             var data = new List<ParentsDetailsViewModel>();
 
-            var dataList = await _parentsRepository.GetParentsByPagination(page, size);
+            var dataList = await _parentsRepository.GetParentsListBySchoolPagination(page,size,principal.data.schoolid);
            
-            foreach (var parents in dataList.data.GetParentsListPaginationDto)
+            foreach (var parents in dataList.data)
             {
                 data.Add(new ParentsDetailsViewModel()
                 {
@@ -854,6 +886,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<ParentsDetailsViewModel> GetParentsById(int Id , string StudentName)
         {
+
             string std = null;
             var parents = await _parentsRepository.GetParentsById(Id);
             for ( int i=0;i< parents.data.Student.Count();i++ )
@@ -886,10 +919,12 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ParentsDetailsViewModel>> GetParentsByFilters(string ClassName, string SectionName, string StudentName,string ParentsName, bool IsActive, DateTime CreatedDate)
+        public async Task<IEnumerable<ParentsDetailsViewModel>> GetParentsByFilters( string ClassName, string SectionName, string StudentName,string ParentsName, bool IsActive, DateTime CreatedDate)
         {
             var data = new List<ParentsDetailsViewModel>();
-            var dataList = await _parentsRepository.GetParentsByFilters(ClassName, SectionName, StudentName,ParentsName, IsActive, CreatedDate);
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            var dataList = await _parentsRepository.GetParentsByFilters(principal.data.schoolid,ClassName, SectionName, StudentName,ParentsName, IsActive, CreatedDate);
             if (dataList.data != null)
             {
                 foreach (var student in dataList.data)

@@ -8,6 +8,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
     public class GetParentsByFilterDto
     {
         public int Id { get; set; }
+        public int SchoolId { get; set; }
         public string StudentName { get; set; }
         public string ParentName { get; set; }       
         public string ClassName { get; set; }
