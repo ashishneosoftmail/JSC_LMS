@@ -1,7 +1,7 @@
 ﻿@model Pager
 
 @{
-    ViewData["Title"] = "Institute Details";
+    ViewData["Title"] = "School Details";
     Layout = "~/Views/Shared/_InstituteLayout.cshtml";
     Pager pager = new Pager();
     int pageNo = 0;
@@ -49,28 +49,50 @@
 
 <div class="container">
     <div class="row">
-        <h2>Manage Principal</h2>
+        <h2>Manage School</h2>
         <h4>Search Filter</h4>
     </div>
     <div class="row">
 
         <div class="form-group row col-sm-4">
-            <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
+            <label for="instituteName" class="col-sm-5 col-form-label">Institute Name</label>
             <div class="col-sm-7">
-                <select class="form-control" id="schoolName">
+                <select class="form-control" id="instituteName">
+                    <option value="" disabled selected hidden>Select Institute</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="schoolName" class="col-sm-5 col-form-label">School Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="name">
                     <option value="" disabled selected hidden>Select School</option>
                 </select>
             </div>
         </div>
 
         <div class="form-group row col-sm-4">
-            <label for="principalName" class="col-sm-5 col-form-label">Principal Name :</label>
+            <label for="city" class="col-sm-5 col-form-label">City Name :</label>
             <div class="col-sm-7">
-                <select class="form-control" id="principalName">
-                    <option value="" disabled selected hidden>Select Principal</option>
+                <select class="form-control" id="cityName">
+                    <option value="" disabled selected hidden>Select City</option>
                 </select>
             </div>
         </div>
+
+        <div class="form-group row col-sm-4">
+            <label for="state" class="col-sm-5 col-form-label">State Name :</label>
+            <div class="col-sm-7">
+                <select class="form-control" id="stateName">
+                    <option value="" disabled selected hidden>Select State</option>
+                </select>
+            </div>
+        </div>
+
+
+
+
 
         <div class="form-group row col-sm-4">
             <label for="status" class="col-sm-5 col-form-label">Status :</label>
@@ -89,16 +111,16 @@
         </div>
 
         <div class="form-group row col-sm-2 btn-text-right">
-            <button type="button" class="btn btn-primary float-lg-end " onclick="searchPrincipal()">Search</button>
+            <button type="button" class="btn btn-primary float-lg-end " onclick="searchSchool()">Search</button>
         </div>
     </div>
 </div>
 <div class="col-md-11">
-    <a asp-controller="Principal" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
+    <a asp-controller="School" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
 
     <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
     <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
-    <a asp-action="AddPrincipal" asp-controller="Principal" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+    <a asp-action="AddSchool" asp-controller="School" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
 
 </div>
 
@@ -108,8 +130,10 @@
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Institute Name</th>
                     <th>School Name</th>
-                    <th>Principal Name</th>
+                    <th>City</th>
+                    <th>State</th>
                     <th>Created Date</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -124,7 +148,7 @@
 <div class="container" id="paginationContainer">
     <span class="justify-content-start">
         <label>Rows Per Page</label>
-        <select class="" id="rowsPerPage" onchange="loadAllPrincipal()">
+        <select class="" id="rowsPerPage" onchange="loadAllSchool()">
             <option value="5" selected>5</option>
             <option value="25">25</option>
             <option value="50">50</option>
@@ -137,38 +161,38 @@
             @if (Model.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(1)">First</button>
+                    <button class="btn btn-link page-link" onclick="loadAllSchool(1)">First</button>
                 </li>
                 <li class="page-item">
-                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.CurrentPage-1))">Previous</button>
+                    <button class="btn btn-link page-link" onclick="loadAllSchool(@(Model.CurrentPage-1))">Previous</button>
                 </li>
             }
             @for (var pge = Model.StartPage; pge <= Model.Endpage; pge++)
             {
                 <li class="page-item">
-                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@pge)">@pge</button>
+                    <button class="btn btn-link page-link" onclick="loadAllSchool(@pge)">@pge</button>
                 </li>
             }
             @if (Model.CurrentPage < Model.TotalPages)
             {
                 <li class="page-item">
-                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.CurrentPage + 1))">Next</button>
+                    <button class="btn btn-link page-link" onclick="loadAllSchool(@(Model.CurrentPage + 1))">Next</button>
                 </li>
                 <li class="page-item">
-                    <button class="btn btn-link page-link" onclick="loadAllPrincipal(@(Model.TotalPages))">Last</button>
+                    <button class="btn btn-link page-link" onclick="loadAllSchool(@(Model.TotalPages))">Last</button>
                 </li>
             }
         </ul>
     }
 </div>
 <div id="wrapper">
-    @if (ViewBag.AddPrincipalSuccess != null)
+    @if (ViewBag.AddSchoolSuccess != null)
     {
-        <script>alert("@ViewBag.AddPrincipalSuccess")</script>
+        <script>alert("@ViewBag.AddSchoolSuccess")</script>
     }
-    @if (ViewBag.AddPrincipalError != null)
+    @if (ViewBag.AddSchoolError != null)
     {
-        <script>alert("@ViewBag.AddPrincipalError")</script>
+        <script>alert("@ViewBag.AddSchoolError")</script>
     }
 </div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -198,7 +222,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title text-center" id="viewUserModel">View User Detail</h4>
+                    <h4 class="modal-title text-center" id="viewUserModel">View School Detail</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -209,18 +233,18 @@
                     <table class="table table-borderless">
                         <tr>
                             <th>
-                                <label>School</label>
+                                <label>Institute</label>
                             </th>
                             <td>
-                                <span id="detailsShoolName"></span>
+                                <span id="detailsInstituteName"></span>
                             </td>
                         </tr>
                         <tr>
                             <th>
-                                <label>Name</label>
+                                <label>School</label>
                             </th>
                             <td>
-                                <span id="detailsName"></span>
+                                <span id="detailsShoolName"></span>
                             </td>
                         </tr>
                         <tr>
@@ -249,10 +273,10 @@
                         </tr>
                         <tr>
                             <th>
-                                <label>Username</label>
+                                <label>Contact Person</label>
                             </th>
                             <td>
-                                <span id="detailsUsername"></span>
+                                <span id="detailsContactPerson"></span>
                             </td>
                         </tr>
                         <tr>
@@ -310,85 +334,122 @@
 </div>
 
 
+<script type="text/javascript">
+    function GetCityById() {
+        var stateValue = $("#stateName :selected").val();
+        //You can check selected value using alert
+
+        if (stateValue != null) {
+            $.get("/School/GetCityByStateId", { id: stateValue }, function (data) {
+                console.log(data);
+                $("#cityName").empty();
+                $("#cityName").append("<option disabled selected hidden>Select City</option>");
+                data.forEach(function (city) {
+                    $('#cityName').append('<option value="' + city.value + '">' + city.text + '</option>');
+                });
+            });
+        }
+    }
+</script>
+
+
+
 <script>
     function loadData() {
         console.log("worked");
         loadSchoolList();
-        loadPrincipalList();
-        loadAllPrincipal();
+        
+        loadInstituteList();
+        loadAllSchool();
     }
     loadData();
 
-    function ShowPrincipalDetail(id) {
-        $.get("/Principal/GetPrincipalById", { Id: id }, function (data) {
+    function ShowSchoolDetail(id) {
+        $.get("/School/GetSchoolById", { Id: id }, function (data) {
             if (data) {
 
-                $("#detailsShoolName").text(data.data.school.schoolName);
+                $("#detailsInstituteName").text(data.data.institute.instituteName);
                 $("#detailsAddressLine1").text(data.data.addressLine1);
                 $("#detailsAddressLine2").text(data.data.addressLine2);
-                $("#detailsName").text(data.data.name);
+                $("#detailsShoolName").text(data.data.name);
                 $("#detailsEmail").text(data.data.email);
                 $("#detailsMobile").text(data.data.mobile);
                 $("#detailsCity").text(data.data.city.cityName);
                 $("#detailsState").text(data.data.state.stateName);
                 $("#detailsZip").text(data.data.zip.zipcode);
-                $("#detailsUsername").text(data.data.username);
+                $("#detailsContactPerson").text(data.data.contactperson);
                 data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
             }
         });
     }
 
+    function loadInstituteList() {
+        $.get("/School/GetAllInstitute", function (data) {
+            $("#instituteName").append("<option disabled selected hidden>Select institute</option>");
+            data.forEach(function (institute) {
+                $('#instituteName').append('<option value="' + institute.value + '">' + institute.text + '</option>');
+            });
+        });
+    }
     function loadSchoolList() {
-        $.get("/Principal/GetAllSchool", function (data) {
-            $("#schoolName").append("<option disabled selected hidden>Select School</option>");
+        $.get("/School/GetSchoolName", function (data) {
+            $("#name").append("<option disabled selected hidden>Select School</option>");
             data.forEach(function (school) {
-                $('#schoolName').append('<option value="' + school.value + '">' + school.text + '</option>');
-            });
-        });
-    }
-    function loadPrincipalList() {
-        $.get("/Principal/GetPrincipalName", function (data) {
-            $("#principalName").append("<option disabled selected hidden>Select Principal</option>");
-            data.forEach(function (principal) {
-                $('#principalName').append('<option value="' + principal.value + '">' + principal.text + '</option>');
+                $('#name').append('<option value="' + school.value + '">' + school.text + '</option>');
             });
         });
     }
 
-    function searchPrincipal() {
 
-        var _schoolName = $("#schoolName :selected").text();
-        var _principalName = $("#principalName :selected").text();
+
+
+
+    function loadStateList() {
+        $.get("/School/GetAllState", function (data) {
+            $("#stateName").append("<option disabled selected hidden>Select State</option>");
+            data.forEach(function (state) {
+                $('#stateName').append('<option value="' + state.value + '">' + state.text + '</option>');
+            });
+        });
+    }
+
+
+
+
+    function searchSchool() {
+
+        var _instituteName = $("#instituteName :selected").text();
+        var _schoolName = $("#name :selected").text();
         var _isActive = $("#status :selected").val();
+
+        var _stateName = $("#stateName :selected").text();
+        var _cityName = $("#cityName :selected").text();
         var _date = $("#date").val();
 
-       @* var school = (_schoolName == "Select School") ? "" : _schoolName;
-        var principal = (_principalName == "Select Principal") ? "" : _principalName;
-        var isActive = (_principalName == "Select Status") ? "" : _isActive;
-        var date = (_date == "") ? "" : _date;*@
 
-        @*if (_schoolName != "Select School" && _principalName != "Select Principal" && _isActive != "Select Status") {*@
-        @* $("#paginationContainer").remove();*@
-        $.get("/Principal/GetPrincipalByFilters?principalName=" + _principalName + "&schoolName=" + _schoolName + "&createdDate=" + _date + "&isActive=" + _isActive, function (data) {
+        $.get("/School/GetSchoolByFilters?instituteName=" + _instituteName + "&name=" + _schoolName + "&createdDate=" + _date + "&cityName=" + _cityName,"&stateName="+ _stateName, "&isActive=" + _isActive, function (data) {
                 if (data.length > 0) {
                     $("#tableData").empty();
                     var id = 0;
-                    data.forEach(function (principal) {
+                    data.forEach(function (school) {
                         id = id + 1;
                         var result = ` <tr>
                                 <td>${id}</td>
-                                <td>${principal.schoolName}</td>
-                                <td>${principal.name}</td>
-                                <td>${new Date(principal.createdDate).toLocaleDateString()}</td>
+                                <td>${school.instituteName}</td>
+                                <td>${school.name}</td>
+                                 <td>${school.cityName}</td>
+                                  <td>${school.stateName}</td>
+                                
+                                <td>${new Date(school.createdDate).toLocaleDateString()}</td>
 
-                                <td>${principal.isActive ? "Active" : "Inactive"}</td>
+                                <td>${school.isActive ? "Active" : "Inactive"}</td>
 
                                 <td>
-                                   <a href="/Principal/EditPrincipal/${principal.id}"
+                                   <a href="/School/EditSchool/${school.id}"
                                        class="btn btn-link"
                                        >Edit</a>
 
-                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(${principal.id})">
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowSchooolDetail(${school.id})">
                                         View
 
                                 </td>
@@ -406,30 +467,33 @@
             });
        @* }*@
     }
-    function loadAllPrincipal(number = 1) {
+    function loadAllSchool(number = 1) {
         var size = $("#rowsPerPage :selected").val();
-        $.get(`/Principal/GetAllPrincipalDetailsByPagination?page=${number}&size=${size}`, function (data) {
+        $.get(`/School/GetAllSchoolDetailsByPagination?page=${number}&size=${size}`, function (data) {
             console.log(data);
             if (data.length > 0) {
                 $("#tableData").empty();
                 var id = 0;
-                data.forEach(function (principal) {
+                data.forEach(function (school) {
 
                     id = id + 1;
                     var result = ` <tr>
                                 <td>${id}</td>
-                                <td>${principal.schoolName}</td>
-                                <td>${principal.name}</td>
-                                <td>${new Date(principal.createdDate).toLocaleDateString()}</td>
+                                <td>${school.instituteName}</td>
+                                <td>${school.name}</td>
+                                  <td>${school.cityName}</td>
+                                   <td>${school.stateName}</td>
 
-                                <td>${principal.isActive ? "Active" : "Inactive"}</td>
+                                <td>${new Date(school.createdDate).toLocaleDateString()}</td>
+
+                                <td>${school.isActive ? "Active" : "Inactive"}</td>
 
                                 <td>
-                                    <a href="/Principal/EditPrincipal/${principal.id}"
+                                    <a href="/School/EditSchool/${school.id}"
                                        class="btn btn-link"
                                        >Edit</a>
 
-                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(${principal.id})">
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowSchoolDetail(${school.id})">
                                         View
 
                                 </td>

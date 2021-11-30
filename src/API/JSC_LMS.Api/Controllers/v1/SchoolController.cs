@@ -37,10 +37,11 @@ namespace JSC_LMS.Api.Controllers.v1
         /// <param name="createSchoolCommand"></param>
         /// <returns></returns>
         [HttpPost(Name = "AddSchool")]
-        public async Task<ActionResult> Create([FromBody] CreateSchoolCommand createSchoolCommand)
+        public async Task<ActionResult> Create(CreateSchoolDto createSchoolDto)
         {
-            var id = await _mediator.Send(createSchoolCommand);
-            return Ok(id);
+            var createSchoolCommand = new CreateSchoolCommand(createSchoolDto);
+            var result = await _mediator.Send(createSchoolCommand);
+            return Ok(result);
         }
         /// <summary>
         /// Updates the school data - Developed By Harsh Chheda
@@ -51,8 +52,9 @@ namespace JSC_LMS.Api.Controllers.v1
         //[ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<ActionResult> Update([FromBody] UpdateSchoolCommand updateSchoolCommand)
+        public async Task<ActionResult> Update(UpdateSchoolDto updateSchoolDto)
         {
+            var updateSchoolCommand = new UpdateSchoolCommand(updateSchoolDto);
             var response = await _mediator.Send(updateSchoolCommand);
             return Ok(response);
         }

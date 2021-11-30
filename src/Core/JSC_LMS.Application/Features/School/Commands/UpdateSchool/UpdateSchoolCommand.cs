@@ -8,6 +8,10 @@ namespace JSC_LMS.Application.Features.School.Commands.UpdateSchool
 {
     public class UpdateSchoolCommand : IRequest<Response<int>>
     {
+        public UpdateSchoolCommand(UpdateSchoolDto _updateSchoolDto)
+        {
+            updateSchoolDto = _updateSchoolDto;
+        }
         public UpdateSchoolDto updateSchoolDto { get; set; }
     }
 }

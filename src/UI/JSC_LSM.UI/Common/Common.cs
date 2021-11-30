@@ -20,19 +20,21 @@ namespace JSC_LSM.UI.Common
         private readonly ICityRepository _cityRepository;
         private readonly IZipRepository _zipRepository;
         private readonly ISchoolRepository _schoolRepository;
+        private readonly IInstituteRepository _instituteRepository;
         private readonly IClassRepository _classRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             _zipRepository = zipRepository;
             _schoolRepository = schoolRepository;
+            _instituteRepository = instituteRepository;
             _classRepository = classRepository;
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
@@ -405,7 +407,43 @@ namespace JSC_LSM.UI.Common
             return null;
         }
 
+        public async Task<List<SelectListItem>> GetInstitute()
+        {
+            List<SelectListItem> subject = new List<SelectListItem>();
+            GetAllInstituteListResponseModel getAllInstituteResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllInstituteResponseModel = await _instituteRepository.GetAllInstituteDetails();
 
+            if (getAllInstituteResponseModel.Succeeded)
+            {
+                if (getAllInstituteResponseModel == null && getAllInstituteResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllInstituteResponseModel.message;
+                    responseModel.IsSuccess = getAllInstituteResponseModel.isSuccess;
+                }
+                if (getAllInstituteResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllInstituteResponseModel.message;
+                    responseModel.IsSuccess = getAllInstituteResponseModel.isSuccess;
+                    foreach (var item in getAllInstituteResponseModel.data)
+                    {
+                        subject.Add(new SelectListItem
+                        {
+                            Text = item.InstituteName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return subject;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllInstituteResponseModel.message;
+                responseModel.IsSuccess = getAllInstituteResponseModel.isSuccess;
+            }
+            return null;
+        }
 
 
 

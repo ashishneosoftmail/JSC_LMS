@@ -157,5 +157,14 @@ namespace JSC_LSM.UI.Helpers
 
 
 
+
+        public static string AddNewSchool = "/api/v1/School";
+        public static string UpdateSchool = "/api/v1/School/UpdateSchool";
+        public static string GetSchoolById = "/api/v1/School/";
+        public static string GetAllSchoolDetails = "/api​/v1​/School​/GetAllSchool";
+
+        public static string GetSchoolByPagination = "/api/v1/School/Pagination";
+
+
     }
 }

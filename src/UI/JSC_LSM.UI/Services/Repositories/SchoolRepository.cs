@@ -1,8 +1,11 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
+using JSC_LMS.Application.Features.School.Commands.CreateSchool;
+using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
 using JSC_LMS.Application.Models.Authentication;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.ResponseModels;
+using JSC_LSM.UI.ResponseModels.SchoolResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -51,8 +54,131 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllSchoolResponseModel;
 
         }
+
+        public async Task<SchoolResponseModel> AddNewSchool(CreateSchoolDto createSchoolDto)
+        {
+            SchoolResponseModel schoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(createSchoolDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewSchool, HttpMethod.Post, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                schoolResponseModel = JsonConvert.DeserializeObject<SchoolResponseModel>(_oApiResponse.data);
+                if (schoolResponseModel.Succeeded)
+                {
+                    schoolResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    schoolResponseModel.Succeeded = false;
+                }
+            }
+
+            return schoolResponseModel;
+
+        }
+
+        public async Task<GetSchoolByIdResponseModel> GetSchoolById(int Id)
+        {
+            GetSchoolByIdResponseModel getSchoolByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetSchoolById + Id, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getSchoolByIdResponseModel = JsonConvert.DeserializeObject<GetSchoolByIdResponseModel>(_oApiResponse.data);
+                getSchoolByIdResponseModel.Succeeded = true;
+            }
+
+            return getSchoolByIdResponseModel;
+
+        }
+
+        public async Task<GetAllSchoolByPaginationResponseModel> GetSchoolByPagination(int page, int size)
+        {
+            GetAllSchoolByPaginationResponseModel getAllSchoolByPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetSchoolByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllSchoolByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllSchoolByPaginationResponseModel>(_oApiResponse.data);
+                getAllSchoolByPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllSchoolByPaginationResponseModel;
+
+        }
+
+        public async Task<UpdateSchoolResponseModel> UpdateSchool(UpdateSchoolDto updateSchoolDto)
+        {
+            UpdateSchoolResponseModel updateSchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            var json = JsonConvert.SerializeObject(updateSchoolDto, Formatting.Indented);
+            byte[] content = Encoding.ASCII.GetBytes(json);
+            var bytes = new ByteArrayContent(content);
+
+            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/School/UpdateSchool", HttpMethod.Put, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                updateSchoolResponseModel = JsonConvert.DeserializeObject<UpdateSchoolResponseModel>(_oApiResponse.data);
+                if (updateSchoolResponseModel.Succeeded)
+                {
+                    updateSchoolResponseModel.Succeeded = true;
+                }
+                else
+                {
+                    updateSchoolResponseModel.Succeeded = false;
+                }
+            }
+
+            return updateSchoolResponseModel;
+        }
+
+        public async Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilters(string InstituteName,string SchoolName, string City, string State, DateTime CreatedDate, bool IsActive)
+        {
+            GetAllSchoolByFiltersResponseModel getSchoolByFiltersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/School/GetSchoolByFilters?InstituteName={InstituteName}&SchoolName={SchoolName}&City={City}&State={State}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getSchoolByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllSchoolByFiltersResponseModel>(_oApiResponse.data);
+                getSchoolByFiltersResponseModel.Succeeded = true;
+            }
+
+            return getSchoolByFiltersResponseModel;
+
+        }
+
+
+
+
         #endregion
     }
+
+
+
+
+
+
+
 
 }
 
