@@ -32,6 +32,14 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
+        public async Task<List<SelectListItem>> GetAllState()
+        {
+            var states = await _common.GetAllStates();
+            return states;
+        }
+
+
+        [HttpGet]
 
         public async Task<IActionResult> AddSchool()
         {
