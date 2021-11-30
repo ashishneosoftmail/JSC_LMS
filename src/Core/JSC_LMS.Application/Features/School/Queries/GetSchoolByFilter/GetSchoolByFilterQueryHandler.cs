@@ -37,7 +37,7 @@ namespace JSC_LMS.Application.Features.School.Queries.GetSchoolByFilter
 
             if (request.SchoolName != "Select School")
             {
-                allSchool = allSchool.Where<JSC_LMS.Domain.Entities.School>(x => (x.Name == request.SchoolName)).ToList();
+                allSchool = allSchool.Where<JSC_LMS.Domain.Entities.School>(x => (x.SchoolName == request.SchoolName)).ToList();
             }
             if (request.CreatedDate.ToShortDateString() != "01-01-0001")
             {

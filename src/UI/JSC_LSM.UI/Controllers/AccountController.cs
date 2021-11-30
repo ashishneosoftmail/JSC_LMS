@@ -106,7 +106,15 @@ namespace JSC_LSM.UI.Controllers
                             Response.Cookies.Append("Name", authenticationResponseModel.userDetails.FirstName + " " + authenticationResponseModel.userDetails.LastName, option);
                             Response.Cookies.Append("RoleId", Convert.ToString(authenticationResponseModel.userDetails.Role.RoleId), option);
                             Response.Cookies.Append("RoleName", Convert.ToString(authenticationResponseModel.userDetails.Role.RoleName), option);
+                            if (authenticationResponseModel.userDetails.Role.RoleName == "Institute Admin")
+                            {
+                                return RedirectToAction("Index", "Institute");
+                            }
+                            else if (authenticationResponseModel.userDetails.Role.RoleName == "Principal")
+                            {
+                                return RedirectToAction("Index", "Principal");
 
+                            }
                             return RedirectToAction("Index", "Home");
                         }
                     }
@@ -312,7 +320,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = updateResetPasswordResponse.message;
                             responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
-                            return RedirectToAction("Login","Account");
+                            return RedirectToAction("Login", "Account");
                         }
                         else
                         {

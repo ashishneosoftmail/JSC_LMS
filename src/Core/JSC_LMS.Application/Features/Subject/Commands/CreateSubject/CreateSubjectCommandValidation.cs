@@ -25,9 +25,7 @@ namespace JSC_LMS.Application.Features.Subject.Commands.CreateSubject
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
 
-            RuleFor(p => p.createSubjectDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+        
         }
     }
 }
