@@ -46,6 +46,33 @@ namespace JSC_LSM.UI.Controllers
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
         }
+        public async Task<IActionResult> Index()
+        {
+            ParentClassInformationModel model = new ParentClassInformationModel();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var studentData = await _studentRepository.GetStudentByUserId(userId);
+            var getStudent = await _studentRepository.GetStudentById(studentData.data.Id);
+
+            model.StudentName = getStudent.data.StudentName;
+
+            var school = await _schoolRepository.GetSchoolById(getStudent.data.SchoolId);
+            model.SchoolName = school.data.SchoolName;
+            model.ClassName = getStudent.data.Class.ClassName;
+            model.SectionName = getStudent.data.Section.SectionName;
+            List<SubjectTeacher> subList = new List<SubjectTeacher>();
+            var teacherlist = (await _teacherRepository.GetAllTeacherDetails()).data.Where(x => x.SchoolId.Id == getStudent.data.SchoolId).Where(x => x.SectionId.Id == getStudent.data.Section.Id).Where(x => x.ClassId.Id == getStudent.data.Class.Id).ToList();
+            foreach (var d in teacherlist)
+            {
+                subList.Add(new SubjectTeacher()
+                {
+                    SubjectName = d.SubjectId.SubjectName,
+                    TeacherSubjectName = d.TeacherName,
+                });
+            }
+            model.SubjectName = subList;
+            return View(model);
+        }
+
 
         [HttpGet]
         public async Task<List<SelectListItem>> GetTeacherName()
@@ -67,7 +94,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var student = await _studentRepository.GetStudentByUserId(userId);
-            int recsCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(student.data.Schoolid , student.data.Classid,student.data.Sectionid)).data.Count();
+            int recsCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(student.data.Schoolid, student.data.Classid, student.data.Sectionid)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -86,7 +113,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     Id = data.Id,
                     AnnouncementTitle = data.AnnouncementTitle,
-                    AnnouncementContent = $"{data.AnnouncementContent.Substring(0,10)}...",
+                    AnnouncementContent = $"{data.AnnouncementContent.Substring(0, 10)}...",
                     Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto() { Id = data.Class.Id, ClassName = data.Class.ClassName },
                     Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() { Id = data.Section.Id, SectionName = data.Section.SectionName },
                     Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { Id = data.Subject.Id, SubjectName = data.Subject.SubjectName },
@@ -101,11 +128,11 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAnnouncement(string AnnouncementTitle , string AnnouncementContent, DateTime CreatedDate)
+        public async Task<IActionResult> SearchAnnouncement(string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var student = await _studentRepository.GetStudentByUserId(userId);
-            
+
             List<AnnouncementPagination> data = new List<AnnouncementPagination>();
             var dataList = await _announcementRepository.GetAnnouncementByFilters(student.data.Schoolid, student.data.Classid, student.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
             if (dataList.data != null)
