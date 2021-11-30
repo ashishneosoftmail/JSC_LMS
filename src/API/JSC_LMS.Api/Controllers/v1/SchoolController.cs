@@ -88,7 +88,7 @@ namespace JSC_LMS.Api.Controllers.v1
         [HttpGet("GetSchoolByFilter", Name = "GetSchoolByFilter")]
         public async Task<ActionResult> GetSchoolByFilter(string SchoolName, string InstituteName, string City, string State, bool IsActive, DateTime CreatedDate)
         {
-            var getPrincipalByFilterQuery = new GetSchoolByFilterQuery(SchoolName, City,State, InstituteName, IsActive, CreatedDate);
+            var getPrincipalByFilterQuery = new GetSchoolByFilterQuery(SchoolName, InstituteName, City,State, IsActive, CreatedDate);
             return Ok(await _mediator.Send(getPrincipalByFilterQuery));
         }
 

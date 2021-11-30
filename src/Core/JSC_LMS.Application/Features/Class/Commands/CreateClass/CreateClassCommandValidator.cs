@@ -17,9 +17,6 @@ namespace JSC_LMS.Application.Features.Class.Commands.CreateClass
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
            
-            RuleFor(p => p.createClassDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
         }
     }
 }

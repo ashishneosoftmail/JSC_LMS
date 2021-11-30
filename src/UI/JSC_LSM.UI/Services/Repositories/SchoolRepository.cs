@@ -148,7 +148,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateSchoolResponseModel;
         }
 
-        public async Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilters(string InstituteName,string SchoolName, string City, string State, DateTime CreatedDate, bool IsActive)
+        public async Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilter(string SchoolName, string InstituteName, string City, string State, bool IsActive, DateTime CreatedDate)
         {
             GetAllSchoolByFiltersResponseModel getSchoolByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -156,7 +156,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/School/GetSchoolByFilters?InstituteName={InstituteName}&SchoolName={SchoolName}&City={City}&State={State}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/School/GetSchoolByFilter?SchoolName={SchoolName}&InstituteName={InstituteName}&City={City}&State={State}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getSchoolByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllSchoolByFiltersResponseModel>(_oApiResponse.data);

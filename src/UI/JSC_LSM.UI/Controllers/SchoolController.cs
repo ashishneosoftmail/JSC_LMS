@@ -148,11 +148,11 @@ namespace JSC_LSM.UI.Controllers
             return View(pager);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<SchoolViewModel>> GetSchoolByFilters(string instituteName, string schoolName,string city,string state, DateTime createdDate, bool isActive)
+       
+        public async Task<IEnumerable<SchoolViewModel>> GetSchoolByFilter(string schoolName, string instituteName, string city,string state,bool isActive ,DateTime createdDate)
         {
             var data = new List<SchoolViewModel>();
-            var dataList = await _schoolRepository.GetSchoolByFilters(schoolName, instituteName,city,state, createdDate, isActive);
+            var dataList = await _schoolRepository.GetSchoolByFilter(schoolName, instituteName,city,state, isActive, createdDate);
             if (dataList.data != null)
             {
                 foreach (var school in dataList.data)
