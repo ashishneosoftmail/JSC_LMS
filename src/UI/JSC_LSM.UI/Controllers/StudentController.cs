@@ -4,6 +4,7 @@ using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
@@ -46,22 +47,38 @@ namespace JSC_LSM.UI.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetTeacherName()
+        {
+            var data = await _teacherRepository.GetAllTeacherDetails();
+            List<SelectListItem> teachers = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                teachers.Add(new SelectListItem
+                {
+                    Text = item.TeacherName,
+                    Value = Convert.ToString(item.TeacherName)
+                });
+            }
+            return teachers;
+        }
         [HttpGet]
         public async Task<IActionResult> ManageAnnouncement(int page = 1, int size = 20)
         {
-
-            int recsCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var student = await _studentRepository.GetStudentByUserId(userId);
+            int recsCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(student.data.Schoolid , student.data.Classid,student.data.Sectionid)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
             ViewBag.Pager = pager;
             ManageAnnouncementModel model = new ManageAnnouncementModel();
             model.Pager = pager;
-            model.Classes = await _common.GetClass();
-            model.Sections = await _common.GetSection();
+            //model.Classes = await _common.GetClass();
+            //model.Sections = await _common.GetSection();
             model.Subjects = await _common.GetSubject();
-            var paginationData = await _announcementRepository.GetAnnouncementListByPagination(page, size);
+            model.Teachers = await GetTeacherName();
+            var paginationData = await _announcementRepository.GetAnnouncementListBySchoolClassSectionPagination(page, size, student.data.Schoolid, student.data.Classid, student.data.Sectionid);
             List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
             foreach (var data in paginationData.data)
             {
@@ -69,16 +86,87 @@ namespace JSC_LSM.UI.Controllers
                 {
                     Id = data.Id,
                     AnnouncementTitle = data.AnnouncementTitle,
-                    AnnouncementContent = data.AnnouncementContent,
-                    //Class = data.Class,
-                    //Section = data.Section,
-                    Subject = data.Subject,
+                    AnnouncementContent = $"{data.AnnouncementContent.Substring(0,10)}...",
+                    Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto() { Id = data.Class.Id, ClassName = data.Class.ClassName },
+                    Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() { Id = data.Section.Id, SectionName = data.Section.SectionName },
+                    Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { Id = data.Subject.Id, SubjectName = data.Subject.SubjectName },
+                    Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto() { Id = data.Teacher.Id, TeacherName = data.Teacher.TeacherName },
                     CreatedDate = data.CreatedDate,
+
 
                 });
             }
             model.AnnouncementPagination = pagedData;
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchAnnouncement(string AnnouncementTitle , string AnnouncementContent, DateTime CreatedDate)
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var student = await _studentRepository.GetStudentByUserId(userId);
+            
+            List<AnnouncementPagination> data = new List<AnnouncementPagination>();
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(student.data.Schoolid, student.data.Classid, student.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
+            if (dataList.data != null)
+            {
+                foreach (var d in dataList.data)
+                {
+                    data.Add(new AnnouncementPagination()
+                    {
+                        Id = d.Id,
+                        AnnouncementTitle = d.AnnouncementTitle,
+                        AnnouncementContent = $"{d.AnnouncementContent.Substring(0, 10)}...",
+                        Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto()
+                        {
+                            Id = d.Class.Id,
+                            ClassName = d.Class.ClassName
+                        },
+                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto()
+                        {
+                            Id = d.Section.Id,
+                            SectionName = d.Section.SectionName
+                        },
+                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto()
+                        {
+                            Id = d.Subject.Id,
+                            SubjectName = d.Subject.SubjectName
+                        },
+                        Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto()
+                        {
+                            Id = d.Teacher.Id,
+                            TeacherName = d.Teacher.TeacherName
+                        },
+                        CreatedDate = d.CreatedDate
+
+                    });
+                }
+            }
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.AnnouncementPagination = data;
+            if (dataList.data.Count() == 0)
+            {
+                model.Pager = new Pager(1, 1, 1);
+            }
+            else
+            {
+
+                model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
+            }
+            ViewBag.Pager = model.Pager;
+
+            //model.Classes = await _common.GetClass();
+            //model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            return View("ManageAnnouncement", model);
+        }
+
+        [HttpGet]
+        public async Task<GetAnnouncementByIdResponseModel> ViewAnnouncement(int Id)
+        {
+            var announcement = await _announcementRepository.GetAnnouncementById(Id);
+            return announcement;
         }
 
 

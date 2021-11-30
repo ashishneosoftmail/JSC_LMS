@@ -44,7 +44,9 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByUserId
                 Id = student.Id,
                 Name = student.StudentName,
                 Mobile = student.Mobile,
-                Schoolid = student.SchoolId
+                Schoolid = student.SchoolId,
+                Classid = student.ClassId,
+                Sectionid=student.SectionId
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetStudentByUserIdDto>(studentData, "success");
