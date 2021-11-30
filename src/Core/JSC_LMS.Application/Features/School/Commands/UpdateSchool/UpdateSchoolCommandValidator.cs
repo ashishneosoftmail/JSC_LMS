@@ -44,9 +44,7 @@ namespace JSC_LMS.Application.Features.School.Commands.UpdateSchool
             RuleFor(p => p.updateSchoolDto.Email)
           .NotEmpty().WithMessage("{PropertyName} is required.")
           .NotNull().MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
-            RuleFor(p => p.updateSchoolDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+          
         }
     }
 }

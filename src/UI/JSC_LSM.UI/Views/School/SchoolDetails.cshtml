@@ -371,13 +371,13 @@
                 $("#detailsInstituteName").text(data.data.institute.instituteName);
                 $("#detailsAddressLine1").text(data.data.addressLine1);
                 $("#detailsAddressLine2").text(data.data.addressLine2);
-                $("#detailsShoolName").text(data.data.name);
+                $("#detailsShoolName").text(data.data.schoolName);
                 $("#detailsEmail").text(data.data.email);
                 $("#detailsMobile").text(data.data.mobile);
                 $("#detailsCity").text(data.data.city.cityName);
                 $("#detailsState").text(data.data.state.stateName);
                 $("#detailsZip").text(data.data.zip.zipcode);
-                $("#detailsContactPerson").text(data.data.contactperson);
+                $("#detailsContactPerson").text(data.data.contactPerson);
                 data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
             }
         });

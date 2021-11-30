@@ -199,7 +199,7 @@ namespace JSC_LSM.UI.Controllers
                     IsActive = school.IsActive,
                     Mobile = school.Mobile,
                     InstituteName = school.Institute.InstituteName,
-                 
+                      ContactPerson=school.ContactPerson,
                     ZipCode = school.Zip.Zipcode
                 });
             }
@@ -292,7 +292,7 @@ namespace JSC_LSM.UI.Controllers
                 updatePrincipal.SchoolName = updateSchoolViewModel.SchoolName;
                 updatePrincipal.Email = updateSchoolViewModel.Email;
                 updatePrincipal.Mobile = updateSchoolViewModel.Mobile;
-                updatePrincipal.ContactPerson = updatePrincipal.ContactPerson;
+                updatePrincipal.ContactPerson = updateSchoolViewModel.ContactPerson;
                 updatePrincipal.CityId = updateSchoolViewModel.CityId;
                 updatePrincipal.StateId = updateSchoolViewModel.StateId;
                 updatePrincipal.ZipId = updateSchoolViewModel.ZipId;

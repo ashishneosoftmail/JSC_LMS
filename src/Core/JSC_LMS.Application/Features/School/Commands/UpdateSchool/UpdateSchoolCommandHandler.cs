@@ -36,7 +36,7 @@ namespace JSC_LMS.Application.Features.School.Commands.UpdateSchool
 
             if (validationResult.Errors.Count > 0)
                 throw new ValidationException(validationResult);
-
+            schoolToUpdate.Id = request.updateSchoolDto.Id;
             schoolToUpdate.InstituteId = request.updateSchoolDto.InstituteId;
             schoolToUpdate.SchoolName = request.updateSchoolDto.SchoolName;
             schoolToUpdate.Address1 = request.updateSchoolDto.Address1;
