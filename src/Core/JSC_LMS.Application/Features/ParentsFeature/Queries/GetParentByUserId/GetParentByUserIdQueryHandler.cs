@@ -42,7 +42,9 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentByUserId
                 Id = parent.Id,
                 Name = parent.ParentName,
                 Mobile = parent.Mobile,
-                SchoolId = parent.SchoolId
+                SchoolId = parent.SchoolId,
+                Classid = parent.ClassId,
+                Sectionid = parent.SectionId
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetParentByUserIdDto>(parentData, "success");

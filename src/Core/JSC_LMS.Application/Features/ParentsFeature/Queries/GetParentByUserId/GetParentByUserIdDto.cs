@@ -10,5 +10,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentByUserId
         public string Name { get; set; }
         public string Mobile { get; set; }
         public int SchoolId { get; set; }
+        public int Classid { get; set; }
+        public int Sectionid { get; set; }
     }
 }

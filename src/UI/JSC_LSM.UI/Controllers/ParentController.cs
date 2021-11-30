@@ -3,6 +3,7 @@ using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,18 @@ namespace JSC_LSM.UI.Controllers
         private readonly IParentsRepository _parentRepository;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ParentController(ICircularRepository circularRepository, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IAnnouncementRepository _announcementRepository;
+        private readonly JSC_LSM.UI.Common.Common _common;
+        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IAnnouncementRepository announcementRepository , ITeacherRepository teacherRepository)
         {
+            _common = common;
             _circularRepository = circularRepository;
             _parentRepository = parentRepository;
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
+            _announcementRepository = announcementRepository;
+            _teacherRepository = teacherRepository;
         }
         public IActionResult Index()
         {
@@ -126,6 +133,129 @@ namespace JSC_LSM.UI.Controllers
             }
             ViewBag.Pager = model.Pager;
             return View("ManageCircular", model);
+        }
+
+
+        [HttpGet]
+        public async Task<List<SelectListItem>> GetTeacherName()
+        {
+            var data = await _teacherRepository.GetAllTeacherDetails();
+            List<SelectListItem> teachers = new List<SelectListItem>();
+            foreach (var item in data.data)
+            {
+                teachers.Add(new SelectListItem
+                {
+                    Text = item.TeacherName,
+                    Value = Convert.ToString(item.TeacherName)
+                });
+            }
+            return teachers;
+        }
+        [HttpGet]
+        public async Task<IActionResult> ManageAnnouncement(int page = 1, int size = 20)
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parent = await _parentRepository.GetParentByUserId(userId);
+            int recsCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(parent.data.SchoolId, parent.data.Classid, parent.data.Sectionid)).data.Count();
+            if (page < 1)
+                page = 1;
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.Pager = pager;
+            //model.Classes = await _common.GetClass();
+            //model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            var paginationData = await _announcementRepository.GetAnnouncementListBySchoolClassSectionPagination(page, size, parent.data.SchoolId, parent.data.Classid, parent.data.Sectionid);
+            List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
+            foreach (var data in paginationData.data)
+            {
+                pagedData.Add(new AnnouncementPagination()
+                {
+                    Id = data.Id,
+                    AnnouncementTitle = data.AnnouncementTitle,
+                    AnnouncementContent = $"{data.AnnouncementContent.Substring(0, 10)}...",
+                    Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto() { Id = data.Class.Id, ClassName = data.Class.ClassName },
+                    Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() { Id = data.Section.Id, SectionName = data.Section.SectionName },
+                    Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { Id = data.Subject.Id, SubjectName = data.Subject.SubjectName },
+                    Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto() { Id = data.Teacher.Id, TeacherName = data.Teacher.TeacherName },
+                    CreatedDate = data.CreatedDate,
+
+
+                });
+            }
+            model.AnnouncementPagination = pagedData;
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchAnnouncement( string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parent = await _parentRepository.GetParentByUserId(userId);
+            
+            List<AnnouncementPagination> data = new List<AnnouncementPagination>();
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(parent.data.SchoolId, parent.data.Classid, parent.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
+            if (dataList.data != null)
+            {
+                foreach (var d in dataList.data)
+                {
+                    data.Add(new AnnouncementPagination()
+                    {
+                        Id = d.Id,
+                        AnnouncementTitle = d.AnnouncementTitle,
+                        AnnouncementContent = $"{d.AnnouncementContent.Substring(0, 10)}...",
+                        Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto()
+                        {
+                            Id = d.Class.Id,
+                            ClassName = d.Class.ClassName
+                        },
+                        Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto()
+                        {
+                            Id = d.Section.Id,
+                            SectionName = d.Section.SectionName
+                        },
+                        Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto()
+                        {
+                            Id = d.Subject.Id,
+                            SubjectName = d.Subject.SubjectName
+                        },
+                        Teacher = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.TeacherDto()
+                        {
+                            Id = d.Teacher.Id,
+                            TeacherName = d.Teacher.TeacherName
+                        },
+                        CreatedDate = d.CreatedDate
+
+                    });
+                }
+            }
+            ManageAnnouncementModel model = new ManageAnnouncementModel();
+            model.AnnouncementPagination = data;
+            if (dataList.data.Count() == 0)
+            {
+                model.Pager = new Pager(1, 1, 1);
+            }
+            else
+            {
+
+                model.Pager = new Pager(dataList.data.Count(), 1, dataList.data.Count());
+            }
+            ViewBag.Pager = model.Pager;
+
+            //model.Classes = await _common.GetClass();
+            //model.Sections = await _common.GetSection();
+            model.Subjects = await _common.GetSubject();
+            model.Teachers = await GetTeacherName();
+            return View("ManageAnnouncement", model);
+        }
+
+        [HttpGet]
+        public async Task<GetAnnouncementByIdResponseModel> ViewAnnouncement(int Id)
+        {
+            var announcement = await _announcementRepository.GetAnnouncementById(Id);
+            return announcement;
         }
 
     }

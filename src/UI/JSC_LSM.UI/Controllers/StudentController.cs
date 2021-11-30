@@ -86,7 +86,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     Id = data.Id,
                     AnnouncementTitle = data.AnnouncementTitle,
-                    AnnouncementContent = data.AnnouncementContent,
+                    AnnouncementContent = $"{data.AnnouncementContent.Substring(0,10)}...",
                     Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto() { Id = data.Class.Id, ClassName = data.Class.ClassName },
                     Section = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SectionDto() { Id = data.Section.Id, SectionName = data.Section.SectionName },
                     Subject = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.SubjectDto() { Id = data.Subject.Id, SubjectName = data.Subject.SubjectName },
@@ -101,16 +101,13 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAnnouncement(string TeacherName,string AnnouncementTitle , string AnnouncementContent, DateTime CreatedDate)
+        public async Task<IActionResult> SearchAnnouncement(string AnnouncementTitle , string AnnouncementContent, DateTime CreatedDate)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var student = await _studentRepository.GetStudentByUserId(userId);
-            if (TeacherName == null)
-            {
-                TeacherName = "Select Teacher";
-            }
+            
             List<AnnouncementPagination> data = new List<AnnouncementPagination>();
-            var dataList = await _announcementRepository.GetAnnouncementByFilters(student.data.Schoolid, student.data.Classid, student.data.Sectionid, 0, TeacherName, "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(student.data.Schoolid, student.data.Classid, student.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
             if (dataList.data != null)
             {
                 foreach (var d in dataList.data)
@@ -119,7 +116,7 @@ namespace JSC_LSM.UI.Controllers
                     {
                         Id = d.Id,
                         AnnouncementTitle = d.AnnouncementTitle,
-                        AnnouncementContent = d.AnnouncementContent,
+                        AnnouncementContent = $"{d.AnnouncementContent.Substring(0, 10)}...",
                         Class = new JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementByPagination.ClassDto()
                         {
                             Id = d.Class.Id,
