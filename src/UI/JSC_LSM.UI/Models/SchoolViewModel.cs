@@ -14,7 +14,7 @@ namespace JSC_LSM.UI.Models
         public string Mobile { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string ContactPerson { get; set; }
         public bool IsActive { get; set; }
         public string CityName { get; set; }
         public string StateName { get; set; }

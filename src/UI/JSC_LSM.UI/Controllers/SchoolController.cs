@@ -32,6 +32,14 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
+        public async Task<List<SelectListItem>> GetAllState()
+        {
+            var states = await _common.GetAllStates();
+            return states;
+        }
+
+
+        [HttpGet]
 
         public async Task<IActionResult> AddSchool()
         {
@@ -55,8 +63,8 @@ namespace JSC_LSM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddSchool(SchoolModel schoolModel)
         {
-            ViewBag.AddInstituteSuccess = null;
-            ViewBag.AddInstituteError = null;
+            ViewBag.AddSchoolSuccess = null;
+            ViewBag.AddSchoolError = null;
             schoolModel.States = await _common.GetAllStates();
             schoolModel.Institutes = await _common.GetInstitute();
             CreateSchoolDto createNewSchool = new CreateSchoolDto();
@@ -70,7 +78,7 @@ namespace JSC_LSM.UI.Controllers
                 createNewSchool.SchoolName = schoolModel.SchoolName;
                 createNewSchool.Email = schoolModel.Email;
                 createNewSchool.Mobile = schoolModel.Mobile;
-                createNewSchool.ContactPerson = createNewSchool.ContactPerson;
+                createNewSchool.ContactPerson = schoolModel.ContactPerson;
                 createNewSchool.CityId = schoolModel.CityId;
                 createNewSchool.StateId = schoolModel.StateId;
                 createNewSchool.ZipId = schoolModel.ZipId;
@@ -199,7 +207,7 @@ namespace JSC_LSM.UI.Controllers
                     IsActive = school.IsActive,
                     Mobile = school.Mobile,
                     InstituteName = school.Institute.InstituteName,
-                 
+                      ContactPerson=school.ContactPerson,
                     ZipCode = school.Zip.Zipcode
                 });
             }
@@ -292,7 +300,7 @@ namespace JSC_LSM.UI.Controllers
                 updatePrincipal.SchoolName = updateSchoolViewModel.SchoolName;
                 updatePrincipal.Email = updateSchoolViewModel.Email;
                 updatePrincipal.Mobile = updateSchoolViewModel.Mobile;
-                updatePrincipal.ContactPerson = updatePrincipal.ContactPerson;
+                updatePrincipal.ContactPerson = updateSchoolViewModel.ContactPerson;
                 updatePrincipal.CityId = updateSchoolViewModel.CityId;
                 updatePrincipal.StateId = updateSchoolViewModel.StateId;
                 updatePrincipal.ZipId = updateSchoolViewModel.ZipId;
