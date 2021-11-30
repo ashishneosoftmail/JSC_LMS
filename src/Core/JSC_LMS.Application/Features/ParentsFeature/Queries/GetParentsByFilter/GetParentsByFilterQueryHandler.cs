@@ -20,12 +20,14 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
         private readonly IStudentRepository _studentRepository;
         private readonly IClassRepository _classRepository;
         private readonly ISectionRepository _sectionRepository;
+        private readonly ISchoolRepository _schoolRepository;
         private readonly IParentsRepository _parentsRepository;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
-        public GetParentsByFilterQueryHandler(IMapper mapper, IStudentRepository studentRepository, IClassRepository classRepository, ISectionRepository sectionRepository, IAuthenticationService authenticationService, IParentsRepository parentsRepository, ILogger<GetParentsByFilterQueryHandler> logger)
+        public GetParentsByFilterQueryHandler(IMapper mapper, ISchoolRepository schoolRepository, IStudentRepository studentRepository, IClassRepository classRepository, ISectionRepository sectionRepository, IAuthenticationService authenticationService, IParentsRepository parentsRepository, ILogger<GetParentsByFilterQueryHandler> logger)
         {
+            _schoolRepository = schoolRepository;
             _mapper = mapper;
             _studentRepository = studentRepository;
             _parentsRepository = parentsRepository;
@@ -50,7 +52,9 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
                     studentParentTempData.Add(new StudentParentsDto()
                     {
                         Id = parent.Id,
+                        
                          StudentId = Convert.ToInt32(TempStudent)  , 
+                         
                          ParentName=parent.ParentName,
                         Class = new ClassDto()
                         {
@@ -62,6 +66,12 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
                             Id = parent.SectionId,
                             SectionName = (await _sectionRepository.GetByIdAsync(parent.SectionId)).SectionName
                         },
+                        School = new SchoolDto()
+                        {
+                            SchoolId = parent.SchoolId,
+                          //  SchoolId = (await _schoolRepository.GetByIdAsync(parent.SchoolId)).Id
+                            SchoolName = (await _schoolRepository.GetByIdAsync(parent.SchoolId)).SchoolName
+                        },
                         CreatedDate =parent.CreatedDate,
                         IsActive = parent.IsActive
                     });
@@ -71,6 +81,8 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
             var data = (from prt in studentParentTempData
                         join std in allStudents on prt.StudentId equals std.Id select new { 
                 prt.Id,
+                prt.School.SchoolId,
+                prt.School.SchoolName,
                 prt.ParentName,
                 std.StudentName,
                 prt.Class.ClassName,
@@ -80,7 +92,11 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
 
             }).ToList();
 
-            if(request.StudentName != "Select Student")
+            if (request.SchoolId >0)
+            {
+                data = data.Where(x => (x.SchoolId == request.SchoolId)).ToList();
+            }
+            if (request.StudentName != "Select Student")
             {
                 data = data.Where(x => (x.StudentName == request.StudentName)).ToList();
             }

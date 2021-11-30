@@ -23,6 +23,7 @@ namespace JSC_LSM.UI.Models
         public string StateName { get; set; }
         public string ZipCode { get; set; }
         public string SectionName { get; set; }
+        public string SchoolName { get; set; }
         public string ClassName { get;  set; }
     }
 }

@@ -38,7 +38,12 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allStudent = await _studentRepository.ListAllAsync();
-            
+
+            if (request.SchoolId>0)
+            {
+                allStudent = allStudent.Where<JSC_LMS.Domain.Entities.Students>(x => (x.SchoolId == request.SchoolId)).ToList();
+
+            }
 
             if (request.ClassName != "Select Class")
             {

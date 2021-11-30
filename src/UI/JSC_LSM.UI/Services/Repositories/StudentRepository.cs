@@ -93,7 +93,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate)
+        public async Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(int SchoolId,string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate)
         {
             GetAllStudentByFiltersResponseModel getStudentByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -101,7 +101,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Student/GetStudentByFilter?ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Student/GetStudentByFilter?SchoolId={SchoolId}&ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getStudentByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllStudentByFiltersResponseModel>(_oApiResponse.data);
@@ -158,10 +158,6 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateStudentResponseModel;
         }
 
-
-
-
-
         public async Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string UserId)
         {
             GetStudentByUserIdResponseModel getStudentByUserIdResponseModel = null;
@@ -180,5 +176,40 @@ namespace JSC_LSM.UI.Services.Repositories
             return getStudentByUserIdResponseModel;
         }
 
+        public async Task<GetAllStudentListBySchoolPaginationResponseModel> GetStudentListBySchoolPagination(int page, int size, int schoolid)
+        {
+            GetAllStudentListBySchoolPaginationResponseModel getAllStudentListBySchoolPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetStudentListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllStudentListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllStudentListBySchoolPaginationResponseModel>(_oApiResponse.data);
+                getAllStudentListBySchoolPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllStudentListBySchoolPaginationResponseModel;
+        }
+
+        public async Task<GetAllStudentListBySchoolResponseModel> GetAllStudentBySchoolList(int schoolid)
+        {
+            GetAllStudentListBySchoolResponseModel getAllStudentListBySchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllStudentBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllStudentListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllStudentListBySchoolResponseModel>(_oApiResponse.data);
+                getAllStudentListBySchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllStudentListBySchoolResponseModel;
+        }
     }
 }

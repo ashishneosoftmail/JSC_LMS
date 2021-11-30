@@ -46,7 +46,15 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="username" class="col-sm-3 col-form-label">Username</label>
+                            <div class="col-sm-9">
+                                <input type="text" asp-for="Username" class="form-control" id="username" placeholder="Username">
+                                <span asp-validation-for="Username" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br />
                 <div class="row">
@@ -123,17 +131,6 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label for="city" class="col-sm-3 col-form-label">City</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="city" asp-for="CityId" asp-items="Model.Classes" onchange="GetZipByCityId()">
-                                    <option disabled selected hidden> Select City</option>
-                                </select>
-                                <span asp-validation-for="CityId" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group row">
                             <label for="state" class="col-sm-3 col-form-label">State</label>
                             <div class="col-sm-9">
                                 <select class="form-control" asp-for="StateId" asp-items="Model.States" id="state" onchange="GetCityById()">
@@ -143,19 +140,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label for="city" class="col-sm-3 col-form-label">City</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="city" asp-for="CityId" asp-items="Model.Classes" onchange="GetZipByCityId()">
+                                    <option disabled selected hidden> Select City</option>
+                                </select>
+                                <span asp-validation-for="CityId" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group row">
-                            <label for="username" class="col-sm-3 col-form-label">Username</label>
-                            <div class="col-sm-9">
-                                <input type="text" asp-for="Username" class="form-control" id="username" placeholder="Username">
-                                <span asp-validation-for="Username" class="text-danger"></span>
-                            </div>
-                        </div>
-                    </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="zip" class="col-sm-3 col-form-label">Zip</label>
@@ -166,10 +166,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <br />
-                <div class="row">
-                   
                     <div class="col-sm-6">
 
                         <div class="form-group row">
@@ -187,8 +183,10 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <br />
+               
 
                 <br />
                 <div class="row">
