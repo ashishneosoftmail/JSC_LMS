@@ -27,5 +27,11 @@ namespace JSC_LMS.Persistence.Repositories
             return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
 
         }
+
+        public async Task<IReadOnlyList<Students>> StudentGetPagedReponseAsyncBySchoolId(int page, int size, int schoolid)
+        {
+            return await GetQueryable().Where<Students>(x => x.SchoolId == schoolid).Skip((page - 1) * size).Take(size).AsNoTracking().ToListAsync();
+        }
+
     }
 }

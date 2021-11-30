@@ -63,6 +63,7 @@ namespace JSC_LMS.Application.Features.Students.Commands.CreateStudent
                 {
                     var data = new JSC_LMS.Domain.Entities.Students()
                     {
+                        SchoolId = request.createStudentDto.SchoolId,
                         ClassId = request.createStudentDto.ClassId,
                         SectionId=request.createStudentDto.SectionId,
                         UserId = User.UserId,
