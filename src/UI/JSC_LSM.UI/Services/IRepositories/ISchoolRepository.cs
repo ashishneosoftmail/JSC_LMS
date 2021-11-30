@@ -24,7 +24,7 @@ namespace JSC_LSM.UI.Services.IRepositories
 
         Task<GetSchoolByIdResponseModel> GetSchoolById(int Id);
 
-        Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilters(string SchoolName, string InstituteName,string City,string State, DateTime CreatedDate, bool IsActive);
+        Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilter(string SchoolName, string InstituteName,string City,string State, bool IsActive,DateTime CreatedDate);
 
         Task<GetAllSchoolByPaginationResponseModel> GetSchoolByPagination(int page, int size);
 

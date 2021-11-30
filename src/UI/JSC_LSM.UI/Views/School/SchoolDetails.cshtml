@@ -47,7 +47,7 @@
     }
 </style>
 
-<div class="container">
+
     <div class="row">
         <h2>Manage School</h2>
         <h4>Search Filter</h4>
@@ -112,8 +112,9 @@
         <div class="form-group row col-sm-2 btn-text-right">
             <button type="button" class="btn btn-primary btn-sm pull-right m-2 " onclick="searchSchool()">Search</button>
         </div>
-    </div>
+  
 </div>
+
 <div class="col-md-11">
     <a asp-controller="School" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
 
@@ -360,8 +361,8 @@
         loadStateList();
         loadInstituteList();
         loadAllSchool();
-    
-       
+
+
     }
     loadData();
 
@@ -384,6 +385,81 @@
         });
     }
 
+
+    function loadStateList() {
+        $.get("/School/GetAllState", function (data) {
+            $("#schoolState").append("<option disabled selected hidden>Select State</option>");
+            data.forEach(function (state) {
+                $('#schoolState').append('<option value="' + state.value + '">' + state.text + '</option>');
+            });
+        });
+    }
+
+
+
+    function searchSchool() {
+        $("#paginationContainer").remove();
+        var _schoolName = $("#name :selected").text();
+      
+        var _instituteName = $("#instituteName :selected").text();
+    
+        var _cityName = $("#cityName :selected").text();
+   
+        var _stateName = $("#schoolState :selected").text();
+     
+        var _isActive = $("#status :selected").val();
+      
+        var _date = $("#date").val();
+     
+     @*   $.get("/School/GetSchoolByFilters?schoolName=" + _schoolName + "&instituteName=" + _instituteName + "&city=" + _cityName + "&state=" + _stateName + "&isActive=" + _isActive+"&createdDate="+_date, function (data) { console.log(data); });
+      
+        alert("hello");*@
+        
+
+        
+        $.get("/School/GetSchoolByFilter?schoolName=" + _schoolName + "&instituteName=" + _instituteName + "&city=" + _cityName + "&state=" + _stateName, "&isActive=" + _isActive+ "&createdDate=" + _date, function (data) {
+            if (data.length > 0) {
+                $("#tableData").empty();
+                var id = 0;
+                data.forEach(function (school) {
+                    id = id + 1;
+                    var result = ` <tr>
+                                 <td>${id}</td>
+                                <td>${school.instituteName}</td>
+                                <td>${school.name}</td>
+                                 <td>${school.cityName}</td>
+                                  <td>${school.stateName}</td>
+
+                                <td>${new Date(school.createdDate).toLocaleDateString()}</td>
+
+                                <td>${school.isActive ? "Active" : "Inactive"}</td>
+
+                          <td>
+                                   <a href="/School/EditSchool/${school.id}"
+                                       class="btn btn-link"
+                                       >Edit</a>
+
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowSchoolDetail(${school.id})">
+                                        View
+
+                                </td>
+                            </tr>`;
+                    $("#tableData").append(result);
+                });
+            }
+            else {
+                $("#tableData").empty();
+                var emptyData = `<tr>
+                <td colspan="6" class="text-center">
+                No Record Found</tr ></td>`;
+                $("#tableData").append(emptyData);
+            }
+        });
+    }
+
+
+
+
     function loadInstituteList() {
         $.get("/School/GetAllInstitute", function (data) {
             $("#instituteName").append("<option disabled selected hidden>Select institute</option>");
@@ -392,6 +468,7 @@
             });
         });
     }
+
     function loadSchoolList() {
         $.get("/School/GetSchoolName", function (data) {
             $("#name").append("<option disabled selected hidden>Select School</option>");
@@ -405,69 +482,10 @@
 
 
 
-    function loadStateList() {
-        $.get("/School/GetAllState", function (data) {
-            $("#schoolState").append("<option disabled selected hidden>Select State</option>");
-            data.forEach(function (state) {
-                $('#schoolState').append('<option value="' + state.value + '">' + state.text + '</option>');
-            });
-        });
-    }
 
 
 
 
-    function searchSchool() {
-
-        var _instituteName = $("#instituteName :selected").text();
-        var _schoolName = $("#name :selected").text();
-        var _isActive = $("#status :selected").val();
-
-        var _stateName = $("#schoolState :selected").text();
-        var _cityName = $("#cityName :selected").text();
-        var _date = $("#date").val();
-
-
-        $.get("/School/GetSchoolByFilters?instituteName=" + _instituteName + "&name=" + _schoolName + "&createdDate=" + _date + "&cityName=" + _cityName,"&stateName="+ _stateName, "&isActive=" + _isActive, function (data) {
-                if (data.length > 0) {
-                    $("#tableData").empty();
-                    var id = 0;
-                    data.forEach(function (school) {
-                        id = id + 1;
-                        var result = ` <tr>
-                                <td>${id}</td>
-                                <td>${school.instituteName}</td>
-                                <td>${school.name}</td>
-                                 <td>${school.cityName}</td>
-                                  <td>${school.stateName}</td>
-                                
-                                <td>${new Date(school.createdDate).toLocaleDateString()}</td>
-
-                                <td>${school.isActive ? "Active" : "Inactive"}</td>
-
-                                <td>
-                                   <a href="/School/EditSchool/${school.id}"
-                                       class="btn btn-link"
-                                       >Edit</a>
-
-                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowSchooolDetail(${school.id})">
-                                        View
-
-                                </td>
-                            </tr>`;
-                        $("#tableData").append(result);
-                    });
-                }
-                else {
-                    $("#tableData").empty();
-                    var emptyData = `<tr>
-                <td colspan="6" class="text-center">
-                No Record Found</tr ></td>`;
-                    $("#tableData").append(emptyData);
-                }
-            });
-       @* }*@
-    }
     function loadAllSchool(number = 1) {
         var size = $("#rowsPerPage :selected").val();
         $.get(`/School/GetAllSchoolDetailsByPagination?page=${number}&size=${size}`, function (data) {

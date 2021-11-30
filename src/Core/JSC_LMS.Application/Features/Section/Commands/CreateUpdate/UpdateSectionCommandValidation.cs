@@ -21,9 +21,7 @@ namespace JSC_LMS.Application.Features.Section.Commands.CreateUpdate
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
 
-            RuleFor(p => p.updateSectionDto.IsActive)
-       .NotEmpty().WithMessage("{PropertyName} is required.")
-       .NotNull();
+        
         }
     }
 }
