@@ -83,8 +83,13 @@
                 @*@{Html.RenderAction("Menu", "Layout");}*@
 
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                    @*<li class="header">MAIN NAVIGATION</li>*@
+                    <li>
+                        <a asp-action="Index" asp-controller="Institute">
+                            <span>Institute Information</span>
+                        </a>
 
+                    </li>
                     <li>
                         <a asp-action="PrincipalDetails" asp-controller="Principal">
                             <span>Manage Principal</span>
@@ -106,14 +111,6 @@
                     <li>
                         <a asp-action="SchoolDetails" asp-controller="School">
                             <span>Manage School</span>
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a asp-action="Logout" asp-controller="Account">
-                            <span>Logout</span>
                         </a>
 
                     </li>

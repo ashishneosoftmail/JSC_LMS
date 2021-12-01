@@ -32,7 +32,7 @@
     <div class="wrapper">
 
         <header class="main-header">
-            <a href="~/Student/Index" class="logo">
+            <a href="~/Parent/Index" class="logo">
                 @*<img src="~/Content/Images/lms-logo.jpg" style="height:40px !important; width:125px" alt="logo" class="img-responsive logo">*@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
@@ -85,8 +85,13 @@
                 @*@{Html.RenderAction("Menu", "Layout");}*@
 
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                    @*<li class="header">MAIN NAVIGATION</li>*@
+                    <li>
+                        <a asp-action="Index" asp-controller="Parent">
+                            <span>Class Information</span>
+                        </a>
 
+                    </li>
                     <li>
                         <a asp-action="ManageCircular" asp-controller="Parent">
                             <span>View Circular</span>
