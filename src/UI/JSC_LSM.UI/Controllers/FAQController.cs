@@ -35,7 +35,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> FAQ()
         {
-           FAQViewModel faqViewModel = new FAQViewModel();
+            FAQViewModel faqViewModel = new FAQViewModel();
             faqViewModel.Categories = await _common.GetAllCategory();
             return View(faqViewModel);
         }
@@ -76,8 +76,15 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = createCategoryResponseModel.Succeeded;
                             ViewBag.AddCategorySuccess = "Category Added Successfully";
                             ModelState.Clear();
-
-                            return RedirectToAction("FAQ", "FAQ");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("FAQList", pager);
                         }
                         else
                         {
@@ -102,9 +109,8 @@ namespace JSC_LSM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFAQ(FAQViewModel FAQViewModel)
         {
-            ViewBag.AddKnowledgeBaseSuccess = null;
-            ViewBag.AddKnowledgeBaseError = null;
-
+            ViewBag.AddFAQSuccess = null;
+            ViewBag.AddFAQError = null;
             CreateFAQDto createFAQBaseDto = new CreateFAQDto();
             FAQViewModel.Categories = await _common.GetAllCategory();
             if (ModelState.IsValid)
@@ -138,11 +144,19 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = addFAQResponseModel.message;
                             responseModel.IsSuccess = addFAQResponseModel.Succeeded;
-                            ViewBag.AddKnowledgeBaseSuccess = "FAQ Updated Successfully";
+                            ViewBag.AddFAQSuccess = "FAQ Added Successfully";
                             ModelState.Clear();
-                           FAQViewModel faqViewModel = new FAQViewModel();
+                            FAQViewModel faqViewModel = new FAQViewModel();
                             faqViewModel.Categories = await _common.GetAllCategory();
-                            return RedirectToAction("FAQList", "FAQ");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("FAQList", pager);
                         }
                         else
                         {
@@ -229,8 +243,15 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateFAQResponseModel.message;
                             responseModel.IsSuccess = updateFAQResponseModel.Succeeded;
                             ViewBag.UpdateFAQSuccess = "Details Updated Successfully";
-
-                            return RedirectToAction("FAQList", "FAQ");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("FAQList", pager);
                         }
                         else
                         {
@@ -286,7 +307,7 @@ namespace JSC_LSM.UI.Controllers
                     FAQTitle = faq.FAQTitle,
                     CategoryName = faq.Category.CategoryName,
                     Content = faq.Content,
-                    IsActive= faq.IsActive
+                    IsActive = faq.IsActive
                 });
                 ;
             }
@@ -314,7 +335,7 @@ namespace JSC_LSM.UI.Controllers
                     {
                         Id = faq.Id,
                         FAQTitle = faq.FAQTitle,
-                        Content=faq.Content,
+                        Content = faq.Content,
                         CategoryName = faq.Category.CategoryName,
                         IsActive = faq.IsActive
                     });
@@ -326,7 +347,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> ViewFAQ(int id)
         {
-           FAQList faqList = new FAQList();
+            FAQList faqList = new FAQList();
             var faq = await _faqRepository.GetFAQById(id);
             if (faq.data == null)
             {
@@ -361,7 +382,7 @@ namespace JSC_LSM.UI.Controllers
             dt.Columns.Add("Category Name", typeof(string));
             dt.Columns.Add("FAQTitle", typeof(string));
             dt.Columns.Add("Question", typeof(string));
-         
+
             dt.Columns.Add("Content", typeof(string));
             foreach (var faq in dataList.data)
             {
@@ -387,7 +408,16 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> DeleteFAQ(int id)
         {
             await _faqRepository.DeleteFAQ(id);
-            return RedirectToAction("FAQList");
+            ViewBag.DeleteFAQ = "Deleted Successfully";
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+            if (page < 1)
+                page = 1;
+            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            return View("FAQList", pager);
         }
 
     }

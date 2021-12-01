@@ -158,13 +158,22 @@ namespace JSC_LSM.UI.Controllers
                             var newPrincipalModel = new PrincipalModel();
                             newPrincipalModel.States = await _common.GetAllStates();
                             newPrincipalModel.Schools = await _common.GetSchool();
-                            return RedirectToAction("PrincipalDetails", "Principal");
+                            /* return RedirectToAction("PrincipalDetails", "Principal");*/
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("PrincipalDetails", pager);
                         }
                         else
                         {
                             responseModel.ResponseMessage = principalResponseModel.message;
                             responseModel.IsSuccess = principalResponseModel.Succeeded;
-                            ViewBag.AddPrincipalError = principalResponseModel.message;
+                            ViewBag.AddPrincipalError = "Something Went Wrong";
                             return View(principalModel);
                         }
                     }
@@ -173,7 +182,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = principalResponseModel.message;
                     responseModel.IsSuccess = principalResponseModel.Succeeded;
-                    ViewBag.AddPrincipalError = principalResponseModel.message;
+                    ViewBag.AddPrincipalError = "Something Went Wrong";
                 }
             }
             return View(principalModel);
@@ -438,13 +447,22 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
                             ViewBag.UpdatePrincipalSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("PrincipalDetails", "Principal");
+                            /*return RedirectToAction("PrincipalDetails", "Principal");*/
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("PrincipalDetails", pager);
                         }
                         else
                         {
                             responseModel.ResponseMessage = updatePrincipalResponseModel.message;
                             responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
-                            ViewBag.UpdatePrincipalError = updatePrincipalResponseModel.message;
+                            ViewBag.UpdatePrincipalError = "Something Went Wrong";
                             return View(updatePrincipalResponseModel);
                         }
                     }
@@ -453,7 +471,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updatePrincipalResponseModel.message;
                     responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
-                    ViewBag.UpdatePrincipalError = updatePrincipalResponseModel.message;
+                    ViewBag.UpdatePrincipalError = "Something Went Wrong";
                 }
             }
             return View(updatePrincipalViewModel);
@@ -671,7 +689,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = addCircularResponseModel.Succeeded;
 
 
-                            ViewBag.AddCircularError = addCircularResponseModel.message;
+                            ViewBag.AddCircularError = "Something Went Wrong";
                             return View(manageCircularModel);
                         }
                     }
@@ -680,7 +698,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = addCircularResponseModel.message;
                     responseModel.IsSuccess = addCircularResponseModel.Succeeded;
-                    ViewBag.AddCircularError = addCircularResponseModel.message;
+                    ViewBag.AddCircularError = "Something Went Wrong";
                 }
             }
             return View(manageCircularModel);
@@ -707,6 +725,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> DeleteCircular(int id)
         {
             await _circularRepository.DeleteCircular(id);
+            ViewBag.DeleteCircularSuccess = "Circular Deleted Successfully";
             return RedirectToAction("ManageCircular");
         }
 
@@ -857,7 +876,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = updateCircularResponseModel.message;
                             responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                            ViewBag.UpdateCircularError = updateCircularResponseModel.message;
+                            ViewBag.UpdateCircularError = "Something Went Wrong";
                             return View(manageCircularModel);
                         }
                     }
@@ -866,7 +885,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updateCircularResponseModel.message;
                     responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                    ViewBag.UpdateCircularError = updateCircularResponseModel.message;
+                    ViewBag.UpdateCircularError = "Something Went Wrong";
                 }
             }
             return View(manageCircularModel);

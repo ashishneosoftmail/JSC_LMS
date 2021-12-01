@@ -89,16 +89,16 @@ namespace JSC_LSM.UI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddClass(ClassModel classModel)
-        
-        
-        
+
+
+
         {
             ViewBag.AddClassSuccess = null;
             ViewBag.AddClassError = null;
 
             classModel.Schools = await _common.GetSchool();
             CreateClassDto createNewClass = new CreateClassDto();
-          
+
             if (ModelState.IsValid)
             {
 
@@ -132,14 +132,21 @@ namespace JSC_LSM.UI.Controllers
                             var newClassModel = new ClassModel();
 
                             newClassModel.Schools = await _common.GetSchool();
-                           
-                            return RedirectToAction("ManageClass", "Class");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _classRepository.GetAllClass()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetClassById = TempData["GetClassById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageClass", pager);
                         }
                         else
                         {
                             responseModel.ResponseMessage = classResponseModel.message;
                             responseModel.IsSuccess = classResponseModel.Succeeded;
-                            ViewBag.AddClassError = classResponseModel.message;
+                            ViewBag.AddClassError = "Something Went Wrong";
                             return View(classModel);
                         }
                     }
@@ -148,7 +155,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = classResponseModel.message;
                     responseModel.IsSuccess = classResponseModel.Succeeded;
-                    ViewBag.AddClassError = classResponseModel.message;
+                    ViewBag.AddClassError = "Something Went Wrong";
                 }
             }
             return View(classModel);
@@ -195,13 +202,13 @@ namespace JSC_LSM.UI.Controllers
                         Id = classes.Id,
 
                         ClassName = classes.ClassName,
-                  
+
                         CreatedDate = classes.CreatedDate,
-                       
+
                         IsActive = classes.IsActive,
-                   
+
                         SchoolName = classes.School.SchoolName,
-                 
+
                     });
                 }
             }
@@ -225,14 +232,14 @@ namespace JSC_LSM.UI.Controllers
                 {
                     Id = classes.Id,
                     ClassName = classes.ClassName,
-               
-                    
+
+
                     CreatedDate = classes.CreatedDate,
-                  
+
                     IsActive = classes.IsActive,
-                  
+
                     SchoolName = classes.School.SchoolName,
-                 
+
                 });
             }
             return data;
@@ -264,14 +271,14 @@ namespace JSC_LSM.UI.Controllers
                 {
                     Id = classes.Id,
                     ClassName = classes.ClassName,
-              
-                  
+
+
                     CreatedDate = classes.CreatedDate,
-              
+
                     IsActive = classes.IsActive,
-                
+
                     SchoolName = classes.School.SchoolName,
-                   
+
                 });
             }
             return data;
@@ -327,16 +334,16 @@ namespace JSC_LSM.UI.Controllers
             {
                 Id = classes.data.Id,
                 ClassName = classes.data.ClassName,
-          
-              
+
+
                 IsActive = classes.data.IsActive,
-             
+
                 SchoolId = classes.data.School.Id,
-               
-      
+
+
             };
             classData.Schools = await _common.GetSchool();
-        
+
             return View(classData);
         }
 
@@ -352,9 +359,9 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.UpdateClassSuccess = null;
             ViewBag.UpdateClassError = null;
             updateClassViewModel.Schools = await _common.GetSchool();
-          
+
             UpdateClassDto updateClass = new UpdateClassDto();
-                updateClass.Id = updateClassViewModel.Id;
+            updateClass.Id = updateClassViewModel.Id;
             if (ModelState.IsValid)
             {
 
@@ -388,14 +395,21 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateClassResponseModel.message;
                             responseModel.IsSuccess = updateClassResponseModel.Succeeded;
                             ViewBag.UpdateClassSuccess = "Details Updated Successfully";
-
-                            return RedirectToAction("ManageClass", "Class");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _classRepository.GetAllClass()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetClassById = TempData["GetClassById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageClass", pager);
                         }
                         else
                         {
                             responseModel.ResponseMessage = updateClassResponseModel.message;
                             responseModel.IsSuccess = updateClassResponseModel.Succeeded;
-                            ViewBag.UpdateClassError = updateClassResponseModel.message;
+                            ViewBag.UpdateClassError = "Something Went Wrong";
                             return View(updateClassResponseModel);
                         }
                     }
@@ -404,7 +418,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updateClassResponseModel.message;
                     responseModel.IsSuccess = updateClassResponseModel.Succeeded;
-                    ViewBag.UpdateClassError = updateClassResponseModel.message;
+                    ViewBag.UpdateClassError = "Something Went Wrong";
                 }
             }
             return View(updateClassViewModel);
