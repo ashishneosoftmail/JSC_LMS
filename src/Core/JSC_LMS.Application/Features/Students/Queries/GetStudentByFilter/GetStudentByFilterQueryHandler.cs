@@ -60,6 +60,10 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentByFilter
                 allStudent = allStudent.Where<JSC_LMS.Domain.Entities.Students>(x => (x.StudentName == request.StudentName)).ToList();
 
             }
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
+            {
+                allStudent = allStudent.Where<JSC_LMS.Domain.Entities.Students>(x => x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()).ToList();
+            }
             if (request.IsActive)
             {
                 allStudent = allStudent.Where<JSC_LMS.Domain.Entities.Students>(x => x.IsActive == request.IsActive).ToList();

@@ -155,18 +155,23 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = studentResponseModel.message;
                             responseModel.IsSuccess = studentResponseModel.Succeeded;
                             ViewBag.AddStudentSuccess = "Details Added Successfully";
-                            ModelState.Clear();
-                            var newStudentModel = new StudentModel();
-                            newStudentModel.States = await _common.GetAllStates();
-                            newStudentModel.Classes = await _common.GetClass();
-                            newStudentModel.Sections = await _common.GetSection();
-                            return RedirectToAction("ManageStudentUsers","User");
+                            var page = 1;
+                            var size = 5;
+
+                            int recsCount = (await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid)).data.Count();
+
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetStudentById = TempData["GetStudentById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageStudentUsers", pager);
                         }
                         else
                         {
                             responseModel.ResponseMessage = studentResponseModel.message;
                             responseModel.IsSuccess = studentResponseModel.Succeeded;
-                            ViewBag.AddStudentError = studentResponseModel.message;
+                            ViewBag.AddStudentError = "Something went wrong!";
                             return View(studentModel);
                         }
                     }
@@ -175,7 +180,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = studentResponseModel.message;
                     responseModel.IsSuccess = studentResponseModel.Succeeded;
-                    ViewBag.AddStudentError = studentResponseModel.message;
+                    ViewBag.AddStudentError = "Something went wrong!";
                 }
             }
             return View(studentModel);
@@ -275,8 +280,17 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateStudentResponseModel.message;
                             responseModel.IsSuccess = updateStudentResponseModel.Succeeded;
                             ViewBag.UpdateStudentSuccess = "Details Updated Successfully";
+                            var page = 1;
+                            var size = 5;
+                            
+                            int recsCount = (await _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid)).data.Count();
 
-                            return RedirectToAction("ManageStudentUsers", "User");
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetStudentById = TempData["GetStudentById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageStudentUsers", pager);
                         }
                         else
                         {
@@ -517,7 +531,7 @@ namespace JSC_LSM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddParents(ParentsModel parentsModel)
         {
-           
+            ViewBag.AddParentsSuccess = null;
             ViewBag.AddParentsError = null;
             parentsModel.States = await _common.GetAllStates();
             parentsModel.Classes = await _common.GetClass();
@@ -567,13 +581,17 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = parentsResponseModel.message;
                             responseModel.IsSuccess = parentsResponseModel.Succeeded;
-                           
-                            ModelState.Clear();
-                            var newParentModel = new ParentsModel();
-                            newParentModel.States = await _common.GetAllStates();
-                            newParentModel.Classes = await _common.GetClass();
-                            newParentModel.Sections = await _common.GetSection();
-                            return RedirectToAction("ManageParentsUsers", "User");
+                            ViewBag.AddParentsSuccess = "Details added succesfully.";
+                            var page = 1;
+                            var size = 5;
+                            
+                            int recsCount = (await _parentsRepository.GetAllParentsBySchoolList(principal.data.schoolid)).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetParentById = TempData["GetParentById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageParentsUsers", pager);
                         }
                         else
                         {
@@ -676,6 +694,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            ViewBag.UpdateParentsSuccess = null;
             ViewBag.UpdateParentsError = null;
             updateParentsViewModel.Classes = await _common.GetClass();
             updateParentsViewModel.Sections = await _common.GetSection();
@@ -726,7 +745,16 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateParentsResponseModel.message;
                             responseModel.IsSuccess = updateParentsResponseModel.Succeeded;
                             ViewBag.UpdateParentsSuccess = "Details Updated Successfully";
+                            var page = 1;
+                            var size = 5;
 
+                            int recsCount = (await _parentsRepository.GetAllParentsBySchoolList(principal.data.schoolid)).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetParentById = TempData["GetParentById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageParentsUsers", pager);
                             return RedirectToAction("ManageParentsUsers", "User");
                         }
                         else
