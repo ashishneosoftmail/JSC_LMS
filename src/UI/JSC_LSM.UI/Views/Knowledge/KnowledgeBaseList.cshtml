@@ -45,6 +45,105 @@
         text-align: center;
         margin-left: 130px;
     }
+
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    #snackbardanger {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
 </style>
 
 <div class="container">
@@ -147,29 +246,100 @@
     }
 </div>
 <div id="wrapper">
+    @*@if (ViewBag.AddCategorySuccess != null)
+        {
+            <script>alert("@ViewBag.AddCategorySuccess")</script>
+        }
+        @if (ViewBag.AddCategoryError != null)
+        {
+            <script>alert("@ViewBag.AddCategoryError")</script>
+        }
+        @if (ViewBag.AddKnowledgeBaseSuccess != null)
+        {
+            <script>alert("@ViewBag.AddKnowledgeBaseSuccess")</script>
+        }
+        @if (ViewBag.AddKnowledgeBaseError != null)
+        {
+            <script>alert("@ViewBag.AddKnowledgeBaseError")</script>
+        }
+        @if (ViewBag.UpdateKnowledgeBaseSuccess != null)
+        {
+            <script>alert("@ViewBag.UpdateKnowledgeBaseSuccess")</script>
+        }
+        @if (ViewBag.UpdateKnowledgeBaseError != null)
+        {
+            <script>alert("@ViewBag.UpdateKnowledgeBaseError")</script>
+        }*@
     @if (ViewBag.AddCategorySuccess != null)
     {
-        <script>alert("@ViewBag.AddCategorySuccess")</script>
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddCategorySuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.AddCategoryError != null)
     {
-        <script>alert("@ViewBag.AddCategoryError")</script>
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddCategoryError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.AddKnowledgeBaseSuccess != null)
     {
-        <script>alert("@ViewBag.AddKnowledgeBaseSuccess")</script>
+        @* <script>alert("@ViewBag.UpdateCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddKnowledgeBaseSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.AddKnowledgeBaseError != null)
     {
-        <script>alert("@ViewBag.AddKnowledgeBaseError")</script>
+        @*<script>alert("@ViewBag.UpdateCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddKnowledgeBaseError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.UpdateKnowledgeBaseSuccess != null)
     {
-        <script>alert("@ViewBag.UpdateKnowledgeBaseSuccess")</script>
+        @* <script>alert("@ViewBag.UpdateCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdateKnowledgeBaseSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.UpdateKnowledgeBaseError != null)
     {
-        <script>alert("@ViewBag.UpdateKnowledgeBaseError")</script>
+        @*<script>alert("@ViewBag.UpdateCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdateKnowledgeBaseError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+    }
+    @if (ViewBag.DeleteKnowledgeBaseSuccess != null)
+    {
+        @* <script>alert("@ViewBag.UpdateCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.DeleteKnowledgeBaseSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
 </div>
 <script>

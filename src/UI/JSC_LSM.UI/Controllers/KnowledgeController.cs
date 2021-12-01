@@ -75,8 +75,9 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = createCategoryResponseModel.Succeeded;
                             ViewBag.AddCategorySuccess = "Category Added Successfully";
                             ModelState.Clear();
-
-                            return RedirectToAction("KnowledgeBase", "Knowledge");
+                            KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
+                            knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
+                            return View("KnowledgeBase", knowledgeBaseViewModel);
                         }
                         else
                         {
@@ -137,11 +138,19 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = addKnowledgeBaseResponseModel.message;
                             responseModel.IsSuccess = addKnowledgeBaseResponseModel.Succeeded;
-                            ViewBag.AddKnowledgeBaseSuccess = "KnowledgeBase Updated Successfully";
+                            ViewBag.AddKnowledgeBaseSuccess = "KnowledgeBase Added Successfully";
                             ModelState.Clear();
                             KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
                             knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
-                            return RedirectToAction("KnowledgeBaseList", "Knowledge");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("KnowledgeBaseList", pager);
                         }
                         else
                         {
@@ -227,8 +236,15 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateKnowledgeBaseResponseModel.message;
                             responseModel.IsSuccess = updateKnowledgeBaseResponseModel.Succeeded;
                             ViewBag.UpdateKnowledgeBaseSuccess = "Details Updated Successfully";
-
-                            return RedirectToAction("KnowledgeBaseList", "Knowledge");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("KnowledgeBaseList",pager);
                         }
                         else
                         {
@@ -379,7 +395,15 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> DeleteKnowledge(int id)
         {
             await _knowledgebaseRepository.DeleteKnowledgeBase(id);
-            return RedirectToAction("KnowledgeBaseList");
+            var page = 1;
+            var size = 5;
+            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            if (page < 1)
+                page = 1;
+            /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
+            var pager = new Pager(recsCount, page, size);
+            ViewBag.Pager = pager;
+            return View("KnowledgeBaseList", pager);
         }
 
     }
