@@ -702,6 +702,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> DeleteCircular(int id)
         {
             await _circularRepository.DeleteCircular(id);
+            ViewBag.DeleteCircularSuccess = "Circular Deleted Successfully";
             return RedirectToAction("ManageCircular");
         }
 
@@ -837,7 +838,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = updateCircularResponseModel.message;
                             responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                            ViewBag.UpdateCircularError = updateCircularResponseModel.message;
+                            ViewBag.UpdateCircularError = "Something Went Wrong";
                             return View(manageCircularModel);
                         }
                     }
@@ -846,7 +847,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updateCircularResponseModel.message;
                     responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                    ViewBag.UpdateCircularError = updateCircularResponseModel.message;
+                    ViewBag.UpdateCircularError = "Something Went Wrong"f;
                 }
             }
             return View(manageCircularModel);
