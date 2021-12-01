@@ -230,7 +230,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateFAQResponseModel.Succeeded;
                             ViewBag.UpdateFAQSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("FAQist", "FAQ");
+                            return RedirectToAction("FAQList", "FAQ");
                         }
                         else
                         {
