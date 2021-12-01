@@ -22,7 +22,11 @@ namespace JSC_LSM.UI.Controllers
         private readonly ITeacherRepository _teacherRepository;
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
-        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IAnnouncementRepository announcementRepository , ITeacherRepository teacherRepository)
+        private readonly ISchoolRepository _schoolRepository;
+        private readonly IPrincipalRepository _principalRepository;
+        private readonly ISubjectRepository _subjectRepository;
+
+        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository)
         {
             _common = common;
             _circularRepository = circularRepository;
@@ -31,10 +35,38 @@ namespace JSC_LSM.UI.Controllers
             _webHostEnvironment = webHostEnvironment;
             _announcementRepository = announcementRepository;
             _teacherRepository = teacherRepository;
+            _schoolRepository = schoolRepository;
+            _principalRepository = principalRepository;
+            _subjectRepository = subjectRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ParentClassInformationModel model = new ParentClassInformationModel();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parentData = await _parentRepository.GetParentByUserId(userId);
+            var getParent = await _parentRepository.GetParentsById(parentData.data.Id);
+            //string[] studentList = getParent.data..Split(",");
+            model.StudentName = "";
+            foreach (var d in getParent.data.Student)
+            {
+                model.StudentName = d.StudentName + "," + model.StudentName;
+            }
+            var school = await _schoolRepository.GetSchoolById(getParent.data.SchoolId);
+            model.SchoolName = school.data.SchoolName;
+            model.ClassName = getParent.data.Class.ClassName;
+            model.SectionName = getParent.data.Section.SectionName;
+            List<SubjectTeacher> subList = new List<SubjectTeacher>();
+            var teacherlist = (await _teacherRepository.GetAllTeacherDetails()).data.Where(x => x.SchoolId.Id == getParent.data.SchoolId).Where(x => x.SectionId.Id == getParent.data.Section.Id).Where(x => x.ClassId.Id == getParent.data.Class.Id).ToList();
+            foreach (var d in teacherlist)
+            {
+                subList.Add(new SubjectTeacher()
+                {
+                    SubjectName = d.SubjectId.SubjectName,
+                    TeacherSubjectName = d.TeacherName,
+                });
+            }
+            model.SubjectName = subList;
+            return View(model);
         }
         [HttpGet]
         public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)
@@ -190,11 +222,11 @@ namespace JSC_LSM.UI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchAnnouncement( string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
+        public async Task<IActionResult> SearchAnnouncement(string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var parent = await _parentRepository.GetParentByUserId(userId);
-            
+
             List<AnnouncementPagination> data = new List<AnnouncementPagination>();
             var dataList = await _announcementRepository.GetAnnouncementByFilters(parent.data.SchoolId, parent.data.Classid, parent.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
             if (dataList.data != null)

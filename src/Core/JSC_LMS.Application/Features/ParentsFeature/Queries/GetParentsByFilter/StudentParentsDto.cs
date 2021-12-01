@@ -21,6 +21,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }
         public ClassDto Class { get; set; }
+        public SchoolDto School { get; set; }
         public SectionDto Section { get; set; }       
         public int StudentId { get; set; }
         public string UserType { get; set; }

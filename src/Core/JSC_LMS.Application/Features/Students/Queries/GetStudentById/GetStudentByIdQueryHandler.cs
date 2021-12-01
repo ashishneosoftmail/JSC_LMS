@@ -57,10 +57,11 @@ namespace JSC_LMS.Application.Features.Students.Queries.GetStudentById
                 Email = user.Email,
                 IsActive = student.IsActive,
                 StudentName = student.StudentName,
-                UserType=student.UserType,
+                UserType = student.UserType,
                 CreatedDate = (DateTime)student.CreatedDate,
                 City = _mapper.Map<CityDto>(student.City),
                 State = _mapper.Map<StateDto>(student.State),
+                SchoolId = student.SchoolId,
                 Zip = _mapper.Map<ZipDto>(student.Zip),
                 Class = new ClassDto()
                 {

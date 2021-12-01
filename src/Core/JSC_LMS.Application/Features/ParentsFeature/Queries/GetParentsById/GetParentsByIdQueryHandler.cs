@@ -60,6 +60,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
             var parentData = new GetParentsByIdDto()
             {
                 Id = parent.Id,
+                SchoolId = parent.SchoolId,
                 UserId = parent.UserId,
                 AddressLine1 = parent.AddressLine1,
                 AddressLine2 = parent.AddressLine2,

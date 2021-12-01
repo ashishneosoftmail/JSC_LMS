@@ -140,7 +140,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(string ClassName, string SectionName, string StudentName, string ParentName, bool IsActive, DateTime CreatedDate)
+        public async Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(int SchoolId ,string ClassName, string SectionName, string StudentName, string ParentName, bool IsActive, DateTime CreatedDate)
         {
             GetAllParentsByFiltersResponseModel getParentsByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -148,7 +148,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Parents/GetParentsByFilter?ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&ParentName={ParentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Parents/GetParentsByFilter?SchoolId={SchoolId}&ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&ParentName={ParentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getParentsByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllParentsByFiltersResponseModel>(_oApiResponse.data);
@@ -177,6 +177,40 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getParentByUserIdResponseModel;
         }
+        public async Task<GetAllParentsListBySchoolPaginationResponseModel> GetParentsListBySchoolPagination(int page, int size, int schoolid)
+        {
+            GetAllParentsListBySchoolPaginationResponseModel getAllParentsListBySchoolPaginationResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
 
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetParentsListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllParentsListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllParentsListBySchoolPaginationResponseModel>(_oApiResponse.data);
+                getAllParentsListBySchoolPaginationResponseModel.Succeeded = true;
+            }
+
+            return getAllParentsListBySchoolPaginationResponseModel;
+        }
+
+        public async Task<GetAllParentsListBySchoolResponseModel> GetAllParentsBySchoolList(int schoolid)
+        {
+            GetAllParentsListBySchoolResponseModel getAllParentsListBySchoolResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllParentsBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllParentsListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllParentsListBySchoolResponseModel>(_oApiResponse.data);
+                getAllParentsListBySchoolResponseModel.Succeeded = true;
+            }
+
+            return getAllParentsListBySchoolResponseModel;
+        }
     }
 }

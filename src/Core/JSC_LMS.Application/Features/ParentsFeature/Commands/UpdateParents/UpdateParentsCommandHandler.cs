@@ -58,7 +58,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents
             parentsToUpdate.StudentId = request.updateParentsDto.StudentId;
             parentsToUpdate.AddressLine1 = request.updateParentsDto.AddressLine1;
             parentsToUpdate.AddressLine2 = request.updateParentsDto.AddressLine2;
-
+            parentsToUpdate.SchoolId = request.updateParentsDto.SchoolId;
             parentsToUpdate.UserId = updateUser.UserId;
             parentsToUpdate.Mobile = request.updateParentsDto.Mobile;
             parentsToUpdate.CityId = request.updateParentsDto.CityId;

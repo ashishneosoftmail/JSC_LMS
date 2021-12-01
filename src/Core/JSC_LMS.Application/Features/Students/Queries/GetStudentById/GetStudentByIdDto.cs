@@ -5,9 +5,10 @@ using System.Text;
 
 namespace JSC_LMS.Application.Features.Students.Queries.GetStudentById
 {
-   public  class GetStudentByIdDto
+    public class GetStudentByIdDto
     {
         public int Id { get; set; }
+        public int SchoolId { get; set; }
         public string UserId { get; set; }
         public string StudentName { get; set; }
         public string AddressLine1 { get; set; }

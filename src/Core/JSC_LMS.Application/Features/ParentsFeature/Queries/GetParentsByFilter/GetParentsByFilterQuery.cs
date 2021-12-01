@@ -8,8 +8,9 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
 {
     public class GetParentsByFilterQuery : IRequest<Response<IEnumerable<GetParentsByFilterDto>>>
     {
-        public GetParentsByFilterQuery(string _ClassName, string _SectionName, string _StudentName,string _ParentName, bool _IsActive, DateTime _CreatedDate)
+        public GetParentsByFilterQuery(int _SchoolId, string _ClassName, string _SectionName, string _StudentName,string _ParentName, bool _IsActive, DateTime _CreatedDate)
         {
+            SchoolId = _SchoolId;
             ClassName = _ClassName;
             SectionName = _SectionName;
             StudentName = _StudentName;
@@ -17,6 +18,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsByFilter
             IsActive = _IsActive;
             CreatedDate = _CreatedDate;
         }
+        public int SchoolId { get; set; }
         public string ClassName { get; set; }
         public string StudentName { get; set; }
         public string ParentName { get; set; }
