@@ -40,9 +40,9 @@ namespace JSC_LSM.UI.Controllers
             int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
             if (page < 1)
                 page = 1;
-
+            ViewBag.GetSectionById = TempData["GetSectionById"] as string;
             var pager = new Pager(recsCount, page, size);
-            this.ViewBag.Pager = pager;
+            ViewBag.Pager = pager;
             return View(pager);
 
 

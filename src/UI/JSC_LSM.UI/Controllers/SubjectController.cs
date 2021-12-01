@@ -44,11 +44,10 @@ namespace JSC_LSM.UI.Controllers
             int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
             if (page < 1)
                 page = 1;
-
+            ViewBag.GetSubjectById = TempData["GetSubjectById"] as string;
             var pager = new Pager(recsCount, page, size);
-            this.ViewBag.Pager = pager;
+            ViewBag.Pager = pager;
             return View(pager);
-
 
 
         }

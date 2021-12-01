@@ -45,28 +45,69 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allSubject = await _subjectRepository.ListAllAsync();
-            var searchFilter = allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => (x.SubjectName == request.SubjectName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x));
-            Response<IEnumerable<GetSubjectFilterDto>> responseData = new Response<IEnumerable<GetSubjectFilterDto>>();
+            var searchFilter = (allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => (x.SubjectName == request.SubjectName) || (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) || (x.IsActive == request.IsActive)).Select(x => (x)));
 
-            if (searchFilter.Count() < 1)
+            if (request.SubjectName != "Select Subject")
             {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
+                allSubject = allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => (x.SubjectName == request.SubjectName)).ToList();
             }
-
-            List<GetSubjectFilterDto> subjectList = new List<GetSubjectFilterDto>();
-            foreach (var subject in searchFilter)
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
             {
-                var section = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName == request.SectionName;
-                var classes = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName == request.ClassName;
-                var school = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName == request.SchoolName;
-              
-
-
-                if (section && classes && school)
+                allSubject = allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()).ToList();
+            }
+            if (request.IsActive)
+            {
+                allSubject = allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => x.IsActive == request.IsActive).ToList();
+            }
+            else
+            {
+                allSubject = allSubject.Where<JSC_LMS.Domain.Entities.Subject>(x => x.IsActive == request.IsActive).ToList();
+            }
+            Response<IEnumerable<GetSubjectFilterDto>> responseData = new Response<IEnumerable<GetSubjectFilterDto>>();
+            List<GetSubjectFilterDto> subjectList = new List<GetSubjectFilterDto>();
+            foreach (var subject in allSubject)
+            {
+                if (request.SchoolName != "Select School")
                 {
+                    var school = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName == request.SchoolName;
+                    if (school)
+                    {
+
+                        subjectList.Add(new GetSubjectFilterDto()
+                        {
+                            Id = subject.Id,
+
+
+                            CreatedDate = (DateTime)subject.CreatedDate,
+
+                            IsActive = subject.IsActive,
+
+                            SubjectName = subject.SubjectName,
+
+                            Section = new SectionDto()
+                            {
+                                Id = subject.SectionId,
+                                SectionName = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName
+                            },
+                            School = new SchoolDto()
+                            {
+                                Id = subject.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName
+                            },
+                            Class = new ClassDto()
+                            {
+                                Id = subject.SchoolId,
+                                ClassName = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName
+                            }
+
+
+
+                        });
+                    }
+                }
+                else
+                {
+
                     subjectList.Add(new GetSubjectFilterDto()
                     {
                         Id = subject.Id,
@@ -75,9 +116,9 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
                         CreatedDate = (DateTime)subject.CreatedDate,
 
                         IsActive = subject.IsActive,
-                       
+
                         SubjectName = subject.SubjectName,
-                       
+
                         Section = new SectionDto()
                         {
                             Id = subject.SectionId,
@@ -99,18 +140,10 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
                     });
                 }
             }
-            if (subjectList.Count() < 1)
-            {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
-            }
-
             _logger.LogInformation("Hanlde Completed");
             return new Response<IEnumerable<GetSubjectFilterDto>>(subjectList, "success");
-
         }
+
 
     }
 }
