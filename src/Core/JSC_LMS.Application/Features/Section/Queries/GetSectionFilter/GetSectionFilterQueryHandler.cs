@@ -65,11 +65,12 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
             List<GetSectionFilterDto> sectionList = new List<GetSectionFilterDto>();
             foreach (var section in allSection)
             {
-                if (request.SchoolName != "Select School")
+                if (request.SchoolName != "Select School" || request.ClassName != "Select Class")
                 {
                     var school = (await _schoolRepository.GetByIdAsync(section.SchoolId)).SchoolName == request.SchoolName;
+                    var classes = (await _classRepository.GetByIdAsync(section.ClassId)).ClassName == request.ClassName;
 
-                    if (school)
+                    if (school || classes)
                     {
                   
                         sectionList.Add(new GetSectionFilterDto()
@@ -97,7 +98,11 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
 
 
                         });
+
+
+                    
                     }
+                  
                 }
                 else
                 {

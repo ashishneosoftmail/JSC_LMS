@@ -67,10 +67,13 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
             List<GetSubjectFilterDto> subjectList = new List<GetSubjectFilterDto>();
             foreach (var subject in allSubject)
             {
-                if (request.SchoolName != "Select School")
+                if (request.SchoolName != "Select School" || request.ClassName != "Select Class" || request.SectionName != "Select Section")
                 {
                     var school = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName == request.SchoolName;
-                    if (school)
+                    var classes = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName == request.ClassName;
+                    var section = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName == request.SectionName;
+
+                    if (school || classes || section)
                     {
 
                         subjectList.Add(new GetSubjectFilterDto()
