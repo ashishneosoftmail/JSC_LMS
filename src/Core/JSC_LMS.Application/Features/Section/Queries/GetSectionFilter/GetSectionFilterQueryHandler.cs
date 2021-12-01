@@ -42,31 +42,70 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
         public async Task<Response<IEnumerable<GetSectionFilterDto>>> Handle(GetSectionFilterQuery request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Handle Initiated");
-            var allSection = await _sectionRepository.ListAllAsync();
-            var searchFilter = allSection.Where<JSC_LMS.Domain.Entities.Section>(x => (x.SectionName == request.SectionName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x));
-            Response<IEnumerable<GetSectionFilterDto>> responseData = new Response<IEnumerable<GetSectionFilterDto>>();
+            var allSection= await _sectionRepository.ListAllAsync();
+            var searchFilter = (allSection.Where<JSC_LMS.Domain.Entities.Section>(x => (x.SectionName == request.SectionName) || (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) || (x.IsActive == request.IsActive)).Select(x => (x)));
 
-            if (searchFilter.Count() < 1)
+            if (request.SectionName != "Select Section")
             {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
+                allSection = allSection.Where<JSC_LMS.Domain.Entities.Section>(x => (x.SectionName == request.SectionName)).ToList();
             }
-
-            List<GetSectionFilterDto> sectionList = new List<GetSectionFilterDto>();
-            foreach (var section in searchFilter)
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
             {
-              
-                var classes = (await _classRepository.GetByIdAsync(section.ClassId)).ClassName == request.ClassName;
-                var school = (await _schoolRepository.GetByIdAsync(section.SchoolId)).SchoolName == request.SchoolName;
-
-
-
-                if (classes && school)
+                allSection = allSection.Where<JSC_LMS.Domain.Entities.Section>(x => x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()).ToList();
+            }
+            if (request.IsActive)
+            {
+                allSection = allSection.Where<JSC_LMS.Domain.Entities.Section>(x => x.IsActive == request.IsActive).ToList();
+            }
+            else
+            {
+                allSection = allSection.Where<JSC_LMS.Domain.Entities.Section>(x => x.IsActive == request.IsActive).ToList();
+            }
+            Response<IEnumerable<GetSectionFilterDto>> responseData = new Response<IEnumerable<GetSectionFilterDto>>();
+            List<GetSectionFilterDto> sectionList = new List<GetSectionFilterDto>();
+            foreach (var section in allSection)
+            {
+                if (request.SchoolName != "Select School")
                 {
+                    var school = (await _schoolRepository.GetByIdAsync(section.SchoolId)).SchoolName == request.SchoolName;
+
+                    if (school)
+                    {
+                  
+                        sectionList.Add(new GetSectionFilterDto()
+                        {
+                            Id = section.Id,
+
+
+                            CreatedDate = (DateTime)section.CreatedDate,
+
+                            IsActive = section.IsActive,
+
+                            SectionName = section.SectionName,
+
+
+                            SchoolId = new SchoolDto()
+                            {
+                                Id = section.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(section.SchoolId)).SchoolName
+                            },
+                            ClassId = new ClassDto()
+                            {
+                                Id = section.ClassId,
+                                ClassName = (await _classRepository.GetByIdAsync(section.ClassId)).ClassName
+                            }
+
+
+
+                        });
+                    }
+                }
+                else
+                {
+               
                     sectionList.Add(new GetSectionFilterDto()
                     {
+
                         Id = section.Id,
 
 
@@ -76,7 +115,7 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
 
                         SectionName = section.SectionName,
 
-                    
+
                         SchoolId = new SchoolDto()
                         {
                             Id = section.SchoolId,
@@ -84,26 +123,16 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
                         },
                         ClassId = new ClassDto()
                         {
-                            Id = section.SchoolId,
+                            Id = section.ClassId,
                             ClassName = (await _classRepository.GetByIdAsync(section.ClassId)).ClassName
                         }
-
-
 
                     });
                 }
             }
-            if (sectionList.Count() < 1)
-            {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
-            }
-
+        
             _logger.LogInformation("Hanlde Completed");
             return new Response<IEnumerable<GetSectionFilterDto>>(sectionList, "success");
-
         }
 
     }
