@@ -76,7 +76,6 @@ namespace JSC_LMS.Application.Features.Section.Queries.GetSectionFilter
                         {
                             Id = section.Id,
 
-
                             CreatedDate = (DateTime)section.CreatedDate,
 
                             IsActive = section.IsActive,
