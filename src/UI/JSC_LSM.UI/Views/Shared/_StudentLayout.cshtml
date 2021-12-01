@@ -85,17 +85,14 @@
                 @*@{Html.RenderAction("Menu", "Layout");}*@
 
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                    @*<li class="header">MAIN NAVIGATION</li>*@
 
+                    <li>
+                        <a asp-action="Index" asp-controller="Student">
+                            <span>Class Information</span>
+                        </a>
 
-
-                    @* <li>
-            <a href="~/Crop/Index">
-                <i class="fa fa-circle-o"></i> <span>Crop</span>
-            </a>
-        </li>*@
-
-
+                    </li>
                     <li>
                         <a asp-action="ManageCircular" asp-controller="Student">
                             <span>View Circular</span>

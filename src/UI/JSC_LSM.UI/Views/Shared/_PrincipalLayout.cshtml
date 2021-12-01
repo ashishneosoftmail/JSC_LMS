@@ -86,7 +86,12 @@
 
                 <ul class="sidebar-menu" data-widget="tree">
                     @*  <li class="header">MAIN NAVIGATION</li>*@
+                    <li>
+                        <a asp-action="Index" asp-controller="Principal">
+                            <span>School Information</span>
+                        </a>
 
+                    </li>
                     <li>
                         <a asp-action="ManageClass" asp-controller="Class">
                             <span>Manage Class</span>
@@ -141,13 +146,6 @@
                     <li>
                         <a asp-action="ManageAnnouncement" asp-controller="Principal">
                             <span>Manage Announcement</span>
-                        </a>
-
-                    </li>
-                    <li>
-
-                        <a asp-action="Logout" asp-controller="Account">
-                            <span>Logout</span>
                         </a>
 
                     </li>
