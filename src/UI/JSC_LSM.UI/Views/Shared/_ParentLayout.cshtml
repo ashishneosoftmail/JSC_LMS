@@ -16,7 +16,9 @@
     <link href="~/Content/AdminLTE/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
     <link href="~/Content/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style type="text/css">
         a {
             text-decoration: none;
@@ -30,7 +32,7 @@
     <div class="wrapper">
 
         <header class="main-header">
-            <a href="~/Home/Index" class="logo">
+            <a href="~/Student/Index" class="logo">
                 @*<img src="~/Content/Images/lms-logo.jpg" style="height:40px !important; width:125px" alt="logo" class="img-responsive logo">*@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
@@ -54,7 +56,7 @@
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 @{
                                     //var name = Context.Session.GetString("FullName");
                                     var firstName = Context.Request.Cookies["FirstName"];
@@ -147,7 +149,8 @@
     @*<script src="~/js/site.js" asp-append-version="true"></script>*@
     @RenderSection("Scripts", required: false)
 
-    <script src="~/lib/JqueryUI/jquery-ui.min.js"></script>
+    @* <script src="~/lib/JqueryUI/jquery-ui.min.js"></script>*@
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
