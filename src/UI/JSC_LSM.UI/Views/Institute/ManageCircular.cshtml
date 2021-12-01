@@ -167,9 +167,15 @@
             </thead>
             <tbody id="tableData">
 
-                @if (Model.CircularListPagination.Count() == 0)
+                @if (Model.CircularListPagination.Count() <1)
                 {
-                    <tr colspan="7">No Records Found</tr>
+                    <tr >
+                
+                <td colspan="7" class="text-center">
+
+                No Records Found
+                </td>
+                    </tr>
 
                 }
                 else
