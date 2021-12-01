@@ -16,7 +16,9 @@
     <link href="~/Content/AdminLTE/dist/css/skins/_all-skins.min.css" rel="stylesheet" />
     <link href="~/Content/AdminLTE/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style type="text/css">
         a {
             text-decoration: none;
@@ -30,7 +32,7 @@
     <div class="wrapper">
 
         <header class="main-header">
-            <a href="~/Home/Index" class="logo">
+            <a href="~/Student/Index" class="logo">
                 @*<img src="~/Content/Images/lms-logo.jpg" style="height:40px !important; width:125px" alt="logo" class="img-responsive logo">*@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
@@ -54,7 +56,8 @@
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+
+                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @{
                                     //var name = Context.Session.GetString("FullName");
                                     var firstName = Context.Request.Cookies["FirstName"];
@@ -62,9 +65,8 @@
                                 }
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
+                                <a asp-action="ManageProfile" asp-controller="Principal" class="dropdown-item">Profile</a>
 
-                                <a asp-action="StudentManageProfile" asp-controller="User" class="dropdown-item">Profile</a>
-                                
                                 <div class="dropdown-divider"></div>
                                 <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
                             </div>
@@ -93,12 +95,7 @@
             </a>
         </li>*@
 
-                    <li>
-                        <a asp-action="StudentManageProfile" asp-controller="User">
-                            <span>Manage Class</span>
-                        </a>
 
-                    </li>
                     <li>
                         <a asp-action="ManageCircular" asp-controller="Student">
                             <span>View Circular</span>
@@ -108,6 +105,12 @@
                     <li>
                         <a asp-action="ManageAnnouncement" asp-controller="Student">
                             <span>View Announcement</span>
+                        </a>
+
+                    </li>
+                    <li>
+                        <a asp-action="StudentManageProfile" asp-controller="User">
+                            <span>Manage Profile</span>
                         </a>
 
                     </li>

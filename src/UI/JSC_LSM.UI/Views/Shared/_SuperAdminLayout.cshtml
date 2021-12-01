@@ -32,7 +32,7 @@
     <div class="wrapper">
 
         <header class="main-header">
-            <a href="~/Home/Index" class="logo">
+            <a href="~/Institute/InstituteDetails" class="logo">
                 @*<img src="~/Content/Images/lms-logo.jpg" style="height:40px !important; width:125px" alt="logo" class="img-responsive logo">*@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
@@ -55,20 +55,21 @@
                         <li><a href="#">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</a></li>
                     </ul>
                     <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @{
                                     //var name = Context.Session.GetString("FullName");
                                     var firstName = Context.Request.Cookies["FirstName"];
                                     <span class="hidden-xs"> <i> Welcome! @firstName</i></span>
                                 }
                             </a>
-                            @*<div class="dropdown-menu dropdown-menu-right">
-                                    <a asp-action="detail" asp-controller="account" class="dropdown-item">Profile</a>
-                                    <a asp-action="changePassword" asp-controller="account" class="dropdown-item">Change Password</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
-                                </div>*@
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a asp-action="ManageProfile" asp-controller="Principal" class="dropdown-item">Profile</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a asp-action="logout" asp-controller="account" class="dropdown-item">Logout</a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -111,22 +112,7 @@
                         </a>
 
                     </li>
-                    <li>
-
-                        <a asp-action="InstituteDetails" asp-controller="Institute">
-                            <span>Customer Support</span>
-                        </a>
-
-                    </li>
-                    <li>
-
-                        <a asp-action="InstituteDetails" asp-controller="Institute">
-                            <span>Manage Profile</span>
-                        </a>
-
-
-
-                    </li>
+                    
 
                 </ul>
 
