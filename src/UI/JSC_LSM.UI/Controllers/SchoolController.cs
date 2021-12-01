@@ -112,7 +112,15 @@ namespace JSC_LSM.UI.Controllers
                             var newPrincipalModel = new SchoolModel();
                             newPrincipalModel.States = await _common.GetAllStates();
                             newPrincipalModel.Institutes = await _common.GetInstitute();
-                            return RedirectToAction("SchoolDetails", "School");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return RedirectToAction("SchoolDetails", pager);
                         }
                         else
                         {
@@ -330,7 +338,15 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateSchoolResponseModel.Succeeded;
                             ViewBag.UpdateSchoolSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("SchoolDetails", "School");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return RedirectToAction("SchoolDetails", pager);
                         }
                         else
                         {
