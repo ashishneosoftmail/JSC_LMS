@@ -119,8 +119,8 @@ namespace JSC_LSM.UI.Controllers
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Teacher")
                             {
                                 return RedirectToAction("Index", "Teacher");
-
-                            else if(authenticationResponseModel.userDetails.Role.RoleName == "Parent")
+                            }
+                            else if (authenticationResponseModel.userDetails.Role.RoleName == "Parent")
                             {
                                 return RedirectToAction("Index", "Parent");
 
