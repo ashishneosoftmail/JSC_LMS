@@ -84,19 +84,21 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectFilter
 
                             SubjectName = subject.SubjectName,
 
-                            Section = new SectionDto()
-                            {
-                                Id = subject.SectionId,
-                                SectionName = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName
-                            },
                             School = new SchoolDto()
                             {
                                 Id = subject.SchoolId,
                                 SchoolName = (await _schoolRepository.GetByIdAsync(subject.SchoolId)).SchoolName
                             },
+
+                            Section = new SectionDto()
+                            {
+                                Id = subject.SectionId,
+                                SectionName = (await _sectionRepository.GetByIdAsync(subject.SectionId)).SectionName
+                            },
+                          
                             Class = new ClassDto()
                             {
-                                Id = subject.SchoolId,
+                                Id = subject.ClassId,
                                 ClassName = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName
                             }
 
