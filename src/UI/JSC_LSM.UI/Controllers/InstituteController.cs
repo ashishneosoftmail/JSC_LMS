@@ -190,11 +190,16 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = instituteResponseModel.Succeeded;
 
                             ViewBag.AddInstituteSuccess = "Details Added Successfully";
-                            ModelState.Clear();
-                            var newInstituteModel = new Institute();
-                            newInstituteModel.States = await _common.GetAllStates();
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetInstituteById = TempData["GetInstituteById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
 
-                            return RedirectToAction("InstituteDetails", "Institute");
+                            return View("InstituteDetails", pager);
 
                         }
                         else
@@ -451,8 +456,16 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateInstituteResponseModel.message;
                             responseModel.IsSuccess = updateInstituteResponseModel.Succeeded;
                             ViewBag.UpdateInstituteSuccess = "Details Updated Successfully";
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetInstituteById = TempData["GetInstituteById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
 
-                            return RedirectToAction("InstituteDetails", "Institute");
+                            return View("InstituteDetails", pager);
                         }
                         else
                         {
