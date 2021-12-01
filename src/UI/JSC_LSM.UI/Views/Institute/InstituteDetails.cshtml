@@ -361,47 +361,6 @@
 
 
 
-<!--<script>
-    function ShowInstituteDetail(id) {
-        $.get("/Institute/GetInstituteById", { Id: id }, function (data) {
-            console.log(data);
-            if (data) {
-
-                $("#detailsInstituteName").text(data.data.instituteName);
-                $("#detailsAddressLine1").text(data.data.addressLine1);
-                $("#detailsAddressLine2").text(data.data.addressLine2);
-                $("#detailsCity").text(data.data.city.cityName);
-                $("#detailsState").text(data.data.state.stateName);
-                $("#detailsZip").text(data.data.zip.zipcode);
-                $("#detailsContactPerson").text(data.data.contactPerson);
-                $("#detailsEmail").text(data.data.email);
-                $("#detailsMobile").text(data.data.mobile);
-                $("#detailsUsername").text(data.data.username);
-                $("#detailsLicense").text(data.data.licenseExpiry);
-                data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
-                $("#detailsInstituteURL").text(data.data.instituteURL);
-
-                //$("#detailsShoolName").text(data.data.school.schoolName);
-                //$("#detailsAddressLine1").text(data.data.addressLine1);
-                //$("#detailsAddressLine2").text(data.data.addressLine2);
-                //$("#detailsName").text(data.data.name);
-                //$("#detailsEmail").text(data.data.email);
-                //$("#detailsMobile").text(data.data.mobile);
-                //$("#detailsCity").text(data.data.city.cityName);
-                //$("#detailsState").text(data.data.state.stateName);
-                //$("#detailsZip").text(data.data.zip.zipcode);
-                //$("#detailsUsername").text(data.data.username);
-                //data.data.isActive ? $("#detailsStatus").text("Active") : $("#detailsStatus").text("Inactive");
-            }
-        });
-    }
-    $(document).ready(function () {-->
-       @* $('#inputState').on('change', function () {
-            $('#message-text').val($('#inputState').val())
-        })*@
-    <!--})
-</script>-->
-
 
 
 
@@ -539,7 +498,7 @@
             else {
                 $("#tableData").empty();
                 var emptyData = `<tr>
-                <td colspan="6" class="text-center">
+                <td colspan="8" class="text-center">
                 No Record Found</tr ></td>`;
                 $("#tableData").append(emptyData);
             }

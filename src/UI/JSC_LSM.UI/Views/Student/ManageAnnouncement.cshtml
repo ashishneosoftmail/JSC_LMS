@@ -82,41 +82,55 @@
                 </tr>
             </thead>
             <tbody id="tableData">
-                @{ int i = 1; }
-                @foreach (var item in Model.AnnouncementPagination)
+                @if (Model.AnnouncementPagination.Count() < 1)
                 {
                     <tr>
-                        <td>
-                            <label>@i</label>
-                            @{ i++; }
-                        </td>
-                        <td>
-                            @item.AnnouncementTitle
-                        </td>
 
-                        <td>
-                            @item.AnnouncementContent
-                        </td>
-                        <td>
-                            @(item.Subject.SubjectName)
-                        </td>
-                        <td>
-                            @(item.Teacher.TeacherName)
-                        </td>
-                        <td>
-                            @item.CreatedDate.ToShortDateString()
-                        </td>
-                        <td>
-                            <div>
-                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#viewAnnouncement" onclick="ShowAnnouncementDetail(@item.Id)">
-                                    View
-                                </button>
-                            </div>
+                        <td colspan="7" class="text-center">
+
+                            No Records Found
                         </td>
                     </tr>
 
                 }
-            </tbody>
+                else
+                {
+                    int i = 1;
+                    @foreach (var item in Model.AnnouncementPagination)
+                    {
+                        <tr>
+                            <td>
+                                <label>@i</label>
+                                @{ i++; }
+                            </td>
+                            <td>
+                                @item.AnnouncementTitle
+                            </td>
+
+                            <td>
+                                @item.AnnouncementContent
+                            </td>
+                            <td>
+                                @(item.Subject.SubjectName)
+                            </td>
+                            <td>
+                                @(item.Teacher.TeacherName)
+                            </td>
+                            <td>
+                                @item.CreatedDate.ToShortDateString()
+                            </td>
+                            <td>
+                                <div>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#viewAnnouncement" onclick="ShowAnnouncementDetail(@item.Id)">
+                                        View
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                                    }
+                }
+                </tbody>
         </table>
     </div>
 </div>

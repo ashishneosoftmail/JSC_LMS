@@ -134,36 +134,7 @@
                 </tr>
             </thead>
             <tbody id="tableData">
-                @*   @if (Model.Count() == 0)
-                    {
-                        <tr colspan="6">No Data Found</tr>
-                    }
-                    else
-                    {
-                        int i = 0;
-                        @foreach (var principal in Model)
-                        {
-                            <tr>
-                                <td>@(i = i + 1)</td>
-                                <td>@principal.SchoolName</td>
-                                <td>@principal.Name</td>
-                                <td>@principal.CreatedDate.ToShortDateString() </td>
-
-                                <td>@(principal.IsActive == true ? "Active" : "Inactive")</td>
-
-                                <td>
-                                    <a asp-controller="Principal"
-                                       asp-action="Edit"
-                                       class="btn btn-link"
-                                       asp-route-Id="@principal.Id">Edit</a>
-                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myModal" onclick="ShowPrincipalDetail(@principal.Id)">
-                                        View
-
-                                </td>
-                            </tr>
-                        }
-                    }*@
-
+               
 
             </tbody>
         </table>
@@ -419,7 +390,7 @@
             else {
                 $("#tableData").empty();
                 var emptyData = `<tr>
-                <td colspan="6" class="text-center">
+                <td colspan="8" class="text-center">
                 No Record Found</tr ></td>`;
                 $("#tableData").append(emptyData);
             }
@@ -462,7 +433,7 @@
             else {
                 $("#tableData").empty();
                 var emptyData = `<tr>
-                <td colspan="6" class="text-center">
+                <td colspan="8" class="text-center">
                 No Record Found</tr ></td>`;
                 $("#tableData").append(emptyData);
             }
