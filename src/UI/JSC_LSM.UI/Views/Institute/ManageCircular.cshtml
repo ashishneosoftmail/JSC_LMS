@@ -421,6 +421,17 @@
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
         </script>
     }
+    @if (ViewBag.DeleteCircularSuccess != null)
+    {
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.DeleteCircularSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+    }
 </div>
 
 <div class="col-md-11">
