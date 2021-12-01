@@ -279,12 +279,28 @@
 <div id="wrapper">
     @if (ViewBag.AddSchoolSuccess != null)
     {
-        <script>alert("@ViewBag.AddSchoolSuccess")</script>
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddSchoolSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.AddSchoolError != null)
     {
-        <script>alert("@ViewBag.AddSchoolError")</script>
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddSchoolError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
+
+
+  
 </div>
 <script type="text/javascript">
     function GetCityById() {

@@ -290,14 +290,30 @@
     </form>
 </div>
 <div id="wrapper">
+    
+
     @if (ViewBag.UpdateSchoolSuccess != null)
     {
-        <script>alert("@ViewBag.UpdateSchoolSuccess")</script>
+        @* <script>alert("@ViewBag.UpdateCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdateSchoolSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.UpdateSchoolError != null)
     {
-        <script>alert("@ViewBag.UpdateSchoolError")</script>
+        @*<script>alert("@ViewBag.UpdateCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdateSchoolError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
+
+
 </div>
 <script type="text/javascript">
    @* loadSchoolList();*@
