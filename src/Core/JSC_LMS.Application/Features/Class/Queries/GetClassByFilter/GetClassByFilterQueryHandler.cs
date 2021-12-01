@@ -34,31 +34,65 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
         {
             _logger.LogInformation("Handle Initiated");
             var allClass = await _classRepository.ListAllAsync();
-            var searchFilter = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName == request.ClassName) && (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) && (x.IsActive == request.IsActive)).Select(x => (x));
-            Response<IEnumerable<GetClassByFilterDto>> responseData = new Response<IEnumerable<GetClassByFilterDto>>();
-            if (searchFilter.Count() < 1)
-            {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
-            }
-            List<GetClassByFilterDto> classList = new List<GetClassByFilterDto>();
-            foreach (var classes in searchFilter)
-            {
-                var school = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName == request.SchoolName;
-                if (school)
-                {
+            var searchFilter = (allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName == request.ClassName) || (x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()) || (x.IsActive == request.IsActive)).Select(x => (x)));
 
+            if (request.ClassName != "Select Class")
+            {
+                allClass = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName == request.ClassName)).ToList();
+            }
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
+            {
+                allClass = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()).ToList();
+            }
+            if (request.IsActive)
+            {
+                allClass = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => x.IsActive == request.IsActive).ToList();
+            }
+            else
+            {
+                allClass = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => x.IsActive == request.IsActive).ToList();
+            }
+            Response<IEnumerable<GetClassByFilterDto>> responseData = new Response<IEnumerable<GetClassByFilterDto>>();
+            List<GetClassByFilterDto> classList = new List<GetClassByFilterDto>();
+            foreach (var classes in allClass)
+            {
+                if (request.SchoolName != "Select School")
+                {
+                    var school = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName == request.SchoolName;
+                    if (school)
+                    {
+                     
+                        classList.Add(new GetClassByFilterDto()
+                        {
+                            Id = classes.Id,
+
+                            ClassName = classes.ClassName,
+
+
+                            IsActive = classes.IsActive,
+
+                            CreatedDate = (DateTime)classes.CreatedDate,
+
+                            School = new SchoolFilterDtoVms()
+                            {
+                                Id = classes.SchoolId,
+                                SchoolName = (await _schoolRepository.GetByIdAsync(classes.SchoolId)).SchoolName
+                            }
+                        });
+                    }
+                }
+                else
+                {
+                    
                     classList.Add(new GetClassByFilterDto()
                     {
                         Id = classes.Id,
 
                         ClassName = classes.ClassName,
-                       
-                       
+
+
                         IsActive = classes.IsActive,
-                      
+
                         CreatedDate = (DateTime)classes.CreatedDate,
 
                         School = new SchoolFilterDtoVms()
@@ -69,16 +103,10 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
                     });
                 }
             }
-            if (classList.Count() < 1)
-            {
-                responseData.Succeeded = true;
-                responseData.Message = "Data Doesn't Exist";
-                responseData.Data = null;
-                return responseData;
-            }
             _logger.LogInformation("Hanlde Completed");
             return new Response<IEnumerable<GetClassByFilterDto>>(classList, "success");
         }
+
 
 
     }

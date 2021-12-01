@@ -39,13 +39,13 @@ namespace JSC_LSM.UI.Controllers
             int recsCount = (await _classRepository.GetAllClass()).data.Count();
             if (page < 1)
                 page = 1;
-
+            ViewBag.GetClassById = TempData["GetClassById"] as string;
             var pager = new Pager(recsCount, page, size);
-            this.ViewBag.Pager = pager;
+            ViewBag.Pager = pager;
             return View(pager);
 
 
-           
+
         }
 
         /// <summary>
