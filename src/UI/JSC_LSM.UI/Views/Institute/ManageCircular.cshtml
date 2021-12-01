@@ -13,13 +13,126 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
 <style>
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
+    }
+
+
+
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+     #snackbar {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+    #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    #snackbardanger {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+   #snackbardanger.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
     }
 </style>
 
@@ -167,14 +280,14 @@
             </thead>
             <tbody id="tableData">
 
-                @if (Model.CircularListPagination.Count() <1)
+                @if (Model.CircularListPagination.Count() < 1)
                 {
-                    <tr >
-                
-                <td colspan="7" class="text-center">
+                    <tr>
 
-                No Records Found
-                </td>
+                        <td colspan="7" class="text-center">
+
+                            No Records Found
+                        </td>
                     </tr>
 
                 }
@@ -215,14 +328,14 @@
 
                                 else
                                 {<div>
-    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCircular" onclick="EditCircular(@item.Id)">
-        Edit
-    </button>
-   @* <a href="/Institute/EditCircular/@item.Id"
-       class="btn btn-link">Edit</a>*@
-    <a href="/Institute/DeleteCircular/@item.Id"
-       class="btn btn-link">Delete</a>
-</div>}
+                                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCircular" onclick="EditCircular(@item.Id)">
+                                            Edit
+                                        </button>
+                                        @* <a href="/Institute/EditCircular/@item.Id"
+                                            class="btn btn-link">Edit</a>*@
+                                        <a href="/Institute/DeleteCircular/@item.Id"
+                                           class="btn btn-link">Delete</a>
+                                    </div>}
 
                             </td>
                         </tr>
@@ -283,19 +396,44 @@
 <div id="wrapper">
     @if (ViewBag.AddCircularSuccess != null)
     {
-        <script>alert("@ViewBag.AddCircularSuccess")</script>
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddCircularSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.AddCircularError != null)
     {
-        <script>alert("@ViewBag.AddCircularError")</script>
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddCircularError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.UpdateCircularSuccess != null)
     {
-        <script>alert("@ViewBag.UpdateCircularSuccess")</script>
+        @* <script>alert("@ViewBag.UpdateCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdateCircularSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.UpdateCircularError != null)
     {
-        <script>alert("@ViewBag.UpdateCircularError")</script>
+        @*<script>alert("@ViewBag.UpdateCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdateCircularError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
 </div>
 
