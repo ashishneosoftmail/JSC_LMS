@@ -74,6 +74,10 @@ namespace JSC_LMS.Application.Features.Academics.Queries.GetAcademicByFilter
                 allAcademic = allAcademic.Where<JSC_LMS.Domain.Entities.Academic>(x => (x.Type == request.Type)).ToList();
 
             }
+            if (request.CreatedDate.ToShortDateString() != "01-01-0001")
+            {
+                allAcademic = allAcademic.Where<JSC_LMS.Domain.Entities.Academic>(x => x.CreatedDate?.ToShortDateString() == request.CreatedDate.ToShortDateString()).ToList();
+            }
             if (request.IsActive)
             {
                 allAcademic = allAcademic.Where<JSC_LMS.Domain.Entities.Academic>(x => x.IsActive == request.IsActive).ToList();
