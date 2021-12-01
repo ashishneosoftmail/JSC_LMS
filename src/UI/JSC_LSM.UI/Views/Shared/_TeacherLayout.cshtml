@@ -83,13 +83,13 @@
                 @*@{Html.RenderAction("Menu", "Layout");}*@
 
                 <ul class="sidebar-menu" data-widget="tree">
-                    <li class="header">MAIN NAVIGATION</li>
+                    @*<li class="header">MAIN NAVIGATION</li>*@
                     <li>
                         <a asp-action="Index" asp-controller="Teacher">
-                            <span>Teacher Information</span>
+                            <span>Class Information</span>
                         </a>
 
-                    </li>
+                    </li>                  
                     <li>
                         <a asp-action="ManageAnnouncement" asp-controller="Teacher">
                             <span>Manage Announcement</span>
