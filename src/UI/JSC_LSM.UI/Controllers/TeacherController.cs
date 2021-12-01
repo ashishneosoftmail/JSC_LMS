@@ -32,8 +32,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
         private readonly IAnnouncementRepository _announcementRepository;
+        private readonly IInstituteRepository _instituteRepository;
 
-        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IAnnouncementRepository announcementRepository)
+        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -44,8 +45,47 @@ namespace JSC_LSM.UI.Controllers
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
             _announcementRepository = announcementRepository;
+            _instituteRepository = instituteRepository;
 
         }
+
+
+        public async Task<IActionResult> Index()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var teacherUserID = await _teacherRepository.GetTeacherByUserId(userId);
+            var teacherData = (await _teacherRepository.GetAllTeacherDetails()).data.Where(x => x.UserId == userId).ToList();
+            
+           /* var school = await _schoolRepository.GetSchoolById(teacherData.data.School.Id);
+          */
+           /* var classes = await _classRepository.GetClassById(teacherData.data.Class.Id);
+            var section = await _sectionRepository.GetSectionById(teacherData.data.Section.Id);
+            var subject = await _subjectRepository.GetSubjectById(teacherData.data.Subject.Id);
+            var institute = await _instituteRepository.GetInstituteById(school.data.Institute.Id);*/
+
+
+            List<TeacherInformation> model = new List<TeacherInformation>();
+            foreach(var data in teacherData)
+            {
+                    var school = await _schoolRepository.GetSchoolById(data.ClassId.Id);
+                model.Add(new TeacherInformation()
+                {
+                    SchoolName = data.ClassId.ClassName,
+                    InstituteName = (await _instituteRepository.GetInstituteById(school.data.Institute.Id)).data.InstituteName,
+                    ClassName = data.ClassId.ClassName,
+                SectionName =data.SectionId.SectionName,
+                SubjectName = data.SubjectId.SubjectName
+                });
+        }
+
+
+            return View(model);
+
+        }
+
+
+
+
 
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
