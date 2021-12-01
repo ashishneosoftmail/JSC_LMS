@@ -5,35 +5,136 @@
 }
 
 <style>
-    .ButtonDesign {
-        width: 10%;
-        margin-left: 1%;
+    .row {
+        padding-top: 10px;
     }
 
-    form {
-        padding: inherit;
-        margin: 5px 5px 5px 5px;
-        border: 2px solid gray;
-        height: 100%;
-        /*  width : 100%;*/
+    .btn-text-right {
+        margin-left: 14.5%;
     }
 
-    input {
-        width: 90%;
+    a {
+        text-decoration: none;
     }
 
-    div {
-        font-size: 16px;
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+
+
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    #snackbardanger {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
     }
 </style>
-<div id="wrapper">
-    @if (ViewBag.GetInstituteById != null)
-    {
-        <script>alert("@ViewBag.GetInstituteById")</script>
-        @*@ViewBag.GetPrincipalById = null;*@
-    }
-
-</div>
 
 
 <h4 class="m-3">Update Institute</h4>
@@ -228,14 +329,30 @@
 </div>
 
 <div id="wrapper">
+
+
     @if (ViewBag.UpdateInstituteSuccess != null)
     {
-        <script>alert("@ViewBag.UpdateInstituteSuccess")</script>
+        @* <script>alert("@ViewBag.UpdateCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdateInstituteSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.UpdateInstituteError != null)
     {
-        <script>alert("@ViewBag.UpdateInstituteError")</script>
+        @*<script>alert("@ViewBag.UpdateCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdateInstituteError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
+
+
 </div>
 <script type="text/javascript">
     function GetCityById() {

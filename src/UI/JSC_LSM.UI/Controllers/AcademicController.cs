@@ -335,8 +335,15 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.ResponseMessage = updateAcademicResponseModel.message;
                             responseModel.IsSuccess = updateAcademicResponseModel.Succeeded;
                             ViewBag.UpdateAcademicSuccess = "Details Updated Successfully";
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
 
-                            return RedirectToAction("ManageAcademic", "Academic");
+                            var pager = new Pager(recsCount, page, size);
+                            this.ViewBag.Pager = pager;
+                            return View("ManageAcademic",pager);
                         }
                         else
                         {
@@ -432,14 +439,22 @@ namespace JSC_LSM.UI.Controllers
                             newAcademicModel.Sections = await _common.GetSection();
                             newAcademicModel.Subjects = await _common.GetSubject();
                             newAcademicModel.Teachers = await _common.GetTeacher();
-                            return RedirectToAction("ManageAcademic", "Academic");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+
+                            var pager = new Pager(recsCount, page, size);
+                            this.ViewBag.Pager = pager;
+                            return View("ManageAcademic", pager);
                         }
                         else
                         {
                             responseModel.ResponseMessage = academicResponseModel.message;
                             responseModel.IsSuccess = academicResponseModel.Succeeded;
-                            ViewBag.AddAcademicError = academicResponseModel.message;
-                            return View(academicModel);
+                            ViewBag.AddAcademicError = "Something Went Wrong";
+                            return View("ManageAcademic", academicModel);
                         }
                     }
                 }
@@ -447,10 +462,10 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = academicResponseModel.message;
                     responseModel.IsSuccess = academicResponseModel.Succeeded;
-                    ViewBag.AddAcademicError = academicResponseModel.message;
+                    ViewBag.AddAcademicError = "Something Went Wrong";
                 }
             }
-            return View(academicModel);
+            return View("ManageAcademic", academicModel);
 
         }
 
