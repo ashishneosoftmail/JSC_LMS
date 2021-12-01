@@ -847,7 +847,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updateCircularResponseModel.message;
                     responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                    ViewBag.UpdateCircularError = "Something Went Wrong"f;
+                    ViewBag.UpdateCircularError = "Something Went Wrong";
                 }
             }
             return View(manageCircularModel);
