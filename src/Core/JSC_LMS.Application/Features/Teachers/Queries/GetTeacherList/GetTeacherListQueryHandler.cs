@@ -63,6 +63,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
                     IsActive = teacher.IsActive,
                     //SubjectId = teacher.SubjectId,
                     TeacherName = teacher.TeacherName,
+                    UserId = teacher.UserId,
                     UserType = teacher.UserType,
                     SectionId = new SectionDto()
                     {
@@ -101,7 +102,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherList
                     }
 
 
-                });
+                }) ;
                 
                 }
 

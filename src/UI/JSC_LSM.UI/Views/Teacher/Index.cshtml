@@ -1,0 +1,63 @@
+﻿@model IEnumerable<TeacherInformation>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+
+
+
+
+<style>
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+    /*    td {
+        font-size: 20px;
+    }*/
+
+    .bgcolor {
+        background-color: rgb(204,204,204);
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="d-flex flex-column justify-content-center col-sm-7 bgcolor m-5 p-3">
+            <h3 class="text-center pb-1 border-bottom">Class Information</h3>
+            <h5 class="m-1 p-2">Assigned Class Information</h5>
+            <div class="p-2">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+
+                            <th scope="col">Class</th>
+                            <th scope="col">Section</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">School Name</th>
+                            <th scope="col">Institute Name</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in Model)
+                        {
+                            <tr>
+                                <td>@d.ClassName</td>
+                                <td>@d.SectionName</td>
+                                <td>@d.SubjectName</td>
+                                <td>@d.SchoolName</td>
+                                <td>@d.InstituteName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

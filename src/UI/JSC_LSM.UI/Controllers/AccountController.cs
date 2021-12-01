@@ -115,7 +115,12 @@ namespace JSC_LSM.UI.Controllers
                                 return RedirectToAction("Index", "Principal");
 
                             }
-                            else if(authenticationResponseModel.userDetails.Role.RoleName == "Parent")
+
+                            else if (authenticationResponseModel.userDetails.Role.RoleName == "Teacher")
+                            {
+                                return RedirectToAction("Index", "Teacher");
+                            }
+                            else if (authenticationResponseModel.userDetails.Role.RoleName == "Parent")
                             {
                                 return RedirectToAction("Index", "Parent");
 
@@ -123,6 +128,7 @@ namespace JSC_LSM.UI.Controllers
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Student")
                             {
                                 return RedirectToAction("Index", "Student");
+
 
                             }
                             return RedirectToAction("Index", "Home");
