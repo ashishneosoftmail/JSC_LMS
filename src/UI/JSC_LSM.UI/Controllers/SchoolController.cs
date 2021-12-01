@@ -352,10 +352,57 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
+        public async Task<IActionResult> DownloadExcel()
+        {
+            var data = new List<SchoolViewModel>();
 
-     
+            var dataList = await _schoolRepository.GetAllSchool();
+            //Creating DataTable  
+            DataTable dt = new DataTable();
+            //Setiing Table Name  
+            dt.TableName = "SchoolData";
+            dt.Columns.Add("ID", typeof(int));
+            dt.Columns.Add("Name", typeof(string));
+            dt.Columns.Add("AddressLine1", typeof(string));
+            dt.Columns.Add("AddressLine2", typeof(string));
+            dt.Columns.Add("ContactPerson", typeof(string));
+          
+            dt.Columns.Add("Email", typeof(string));
+            dt.Columns.Add("IsActive", typeof(string));
+            dt.Columns.Add("City_Id", typeof(int));
+            dt.Columns.Add("City_Name", typeof(string));
+            dt.Columns.Add("State_Id", typeof(int));
+            dt.Columns.Add("State_Name", typeof(string));
+            dt.Columns.Add("Zip_Id", typeof(int));
+            dt.Columns.Add("ZipCode", typeof(string));
+            dt.Columns.Add("Institute_Id", typeof(int));
+            dt.Columns.Add("Institute_Name", typeof(string));
+            dt.Columns.Add("CreatedDate", typeof(DateTime));
+            foreach (var _school in dataList.data)
+            {
+                dt.Rows.Add(_school.Id, _school.SchoolName, _school.AddressLine1, _school.AddressLine2, _school.ContactPerson, _school.Email, _school.IsActive ? "Active" : "Inactive", _school.City.Id, _school.City.CityName, _school.State.Id, _school.State.StateName, _school.Zip.Id, _school.Zip.Zipcode, _school.Institute.Id, _school.Institute.InstituteName, _school.CreatedDate?.ToShortDateString());
+            }
+            string fileName = "SchoolData_" + DateTime.Now.ToShortDateString() + ".xlsx";
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                //Add DataTable in worksheet  
+                wb.Worksheets.Add(dt);
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    wb.SaveAs(stream);
+                    //Return xlsx Excel File  
+                    /* return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);*/
+                    return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+                }
+
+
+            }
 
         }
+
+
+    }
 
 
 

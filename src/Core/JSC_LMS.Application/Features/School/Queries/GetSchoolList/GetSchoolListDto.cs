@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.CommonDtos;
 using JSC_LMS.Application.Features.School.Queries.GetSchoolById;
+using System;
 
 namespace JSC_LMS.Application.Features.School.Queries.GetSchoolList
 {
@@ -12,8 +13,9 @@ namespace JSC_LMS.Application.Features.School.Queries.GetSchoolList
         public string Mobile { get; set; }
         public string ContactPerson { get; set; }
         public string Email { get; set; }
-        public bool IsActive { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
+        public bool IsActive { get; set; }
         public CityDto City { get; set; }
         public StateDto State { get; set; }
         public ZipDto Zip { get; set; }

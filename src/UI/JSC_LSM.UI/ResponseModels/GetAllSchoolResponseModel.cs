@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Models.School;
+﻿using JSC_LMS.Application.Features.School.Queries.GetSchoolList;
+using JSC_LMS.Application.Models.School;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace JSC_LSM.UI.ResponseModels
         public string message { get; set; }
         public string token { get; set; }
         public string statusCode { get; set; }
-        public IEnumerable<SchoolResponse> data { get; set; }
+
+        public IEnumerable<GetSchoolListDto> data { get; set; }
+        public IEnumerable<SchoolResponse> Data{ get; set; }
     }
 }
