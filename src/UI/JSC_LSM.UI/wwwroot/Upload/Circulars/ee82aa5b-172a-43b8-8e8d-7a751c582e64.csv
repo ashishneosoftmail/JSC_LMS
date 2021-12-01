@@ -1,0 +1,7 @@
+InstituteName,SchoolName,Address1,Address2,ContactPerson,Email,Mobile,City,State,Zip,Status,CreatedBy
+Institute1,School1,AddressLine1,AddressLine2,Person1,instituteadmin@gmail.com,9807654321,City1,State1,Zip1,TRUE,11/30/2021
+Institute2,School2,AddressLine1,AddressLine2,Person2,instituteadmin2@gmail.com,9807654321,City2,State2,Zip2,TRUE,11/30/2021
+Institute3,School3,Addressline1,Addressline2,Person3,instituteadmin3@gmail.com,9807654321,City3,State3,Zip3,TRUE,11/30/2021
+Institute1,School1,AddressLine1,AddressLine2,Person1,instituteadmin@gmail.com,9807654321,City1,State1,Zip1,TRUE,11/30/2021
+Institute2,School2,AddressLine1,AddressLine2,Person2,instituteadmin2@gmail.com,9807654321,City2,State2,Zip2,TRUE,11/30/2021
+Institute3,School3,Addressline1,Addressline2,Person3,instituteadmin3@gmail.com,9807654321,City3,State3,Zip3,TRUE,11/30/2021

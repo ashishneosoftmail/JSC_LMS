@@ -45,21 +45,7 @@
             -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
-     #snackbar {
-        background-color: red;
-        visibility: hidden;
-        min-width: 250px;
-        margin-left: -113px;
-        color: #fff;
-        text-align: center;
-        border-radius: 2px;
-        padding: 21px;
-        position: fixed;
-        z-index: 1;
-        left: 90%;
-        top: 82px;
-        font-size: 17px;
-    }
+    
 
     #snackbar.show {
         visibility: visible;
@@ -67,7 +53,7 @@
         animation: fadein 0.5s, fadeout 0.5s 2.5s;
     }
     #snackbardanger {
-        background-color: green;
+        background-color: red;
         visibility: hidden;
         min-width: 250px;
         margin-left: -113px;
@@ -398,7 +384,7 @@
     {
 
         @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
-        <div id="snackbar" class="snackbar-success"><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddCircularSuccess</div>
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddCircularSuccess</div>
         <script>
             var x = document.getElementById("snackbar");
             x.className = "show";
