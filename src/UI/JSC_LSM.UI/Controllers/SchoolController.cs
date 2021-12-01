@@ -120,7 +120,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
                             var pager = new Pager(recsCount, page, size);
                             ViewBag.Pager = pager;
-                            return RedirectToAction("SchoolDetails", pager);
+                            return View("SchoolDetails", pager);
                         }
                         else
                         {
@@ -346,7 +346,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
                             var pager = new Pager(recsCount, page, size);
                             ViewBag.Pager = pager;
-                            return RedirectToAction("SchoolDetails", pager);
+                            return View("SchoolDetails", pager);
                         }
                         else
                         {
