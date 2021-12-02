@@ -20,5 +20,7 @@ namespace JSC_LMS.Domain.Entities
         public string File { get; set; }
         public string Image { get; set; }
         public School School { get; set; }
+
+        public virtual ICollection<Gallary> Gallary { get; set; }
     }
 }
