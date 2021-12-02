@@ -50,6 +50,7 @@ namespace JSC_LMS.Persistence
         public DbSet<Circular> Circular { get; set; }
         public DbSet<FAQ> FAQ { get; set; }
         public DbSet<Announcement> Announcement { get; set; }
+        public DbSet<EventsTable> EventsTable { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
