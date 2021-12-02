@@ -127,7 +127,17 @@ namespace JSC_LSM.UI.Controllers
                             newSubjectModel.Schools = await _common.GetSchool();
                             newSubjectModel.Classes = await _common.GetClass();
                             newSubjectModel.Sections = await _common.GetSection();
-                            return RedirectToAction("ManageSubject", "Subject");
+
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetSubjectById = TempData["GetSubjectById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageSubject", pager);
+                            
                         }
                         else
                         {
@@ -391,7 +401,17 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateSubjectResponseModel.Succeeded;
                             ViewBag.UpdateSubjectSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("ManageSubject", "Subject");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetSubjectById = TempData["GetSubjectById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageSubject", pager);
+
+                      
                         }
                         else
                         {

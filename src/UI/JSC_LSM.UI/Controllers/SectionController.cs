@@ -120,9 +120,22 @@ namespace JSC_LSM.UI.Controllers
                             ModelState.Clear();
                             var newSectionModel = new SectionModel();
 
+
                             newSectionModel.Schools = await _common.GetSchool();
                             newSectionModel.Classes = await _common.GetClass();
-                            return RedirectToAction("ManageSection", "Section");
+
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetSectionById = TempData["GetSectionById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageSection", pager);
+
+
+                           
                         }
                         else
                         {
@@ -369,7 +382,15 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = updateSectionResponseModel.Succeeded;
                             ViewBag.UpdateSectionSuccess = "Details Updated Successfully";
 
-                            return RedirectToAction("ManageSection", "Section");
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetSectionById = TempData["GetSectionById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageSection", pager);
                         }
                         else
                         {
