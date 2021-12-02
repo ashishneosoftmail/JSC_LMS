@@ -52,6 +52,8 @@ namespace JSC_LMS.Persistence
         public DbSet<Announcement> Announcement { get; set; }
         public DbSet<EventsTable> EventsTable { get; set; }
 
+        public DbSet<Gallary> Gallary { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

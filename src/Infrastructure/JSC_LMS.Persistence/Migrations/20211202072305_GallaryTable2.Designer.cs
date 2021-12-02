@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211202072305_GallaryTable2")]
+    partial class GallaryTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -528,12 +530,15 @@ namespace JSC_LMS.Persistence.Migrations
                     b.Property<DateTime?>("DeletedDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("EventsTableId")
+                    b.Property<int>("EventTableId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EventsTableId")
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnName("FileName")
+                        .HasColumnName("EventCoordinator")
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FileType")
@@ -1613,8 +1618,7 @@ namespace JSC_LMS.Persistence.Migrations
                     b.HasOne("JSC_LMS.Domain.Entities.EventsTable", "EventsTable")
                         .WithMany("Gallary")
                         .HasForeignKey("EventsTableId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("JSC_LMS.Domain.Entities.School", "School")
                         .WithMany("Gallary")
