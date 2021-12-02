@@ -24,6 +24,7 @@ using JSC_LMS.Application.Features.Events.Commands.UpdateEvent;
 using JSC_LMS.Application.Features.Events.Queries.GetEventDetail;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsExport;
 using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
+using JSC_LMS.Application.Features.EventsFeature.Commands.CreateEvents;
 using JSC_LMS.Application.Features.FAQ.Commands.CreateFAQ;
 using JSC_LMS.Application.Features.FAQ.Commands.UpdateFAQ;
 using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
@@ -212,6 +213,8 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Announcement, CreateAnnouncementDto>();
             CreateMap<Announcement, CreateAnnouncementDto>().ReverseMap();
+            CreateMap<EventsTable, CreateEventsDto>();
+            CreateMap<EventsTable, CreateEventsDto>().ReverseMap();
 
             CreateMap<Gallary, UploadImageDto>();
             CreateMap<Gallary, UploadImageDto>().ReverseMap();
