@@ -1,14 +1,12 @@
-﻿using JSC_LMS.Domain.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSC_LMS.Domain.Entities
+namespace JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsListBySchoolPagination
 {
-    public class EventsTable : AuditableEntity
+    public class GetAllEventsListBySchoolPaginationDto
     {
         public int Id { get; set; }
-        public bool IsActive { get; set; }
         public int SchoolId { get; set; }
         public DateTime EventDateTime { get; set; }
         public string EventCoordinator { get; set; }
@@ -16,11 +14,12 @@ namespace JSC_LMS.Domain.Entities
         public string EventTitle { get; set; }
         public string Venue { get; set; }
         public bool Status { get; set; }
-        public string Description { get; set; }
-        public string File { get; set; }
-        public string Image { get; set; }
-        public School School { get; set; }
+        public SchoolDto School { get; set; }
 
-        public virtual ICollection<Gallary> Gallary { get; set; }
+    }
+    public class SchoolDto
+    {
+        public int Id { get; set; }
+        public string SchoolName { get; set; }
     }
 }

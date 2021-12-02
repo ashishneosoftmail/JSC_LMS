@@ -38,5 +38,7 @@ namespace JSC_LMS.Domain.Entities
         public ICollection<Parents> Parents { get; set; }
         public virtual ICollection<EventsTable> EventsTable { get; set; }
 
+        public virtual ICollection<Gallary> Gallary { get; set; }
+
     }
 }
