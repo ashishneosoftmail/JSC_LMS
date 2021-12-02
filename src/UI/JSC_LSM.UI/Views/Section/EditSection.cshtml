@@ -35,7 +35,7 @@
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
@@ -46,7 +46,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">Class Name :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Class Name<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="ClassId" id="school" asp-items="Model.Classes">
                             <option disabled selected hidden>Select Class</option>
@@ -59,7 +59,7 @@
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSectionName" class="col-sm-2 col-form-label">Section Name :</label><br />
+                    <label for="inputSectionName" class="col-sm-2 col-form-label">Section Name<span class="text-danger">*</span> :</label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputSectionName" asp-for="SectionName" placeholder="Ex: Abc">
                         <span asp-validation-for="SectionName" class="text-danger"></span>
