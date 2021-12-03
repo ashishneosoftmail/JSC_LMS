@@ -66,19 +66,24 @@
             <h3>Image and Logo</h3>
             <br />
             <br />
-            <h6> <label>Logo  <span class="text-danger">*</span></label></h6>
 
-            <input type='file' name="Logo" onchange="readURL(this);" />
-            <img id="readUrl" src=@Model?.LogoFileName alt="Preview image" height="100" width="100" />
+            <label>Logo:</label>   <input type='file' name="Logo" onchange="readURL(this);" />
+            <img id="readUrl" src=@Model?.LogoFileName alt="Preview image" height="100" width="100" />  <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeLogo()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <br />
+            @* <span asp-validation-for="Logo" class="text-danger"></span>*@
             <br />
             <br />
-            <br />
-            <h6><label>Login Image  <span class="text-danger">*</span></label></h6>
 
-            <input type='file' name="LoginImage" onchange="readLogin(this);" />
 
-            <img id="readLogin" src=@Model?.LoginImageFileName alt="Preview image" height="100" width="100" />
+            <label>Login Image:</label>  <input type='file' name="LoginImage" onchange="readLogin(this);" />
+
+            <img id="readLogin" src=@Model?.LoginImageFileName alt="Preview image" height="100" width="100" /> <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeLogin()">
+                <span aria-hidden="true">&times;</span>
+            </button>
             <br />
+            @* <span asp-validation-for="LoginImage" class="text-danger"></span>*@
             <br />
             <br />
             <button type="submit" class="btn btn-primary">Save</button>
@@ -86,3 +91,11 @@
     </form>
 </body>
 </html>
+<script>
+    function removeLogo() {
+        $('#readUrl').attr("src", "");
+    }
+    function removeLogin() {
+        $('#readLogin').attr("src", "");
+    }
+</script>

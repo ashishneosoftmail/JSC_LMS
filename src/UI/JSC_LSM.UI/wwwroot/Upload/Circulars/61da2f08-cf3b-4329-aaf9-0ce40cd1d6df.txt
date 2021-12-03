@@ -1,0 +1,7 @@
+1. Login: http://wireframes.php-dev.in/Neeraj/Super%20Admin%20and%20Students/#p=jsc_login
+2. Super administrator: http://wireframes.php-dev.in/Neeraj/Super%20Admin%20and%20Students/#p=manage_institute
+3. Students:http://wireframes.php-dev.in/Neeraj/Super%20Admin%20and%20Students/#p=class_information&c=1
+4. Parents: http://wireframes.php-dev.in/Neeraj/Parents%20and%20Principal/#p=manage_assignment
+5. Principal: http://wireframes.php-dev.in/Neeraj/Parents%20and%20Principal/#p=school_information
+6. Teachers: http://wireframes.php-dev.in/Neeraj/Teachers/#p=class_information
+7. Institution Admin: http://wireframes.php-dev.in/Neeraj/Institute%20Admin/#p=login
