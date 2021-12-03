@@ -16,8 +16,8 @@
         }
 
         #div3 {
-            width: 620px;
-            height: 600px;
+           @* width: 620px;
+            height: 600px;*@
             display: inline-block;
             padding: 15px;
             text-align: center;
@@ -66,14 +66,14 @@
             <h3>Image and Logo</h3>
             <br />
             <br />
-            <h6> <label>Logo</label></h6>
+            <h6> <label>Logo  <span class="text-danger">*</span></label></h6>
 
             <input type='file' name="Logo" onchange="readURL(this);" />
             <img id="readUrl" src=@Model?.LogoFileName alt="Preview image" height="100" width="100" />
             <br />
             <br />
             <br />
-            <h6><label>Login Image</label></h6>
+            <h6><label>Login Image  <span class="text-danger">*</span></label></h6>
 
             <input type='file' name="LoginImage" onchange="readLogin(this);" />
 

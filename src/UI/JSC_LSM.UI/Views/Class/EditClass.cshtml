@@ -119,6 +119,10 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 <div id="wrapper">
     @if (ViewBag.GetClassById != null)
@@ -131,10 +135,13 @@
 <div class="container p-3 my-3 border fixed" id="div1">
     <h3>Update Class</h3>
     <form method="post" novalidate>
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School  <span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
@@ -147,7 +154,7 @@
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputClassName" class="col-sm-2 col-form-label">ClassName :</label><br />
+                    <label for="inputClassName" class="col-sm-2 col-form-label">ClassName<span class="text-danger">*</span>:</label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputClassName" asp-for="ClassName" placeholder="Ex: Abc">
                         <span asp-validation-for="ClassName" class="text-danger"></span>

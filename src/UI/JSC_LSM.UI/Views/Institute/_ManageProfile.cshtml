@@ -13,7 +13,9 @@
         border-color: lightgray;
        
     }
-   
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 <div class="container p-3 my-3" id="div1">
     <h3 class="profileStyle">Profile Information</h3>
@@ -21,7 +23,7 @@
     <form method="post" novalidate asp-action="UpdateProfileInformation" asp-controller="Institute">
 
         <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Name <span class="text-danger">*</span></label>
             <div class="col-sm-7">
                 <input type="text" class="form-control" id="inputName" asp-for="ProfileInformation.Name" placeholder="Name">
                 <span asp-validation-for="ProfileInformation.Name" class="text-danger"></span>
@@ -30,7 +32,7 @@
         <br />
 
         <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Mobile Support</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Mobile Support <span class="text-danger">*</span></label>
             <div class="col-sm-7">
                 <input type="text" class="form-control" id="inputNumber" asp-for="ProfileInformation.Mobile" placeholder="Mobile number">
                 <span asp-validation-for="ProfileInformation.Mobile" class="text-danger"></span>
@@ -79,7 +81,7 @@
     <form asp-action="InstituteAdminChangePassword" asp-controller="Institute" method="post">
 
         <div class="form-group row ">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Old Password</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Old Password <span class="text-danger">*</span></label>
             <div class="col-sm-9">
                 <input type="password" class="form-control" id="inputOld_Pass" asp-for="ChangePassword.CurrentPassword" autocomplete="off" placeholder="Old Password">
                 <span asp-validation-for="ChangePassword.CurrentPassword" class="text-danger"></span>
@@ -90,7 +92,7 @@
         <br />
 
         <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">New Password</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">New Password <span class="text-danger">*</span></label>
             <div class="col-sm-9">
                 <input type="password" class="form-control" id="inputNew_Pass" asp-for="ChangePassword.NewPassword" autocomplete="off" placeholder="New Password">
                 <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
@@ -101,7 +103,7 @@
         <br />
 
         <div class="form-group row">
-            <label for="inputPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+            <label for="inputPassword" class="col-sm-2 col-form-label">Confirm Password <span class="text-danger">*</span></label>
             <div class="col-sm-9">
                 <input type="password" class="form-control" id="inputConfirm_Pass" asp-for="ChangePassword.ConfirmPassword" autocomplete="off" placeholder="Confirm Password">
                 <span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>

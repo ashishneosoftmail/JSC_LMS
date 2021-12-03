@@ -4,103 +4,115 @@
 }
 <style>
     #div1 {
-        width: 45%;
-        height: 50%;
+       @* width: 45%;
+        height: 50%;*@
         display: inline-block;
-        padding: 15px;
+       @* padding: 15px;*@
         text-align: center;
         border-style: solid;
         border-color: lightgray;
-        margin-left: 2%;
+      @*  margin-left: 2%;*@
     }
     #div2 {
-        position: relative;
+      @*  position: relative;
         float: right;
         width: 40%;       
-        margin-top: 100px;
+        margin-top: 100px;*@
         display: inline-block;
-        padding: 5px;
+        @*padding: 5px;*@
         text-align: center;
         border-style: solid;
         border-color: lightgray;
-        margin-left:8%;
+       @* margin-left:8%;*@
     }
 </style>
 
-    <div class="container row p-3 my-3" id="div1">
+<div class="container">
 
-        <h3 class="mb-5">Profile Information</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="container row p-3 my-3" id="div1">
 
-        <form method="post" novalidate asp-action="UpdateProfileInformation" asp-controller="User">
+                <h3 class="mb-5">Profile Information</h3>
 
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Name</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="inputName" asp-for="ProfileInformation.Name" placeholder="Name">
-                    <span asp-validation-for="ProfileInformation.Name" class="text-danger"></span>
-                </div>
+                <form method="post" novalidate asp-action="UpdateProfileInformation" asp-controller="User">
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Name<span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputName" asp-for="ProfileInformation.Name" placeholder="Name">
+                            <span asp-validation-for="ProfileInformation.Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Mobile Support<span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputNumber" asp-for="ProfileInformation.Mobile" placeholder="Mobile number">
+                            <span asp-validation-for="ProfileInformation.Mobile" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <br />
+
+
+                    <br />
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
             </div>
-            <br />
 
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Mobile Support</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" id="inputNumber" asp-for="ProfileInformation.Mobile" placeholder="Mobile number">
-                    <span asp-validation-for="ProfileInformation.Mobile" class="text-danger"></span>
+        </div>
+        <div class="col-md-6">
+            <div class="container row p-3 my-3" id="div2">
+                <h3>Change Password</h3>
+                <br />
+                <br />
+                <form asp-action="ChangePassword" asp-controller="User" method="post">
 
-                </div>
+                    <div class="form-group row ">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Old Password<span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputOld_Pass" asp-for="ChangePassword.CurrentPassword" autocomplete="off" placeholder="Old Password">
+                            <span asp-validation-for="ChangePassword.CurrentPassword" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">New Password<span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="inputNew_Pass" asp-for="ChangePassword.NewPassword" autocomplete="off" placeholder="New Password">
+                            <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="form-group row">
+                        <label for="inputPassword" class="col-sm-2 col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control " id="inputConfirm_Pass" asp-for="ChangePassword.ConfirmPassword" autocomplete="off" placeholder="Confirm Password">
+                            <span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>
+
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
             </div>
-            <br />
 
-
-            <br />
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+        </div>
     </div>
-    <style>
-       
-    </style>
+</div>
 
-    <div class="container row p-3 my-3" id="div2">
-        <h3>Change Password</h3>
-        <br />
-        <br />
-        <form asp-action="ChangePassword" asp-controller="User" method="post">
+   
+  
 
-            <div class="form-group row ">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Old Password</label>
-                <div class="col-sm-9">
-                    <input type="password" class="form-control" id="inputOld_Pass" asp-for="ChangePassword.CurrentPassword" autocomplete="off" placeholder="Old Password">
-                    <span asp-validation-for="ChangePassword.CurrentPassword" class="text-danger"></span>
-
-                </div>
-            </div>
-            <br />
-            <br />
-
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">New Password</label>
-                <div class="col-sm-9">
-                    <input type="password" class="form-control" id="inputNew_Pass" asp-for="ChangePassword.NewPassword" autocomplete="off" placeholder="New Password">
-                    <span asp-validation-for="ChangePassword.NewPassword" class="text-danger"></span>
-
-                </div>
-            </div>
-            <br />
-            <br />
-
-            <div class="form-group row">
-                <label for="inputPassword" class="col-sm-2 col-form-label">Confirm Password</label>
-                <div class="col-sm-9">
-                    <input type="password" class="form-control " id="inputConfirm_Pass" asp-for="ChangePassword.ConfirmPassword" autocomplete="off" placeholder="Confirm Password">
-                    <span asp-validation-for="ChangePassword.ConfirmPassword" class="text-danger"></span>
-
-                </div>
-            </div>
-            <br />
-            <br />
-
-            <button type="submit" class="btn btn-primary">Change Password</button>
-        </form>
-    </div>
+    
 

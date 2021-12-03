@@ -20,6 +20,10 @@
     div {
         font-size: 16px;
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 <div id="wrapper">
     @if (ViewBag.GetSubjectById != null)
@@ -32,10 +36,13 @@
 <div class="container p-3 my-3 border fixed" id="div1">
     <h3>Update Subject</h3>
     <form method="post" novalidate>
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
@@ -46,7 +53,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputClass" class="col-sm-2 col-form-label">Class Name :</label>
+                    <label for="inputClass" class="col-sm-2 col-form-label">Class Name<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
                             <option disabled selected hidden>Select Class</option>
@@ -57,7 +64,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputSection" class="col-sm-2 col-form-label">Section Name :</label>
+                    <label for="inputSection" class="col-sm-2 col-form-label">Section Name<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="SectionId" id="school" asp-items="Model.Sections">
                             <option disabled selected hidden>Select School</option>
@@ -71,7 +78,7 @@
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSubjectName" class="col-sm-2 col-form-label">Subject Name :</label><br />
+                    <label for="inputSubjectName" class="col-sm-2 col-form-label">Subject Name<span class="text-danger">*</span> :</label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputSubjectName" asp-for="SubjectName" placeholder="Ex: Abc">
                         <span asp-validation-for="SubjectName" class="text-danger"></span>
@@ -87,12 +94,12 @@
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
                     @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
-                    <label class="form-check-label" for="inlineRadio1">Active</label>*@
+                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
                 </div>
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
                     @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
-                    <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
 

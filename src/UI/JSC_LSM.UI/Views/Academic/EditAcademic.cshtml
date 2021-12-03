@@ -28,6 +28,7 @@
     div {
         font-size: 16px;
     }
+
     #snackbar {
         background-color: green;
         visibility: hidden;
@@ -126,6 +127,10 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 <div id="wrapper">
     @if (ViewBag.GetSubjectById != null)
@@ -138,10 +143,13 @@
     <div class="container p-3 my-3 border fixed" id="div1">
         <h3>Edit Academic</h3>
         <form method="post" novalidate>
+            <div class="spacing">
+                <span class="row text-danger">* Marked are required fields</span>
+            </div>
             <div class="row">
                 <div class="col">
                     <div class="form-group row">
-                        <label for="inputSchool" class="col-sm-2 col-form-label">School Name :</label>
+                        <label for="inputSchool" class="col-sm-2 col-form-label">School Name  <span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                                 <option disabled selected hidden>Select School</option>
@@ -152,7 +160,7 @@
                     <br />
 
                     <div class="form-group row">
-                        <label for="inputClass" class="col-sm-2 col-form-label">Class Name :</label>
+                        <label for="inputClass" class="col-sm-2 col-form-label">Class Name  <span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
                                 <option disabled selected hidden>Select Class</option>
@@ -163,7 +171,7 @@
                     <br />
 
                     <div class="form-group row">
-                        <label for="inputSection" class="col-sm-2 col-form-label">Section Name :</label>
+                        <label for="inputSection" class="col-sm-2 col-form-label">Section Name  <span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <select class="form-control" asp-for="SectionId" id="class" asp-items="Model.Sections">
                                 <option disabled selected hidden>Select Section</option>
@@ -174,7 +182,7 @@
                     <br />
 
                     <div class="form-group row">
-                        <label for="inputSubject" class="col-sm-2 col-form-label">Subject Name :</label>
+                        <label for="inputSubject" class="col-sm-2 col-form-label">Subject Name  <span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <select class="form-control" asp-for="SubjectId" id="class" asp-items="Model.Subjects">
                                 <option disabled selected hidden>Select Subject</option>
@@ -185,7 +193,7 @@
                     <br />
 
                     <div class="form-group row">
-                        <label for="inputTeacher" class="col-sm-2 col-form-label">Teacher Name :</label>
+                        <label for="inputTeacher" class="col-sm-2 col-form-label">Teacher Name  <span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <select class="form-control" asp-for="TeacherId" id="class" asp-items="Model.Teachers">
                                 <option disabled selected hidden>Select Teacher</option>
@@ -196,7 +204,7 @@
                     <br />
 
                     <div class="form-group row">
-                        <label for="inputTeacher" class="col-sm-2 col-form-label">Type :</label>
+                        <label for="inputTeacher" class="col-sm-2 col-form-label">Type  <span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <select class="form-control" asp-for="Type" id="type" asp-items="Model.Types">
                                 <option disabled selected hidden>Select Type</option>
@@ -210,7 +218,7 @@
 
 
                     <div class="form-group row">
-                        <label for="inputcutoff" class="col-sm-2 col-form-label">CutOFF Percentage:</label>
+                        <label for="inputcutoff" class="col-sm-2 col-form-label">CutOFF Percentage<span class="text-danger">*</span> :</label>
                         <div class="col-sm-5">
                             <input type="text" class="form-control" id="inputcutoff" asp-for="CutOff" placeholder="CutOff">
                             <span asp-validation-for="CutOff" class="text-danger"></span>
@@ -250,14 +258,14 @@
         </form>
     </div>
     <div id="wrapper">
-       @* @if (ViewBag.AddAcademicSuccess != null)
-        {
-            <script>alert("@ViewBag.AddAcademicSuccess")</script>
-        }
-        @if (ViewBag.AddAcademicError != null)
-        {
-            <script>alert("@ViewBag.AddAcademicError")</script>
-        }*@
+        @* @if (ViewBag.AddAcademicSuccess != null)
+            {
+                <script>alert("@ViewBag.AddAcademicSuccess")</script>
+            }
+            @if (ViewBag.AddAcademicError != null)
+            {
+                <script>alert("@ViewBag.AddAcademicError")</script>
+            }*@
 
         @if (ViewBag.UpdateAcademicSuccess != null)
         {

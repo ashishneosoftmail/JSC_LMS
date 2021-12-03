@@ -130,17 +130,24 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form asp-action="EditKnowledge" asp-controller="Knowledge">
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Category</label>
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Category<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="UpdateKnowledgeBase.CategoryId" id="school" asp-items="Model.Categories">
                             <option disabled selected hidden>Select Category</option>
@@ -152,7 +159,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Doc Title</label>
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Doc Title<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="UpdateKnowledgeBase.DocTitle">
                         <span asp-validation-for="UpdateKnowledgeBase.DocTitle" class="text-danger"></span>
@@ -171,7 +178,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Sub Title</label><br />
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Sub Title<span class="text-danger">*</span></label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="UpdateKnowledgeBase.SubTitle">
                         <span asp-validation-for="UpdateKnowledgeBase.SubTitle" class="text-danger"></span>
@@ -185,7 +192,7 @@
 
 
             <div class="form-group row">
-                <label for="inputKnow" class="col-sm-1 col-form-label">Slug Url</label>
+                <label for="inputKnow" class="col-sm-1 col-form-label">Slug Url<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url" asp-for="UpdateKnowledgeBase.SlugUrl">
                     <span asp-validation-for="UpdateKnowledgeBase.SlugUrl" class="text-danger"></span>
@@ -198,7 +205,7 @@
 
             <div class="form-group row">
 
-                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content</label>
+                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
 
                     <textarea id="editor" placeholder="Add Content" asp-for="UpdateKnowledgeBase.AddContent"></textarea>
@@ -239,9 +246,11 @@
                 </div>
                 <div class="modal-body">
                     <form id="requestacallform" method="post" asp-controller="Knowledge" asp-action="AddCategory">
-
+                        <div class="spacing">
+                            <span class="row text-danger">* marked are mandatory</span>
+                        </div>
                         <div class="form-group">
-                            <label>Add Category</label>
+                            <label>Add Category<span class="text-danger">*</span></label>
                             <div class="input-group">
 
                                 <input id="first_name" asp-for="AddCategory.CategoryName" type="text" class="form-control" placeholder="Category Name" />

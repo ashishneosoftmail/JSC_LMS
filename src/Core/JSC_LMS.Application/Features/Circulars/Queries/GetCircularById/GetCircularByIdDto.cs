@@ -10,7 +10,6 @@ namespace JSC_LMS.Application.Features.Circulars.Queries.GetCircularById
         public int SchoolId { get; set; }
         public string CircularTitle { get; set; }
         public string Description { get; set; }
-
         public string File { get; set; }
         public bool Status { get; set; }
         public bool IsActive { get; set; }
