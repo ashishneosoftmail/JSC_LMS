@@ -120,6 +120,10 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 
@@ -185,7 +189,9 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="SendCircular" asp-controller="Principal">
-
+                            <div class="spacing">
+                                <span class="row text-danger">* Marked are required fields</span>
+                            </div>
                             <table class="table table-borderless">
                                 @Html.HiddenFor(m => m.AddCircular.SchoolId, new { id = "addSchoolId", name = "addSchoolId" })
 
@@ -534,6 +540,9 @@
 
                     <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Principal">
+                            <div class="spacing">
+                                <span class="row text-danger">* Marked are required fields</span>
+                            </div>
                             @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
                             <table class="table table-borderless">
                                 @Html.HiddenFor(m => m.EditCircular.SchoolId, new { id = "editSchoolId", name = "editSchoolId" })

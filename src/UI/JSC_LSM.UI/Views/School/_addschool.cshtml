@@ -1,139 +1,146 @@
 ﻿@model SchoolModel
-    <style>
-        .row {
-            padding-top: 10px;
+<style>
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+
+
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
-        .btn-text-right {
-            margin-left: 14.5%;
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
-        a {
-            text-decoration: none;
+    #snackbardanger {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
 
-        .table-borderless, .table-borderless td, .table-borderless th {
-            border: none;
-            border-top: none !important;
-            margin: 0;
-            padding: 0;
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
         }
 
-        #viewUserModel {
-            text-align: center;
-            margin-left: 130px;
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
         }
 
-        .table-borderless, .table-borderless td, .table-borderless th {
-            border: none;
-            border-top: none !important;
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
         }
 
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
 
-
-        #snackbar {
-            background-color: green;
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -113px;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 21px;
-            position: fixed;
-            z-index: 1;
-            left: 90%;
-            top: 82px;
-            font-size: 17px;
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
         }
 
-            #snackbar.show {
-                visibility: visible;
-                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            }
-
-
-            #snackbar.show {
-                visibility: visible;
-                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            }
-
-        #snackbardanger {
-            background-color: red;
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -113px;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 21px;
-            position: fixed;
-            z-index: 1;
-            left: 90%;
-            top: 82px;
-            font-size: 17px;
+        to {
+            top: 0;
+            opacity: 0;
         }
+    }
 
-            #snackbardanger.show {
-                visibility: visible;
-                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            }
-
-        @@-webkit-keyframes fadein {
-            from {
-                top: 0;
-                opacity: 0;
-            }
-
-            to {
-                top: 30px;
-                opacity: 1;
-            }
-        }
-
-        @@keyframes fadein {
-            from {
-                top: 0;
-                opacity: 0;
-            }
-
-            to {
-                top: 30px;
-                opacity: 1;
-            }
-        }
-
-        @@-webkit-keyframes fadeout {
-            from {
-                top: 30px;
-                opacity: 1;
-            }
-
-            to {
-                top: 0;
-                opacity: 0;
-            }
-        }
-
-        @@keyframes fadeout {
-            from {
-                top: 30px;
-                opacity: 1;
-            }
-
-            to {
-                top: 0;
-                opacity: 0;
-            }
-        }
-    </style>
+    .spacing {
+        margin-left: 30px;
+    }
+</style>
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form method="post" novalidate>
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
@@ -190,7 +197,7 @@
                 <br />
 
 
-             
+
 
             </div>
             <div class="col">
@@ -252,12 +259,12 @@
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
                     @*<input class="form-check-input" type="radio" asp-for="IsActive" name="inlineRadioOptions" id="inlineRadio1" value="1">
-            <label class="form-check-label" for="inlineRadio1">Active</label>*@
+                        <label class="form-check-label" for="inlineRadio1">Active</label>*@
                 </div>
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
                     @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0" asp-for="IsActive">
-            <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
+                        <label class="form-check-label" for="inlineRadio2">Inactive</label>*@
                 </div>
                 <span asp-validation-for="IsActive" class="text-danger"></span>
 
@@ -300,7 +307,7 @@
     }
 
 
-  
+
 </div>
 <script type="text/javascript">
     function GetCityById() {

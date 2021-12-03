@@ -130,12 +130,19 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form asp-action="EditKnowledge" asp-controller="Knowledge">
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
 
@@ -239,7 +246,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="requestacallform" method="post" asp-controller="Knowledge" asp-action="AddCategory">
-
+                        <div class="spacing">
+                            <span class="row text-danger">* marked are mandatory</span>
+                        </div>
                         <div class="form-group">
                             <label>Add Category<span class="text-danger">*</span></label>
                             <div class="input-group">

@@ -28,6 +28,7 @@
     div {
         font-size: 16px;
     }
+
     #snackbar {
         background-color: green;
         visibility: hidden;
@@ -126,13 +127,21 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 
 
 <div class="container p-3 my-3 border fixed" id="div1">
     <h3>Create Academic</h3>
+
     <form method="post" novalidate>
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
@@ -193,7 +202,7 @@
                 <div class="form-group row">
                     <label for="inputTeacher" class="col-sm-2 col-form-label">Type  <span class="text-danger">*</span> :</label>
                     <div class="col-sm-5">
-                        <select class="form-control" asp-for="Type" id="type" asp-items="Model.Types" >
+                        <select class="form-control" asp-for="Type" id="type" asp-items="Model.Types">
                             <option disabled selected hidden>Select Type</option>
                         </select>
                         <span asp-validation-for="Type" class="text-danger"></span>
@@ -205,7 +214,7 @@
 
 
                 <div class="form-group row">
-                    <label for="inputcutoff" class="col-sm-2 col-form-label">CutOFF Percentage  <span class="text-danger">*</span> :</label>
+                    <label for="inputcutoff" class="col-sm-2 col-form-label">CutOFF Percentage<span class="text-danger">*</span> :</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputcutoff" asp-for="CutOff" placeholder="CutOff">
                         <span asp-validation-for="CutOff" class="text-danger"></span>
@@ -246,14 +255,14 @@
     </form>
 </div>
 <div id="wrapper">
-  @*  @if (ViewBag.AddAcademicSuccess != null)
-    {
-        <script>alert("@ViewBag.AddAcademicSuccess")</script>
-    }
-    @if (ViewBag.AddAcademicError != null)
-    {
-        <script>alert("@ViewBag.AddAcademicError")</script>
-    }*@
+    @*  @if (ViewBag.AddAcademicSuccess != null)
+        {
+            <script>alert("@ViewBag.AddAcademicSuccess")</script>
+        }
+        @if (ViewBag.AddAcademicError != null)
+        {
+            <script>alert("@ViewBag.AddAcademicError")</script>
+        }*@
     @if (ViewBag.AddAcademicSuccess != null)
     {
 

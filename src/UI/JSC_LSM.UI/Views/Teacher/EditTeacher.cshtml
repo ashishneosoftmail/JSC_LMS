@@ -3,13 +3,20 @@
     ViewData["Title"] = "Update Teacher";
     Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 }
-
+<style>
+    .spacing {
+        margin-left: 30px;
+    }
+</style>
 <h4 class="m-3">Update Teacher</h4>
 
 <div class="m-2">
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post">
+                <div class="spacing">
+                    <span class="row text-danger">* Marked are required fields</span>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -227,13 +234,13 @@
                         <div class="form-group row">
                             <label for="zip" class="col-sm-3 col-form-label">Zip<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
-                                <select class="form-control" asp-for="ZipId" asp-items="Model.ZipCode"id="zip">
+                                <select class="form-control" asp-for="ZipId" asp-items="Model.ZipCode" id="zip">
                                 </select>
                                 <span asp-validation-for="ZipId" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                  
+
 
                 </div>
                 <br />
@@ -245,7 +252,7 @@
                     <div class="col-sm-12">
                         <div class="form-group row">
                             <div class="col-sm-12">
-                                
+
                                 <a asp-action="ManageTeacherUsers" asp-controller="Teacher" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
                                 <span class="m-2 pull-right"></span>
                                 <button type="submit" class="btn btn-primary pull-right m-2">Save</button>

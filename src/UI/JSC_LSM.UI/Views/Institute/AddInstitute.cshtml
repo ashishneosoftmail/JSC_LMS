@@ -133,6 +133,9 @@
             opacity: 0;
         }
     }
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 <h4 class="m-3">Add New Institute</h4>
 
@@ -141,6 +144,9 @@
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post" novalidate>
+                <div class="spacing">
+                    <span class="row text-danger">* marked are mandatory</span>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -273,7 +279,7 @@
                                 <span asp-validation-for="LicenseExpiry" class="text-danger"></span>
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                 </div>
                 <br />
                 <div class="row">

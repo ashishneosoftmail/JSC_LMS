@@ -130,18 +130,25 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form asp-action="AddFAQ" asp-controller="FAQ">
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
 
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Category  <span class="text-danger">*</span></label>
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Category<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="AddFAQ.CategoryId" id="school" asp-items="Model.Categories">
                             <option disabled selected hidden>Select Category</option>
@@ -153,7 +160,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">FAQ Title  <span class="text-danger">*</span></label>
+                    <label for="inputKnow" class="col-sm-2 col-form-label">FAQ Title<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="AddFAQ.FAQTitle">
                         <span asp-validation-for="AddFAQ.FAQTitle" class="text-danger"></span>
@@ -163,7 +170,7 @@
 
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Question  <span class="text-danger">*</span></label><br />
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Question<span class="text-danger">*</span></label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="AddFAQ.Question">
                         <span asp-validation-for="AddFAQ.Question" class="text-danger"></span>
@@ -210,7 +217,7 @@
 
             <div class="form-group row">
 
-                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content  <span class="text-danger">*</span></label>
+                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content<span class="text-danger">*</span></label>
                 <div class="col-sm-7">
 
                     <textarea id="editor" placeholder="Add Content" asp-for="AddFAQ.Content"></textarea>
@@ -250,7 +257,9 @@
                 </div>
                 <div class="modal-body">
                     <form id="requestacallform" method="post" asp-controller="FAQ" asp-action="AddCategory">
-
+                        <div class="spacing">
+                            <span class="row text-danger">* marked are mandatory</span>
+                        </div>
                         <div class="form-group">
                             <label>Add Category  <span class="text-danger">*</span></label>
                             <div class="input-group">

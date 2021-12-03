@@ -132,6 +132,10 @@
             opacity: 0;
         }
     }
+    .spacing {
+        margin-left: 30px;
+    }
+
 </style>
 <h4 class="m-3">Edit Parents</h4>
 
@@ -139,6 +143,9 @@
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post" asp-action="EditParents" asp-controller="User">
+                <div class="spacing">
+                    <span class="row text-danger">* Marked are required fields</span>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -316,7 +323,7 @@
 
                 </div>
                 <br />
-               
+
 
                 <br />
                 <div class="row">

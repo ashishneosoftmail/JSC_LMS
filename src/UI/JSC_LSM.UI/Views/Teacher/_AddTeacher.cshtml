@@ -2,20 +2,27 @@
 @{
     ViewData["Title"] = "AddTeacher";
 }
-
+<style>
+    .spacing {
+        margin-left: 30px;
+    }
+</style>
 <h4 class="m-3">Add Teacher</h4>
 
 <div class="m-2">
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post">
+                <div class="spacing">
+                    <span class="row text-danger">3. Select role's sequence should be in order.</span>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="user" class="col-sm-3 col-form-label">User Type<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <select class="form-control" asp-for="UserType" id="user">
-                                    <option  disabled selected>Select User</option>
+                                    <option disabled selected>Select User</option>
                                     <option value="Teacher"> Teacher</option>
                                     <option value="Students"> Students</option>
                                     <option value="Parents"> Parents</option>
@@ -25,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="name" class="col-sm-3 col-form-label">Name<span class="text-danger">*</span></label>
@@ -80,7 +87,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="mobile" class="col-sm-3 col-form-label">Mobile<span class="text-danger">*</span></label>
@@ -122,7 +129,7 @@
                 </div>
                 <br />
                 <div class="row">
-                    
+
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="subject" class="col-sm-3 col-form-label">Subject<span class="text-danger">*</span></label>
@@ -177,7 +184,7 @@
                 <br />
 
                 <div class="row">
-                   
+
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="city" class="col-sm-3 col-form-label">City<span class="text-danger">*</span></label>
@@ -236,7 +243,7 @@
                 </div>
                 <br />
                 <div class="row">
-                   
+
                 </div>
                 <br />
                 <div class="row">
