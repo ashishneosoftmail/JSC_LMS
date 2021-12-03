@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using JSC_LMS.Application.Contracts.Persistence;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace JSC_LMS.Persistence.Repositories
 {
@@ -15,5 +18,17 @@ namespace JSC_LMS.Persistence.Repositories
         {
             _logger = logger;
         }
+        protected override IQueryable<Gallary> GetQueryable()
+        {
+            return _dbContext.Set<Gallary>().Include(y => y.School).Include(x => x.EventsTable);
+        }
+
+        public override async Task<Gallary> GetByIdAsync(int id)
+        {
+            return await GetQueryable().FirstOrDefaultAsync(i => i.Id == id);
+
+        }
+
+
     }
 }
