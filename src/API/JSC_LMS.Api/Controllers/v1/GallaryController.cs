@@ -1,5 +1,6 @@
 ﻿using JSC_LMS.Application.Features.Gallary.Commands.DeleteImage;
 using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
+using JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryFilter;
 using JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryList;
 using JSC_LMS.Application.Features.Gallary.Queries.GetGallaryById;
 using MediatR;
@@ -58,5 +59,13 @@ namespace JSC_LMS.Api.Controllers.v1
             var getGallaryByIdQuery = new GetGallaryByIdQuery() { Id = id };
             return Ok(await _mediator.Send(getGallaryByIdQuery));
         }
+
+        [HttpGet("GetGallaryByFilter", Name = "GetGallaryByFilter")]
+        public async Task<ActionResult> GetGallaryByFilter(string _SchoolName, string _EventTitle)
+        {
+            var getAllGallaryByFilterQuery = new GetAllGallaryByFilterQuery(_SchoolName, _EventTitle);
+            return Ok(await _mediator.Send(getAllGallaryByFilterQuery));
+        }
+
     }
 }
