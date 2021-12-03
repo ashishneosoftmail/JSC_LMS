@@ -28,9 +28,13 @@ namespace JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryList
             public async Task<Response<IEnumerable<GetAllGallaryListDto>>> Handle(GetAllGallaryQuery request, CancellationToken cancellationToken)
             {
                 _logger.LogInformation("Handle Initiated");
+
                 var allGallaryList = await _gallaryRepository.ListAllAsync();
+
                 _logger.LogInformation("Hanlde Completed");
+
                 List<GetAllGallaryListDto> gallaryList = new List<GetAllGallaryListDto>();
+
                 foreach (var gallary in allGallaryList)
                 {
                     gallaryList.Add(new GetAllGallaryListDto()
@@ -42,7 +46,11 @@ namespace JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryList
                         EventsTableId = gallary.EventsTableId,
                         IsActive = gallary.IsActive,
                         SchoolId = gallary.SchoolId,
-                        SchoolData = new SchoolDto() { Id = gallary.School.Id, SchoolName = gallary.School.SchoolName },
+                        
+                        SchoolData = new SchoolDto() 
+                        { 
+                            Id = gallary.School.Id, SchoolName = gallary.School.SchoolName },
+                        
                         EventsData=new EventsTableDto()
                         {
                             Id = gallary.EventsTable.Id,
