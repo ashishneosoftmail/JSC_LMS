@@ -198,16 +198,15 @@
                     <div class="form-group row">
                         <label for="status" class="col-sm-3 col-form-label">Status</label>
 
-                        <div class="col-sm-9">
-                            <div class="form-check form-check-inline">
-                                @Html.RadioButtonFor(m => m.AddFAQ.IsActive, true, new { @class = "form-check-input", Checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+                        <div class="form-check form-check-inline">
+                            @Html.RadioButtonFor(m => m.AddFAQ.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Active</label>
 
-                            </div>
-                            <div class="form-check form-check-inline">
-                                @Html.RadioButtonFor(m => m.AddFAQ.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
-
-                            </div>
                         </div>
+                        <div class="form-check form-check-inline">
+                            @Html.RadioButtonFor(m => m.AddFAQ.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">InActive</label>
+
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
