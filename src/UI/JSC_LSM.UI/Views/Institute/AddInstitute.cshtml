@@ -296,23 +296,19 @@
                     <div class="col-sm-6">
 
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Status :</label>
+                            <label class="col-sm-3 col-form-label">Status</label>
 
 
 
                             <div class="col-sm-9">
-                               
+                                <label>Status :</label>
 
                                 <div class="form-check form-check-inline">
-                                    <label class="form-check-label" for="inlineRadio1">Active</label>
-                                    @Html.RadioButtonFor(m => m.IsActive, true,  new {@class = "form-check-input" })
-
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Active</label>
 
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <label class="form-check-label" for="inlineRadio2">Inactive</label>
-                                    @Html.RadioButtonFor(m => m.IsActive, false,  new { @class = "form-check-input" })
-
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">InActive</label>
 
                                 </div>
 

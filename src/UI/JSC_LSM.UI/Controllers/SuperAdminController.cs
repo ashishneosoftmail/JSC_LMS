@@ -54,6 +54,8 @@ namespace JSC_LSM.UI.Controllers
                 LoginImageFileName = LoginImagePath + superadmin.data.LoginImage
             };
             TempData["SuperAdminId"] = superadminvm.Id;
+            ViewBag.logoFileName = superadminvm.LogoFileName;
+            ViewBag.loginImageFileName = superadminvm.LoginImageFileName;
             return View(superadminvm);
         }
         [HttpPost]
@@ -124,10 +126,24 @@ namespace JSC_LSM.UI.Controllers
 
             var LoginImagePath = _configuration["LoginImages"];
             var LogoImagePath = _configuration["Logos"];
-
-            var LogoImageFileName = ProcessUploadFile(Logo, LogoImagePath);
-            var LoginImageFileName = ProcessUploadFile(LoginImage, LoginImagePath);
-
+            string LogoImageFileName = null;
+            string LoginImageFileName = null;
+            if (Logo != null)
+            {
+                LogoImageFileName = ProcessUploadFile(Logo, LogoImagePath);
+            }
+            else
+            {
+                LogoImageFileName = ViewBag.logoFileName;
+            }
+            if (LoginImage != null)
+            {
+                LoginImageFileName = ProcessUploadFile(LoginImage, LoginImagePath);
+            }
+            else
+            {
+                LoginImageFileName = ViewBag.loginImageFileName;
+            }
             ViewBag.UpdateSuperadminChangePasswordSuccess = null;
             ViewBag.UpdateSuperadminChangePasswordError = null;
             var Id = Convert.ToInt32(TempData["SuperAdminId"].ToString());

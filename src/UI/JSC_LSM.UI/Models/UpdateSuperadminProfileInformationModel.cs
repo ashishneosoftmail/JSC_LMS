@@ -12,7 +12,9 @@ namespace JSC_LSM.UI.Models
     {
         public string LogoFileName { get; set; }
         public string LoginImageFileName { get; set; }
+      
         public IFormFile Logo { get; set; }
+        
         public IFormFile LoginImage { get; set; }
         public SuperadminChangePasswordModel SuperadminChangePasswordModel { get; set; }
     }
