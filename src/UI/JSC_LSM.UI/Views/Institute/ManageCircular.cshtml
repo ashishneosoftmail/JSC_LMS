@@ -45,13 +45,14 @@
             -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
             animation: fadein 0.5s, fadeout 0.5s 2.5s;
         }
-    
 
-    #snackbar.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
     #snackbardanger {
         background-color: red;
         visibility: hidden;
@@ -68,11 +69,12 @@
         font-size: 17px;
     }
 
-   #snackbardanger.show {
-        visibility: visible;
-        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    }
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
     @@-webkit-keyframes fadein {
         from {
             top: 0;
@@ -119,6 +121,10 @@
             top: 0;
             opacity: 0;
         }
+    }
+
+    .spacing {
+        margin-left: 30px;
     }
 </style>
 
@@ -185,11 +191,13 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="SendCircular" asp-controller="Institute">
-
+                            <div class="spacing">
+                                <span class="row text-danger">* Marked are required fields</span>
+                            </div>
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
-                                        <label>Select School</label>
+                                        <label>Select School<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -201,7 +209,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Circular Title</label>
+                                        <label>Circular Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="AddCircular.CircularTitle" id="circulartitle" />
@@ -211,7 +219,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Description</label>
+                                        <label>Description<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <textarea id="description" asp-for="AddCircular.Description" rows="4" cols="40"></textarea>
@@ -517,11 +525,14 @@
 
                     <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Institute">
+                            <div class="spacing">
+                                <span class="row text-danger">* marked are mandatory</span>
+                            </div>
                             @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
-                                        <label>Select School</label>
+                                        <label>Select School<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -533,7 +544,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Circular Title</label>
+                                        <label>Circular Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="EditCircular.CircularTitle" id="updateCirculartitle" />
@@ -543,7 +554,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Description</label>
+                                        <label>Description<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <textarea id="updateDescription" asp-for="EditCircular.Description" rows="4" cols="40"></textarea>

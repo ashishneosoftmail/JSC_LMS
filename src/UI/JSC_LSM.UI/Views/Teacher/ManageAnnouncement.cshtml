@@ -14,12 +14,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
 <style>
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
+    }
+
+    .spacing {
+        margin-left: 30px;
     }
 </style>
 
@@ -30,7 +34,7 @@
         <h6 class="font-weight-bold"> Search Filter</h6>
         <div class="row d-flex flex-row">
             <form novalidate asp-action="SearchAnnouncement" asp-controller="Teacher" method="get" class="d-flex flex-row">
-               
+
                 <div class="form-group row col-sm-4">
                     <label for="classId" class="col-sm-5 col-form-label">Class Name</label>
                     <div class="col-sm-7">
@@ -63,10 +67,10 @@
                     </div>
                 </div>
                 @*<div class="col-sm-1">
-            <div class="form-group row float-end">
-                <button type="button" class="btn btn-primary float-lg-end " >Search</button>
-            </div>
-        </div>*@
+                        <div class="form-group row float-end">
+                            <button type="button" class="btn btn-primary float-lg-end " >Search</button>
+                        </div>
+                    </div>*@
                 <div class="form-group row col-sm-2 btn-text-right">
                     <button type="Submit" class="btn btn-primary btn-sm float-lg-end">Search</button>
                 </div>
@@ -97,10 +101,13 @@
                     <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="AddAnnouncement" asp-controller="Teacher">
 
+                            <div class="spacing">
+                                <span class="row text-danger">* Marked are required fields</span>
+                            </div>
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
-                                        <label>Select option</label>
+                                        <label>Select option<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -115,7 +122,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Select Class</label>
+                                        <label>Select Class<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -128,7 +135,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Section</label>
+                                        <label>Select Section<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -141,7 +148,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Subject</label>
+                                        <label>Select Subject<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -154,7 +161,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Announcement Title</label>
+                                        <label>Announcement Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="AddAnnouncement.AnnouncementTitle" id="announcementtitle" />
@@ -164,7 +171,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Announcement Content</label>
+                                        <label>Announcement Content<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <textarea id="description" asp-for="AddAnnouncement.AnnouncementContent" rows="4" cols="40"></textarea>
@@ -254,7 +261,7 @@
                             </td>
                         </tr>
 
-                                    }
+                    }
                 }
             </tbody>
         </table>
@@ -346,10 +353,13 @@
                     <div class="modal-body">
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateAnnouncement" asp-controller="Teacher">
                             @Html.HiddenFor(m => m.UpdateAnnouncement.Id, new { id = "announcementId", name = "announcementId" })
+                            <div class="spacing">
+                                <span class="row text-danger">* Marked are required fields</span>
+                            </div>
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
-                                        <label>Select option</label>
+                                        <label>Select option<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -357,14 +367,14 @@
                                             @*<option disabled selected hidden> Select option</option>*@
                                             <option selected value="Teacher"> Teacher</option>
                                             @*<option value="Admin"> Admin</option>
-                        <option value="Principal"> Principal</option>*@
+                                                <option value="Principal"> Principal</option>*@
                                         </select>
                                         <span asp-validation-for="UpdateAnnouncement.AnnouncementMadeBy" class="text-danger"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Select Class</label>
+                                        <label>Select Class<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -377,7 +387,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Section</label>
+                                        <label>Select Section<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -390,7 +400,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Subject</label>
+                                        <label>Select Subject<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -403,7 +413,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Announcement Title</label>
+                                        <label>Announcement Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="UpdateAnnouncement.AnnouncementTitle" id="announcementTitle" />
@@ -413,7 +423,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Announcement Content</label>
+                                        <label>Announcement Content<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <textarea id="announcementContent" asp-for="UpdateAnnouncement.AnnouncementContent" rows="4" cols="40"></textarea>
@@ -424,7 +434,7 @@
 
                             </table>
                             <div class="modal-footer">
-                                
+
                                 <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="UpdateAnnouncement" />
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
@@ -448,7 +458,7 @@
         $.get("/Teacher/ViewAnnouncement", { Id: id }, function (data) {
             console.log(data);
             if (data) {
-                
+
                 $("#announcementMadeBy").text(data.data.announcementMadeBy);
                 $("#announcementContent").text(data.data.announcementContent);
                 $("#announcementTitle").text(data.data.announcementTitle);
@@ -468,7 +478,7 @@
                 $("#announcementMadeBy").text(data.data.announcementMadeBy);
                 $("#announcementContent").text(data.data.announcementContent);
                 $("#announcementTitle").val(data.data.announcementTitle);
-                $("#detailsContent").text(data.data.announcementContent);               
+                $("#detailsContent").text(data.data.announcementContent);
                 $("#updateClass").find(`option[value="${data.data.class.id}"]`).attr('selected', 'selected');
                 $("#updateSection").find(`option[value="${data.data.section.id}"]`).attr('selected', 'selected');
                 $("#updateSubject").find(`option[value="${data.data.subject.id}"]`).attr('selected', 'selected');

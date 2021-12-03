@@ -126,6 +126,10 @@
             opacity: 0;
         }
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 
@@ -133,10 +137,14 @@
 <div class="container p-3 my-3 border fixed" id="div1">
     <h3>Create Class</h3>
     <form method="post" novalidate>
+
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School  <span class="text-danger">*</span>  :</label>
                     <div class="col-sm-5">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
@@ -149,7 +157,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputClassName" class="col-sm-2 col-form-label">Class Name:</label>
+                    <label for="inputClassName" class="col-sm-2 col-form-label">Class Name  <span class="text-danger">*</span> :</label>
                     <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputAddress1" asp-for="ClassName" placeholder="Class Name">
                         <span asp-validation-for="ClassName" class="text-danger"></span>

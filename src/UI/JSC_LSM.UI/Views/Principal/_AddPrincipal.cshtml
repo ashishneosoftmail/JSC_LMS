@@ -20,15 +20,23 @@
     div {
         font-size: 16px;
     }
+
+    .spacing {
+        margin-left: 30px;
+    }
 </style>
 
 <div class="container p-3 my-3 border fixed" id="div1">
 
     <form method="post" novalidate>
+
+        <div class="spacing">
+            <span class="row text-danger">* Marked are required fields</span>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
@@ -38,7 +46,7 @@
                 </div>
                 <br />
                 <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Email :</label>
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Email<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <input type="email" class="form-control" id="inputEmail" asp-for="Email" placeholder="abc@xyz.com">
                         <span asp-validation-for="Email" class="text-danger"></span>
@@ -47,7 +55,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputAddress1" class="col-sm-2 col-form-label">Address1:</label>
+                    <label for="inputAddress1" class="col-sm-2 col-form-label">Address1<span class="text-danger">*</span>:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputAddress1" asp-for="AddressLine1" placeholder="Address 1">
                         <span asp-validation-for="AddressLine1" class="text-danger"></span>
@@ -57,7 +65,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputState" class="col-sm-2 col-form-label">State :</label>
+                    <label for="inputState" class="col-sm-2 col-form-label">State<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-select" aria-label="Default select example" onchange="GetCityById()" id="principalState" asp-for="StateId" asp-items="Model.States">
                             <option value="" disabled selected>Select State</option>
@@ -69,7 +77,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputZip" class="col-sm-2 col-form-label">Zip :</label>
+                    <label for="inputZip" class="col-sm-2 col-form-label">Zip<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" id="zip" asp-for="ZipId">
                             <option disabled selected hidden>Select Zip</option>
@@ -81,7 +89,7 @@
 
 
                 <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Password<span class="text-danger">*</span>:</label>
                     <div class="col-sm-7">
                         <input class="form-control" type="password" id="inputPassword" asp-for="Password" placeholder="Password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
@@ -93,7 +101,7 @@
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputPrincipalName" class="col-sm-2 col-form-label">Name :</label><br />
+                    <label for="inputPrincipalName" class="col-sm-2 col-form-label">Name<span class="text-danger">*</span> :</label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputPrincipalName" asp-for="Name" placeholder="Ex: Abc Xyz">
                         <span asp-validation-for="Name" class="text-danger"></span>
@@ -103,7 +111,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputMobile" class="col-sm-2 col-form-label">Mobile :</label><br />
+                    <label for="inputMobile" class="col-sm-2 col-form-label">Mobile<span class="text-danger">*</span> :</label><br />
                     <div class="col-sm-7">
                         <input type="text" asp-for="Mobile" class="form-control" id="inputMobile" placeholder="Contact Number">
                         <span asp-validation-for="Mobile" class="text-danger"></span>
@@ -113,7 +121,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputAddress2" class="col-sm-2 col-form-label">Address2:</label>
+                    <label for="inputAddress2" class="col-sm-2 col-form-label">Address2<span class="text-danger">*</span>:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputAddress2" placeholder="Address 2" asp-for="AddressLine2">
                         <span asp-validation-for="AddressLine2" class="text-danger"></span>
@@ -123,7 +131,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputState" class="col-sm-2 col-form-label">City :</label>
+                    <label for="inputState" class="col-sm-2 col-form-label">City<span class="text-danger">*</span> :</label>
                     <div class="col-sm-7">
                         <select class="form-control" id="city" asp-for="CityId" onchange="GetZipByCityId()">
                             <option disabled selected hidden>Select City</option>
@@ -136,7 +144,7 @@
 
 
                 <div class="form-group row">
-                    <label for="inputUserName" class="col-sm-2 col-form-label">UserName:</label>
+                    <label for="inputUserName" class="col-sm-2 col-form-label">UserName<span class="text-danger">*</span>:</label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputUserName" asp-for="Username" placeholder="Ex : Username123">
                         <span asp-validation-for="Username" class="text-danger"></span>
