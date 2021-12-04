@@ -154,7 +154,7 @@
 
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="className" class="col-sm-5 col-form-label">Class Name</label>
+            <label for="className" class="col-sm-5 col-form-label">Class</label>
             <div class="col-sm-7">
                 <select class="form-control" id="className">
                     <option disabled selected hidden>Select Class</option>
@@ -176,7 +176,7 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="studentName" class="col-sm-5 col-form-label">Student Name</label>
+            <label for="studentName" class="col-sm-5 col-form-label">Student</label>
             <div class="col-sm-7">
                 <select class="form-control" id="studentName">
                     <option disabled selected hidden>Select Student</option>
@@ -186,7 +186,7 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="parentName" class="col-sm-5 col-form-label">Parent Name</label>
+            <label for="parentName" class="col-sm-5 col-form-label">Parent</label>
             <div class="col-sm-7">
                 <select class="form-control" id="parentName">
                     <option disabled selected hidden>Select Parent</option>
@@ -208,7 +208,7 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="status" class="col-sm-5 col-form-label">Status :</label>
+            <label for="status" class="col-sm-3 col-form-label">Status</label>
             <div class="col-sm-7">
                 <select class="form-control" id="status">
 
@@ -229,10 +229,12 @@
 </div>
 
 <div class="col-md-11">
-    <a asp-controller="User" asp-action="DownloadExcelParents" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
-    <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
-    <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
+    <a asp-controller="User" asp-action="DownloadExcelParents" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>    
     <a asp-action="AddParents" asp-controller="User" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+    <div class="col-sm-9">
+        <button class="btn btn-sm btn-primary pull-right m-2">Upload</button>
+        <a href="#" class="pull-right btn btn-sm btn-link m-2">Download Sample Template</a>
+    </div>
 
 </div>
 

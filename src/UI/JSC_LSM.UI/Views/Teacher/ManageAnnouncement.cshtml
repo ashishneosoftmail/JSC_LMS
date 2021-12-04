@@ -46,8 +46,8 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group row">
-                        <label for="sectionId" class="col-sm-5 col-form-label">Section</label>
-                        <div class="col-sm-7">
+                        <label for="sectionId" class="col-sm-3 col-form-label">Section</label>
+                        <div class="col-sm-8">
                             <select class="form-control" asp-items="Model.Sections" id="SectionId" name="SectionId">
                                 <option disabled selected hidden>Select Section</option>
 
@@ -57,8 +57,8 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="form-group row">
-                        <label for="subjectId" class="col-sm-5 col-form-label">Subject</label>
-                        <div class="col-sm-7">
+                        <label for="subjectId" class="col-sm-3 col-form-label">Subject</label>
+                        <div class="col-sm-8">
                             <select class="form-control" asp-items="Model.Subjects" id="SubjectId" name="SubjectId">
                                 <option disabled selected hidden>Select Subject</option>
 
@@ -80,7 +80,8 @@
 </div>
 <div class="col-md-12">
 
-    <button type="button" class="btn btn-primary btn-sm pull-right m-2" data-toggle="modal" data-target="#myModal">
+    <button type="button" class="btn btn-primary pull-right btn-sm  m-2" 
+            data-toggle="modal" data-target="#myModal">
         Add Announcement
     </button>
     <div class="container">
