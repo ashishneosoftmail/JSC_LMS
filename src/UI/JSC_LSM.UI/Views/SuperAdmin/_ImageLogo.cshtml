@@ -66,9 +66,9 @@
             <h3>Image and Logo</h3>
             <br />
             <br />
-
+            <input type="hidden" name="LogoName" id="removeLogoName" value=@Model?.LogoName />
             <label>Logo:</label>   <input type='file' name="Logo" onchange="readURL(this);" />
-            <img id="readUrl" src=@Model?.LogoFileName alt="Preview image" height="100" width="100" />  <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeLogo()">
+            <img id="readUrl" src=@Model?.LogoFileName alt="Preview image" height="100" width="100" />  <button type="button" class="close" id="removeButton" name="Cancel" value="remove1" onclick="removeLogo()">
                 <span aria-hidden="true">&times;</span>
             </button>
             <br />
@@ -76,10 +76,11 @@
             <br />
             <br />
 
+            <input type="hidden" name="LoginName" id="removeLoginName"  value=@Model?.LoginName />
 
-            <label>Login Image:</label>  <input type='file' name="LoginImage" onchange="readLogin(this);" />
+            <label>Login Image:</label>  <input type='file'  name="LoginImage" onchange="readLogin(this);" />
 
-            <img id="readLogin" src=@Model?.LoginImageFileName alt="Preview image" height="100" width="100" /> <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeLogin()">
+            <img id="readLogin" src=@Model?.LoginImageFileName alt="Preview image" height="100" width="100" /> <button type="button" class="close" id="removeButton" name="Cancel" value="remove2" onclick="removeLogin()">
                 <span aria-hidden="true">&times;</span>
             </button>
             <br />
@@ -94,8 +95,10 @@
 <script>
     function removeLogo() {
         $('#readUrl').attr("src", "");
+        $('#removeLogoName').val(null);
     }
     function removeLogin() {
         $('#readLogin').attr("src", "");
+        $('#removeLoginName').val(null);
     }
 </script>

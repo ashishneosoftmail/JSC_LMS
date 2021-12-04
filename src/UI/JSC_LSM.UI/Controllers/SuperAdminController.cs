@@ -51,11 +51,13 @@ namespace JSC_LSM.UI.Controllers
                 MobileSupport = superadmin.data.MobileSupport,
                 Name = superadmin.data.Name,
                 LogoFileName = LogoImagePath + superadmin.data.Logo,
+                LogoName = superadmin.data.Logo,
+                LoginName = superadmin.data.LoginImage,
                 LoginImageFileName = LoginImagePath + superadmin.data.LoginImage
             };
             TempData["SuperAdminId"] = superadminvm.Id;
-            ViewBag.logoFileName = superadminvm.LogoFileName;
-            ViewBag.loginImageFileName = superadminvm.LoginImageFileName;
+            TempData["logoFileName"] = superadminvm.LogoFileName;
+            TempData["loginImageFileName"] = superadminvm.LoginImageFileName;
             return View(superadminvm);
         }
         [HttpPost]
@@ -120,7 +122,7 @@ namespace JSC_LSM.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadImageLogo(IFormFile Logo, IFormFile LoginImage)
+        public async Task<IActionResult> UploadImageLogo(IFormFile Logo, IFormFile LoginImage, string LogoName, string LoginName)
         {
 
 
@@ -134,7 +136,7 @@ namespace JSC_LSM.UI.Controllers
             }
             else
             {
-                LogoImageFileName = ViewBag.logoFileName;
+                LogoImageFileName = LogoName;
             }
             if (LoginImage != null)
             {
@@ -142,7 +144,7 @@ namespace JSC_LSM.UI.Controllers
             }
             else
             {
-                LoginImageFileName = ViewBag.loginImageFileName;
+                LoginImageFileName = LoginName;
             }
             ViewBag.UpdateSuperadminChangePasswordSuccess = null;
             ViewBag.UpdateSuperadminChangePasswordError = null;

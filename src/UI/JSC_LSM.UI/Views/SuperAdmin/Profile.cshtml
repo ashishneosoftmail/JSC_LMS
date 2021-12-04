@@ -1,4 +1,5 @@
-﻿@{
+﻿@model UpdateSuperadminProfileInformationModel
+@{
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
 }
@@ -30,7 +31,7 @@
 <div class="container" id="div6">
     <div class="row">
 
-        <div class="col-lg-6"> @{ Html.RenderPartial("_Profile"); } @{ Html.RenderPartial("_ImageLogo"); }</div>
+        <div class="col-lg-6"> @{ Html.RenderPartial("_Profile"); } @{ Html.RenderPartial("_ImageLogo",Model); }</div>
         <div class="col-lg-6">@{ Html.RenderPartial("_ChangePassword"); }</div>
     </div>
 </div>
