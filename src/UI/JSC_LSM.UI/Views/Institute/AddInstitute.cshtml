@@ -316,11 +316,11 @@
                                 <label>Status :</label>
 
                                 <div class="form-check form-check-inline">
-                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Active</label>
+                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Active</label>
 
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">InActive</label>
+                                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">InActive</label>
 
                                 </div>
 
