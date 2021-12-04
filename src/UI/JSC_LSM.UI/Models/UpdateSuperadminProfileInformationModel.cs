@@ -11,10 +11,12 @@ namespace JSC_LSM.UI.Models
     public class UpdateSuperadminProfileInformationModel : UpdateSuperadminDto
     {
         public string LogoFileName { get; set; }
+        public string LogoName { get; set; }
+        public string LoginName { get; set; }
         public string LoginImageFileName { get; set; }
-      
+
         public IFormFile Logo { get; set; }
-        
+
         public IFormFile LoginImage { get; set; }
         public SuperadminChangePasswordModel SuperadminChangePasswordModel { get; set; }
     }
