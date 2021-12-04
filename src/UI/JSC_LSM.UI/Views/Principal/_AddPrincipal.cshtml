@@ -96,7 +96,15 @@
                     </div>
                 </div>
                 <br />
-
+                
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Confirm Password<span class="text-danger">*</span></label>
+                        <div class="col-sm-7">
+                            <input type="password" asp-for="ConfirmPassword" class="form-control" id="password" placeholder="Password">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                
 
             </div>
             <div class="col">
@@ -169,6 +177,7 @@
                 <br />
 
             </div>
+            
         </div>
 
 
