@@ -11,6 +11,12 @@ namespace JSC_LSM.UI.Models
 {
     public class Institute : CreateInstituteDto
     {
+
+        [Required(ErrorMessage = "Confirm Password Is Required")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage =
+        "The new password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
         public List<SelectListItem> Cities { get; set; }
         public List<SelectListItem> States { get; set; }
         public List<SelectListItem> ZipCode { get; set; }
