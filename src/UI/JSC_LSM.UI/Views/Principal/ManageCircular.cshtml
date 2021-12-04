@@ -138,30 +138,30 @@
     <div class="row d-flex flex-row">
         <form novalidate asp-action="SearchCircular" asp-controller="Principal" method="get" class="d-flex flex-row">
             <div class="form-group row col-sm-4">
-                <label for="circularTitle" class="col-sm-5 col-form-label">Circular  Title</label>
+                <label for="circularTitle" class="col-sm-3 col-form-label">Title</label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" id="circularTitle" name="circularTitle" placeholder="Enter The Circular Title">
                 </div>
             </div>
 
             <div class="form-group row col-sm-4">
-                <label for="description" class="col-sm-5 col-form-label">Description </label>
+                <label for="description" class="col-sm-4 col-form-label">Description </label>
                 <div class="col-sm-7">
                     <input type="text" class="form-control" id="description" name="description" placeholder="Enter The Description">
                 </div>
             </div>
 
             <div class="form-group row col-sm-4">
-                <label for="status" class="col-sm-5 col-form-label">Status </label>
-                <div class="col-sm-7">
+                <label for="status" class="col-sm-3 col-form-label">Status </label>
+                <div class="col-sm-5">
                     <select class="form-control" id="status" name="status">
                         <option value="true" selected>Sent</option>
                         <option value="false">Draft</option>
                     </select>
                 </div>
             </div>
-            <div class="form-group row col-sm-2 btn-text-right">
-                <button type="Submit" class="btn btn-primary btn-sm float-lg-end">Search</button>
+            <div class="form-group row ">
+                <button type="Submit" class="btn btn-primary btn-sm pull-left ">Search</button>
             </div>
         </form>
     </div>
