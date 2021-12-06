@@ -141,7 +141,7 @@
         <form novalidate asp-action="SearchCircular" asp-controller="Institute" method="get" class="d-flex flex-row">
             <div class="form-group row col-sm-4">
                 <label for="circularTitle" class="col-sm-3 col-form-label">Title</label>
-                <div class="col-sm-7">
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="circularTitle" name="circularTitle" placeholder="Enter The Circular Title">
                 </div>
             </div>
@@ -162,18 +162,21 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group row ">
+            <div class=" col-sm-12">
                 <button type="Submit" class="btn btn-primary btn-sm ">Search</button>
             </div>
         </form>
     </div>
 </div>
 <br />
+<div class="col-sm-12">
+    <button type="button" class="btn btn-primary btn-sm pull-right m-2" data-toggle="modal" data-target="#myModal">
+    Create Circular
+</button>
+</div>
 <div class="col-md-11">
 
-    <button type="button" class="btn btn-primary btn-sm pull-right m-2" data-toggle="modal" data-target="#myModal">
-        Create Circular
-    </button>
+    
     <div class="container">
         <!-- The Modal -->
         <div class="modal" id="myModal">

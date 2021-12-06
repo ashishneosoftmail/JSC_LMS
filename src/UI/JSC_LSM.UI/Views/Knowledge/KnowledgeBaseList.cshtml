@@ -153,37 +153,37 @@
     </div>
     <div class="row">
 
-        <div class="form-group row col-sm-4">
-            <label for="docTitle" class="col-sm-5 col-form-label">Title</label>
-            <div class="col-sm-7">
+        <div class="form-group row col-sm-3">
+            <label for="docTitle" class="col-sm-3 col-form-label">Title</label>
+            <div class="col-sm-9">
                 <input type="text" class="form-control" id="docTitle" placeholder="Enter The Title">
             </div>
         </div>
 
-        <div class="form-group row col-sm-4">
-            <label for="principalName" class="col-sm-5 col-form-label">Principal Name :</label>
-            <div class="col-sm-7">
-                <input type="text" class="form-control" id="subTitle" placeholder="Enter The Sub Title">
+        <div class="form-group row col-sm-3">
+            <label for="principalName" class="col-sm-4 col-form-label">Principal</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="subTitle" placeholder="Principal Name">
             </div>
         </div>
 
-        <div class="form-group row col-sm-4">
-            <label for="knowledgebaseCategory" class="col-sm-5 col-form-label">Category :</label>
-            <div class="col-sm-7">
+        <div class="form-group row col-sm-3">
+            <label for="knowledgebaseCategory" class="col-sm-4 col-form-label">Category</label>
+            <div class="col-sm-8">
                 <select class="form-select" id="knowledgebaseCategory">
                     @* <option value="" disabled selected>Select Category</option>*@
                 </select>
             </div>
         </div>
-
-        <div class="form-group row col-sm-2 btn-text-right">
-            <button type="button" class="btn btn-primary float-lg-end " onclick="searchknowledgeBase()">Search</button>
+        <div class=" form-group row col-sm-2 " style="margin-left:5em;">
+            <button type="button" class="btn btn-primary " onclick="searchknowledgeBase()">Search</button>
         </div>
     </div>
 </div>
 <div class="col-md-11">
     <a asp-controller="Knowledge" asp-action="DownloadExcel" class="btn btn-sm btn-primary pull-right m-2" download>Export</a>
     <a asp-action="KnowledgeBase" asp-controller="Knowledge" class="btn btn-primary btn-sm pull-right m-2"><span>Add New</span>   </a>
+   
 
 </div>
 
