@@ -13,7 +13,7 @@ namespace JSC_LSM.UI.Models
     {
         public AddNewEvents AddNewEvents { get; set; }
         public UpdateEventsById UpdateEventsById { get; set; }
-        public GetEventsList GetEventsList { get; set; }
+        public List<GetEventsList> GetEventsList { get; set; }
         public List<SelectListItem> Schools { get; set; }
     }
     public class AddNewEvents : CreateEventsDto
@@ -24,5 +24,6 @@ namespace JSC_LSM.UI.Models
     }
     public class GetEventsList : GetAllEventsListDto
     {
+        public string SchoolName { get; set; }
     }
 }

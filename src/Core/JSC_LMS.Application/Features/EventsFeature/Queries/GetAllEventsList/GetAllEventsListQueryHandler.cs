@@ -41,7 +41,8 @@ namespace JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsList
                     SchoolId = events.SchoolId,
                     Status = events.Status,
                     Venue=events.Venue,
-                    School = new SchoolDto() { Id = events.School.Id, SchoolName = events.School.SchoolName }
+                    School = new SchoolDto() { Id = events.School.Id, SchoolName = events.School.SchoolName },
+                    CreatedDate=events.CreatedDate
                 });
             }
             return new Response<IEnumerable<GetAllEventsListDto>>(eventsList, "success");

@@ -168,5 +168,11 @@ namespace JSC_LSM.UI.Helpers
         public static string GetStudentListBySchoolPagination = "/api/v1/Student/GetStudentListBySchoolPagination";
         public static string GetAllParentsBySchool = "/api/v1/Parents/GetAllParentsBySchool";
         public static string GetParentsListBySchoolPagination = "/api/v1/Parents/GetParentsListBySchoolPagination";
+
+        public static string AddEventsData = "/api/v1/EventsTable/Add";
+        public static string GetAllEventsList = "/api/v1/EventsTable/all";
+        public static string GetEventsById = "/api/v1/EventsTable/";
+        public static string EditEventsDetails = "/api/v1/EventsTable/Update";
+        public static string GetAllEventsBySchool = "/api/v1/EventsTable/GetAllEventsBySchool";
     }
 }

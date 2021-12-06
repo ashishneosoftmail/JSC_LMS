@@ -1,0 +1,70 @@
+﻿@model EventsDetailsModel
+@{
+    ViewData["Title"] = "Institute Details";
+    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+
+}
+
+
+<div id="wrap" class="mt-5">
+    <div class="container-fluid">
+        <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover table-responsive ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>School Name</th>
+                    <th>Event Title</th>
+                    <th>Event Coordinator</th>
+                    <th>Event Date and Time</th>
+                    <th>Venue</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                    <th>Action</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 1; }
+                @foreach (var item in Model.GetEventsList)
+                {
+                <tr>
+                    <td>
+                        <label>@i</label>
+                        @{ i++; }
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => @item.SchoolName)</td>
+                    <td>@Html.DisplayFor(modelItem => @item.EventTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => @item.EventCoordinator)</td>
+                    <td>@Html.DisplayFor(modelItem => @item.EventDateTime)</td>
+                    <td>@Html.DisplayFor(modelItem => @item.Venue)</td>
+                    <td>@Html.DisplayFor(modelItem => @item.Status)</td>
+                    <td>@Html.DisplayFor(modelItem => @item.CreatedDate)</td>
+                    <td>
+                        <a>Edit</a>
+                    </td>
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+            searching: true,
+            "oLanguage": {
+                "sLengthMenu": "Rows_Per_Page _MENU_",
+            },
+           /* "dom": '<"top"i>rt<"bottom"flp><"clear">'*/
+        });
+        $('.datatable').each(function () {
+            var datatable = $(this);
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-lg');
+        });
+    });
+</script>

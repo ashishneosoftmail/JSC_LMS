@@ -10,11 +10,10 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface IEventsDetailsRepository
     {
-        Task<AddEventsResponseModel> AddAnnouncement(CreateEventsDto createEventsDto);
-       
+        Task<AddEventsResponseModel> AddEventsData(CreateEventsDto createEventsDto);       
         Task<GetEventsListResponseModel> GetEventsList();
-        Task<GetEventsByIdResponseModel> GetAnnouncementById(int Id);
-        Task<UpdateEventsResponseModel> UpdateAnnouncement(UpdateEventsDto updateEventsDto);    
+        Task<GetEventsByIdResponseModel> GetEventsById(int Id);
+        Task<UpdateEventsResponseModel> UpdateEventsDetails(UpdateEventsDto updateEventsDto);    
         Task<GetAllEventsListBySchoolResponseModel> GetAllEventsBySchoolList(int schoolid);
        
 

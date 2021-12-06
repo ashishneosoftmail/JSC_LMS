@@ -39,6 +39,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly ITeacherRepository _teacherRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISchoolRepository _schoolRepository;
+        private readonly IEventsDetailsRepository _eventsRepository;
         /// <summary>
         /// constructor for institute controller
         /// </summary>
@@ -46,7 +47,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
@@ -58,6 +59,7 @@ namespace JSC_LSM.UI.Controllers
             _announcementRepository = announcementRepository;
             _teacherRepository = teacherRepository;
             _schoolRepository = schoolRepository;
+            _eventsRepository = eventsRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -994,6 +996,31 @@ namespace JSC_LSM.UI.Controllers
         {
             var announcement = await _announcementRepository.GetAnnouncementById(Id);
             return announcement;
+        }
+
+        public async Task<IActionResult> ManageAllEvents()
+        {
+            var data = new List<GetEventsList>();
+            EventsDetailsModel model = new EventsDetailsModel();
+            var dataList = await _eventsRepository.GetEventsList();
+
+            foreach (var eventsdata in dataList.data)
+            {
+                data.Add(new GetEventsList()
+                {
+                    Id = eventsdata.Id,
+                    EventTitle = eventsdata.EventTitle,
+                    EventCoordinator = eventsdata.EventCoordinator,
+                    EventDateTime = eventsdata.EventDateTime,
+                    CoordinatorNumber = eventsdata.CoordinatorNumber,
+                    SchoolId = eventsdata.SchoolId,
+                    Status = eventsdata.Status,
+                    Venue = eventsdata.Venue,
+                    SchoolName = eventsdata.School.SchoolName
+                });
+            }
+            model.GetEventsList = data;
+            return View(model);
         }
 
     }

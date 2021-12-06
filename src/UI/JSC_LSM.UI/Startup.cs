@@ -71,6 +71,7 @@ namespace JSC_LSM.UI
             services.AddScoped<ICircularRepository, CircularRepository>(s => new CircularRepository());
             services.AddScoped<IFAQRepository, FAQRepository>(s => new FAQRepository());
             services.AddScoped<IAnnouncementRepository, AnnouncementRepository>(s => new AnnouncementRepository());
+            services.AddScoped<IEventsDetailsRepository, EventsDetailsRepository>(s => new EventsDetailsRepository());
 
 
         }
