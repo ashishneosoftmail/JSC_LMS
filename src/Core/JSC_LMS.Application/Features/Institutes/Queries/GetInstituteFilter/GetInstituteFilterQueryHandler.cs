@@ -35,11 +35,11 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
             
             _logger.LogInformation("Handle Initiated");
             var allInstitute = await _instituteRepository.ListAllAsync();
-            //var searchFilter = (allInstitute.Where<JSC_LMS.Domain.Entities.Institute>(x => (x.InstituteName == request.InstituteName) || (x.LicenseExpiry.ToShortDateString() == request.LicenseExpiry.ToShortDateString()) || (x.IsActive == request.IsActive) || (x.City.CityName == request.Cityname) || (x.State.StateName == request.Statename)).Select(x => (x)));
+          
 
             if (request.InstituteName != null)
             {
-                allInstitute = allInstitute.Where<Institute>(x => (x.InstituteName == request.InstituteName)).ToList();
+                allInstitute = allInstitute.Where<Institute>(x => (x.InstituteName.Contains(request.InstituteName))).ToList();
 
             }
             if (request.Cityname != "Select City")
