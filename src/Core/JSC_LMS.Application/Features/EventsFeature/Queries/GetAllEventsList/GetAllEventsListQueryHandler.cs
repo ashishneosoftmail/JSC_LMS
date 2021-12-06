@@ -36,13 +36,13 @@ namespace JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsList
                     Id = events.Id,
                     EventTitle = events.EventTitle,
                     EventCoordinator=events.EventCoordinator,
-                    EventDateTime=events.EventDateTime,
+                    EventDateTime=(DateTime)events.EventDateTime,
                     CoordinatorNumber=events.CoordinatorNumber,
                     SchoolId = events.SchoolId,
                     Status = events.Status,
                     Venue=events.Venue,
                     School = new SchoolDto() { Id = events.School.Id, SchoolName = events.School.SchoolName },
-                    CreatedDate=events.CreatedDate
+                    CreatedDate= (DateTime)events.CreatedDate
                 });
             }
             return new Response<IEnumerable<GetAllEventsListDto>>(eventsList, "success");

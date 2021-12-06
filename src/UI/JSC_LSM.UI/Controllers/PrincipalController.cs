@@ -36,6 +36,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IInstituteRepository _instituteRepository;
+        public readonly IEventsDetailsRepository _eventsRepository;
 
         /// <summary>
         /// Constructor For the PrincipalController - Developed By Harsh Chheda
@@ -45,7 +46,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="principalRepository"></param>
 
 
-        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository)
+        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository , IEventsDetailsRepository eventsRepository)
 
         {
             _circularRepository = circularRepository;
@@ -57,6 +58,7 @@ namespace JSC_LSM.UI.Controllers
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
             _instituteRepository = instituteRepository;
+            _eventsRepository = eventsRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -1015,6 +1017,42 @@ namespace JSC_LSM.UI.Controllers
         {
             var announcement = await _announcementRepository.GetAnnouncementById(Id);
             return announcement;
+        }
+
+        public async Task<IActionResult> ManageAllEvents()
+        {
+            var data = new List<GetEventsListBySchoolId>();
+            EventsDetailsModel model = new EventsDetailsModel();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            var dataList = await _eventsRepository.GetAllEventsBySchoolList(principal.data.schoolid);
+            var tempstatus = "";
+            foreach (var eventsdata in dataList.data)
+            {
+                if (eventsdata.Status)
+                {
+                    tempstatus = "Sent";
+                }
+                else
+                {
+                    tempstatus = "Draft";
+                }
+                data.Add(new GetEventsListBySchoolId()
+                {
+
+                    Id = eventsdata.Id,
+                    EventTitle = eventsdata.EventTitle,
+                    EventCoordinator = eventsdata.EventCoordinator,
+                    EventDateTime = eventsdata.EventDateTime,
+                    CoordinatorNumber = eventsdata.CoordinatorNumber,                   
+                    statusName = tempstatus,
+                    Venue = eventsdata.Venue,                    
+                    CreatedDate = eventsdata.CreatedDate
+
+                });
+            }
+            model.GetEventsListBySchoolId = data;
+            return View(model);
         }
     }
     #endregion

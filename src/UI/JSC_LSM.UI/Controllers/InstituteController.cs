@@ -998,26 +998,38 @@ namespace JSC_LSM.UI.Controllers
             return announcement;
         }
 
+        [HttpGet]
         public async Task<IActionResult> ManageAllEvents()
         {
             var data = new List<GetEventsList>();
             EventsDetailsModel model = new EventsDetailsModel();
             var dataList = await _eventsRepository.GetEventsList();
-
+            var tempstatus="";
             foreach (var eventsdata in dataList.data)
             {
+                if (eventsdata.Status)
+                {
+                    tempstatus = "Sent";
+                }
+                else
+                {
+                    tempstatus = "Draft";
+                }
                 data.Add(new GetEventsList()
                 {
-                    Id = eventsdata.Id,
+                   
+                Id = eventsdata.Id,
                     EventTitle = eventsdata.EventTitle,
                     EventCoordinator = eventsdata.EventCoordinator,
                     EventDateTime = eventsdata.EventDateTime,
                     CoordinatorNumber = eventsdata.CoordinatorNumber,
                     SchoolId = eventsdata.SchoolId,
-                    Status = eventsdata.Status,
+                    statusName=tempstatus,
                     Venue = eventsdata.Venue,
-                    SchoolName = eventsdata.School.SchoolName
-                });
+                    SchoolName = eventsdata.School.SchoolName,
+                    CreatedDate =eventsdata.CreatedDate
+
+                }) ;
             }
             model.GetEventsList = data;
             return View(model);

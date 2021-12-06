@@ -42,6 +42,8 @@ namespace JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsListByS
                     SchoolId = events.SchoolId,
                     Status = events.Status,
                     Venue = events.Venue,
+                    Description=events.Description,
+                    CreatedDate=events.CreatedDate,
                     School = new SchoolDto() { Id = events.School.Id, SchoolName = events.School.SchoolName }
                 });
             }

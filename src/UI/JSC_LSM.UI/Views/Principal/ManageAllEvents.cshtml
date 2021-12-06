@@ -1,7 +1,7 @@
 ﻿@model EventsDetailsModel
 @{
     ViewData["Title"] = "Event List";
-    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 
 }
 <style>
@@ -22,7 +22,7 @@
         border-top: none !important;
         margin: 0;
         padding: 0;
-        color:green;
+        color: green;
     }
 
     #viewUserModel {
@@ -143,7 +143,6 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>School Name</th>
                     <th>Event Title</th>
                     <th>Event Coordinator</th>
                     <th>Event Date and Time</th>
@@ -151,30 +150,29 @@
                     <th>Status</th>
                     <th>Created Date</th>
                     <th>Action</th>
-                   
+
                 </tr>
             </thead>
             <tbody>
                 @{ int i = 1; }
-                @foreach (var item in Model.GetEventsList)
+                @foreach (var item in Model.GetEventsListBySchoolId)
                 {
-                <tr>
-                    <td>
-                        <label>@i</label>
-                        @{ i++; }
-                    </td>
-                    <td>@Html.DisplayFor(modelItem => @item.SchoolName)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.EventTitle)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.EventCoordinator)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.EventDateTime)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.Venue)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.statusName)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.CreatedDate)</td>
-                    <td>
-                        <a>Edit</a>
-                    </td>
+                    <tr>
+                        <td>
+                            <label>@i</label>
+                            @{ i++; }
+                        </td>                        
+                        <td>@Html.DisplayFor(modelItem => @item.EventTitle)</td>
+                        <td>@Html.DisplayFor(modelItem => @item.EventCoordinator)</td>
+                        <td>@Html.DisplayFor(modelItem => @item.EventDateTime)</td>
+                        <td>@Html.DisplayFor(modelItem => @item.Venue)</td>
+                        <td>@Html.DisplayFor(modelItem => @item.statusName)</td>
+                        <td>@Html.DisplayFor(modelItem => @item.CreatedDate)</td>
+                        <td>
+                            <a>Edit</a>
+                        </td>
 
-                </tr>
+                    </tr>
                 }
             </tbody>
         </table>

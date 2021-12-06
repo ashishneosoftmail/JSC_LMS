@@ -1,6 +1,7 @@
 ﻿using JSC_LMS.Application.Features.EventsFeature.Commands.CreateEvents;
 using JSC_LMS.Application.Features.EventsFeature.Commands.UpdateEvents;
 using JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsList;
+using JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsListBySchool;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace JSC_LSM.UI.Models
         public AddNewEvents AddNewEvents { get; set; }
         public UpdateEventsById UpdateEventsById { get; set; }
         public List<GetEventsList> GetEventsList { get; set; }
+        public List<GetEventsListBySchoolId> GetEventsListBySchoolId { get; set; }
         public List<SelectListItem> Schools { get; set; }
     }
     public class AddNewEvents : CreateEventsDto
@@ -25,5 +27,11 @@ namespace JSC_LSM.UI.Models
     public class GetEventsList : GetAllEventsListDto
     {
         public string SchoolName { get; set; }
+        public string statusName { get; set; }
+    }
+    public class GetEventsListBySchoolId : GetAllEventsListBySchoolDto
+    {
+        public string SchoolName { get; set; }
+        public string statusName { get; set; }
     }
 }

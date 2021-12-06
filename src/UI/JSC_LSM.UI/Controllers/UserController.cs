@@ -43,9 +43,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly IClassRepository _classRepository;
 
         private readonly IUserRepository _userRepository;
-    
+        private readonly IEventsDetailsRepository _eventsRepository;
 
-        public UserController(IStateRepository stateRepository, IPrincipalRepository principalRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository)
+        public UserController(IStateRepository stateRepository, IPrincipalRepository principalRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository , IEventsDetailsRepository eventsRepository)
 
         {
             _stateRepository = stateRepository;
@@ -57,7 +57,7 @@ namespace JSC_LSM.UI.Controllers
             _sectionRepository = sectionRepository;
             _userRepository = userRepository;
             _parentsRepository = parentsRepository;
-
+            _eventsRepository = eventsRepository;
 
         }
 
@@ -1141,5 +1141,49 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ManageAllEvents()
+        {
+            var data = new List<GetEventsListBySchoolId>();
+            EventsDetailsModel model = new EventsDetailsModel();
+            var role = Convert.ToString(Request.Cookies["RoleName"]);
+            int schoolID = 0;
+            if(role == "Parent")
+            {
+                var userId = Convert.ToString(Request.Cookies["Id"]);
+                var parent = await _parentsRepository.GetParentByUserId(userId);
+                schoolID = parent.data.SchoolId;
+            }
+            else if(role == "Student")
+            {
+                var userId = Convert.ToString(Request.Cookies["Id"]);
+                var student = await _studentRepository.GetStudentByUserId(userId);
+                schoolID = student.data.Schoolid;
+            }
+            
+            var dataList = await _eventsRepository.GetAllEventsBySchoolList(schoolID);
+           
+            foreach (var eventsdata in dataList.data)
+            {
+                if (eventsdata.Status)
+                {
+                    data.Add(new GetEventsListBySchoolId()
+                    {
+
+                        Id = eventsdata.Id,
+                        EventTitle = eventsdata.EventTitle,
+                        Description=eventsdata.Description,
+                        EventCoordinator = eventsdata.EventCoordinator,
+                        EventDateTime = eventsdata.EventDateTime,
+                        CoordinatorNumber = eventsdata.CoordinatorNumber,
+                        Venue = eventsdata.Venue
+
+                    });
+                }
+                
+            }
+            model.GetEventsListBySchoolId = data;
+            return View(model);
+        }
     }
 }
