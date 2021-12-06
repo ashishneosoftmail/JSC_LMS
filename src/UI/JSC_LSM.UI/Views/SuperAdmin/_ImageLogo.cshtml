@@ -67,7 +67,8 @@
             <br />
             <br />
             <input type="hidden" name="LogoName" id="removeLogoName" value=@Model?.LogoName />
-            <label>Logo:</label>   <input type='file' name="Logo" onchange="readURL(this);" />
+            <label>Logo Image:</label>  
+            <input type='file'  name="Logo" onchange="readURL(this);" style="width:200px;"/>
             <img id="readUrl" src=@Model?.LogoFileName alt="Preview image" height="100" width="100" />  <button type="button" class="close" id="removeButton" name="Cancel" value="remove1" onclick="removeLogo()">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -78,7 +79,8 @@
 
             <input type="hidden" name="LoginName" id="removeLoginName"  value=@Model?.LoginName />
 
-            <label>Login Image:</label>  <input type='file'  name="LoginImage" onchange="readLogin(this);" />
+            <label>Login Image:</label>
+            <input type='file'  name="LoginImage" onchange="readLogin(this);" style="width:200px;" />
 
             <img id="readLogin" src=@Model?.LoginImageFileName alt="Preview image" height="100" width="100" /> <button type="button" class="close" id="removeButton" name="Cancel" value="remove2" onclick="removeLogin()">
                 <span aria-hidden="true">&times;</span>

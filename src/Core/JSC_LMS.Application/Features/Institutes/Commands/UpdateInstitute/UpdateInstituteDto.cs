@@ -39,9 +39,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
         [Required(ErrorMessage = "Username is mandatory")]
         public string Username { get; set; }
-        /* [Required(ErrorMessage = "Password Is Required")]
-         [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
-         public string Password { get; set; }*/
+       
         [Required(ErrorMessage = "City is mandatory")]
         public int CityId { get; set; }
         [Required(ErrorMessage = "State is mandatory")]
@@ -53,7 +51,7 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         [StringLength(150, ErrorMessage = "Institute URL should not be more than 150 characters")]
         [Required(ErrorMessage = "Institute URL is mandatory")]
         public string InstituteURL { get; set; }
-        //public string RoleName { get; set; }
+      
         [Required(ErrorMessage = "Status is mandatory")]
         public bool IsActive { get; set; }
 

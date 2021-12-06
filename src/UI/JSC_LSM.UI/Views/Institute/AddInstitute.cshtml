@@ -140,14 +140,14 @@
 </style>
 <h4 class="m-3">Add New Institute</h4>
 
-<div >
+<div>
 
-    <div class="border border-dark p-4 ">
+    <div class="border border-dark p-2 ">
         <div class="row">
             <form method="post" novalidate>
-               
-                    <p style="font-weight:bold;" >All <span style="color:red;">*</span> fields are mandatory</p>
-               
+
+                <p style="font-weight:bold;">All <span style="color:red;">*</span> fields are mandatory</p>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -271,7 +271,7 @@
                                 <span asp-validation-for="ZipId" class="text-danger"></span>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Confirm Password <span class="text-danger">*</span></label>
@@ -281,18 +281,19 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <br />
-                <div class="row"><div class="col-sm-6">
-    <div class="form-group row">
-        <label class="col-sm-3 col-form-label">License Expiry <span class="text-danger">*</span></label>
-        <div class="col-sm-9">
-            <input type="date" asp-for="LicenseExpiry" value="" class="form-control" id="date" />
-            <span asp-validation-for="LicenseExpiry" class="text-danger"></span>
-        </div>
-    </div>
-</div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">License Expiry <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="date" asp-for="LicenseExpiry" value="" class="form-control" id="date" />
+                                <span asp-validation-for="LicenseExpiry" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Institute URL <span class="text-danger">*</span></label>
@@ -302,7 +303,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
@@ -313,7 +314,7 @@
 
 
                             <div class="col-sm-9">
-                                <label>Status :</label>
+
 
                                 <div class="form-check form-check-inline">
                                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Active</label>
@@ -403,4 +404,19 @@
             });
         }
     }
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#mobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 </script>
