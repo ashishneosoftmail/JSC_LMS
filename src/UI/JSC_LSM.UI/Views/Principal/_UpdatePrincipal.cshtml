@@ -34,16 +34,14 @@
 
 </div>
 <div class="container p-3 my-3 border fixed" id="div1">
-
+    <p style="font-weight:bold;">All <span style="color:red;">*</span> fields are mandatory</p>
     <form method="post" novalidate>
 
-        <div class="spacing">
-            <span class="row text-danger">* Marked are required fields</span>
-        </div>
+       
         <div class="row">
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School<span class="text-danger">*</span> :</label>
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School<span class="text-danger">*</span> </label>
                     <div class="col-sm-7">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
@@ -53,7 +51,7 @@
                 </div>
                 <br />
                 <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Email<span class="text-danger">*</span> :</label>
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Email<span class="text-danger">*</span> </label>
                     <div class="col-sm-7">
                         <input type="email" class="form-control" id="inputEmail" asp-for="Email" placeholder="abc@xyz.com">
                         <span asp-validation-for="Email" class="text-danger"></span>
@@ -62,7 +60,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputAddress1" class="col-sm-2 col-form-label">Address1<span class="text-danger">*</span>:</label>
+                    <label for="inputAddress1" class="col-sm-2 col-form-label">Address1<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputAddress1" asp-for="AddressLine1" placeholder="Address 1">
                         <span asp-validation-for="AddressLine1" class="text-danger"></span>
@@ -72,7 +70,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputState" class="col-sm-2 col-form-label">State<span class="text-danger">*</span> :</label>
+                    <label for="inputState" class="col-sm-2 col-form-label">State<span class="text-danger">*</span> </label>
                     <div class="col-sm-7">
                         <select class="form-select" aria-label="Default select example" asp-for="StateId" asp-items="Model.States" onchange="GetCityById()" id="principalState">
                             <option value="" disabled selected>Select State</option>
@@ -84,7 +82,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputZip" class="col-sm-2 col-form-label">Zip<span class="text-danger">*</span> :</label>
+                    <label for="inputZip" class="col-sm-2 col-form-label">Zip<span class="text-danger">*</span> </label>
                     <div class="col-sm-7">
                         <select class="form-control" id="zip" asp-for="ZipId" asp-items="Model.ZipCode">
                             <option disabled selected hidden>Select Zip</option>
@@ -95,20 +93,23 @@
                 <br />
 
 
-                @*<div class="form-group row">
-                        <label for="inputPassword" class="col-sm-2 col-form-label">Password:</label>
-                        <div class="col-sm-7">
-                            <input class="form-control" type="password" id="inputPassword" asp-for="Password" placeholder="Password" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <br />*@
+                <label>Status </label>
+
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
+
+                </div>
+                <div class="form-check form-check-inline">
+                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
+
+                </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
 
 
             </div>
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputPrincipalName" class="col-sm-2 col-form-label">Name<span class="text-danger">*</span> :</label><br />
+                    <label for="inputPrincipalName" class="col-sm-2 col-form-label">Name<span class="text-danger">*</span> </label><br />
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputPrincipalName" asp-for="Name" placeholder="Ex: Abc Xyz">
                         <span asp-validation-for="Name" class="text-danger"></span>
@@ -118,9 +119,9 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputMobile" class="col-sm-2 col-form-label">Mobile<span class="text-danger">*</span> :</label><br />
+                    <label for="mobile" class="col-sm-2 col-form-label">Mobile<span class="text-danger">*</span> </label><br />
                     <div class="col-sm-7">
-                        <input type="text" asp-for="Mobile" class="form-control" id="inputMobile" placeholder="Contact Number">
+                        <input type="text" asp-for="Mobile" class="form-control" id="mobile" placeholder="Contact Number">
                         <span asp-validation-for="Mobile" class="text-danger"></span>
 
                     </div>
@@ -128,7 +129,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputAddress2" class="col-sm-2 col-form-label">Address2<span class="text-danger">*</span>:</label>
+                    <label for="inputAddress2" class="col-sm-2 col-form-label">Address2<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputAddress2" placeholder="Address 2" asp-for="AddressLine2">
                         <span asp-validation-for="AddressLine2" class="text-danger"></span>
@@ -138,7 +139,7 @@
                 <br />
 
                 <div class="form-group row">
-                    <label for="inputState" class="col-sm-2 col-form-label">City<span class="text-danger">*</span> :</label>
+                    <label for="inputState" class="col-sm-2 col-form-label">City<span class="text-danger">*</span> </label>
                     <div class="col-sm-7">
                         <select class="form-control" id="city" asp-for="CityId" asp-items="Model.Cities" onchange="GetZipByCityId()">
                             <option disabled selected hidden>Select City</option>
@@ -151,7 +152,7 @@
 
 
                 <div class="form-group row">
-                    <label for="inputUserName" class="col-sm-2 col-form-label">UserName<span class="text-danger">*</span>:</label>
+                    <label for="inputUserName" class="col-sm-2 col-form-label">UserName<span class="text-danger">*</span></label>
                     <div class="col-sm-7">
                         <input type="text" class="form-control" id="inputUserName" asp-for="Username" placeholder="Ex : Username123">
                         <span asp-validation-for="Username" class="text-danger"></span>
@@ -160,18 +161,7 @@
                 </div>
                 <br />
 
-                <label>Status :</label>
-
-                <div class="form-check form-check-inline">
-                    @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
-
-                </div>
-                <div class="form-check form-check-inline">
-                    @Html.RadioButtonFor(m => m.IsActive, false, new { @class = "form-check-input" })<label class="form-check-label" for="inlineRadio2">Inactive</label>
-
-                </div>
-                <span asp-validation-for="IsActive" class="text-danger"></span>
-
+               
                 <br />
                 <br />
 
@@ -240,4 +230,19 @@
             });
         }
     }
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#mobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 </script>

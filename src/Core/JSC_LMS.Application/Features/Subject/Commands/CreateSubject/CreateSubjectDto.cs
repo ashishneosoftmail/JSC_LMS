@@ -8,16 +8,16 @@ namespace JSC_LMS.Application.Features.Subject.Commands.CreateSubject
    public class CreateSubjectDto
     {
        
-        [Required(ErrorMessage = "School Is Required")]
+        [Required(ErrorMessage = "School is mandatory")]
         public int SchoolId { get; set; }
-        [Required(ErrorMessage = "Class Is Required")]
+        [Required(ErrorMessage = "Class is mandatory")]
         public int ClassId { get; set; }
 
-        [Required(ErrorMessage = "Section Is Required")]
+        [Required(ErrorMessage = "Section is mandatory")]
         public int SectionId { get; set; }
 
         [StringLength(100, ErrorMessage = "Subject should not be more than 100 characters")]
-        [Required(ErrorMessage = "Subject Name Required")]
+        [Required(ErrorMessage = "Subject Name is mandatory")]
         public string SubjectName { get; set; }
         public bool IsActive { get; set; }
     }

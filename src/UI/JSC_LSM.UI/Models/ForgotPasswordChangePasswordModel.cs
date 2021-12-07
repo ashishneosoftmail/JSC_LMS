@@ -10,11 +10,11 @@ namespace JSC_LSM.UI.Models
 {
     public class ForgotPasswordChangePasswordModel : UpdateResetPasswordRequest
     {
-        [Required(ErrorMessage = "Confirm Password Is Required")]
+        [Required(ErrorMessage = "Confirm Password is mandatory")]
         [DataType(DataType.Password)]
         [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
         [Compare("NewPassword", ErrorMessage =
-         "The new password and confirmation password do not match.")]
+         "Password and Confirm password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

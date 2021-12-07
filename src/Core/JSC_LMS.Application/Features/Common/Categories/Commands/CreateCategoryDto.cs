@@ -7,7 +7,7 @@ namespace JSC_LMS.Application.Features.Common.Categories.Commands
 {
     public class CreateCategoryDto
     {
-        [Required(ErrorMessage = "Category Name is Required")]
+        [Required(ErrorMessage = "Category Name is mandatory")]
         public string CategoryName { get; set; }
         public bool IsActive { get; set; }
     }

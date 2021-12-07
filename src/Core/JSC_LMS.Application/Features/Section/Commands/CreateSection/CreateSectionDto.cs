@@ -7,14 +7,14 @@ namespace JSC_LMS.Application.Features.Section.Commands.CreateSection
 {
    public class CreateSectionDto
     {
-        [Required(ErrorMessage = "School Is Required")]
+        [Required(ErrorMessage = "School is mandatory")]
         public int SchoolId { get; set; }
 
-        [Required(ErrorMessage = "Class Is Required")]
+        [Required(ErrorMessage = "Class is mandatory")]
         public int ClassId { get; set; }
 
         [StringLength(100, ErrorMessage = "Section Name should not be more than 100 characters")]
-        [Required(ErrorMessage = "Section Name Is Required")]
+        [Required(ErrorMessage = "Section Name is mandatory")]
         public string SectionName { get; set; }
         public bool IsActive { get; set; }
     }

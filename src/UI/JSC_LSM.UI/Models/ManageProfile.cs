@@ -14,9 +14,9 @@ namespace JSC_LSM.UI.Models
     public class ProfileInformation
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Name is Required")]
+        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Phone Number Is Required")]
+        [Required(ErrorMessage = "Phone Number is required")]
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
 
@@ -25,17 +25,17 @@ namespace JSC_LSM.UI.Models
     public class ChangePassword
     {
         public string UserId { get; set; }
-        [Required(ErrorMessage = "Current Password Is Required")]
+        [Required(ErrorMessage = "Current Password is required")]
         [DataType(DataType.Password)]
         public string CurrentPassword { get; set; }
 
-        [Required(ErrorMessage = "New Password Is Required")]
+        [Required(ErrorMessage = "New Password is required")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
-        [Required(ErrorMessage = "Confirm Password Is Required")]
+        [Required(ErrorMessage = "Confirm Password is required")]
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage =
-          "The new password and confirmation password do not match.")]
+          "Password and Confirm password do not match.")]
         public string ConfirmPassword { get; set; }
     }
 }

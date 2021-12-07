@@ -9,15 +9,15 @@ namespace JSC_LMS.Application.Features.Section.Commands.CreateUpdate
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "School Is Required")]
+        [Required(ErrorMessage = "School is mandatory")]
         public int SchoolId { get; set; }
 
-        [Required(ErrorMessage = "Class Is Required")]
+        [Required(ErrorMessage = "Class is mandatory")]
         public int ClassId { get; set; }
 
 
         [StringLength(100, ErrorMessage = "Section Name should not be more than 50 characters")]
-        [Required(ErrorMessage = "Section Name Is Required")]
+        [Required(ErrorMessage = "Section Name is mandatory")]
         public string SectionName { get; set; }
         public bool IsActive { get; set; }
     }

@@ -9,11 +9,11 @@ namespace JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassw
     public class UpdateSuperadminChangePasswordDto
     {
         public string UserId { get; set; }
-        [Required(ErrorMessage = "Current Password Is Required")]
+        [Required(ErrorMessage = "Current Password is mandatory")]
         [DataType(DataType.Password)]
         public string CurrentPassword { get; set; }
 
-        [Required(ErrorMessage = "New Password Is Required")]
+        [Required(ErrorMessage = "New Password is mandatory")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
 

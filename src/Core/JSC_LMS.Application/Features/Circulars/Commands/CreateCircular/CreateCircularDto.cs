@@ -7,18 +7,19 @@ namespace JSC_LMS.Application.Features.Circulars.Commands.CreateCircular
 {
     public class CreateCircularDto
     {
-        [Required(ErrorMessage = "School is Required")]
+        [Required(ErrorMessage = "School is mandatory")]
         public int SchoolId { get; set; }
-        [Required(ErrorMessage = "Circular Title is Required")]
+        [Required(ErrorMessage = "Circular Title is mandatory")]
         [MaxLength(150, ErrorMessage = "Circular Title should be less than 150 characters")]
         public string CircularTitle { get; set; }
-        [Required(ErrorMessage = "Description is Required")]
+        [Required(ErrorMessage = "Description is mandatory")]
         [MaxLength(200, ErrorMessage = "Description should be less than 200 characters")]
 
         public string Description { get; set; }
 
         public string File { get; set; }
         public bool Status { get; set; }
+
         public bool IsActive { get; set; }
     }
 }

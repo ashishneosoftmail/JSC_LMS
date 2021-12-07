@@ -15,7 +15,7 @@ namespace JSC_LSM.UI.Models
         [Required(ErrorMessage = "Confirm Password is mandatory")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage =
-        "Password and confirm password do not match")]
+        "Password and Confirm password do not match")]
         public string ConfirmPassword { get; set; }
         public List<SelectListItem> Cities { get; set; }
         public List<SelectListItem> States { get; set; }

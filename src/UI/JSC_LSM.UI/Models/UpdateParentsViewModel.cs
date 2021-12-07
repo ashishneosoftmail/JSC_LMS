@@ -10,7 +10,7 @@ namespace JSC_LSM.UI.Models
 {
     public class UpdateParentsViewModel : UpdateParentsDto
     {
-        [Required(ErrorMessage = "Students data Is Required")]
+        [Required(ErrorMessage = "Students data is required")]
         public List<int> StudentId { get; set; }
         public List<SelectListItem> Students { get; set; }
         public List<SelectListItem> Classes { get; set; }

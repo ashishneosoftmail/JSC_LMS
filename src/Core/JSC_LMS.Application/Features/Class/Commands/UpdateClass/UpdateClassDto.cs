@@ -9,11 +9,11 @@ namespace JSC_LMS.Application.Features.Class.Commands.UpdateClass
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "School Is Required")]
+        [Required(ErrorMessage = "School is mandatory")]
         public int SchoolId { get; set; }
 
-          [StringLength(100, ErrorMessage = "class should not be more than 100 characters")]
-        [Required(ErrorMessage = "Class Name Required")]
+          [StringLength(100, ErrorMessage = "Class should not be more than 100 characters")]
+        [Required(ErrorMessage = "Class Name is mandatory")]
         public string ClassName { get; set; }
         public bool IsActive { get; set; }
     }
