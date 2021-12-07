@@ -68,7 +68,7 @@ namespace JSC_LMS.Application.Features.Announcement.Queries.GetAnnouncementbyFil
             }
             if (request.AnnouncementTitle != null)
             {
-                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.AnnouncementTitle == request.AnnouncementTitle)).ToList();
+                allAnnouncement = allAnnouncement.Where<JSC_LMS.Domain.Entities.Announcement>(x => (x.AnnouncementTitle.Contains(request.AnnouncementTitle))).ToList();
 
             }
             if (request.AnnouncementContent != null)

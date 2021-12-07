@@ -36,12 +36,12 @@ namespace JSC_LMS.Application.Features.KnowledgeBase.Queries.GetKnowledgeBaseByF
 
             if (request.DocTitle != null)
             {
-                allKnowledgeBase = allKnowledgeBase.Where<JSC_LMS.Domain.Entities.KnowledgeBase>(x => (x.DocTitle == request.DocTitle)).ToList();
+                allKnowledgeBase = allKnowledgeBase.Where<JSC_LMS.Domain.Entities.KnowledgeBase>(x => (x.DocTitle.Contains(request.DocTitle))).ToList();
             }
 
             if (request.Subtitle != null)
             {
-                allKnowledgeBase = allKnowledgeBase.Where<JSC_LMS.Domain.Entities.KnowledgeBase>(x => x.SubTitle == request.Subtitle).ToList();
+                allKnowledgeBase = allKnowledgeBase.Where<JSC_LMS.Domain.Entities.KnowledgeBase>(x => x.SubTitle.Contains(request.Subtitle)).ToList();
             }
             if (request.Category != "Select Category")
             {
