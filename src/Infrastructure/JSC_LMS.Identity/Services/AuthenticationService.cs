@@ -309,7 +309,7 @@ namespace JSC_LMS.Identity.Services
             }
             else
             {
-                if (request.Email != userExist.Email)
+                if (request.Email != userExist.Email || request.Username!=userExist.UserName)
                 {
                     var userList = _userManager.Users;
                     foreach (var user in userList)
@@ -319,6 +319,13 @@ namespace JSC_LMS.Identity.Services
                             UpdateUserResponse update = new UpdateUserResponse();
                             update.Errors = new List<string>();
                             update.Errors.Add("Email Is Already Taken");
+                            return update;
+                        }
+                        if (user.UserName == request.Username)
+                        {
+                            UpdateUserResponse update = new UpdateUserResponse();
+                            update.Errors = new List<string>();
+                            update.Errors.Add("Username Is Already Taken");
                             return update;
                         }
                     }

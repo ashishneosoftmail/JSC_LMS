@@ -9,8 +9,9 @@ namespace JSC_LSM.UI.Models
 {
     public class SuperadminChangePasswordModel : UpdateSuperadminChangePasswordDto
     {
-        [Required(ErrorMessage = "Confirm Password is required")]
+        [Required(ErrorMessage = "Confirm Password is mandatory")]
         [DataType(DataType.Password)]
+
         [Compare("NewPassword", ErrorMessage =
            "Password and Confirm password do not match.")]
         public string ConfirmPassword { get; set; }

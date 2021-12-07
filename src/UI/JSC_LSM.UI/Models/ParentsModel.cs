@@ -10,12 +10,12 @@ namespace JSC_LSM.UI.Models
 {
     public class ParentsModel : CreateParentsDto
     {
-        [Required(ErrorMessage = "Confirm Password is required")]
+        [Required(ErrorMessage = "Confirm Password is mandatory")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage =
              "Password and Confirm password do not match.")]
         public string ConfirmPassword { get; set; }
-        [Required(ErrorMessage = "Students data is required")]
+        [Required(ErrorMessage = "Students data is mandatory")]
         public List<int> Students { get; set; }
         public List<SelectListItem> Classes { get; set; }
         public List<SelectListItem> Sections { get; set; }

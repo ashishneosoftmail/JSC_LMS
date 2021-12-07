@@ -59,7 +59,7 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
             {
                 UpdatePrincipalCommandResponse.Errors = updateUser.Errors;
                 UpdatePrincipalCommandResponse.Succeeded = false;
-                UpdatePrincipalCommandResponse.Message = "User Already Exist";
+                UpdatePrincipalCommandResponse.Message = updateUser.Errors[0];
                 return UpdatePrincipalCommandResponse;
             }
 

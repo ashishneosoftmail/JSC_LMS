@@ -3401,10 +3401,10 @@ table.text-center th {
   width: 45px;
   font-size: 1.8em;
 }
-.btn-social.btn-sm {
+.btn-social.  {
   padding-left: 38px;
 }
-.btn-social.btn-sm > :first-child {
+.btn-social.  > :first-child {
   line-height: 28px;
   width: 28px;
   font-size: 1.4em;
@@ -3447,10 +3447,10 @@ table.text-center th {
   width: 45px;
   font-size: 1.8em;
 }
-.btn-social-icon.btn-sm {
+.btn-social-icon.  {
   padding-left: 38px;
 }
-.btn-social-icon.btn-sm > :first-child {
+.btn-social-icon.  > :first-child {
   line-height: 28px;
   width: 28px;
   font-size: 1.4em;
@@ -3474,7 +3474,7 @@ table.text-center th {
   padding-left: 0;
   padding-right: 0;
 }
-.btn-social-icon.btn-sm {
+.btn-social-icon.  {
   height: 30px;
   width: 30px;
   padding-left: 0;

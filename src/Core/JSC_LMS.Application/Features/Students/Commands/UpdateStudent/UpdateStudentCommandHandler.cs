@@ -60,7 +60,7 @@ namespace JSC_LMS.Application.Features.Students.Commands.UpdateStudent
             {
                 UpdateStudentCommandResponse.Errors = updateUser.Errors;
                 UpdateStudentCommandResponse.Succeeded = false;
-                UpdateStudentCommandResponse.Message = "User Already Exist";
+                UpdateStudentCommandResponse.Message = updateUser.Errors[0];
                 return UpdateStudentCommandResponse;
             }
 

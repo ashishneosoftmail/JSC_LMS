@@ -175,7 +175,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = principalResponseModel.message;
                             responseModel.IsSuccess = principalResponseModel.Succeeded;
-                            ViewBag.AddPrincipalError = "Something Went Wrong";
+                            ViewBag.AddPrincipalError = principalResponseModel.message;
                             return View(principalModel);
                         }
                     }
@@ -184,7 +184,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = principalResponseModel.message;
                     responseModel.IsSuccess = principalResponseModel.Succeeded;
-                    ViewBag.AddPrincipalError = "Something Went Wrong";
+                    ViewBag.AddPrincipalError = principalResponseModel.message;
                 }
             }
             return View(principalModel);
@@ -464,7 +464,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = updatePrincipalResponseModel.message;
                             responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
-                            ViewBag.UpdatePrincipalError = "Something Went Wrong";
+                            ViewBag.UpdatePrincipalError = updatePrincipalResponseModel.message;
                             return View(updatePrincipalResponseModel);
                         }
                     }
@@ -473,7 +473,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updatePrincipalResponseModel.message;
                     responseModel.IsSuccess = updatePrincipalResponseModel.Succeeded;
-                    ViewBag.UpdatePrincipalError = "Something Went Wrong";
+                    ViewBag.UpdatePrincipalError = updatePrincipalResponseModel.message;
                 }
             }
             return View(updatePrincipalViewModel);
@@ -691,7 +691,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = addCircularResponseModel.Succeeded;
 
 
-                            ViewBag.AddCircularError = "Something Went Wrong";
+                            ViewBag.AddCircularError = addCircularResponseModel.message;
                             return View(manageCircularModel);
                         }
                     }
@@ -700,7 +700,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = addCircularResponseModel.message;
                     responseModel.IsSuccess = addCircularResponseModel.Succeeded;
-                    ViewBag.AddCircularError = "Something Went Wrong";
+                    ViewBag.AddCircularError = addCircularResponseModel.message;
                 }
             }
             return View(manageCircularModel);
@@ -878,7 +878,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = updateCircularResponseModel.message;
                             responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                            ViewBag.UpdateCircularError = "Something Went Wrong";
+                            ViewBag.UpdateCircularError = updateCircularResponseModel.message;
                             return View(manageCircularModel);
                         }
                     }
@@ -887,7 +887,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updateCircularResponseModel.message;
                     responseModel.IsSuccess = updateCircularResponseModel.Succeeded;
-                    ViewBag.UpdateCircularError = "Something Went Wrong";
+                    ViewBag.UpdateCircularError = updateCircularResponseModel.message;
                 }
             }
             return View(manageCircularModel);

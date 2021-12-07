@@ -171,7 +171,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = studentResponseModel.message;
                             responseModel.IsSuccess = studentResponseModel.Succeeded;
-                            ViewBag.AddStudentError = "Something went wrong!";
+                            ViewBag.AddStudentError = studentResponseModel.message;
                             return View(studentModel);
                         }
                     }
@@ -180,7 +180,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = studentResponseModel.message;
                     responseModel.IsSuccess = studentResponseModel.Succeeded;
-                    ViewBag.AddStudentError = "Something went wrong!";
+                    ViewBag.AddStudentError = studentResponseModel.message;
                 }
             }
             return View(studentModel);

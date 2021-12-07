@@ -30,7 +30,7 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
         [Required(ErrorMessage = "Username is mandatory")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Password is mandatory")]
-        [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
+        [RegularExpression(@"^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
         public string Password { get; set; }
         [Required(ErrorMessage = "City is mandatory")]
         public int CityId { get; set; }

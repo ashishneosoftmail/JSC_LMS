@@ -10,7 +10,7 @@ namespace JSC_LSM.UI.Models
 {
     public class Teacher : CreateTeacherDto
     {
-        [Required(ErrorMessage = "Confirm Password is required")]
+        [Required(ErrorMessage = "Confirm Password is mandatory")]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage =
              "Password and Confirm password do not match.")]

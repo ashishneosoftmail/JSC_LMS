@@ -48,7 +48,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Commands.UpdateParents
             {
                 UpdateParentsCommandResponse.Errors = updateUser.Errors;
                 UpdateParentsCommandResponse.Succeeded = false;
-                UpdateParentsCommandResponse.Message = "User Already Exist";
+                UpdateParentsCommandResponse.Message = updateUser.Errors[0];
                 return UpdateParentsCommandResponse;
             }
 

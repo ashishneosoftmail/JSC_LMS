@@ -337,7 +337,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = updateTeacherResponseModel.message;
                     responseModel.IsSuccess = updateTeacherResponseModel.Succeeded;
-                    ViewBag.UpdatePrincipalError = updateTeacherResponseModel.message;
+                    ViewBag.UpdateTeacherError = updateTeacherResponseModel.message;
                 }
             }
             return View(updateTeacherViewModel);

@@ -145,16 +145,17 @@
 
 <div class="m-2">
 
-    <div class="border border-dark p-4 m-3">
+    <div class="border border-dark p-3 m-3">
+
+        <p style="font-weight:bold;">All <span style="color:red;">*</span> fields are mandatory</p>
+
         <div class="row">
             <form method="post" novalidate>
-                <div class="spacing">
-                    <span class="row text-danger">* Marked are required fields</span>
-                </div>
+              
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Institute Name <span class="text-danger">*</span></label>
+                            <label class="col-sm-3 col-form-label">Institute<span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input type="text" asp-for="InstituteName" class="form-control" id="instituteName" placeholder="Institute Name">
                                 <span asp-validation-for="InstituteName" class="text-danger"></span>
@@ -172,7 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <br />
+              
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -193,7 +194,7 @@
                         </div>
                     </div>
                 </div>
-                <br />
+               
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -214,7 +215,7 @@
                         </div>
                     </div>
                 </div>
-                <br />
+             
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -238,7 +239,7 @@
                         </div>
                     </div>
                 </div>
-                <br />
+             
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -260,17 +261,9 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="col-sm-6">
-                            <div class="form-group row">
-                                <label class="col-sm-3 col-form-label">Password</label>
-                                <div class="col-sm-9">
-                                    <input type="password" asp-for="Password" class="form-control" id="password" placeholder="Password">
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>*@
+            
                 </div>
-                <br />
+              
                 <div class="row">
 
                     <div class="col-sm-6">
@@ -303,7 +296,7 @@
                     </div>
 
                 </div>
-                <br />
+            
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -319,7 +312,7 @@
 
 
                 </div>
-                <br />
+             
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">
