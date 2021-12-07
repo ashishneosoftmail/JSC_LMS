@@ -17,76 +17,72 @@
 <h1 class="mt-5">View Knowledge Base</h1>
 
 <div class="container">
-    <div class="border p-5 border-dark">
+    <div class="border p-2 border-dark">
 
         <div class="row flex flex-row">
-            <div class="col-sm-5 col-md-3">
-
-                <h5 class="categoryName">Category </h5>
+            <div class="col-sm-3">
+                <h6 class="categoryName">Category </h6>
             </div>
-            <div class="col-sm-5 col-md-5 pt-1">
+            <div class="col-sm-9" style="margin-left:-9.5em;">
 
                 <span class="categoryText">@Model.CategoryName</span>
             </div>
         </div>
-        <br />
-        <br />
+      
         <div class="row">
-            <div class="col-sm-6">
+            
                 <div class="row flex flex-row">
-                    <div class="col-sm-5 col-md-3">
+                    <div class="col-sm-3" >
 
-                        <h5 class="categoryName">DocTitle </h5>
+                        <h6 class="categoryName">Doc Title </h6>
                     </div>
-                    <div class="col-sm-5 col-md-5 pt-1">
+                    <div class="col-sm-9" style="margin-left:-9em;">
 
                         <span class="categoryText">@Model.DocTitle</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-sm-6">
+
+          
                 <div class="row flex flex-row">
-                    <div class="col-sm-5 col-md-3">
+                    <div class="col-sm-3">
 
-                        <h5 class="categoryName">SubTitle </h5>
+                        <h6 class="categoryName">Sub Title </h6>
                     </div>
-                    <div class="col-sm-5 col-md-5 pt-1">
+                    <div class="col-sm-9 " style="margin-left:-9em;">
 
                         <span class="categoryText">@Model.SubTitle</span>
                     </div>
                 </div>
-            </div>
+          
         </div>
-        <br />
-        <br />
+      
         <div class="row flex flex-row">
-            <div class="col-sm-5 col-md-3">
+            <div class="col-sm-3 ">
 
-                <h5 class="categoryName">SlugUrl </h5>
+                <h6 class="categoryName">Slug Url </h6>
             </div>
-            <div class="col-sm-5 col-md-5 pt-1">
+            <div class="col-sm-9" style="margin-left:-9em;">
                 <a href="@Model.SlugUrl" class="categoryText">@Model.SlugUrl</a>
             </div>
         </div>
         <br />
-        <br />
+       
         <div class="row flex flex-row">
-            <div class="col-sm-5 col-md-3">
+            <div class="col-sm-3">
 
-                <h5 class="categoryName">Add Context </h5>
+                <h6 class="categoryName">Add Context </h6>
             </div>
-            <div class="col-sm-5 col-md-9 pt-1">
-                @Html.Raw(HttpUtility.HtmlDecode(@Model.AddContent));
+            <div class="col-sm-9" style="margin-left:-9em;">
+                @Html.Raw(HttpUtility.HtmlDecode(@Model.AddContent))
 
             </div>
         </div>
 
-        <br />
-        <br />
-        <div>
-            
-        <a class="pull-right btn btn-danger" asp-controller="Knowledge" asp-action="KnowledgeBaseList" >Close</a>
-        </div> 
+        <div class="row flex flex-row">
+            <div class="col-sm-12">
+                <a class="pull-right btn btn-danger" asp-controller="Knowledge" asp-action="KnowledgeBaseList">Close</a>
+            </div>
+        </div>
     </div>
 </div>

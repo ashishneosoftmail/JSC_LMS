@@ -9,13 +9,7 @@
         border: 2px solid black;
     }
 
-    #inputSlug {
-        margin: left;
-        padding: left;
-        width: 850px;
-    }
-
-
+  
 
     button {
         margin: 40px;
@@ -138,82 +132,75 @@
 
 
 <div class="container p-3 my-3 border fixed" id="div1">
-
+    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
     <form asp-action="EditKnowledge" asp-controller="Knowledge">
-        <div class="spacing">
-            <span class="row text-danger">* Marked are required fields</span>
-        </div>
+
         <div class="row">
             <div class="col">
 
                 <div class="form-group row">
                     <label for="inputKnow" class="col-sm-2 col-form-label">Category<span class="text-danger">*</span></label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-6">
                         <select class="form-control" asp-for="UpdateKnowledgeBase.CategoryId" id="school" asp-items="Model.Categories">
                             <option disabled selected hidden>Select Category</option>
                         </select>
                         <span asp-validation-for="UpdateKnowledgeBase.CategoryId" class="text-danger"></span>
 
                     </div>
+                    <div class="col-sm-4 mt-2">
+                        <a href="" data-toggle="modal" data-target=".bannerformmodal">+Add Category</a>
+                    </div>
                 </div>
-                <br />
 
                 <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Doc Title<span class="text-danger">*</span></label>
-                    <div class="col-sm-7">
+                    <label for="inputKnow" class="col-sm-2 col-form-label">Title<span class="text-danger">*</span></label>
+                    <div class="col-sm-6">
                         <input type="text" class="form-control" id="inputDoc" placeholder="Doc Title" asp-for="UpdateKnowledgeBase.DocTitle">
                         <span asp-validation-for="UpdateKnowledgeBase.DocTitle" class="text-danger"></span>
                     </div>
                 </div>
-                <br />
 
-
-                <br />
-                <br />
 
             </div>
             <div class="col">
 
-                <a href="" data-toggle="modal" data-target=".bannerformmodal">+Add Category</a>
-                <br />
 
-                <div class="form-group row">
-                    <label for="inputKnow" class="col-sm-2 col-form-label">Sub Title<span class="text-danger">*</span></label><br />
-                    <div class="col-sm-7">
+
+                <div class="form-group row" style="margin-left:20px;">
+                    <label for="inputKnow" class="col-sm-3 col-form-label">Sub Title<span class="text-danger">*</span></label><br />
+                    <div class="col-sm-6">
                         <input type="text" class="form-control" id="inputSubtitle" placeholder="Sub Title" asp-for="UpdateKnowledgeBase.SubTitle">
                         <span asp-validation-for="UpdateKnowledgeBase.SubTitle" class="text-danger"></span>
 
                     </div>
                 </div>
-                <br />
+
 
 
             </div>
 
 
             <div class="form-group row">
-                <label for="inputKnow" class="col-sm-1 col-form-label">Slug Url<span class="text-danger">*</span></label>
+                <label for="inputKnow" class="col-sm-2 col-form-label">Slug Url<span class="text-danger">*</span></label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url" asp-for="UpdateKnowledgeBase.SlugUrl">
+                    <input type="text" class="form-control" id="inputSlug" placeholder="Slug Url" asp-for="UpdateKnowledgeBase.SlugUrl" style="margin-left: -80px;">
                     <span asp-validation-for="UpdateKnowledgeBase.SlugUrl" class="text-danger"></span>
 
                 </div>
             </div>
-            <br />
 
-            <br /><br /><br />
 
             <div class="form-group row">
 
-                <label for="inputKnow" class="col-sm-1 col-form-label">Add Content<span class="text-danger">*</span></label>
-                <div class="col-sm-7">
+                <label for="inputKnow" class="col-sm-2 col-form-label" style="margin-right: -80px;">Content<span class="text-danger">*</span></label>
+                <div class="col-sm-10">
 
                     <textarea id="editor" placeholder="Add Content" asp-for="UpdateKnowledgeBase.AddContent"></textarea>
                     <span asp-validation-for="UpdateKnowledgeBase.AddContent" class="text-danger"></span>
 
                 </div>
             </div>
-            <br /><br /><br />
+
 
 
             <div class="container">
@@ -222,7 +209,7 @@
 
                     </div>
 
-                    <div class="col-5">
+                    <div class="col-6">
 
                     </div>
 

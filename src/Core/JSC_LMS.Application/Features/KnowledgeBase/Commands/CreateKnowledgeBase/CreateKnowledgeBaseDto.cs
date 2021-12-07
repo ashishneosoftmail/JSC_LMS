@@ -7,19 +7,20 @@ namespace JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBas
 {
     public class CreateKnowledgeBaseDto
     {
-        [Required(ErrorMessage = "Category Is Required")]
+        [Required(ErrorMessage = "Category is mandatory")]
         public int CategoryId { get; set; }
-        [Required(ErrorMessage = "Doc Title Is Required")]
+        [Required(ErrorMessage = "Doc Title is mandatory")]
         [StringLength(200, ErrorMessage = "Doc Title length should not be more than 200 characters")]
         public string DocTitle { get; set; }
-        [Required(ErrorMessage = "Sub Title Is Required")]
+        [Required(ErrorMessage = "Sub Title is mandatory")]
         [StringLength(150, ErrorMessage = "Sub Title length should not be more than 150 characters")]
         public string SubTitle { get; set; }
-        [Required(ErrorMessage = "Slug Url Is Required")]
+        [Required(ErrorMessage = "Slug Url is mandatory")]
         [StringLength(150, ErrorMessage = "Slug Url length should not be more than 150 characters")]
         public string SlugUrl { get; set; }
-        [Required(ErrorMessage = "Add Content Is Required")]
+        [Required(ErrorMessage = "Add Content is mandatory")]
         public string AddContent { get; set; }
+        [Required(ErrorMessage = "Status is mandatory")]
         public bool IsActive { get; set; }
     }
 }
