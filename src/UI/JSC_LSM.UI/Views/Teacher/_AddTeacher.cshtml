@@ -372,15 +372,30 @@
         </div>
     </div>
 </div>
+
 <div id="wrapper">
     @if (ViewBag.AddTeacherSuccess != null)
     {
-        <script>alert("@ViewBag.AddTeacherSuccess")</script>
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddTeacherSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
     @if (ViewBag.AddTeacherError != null)
     {
-        <script>alert("@ViewBag.AddTeacherError")</script>
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddTeacherError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
+
 </div>
 <script type="text/javascript">
     function GetCityById() {

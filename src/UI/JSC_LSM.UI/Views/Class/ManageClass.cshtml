@@ -153,27 +153,27 @@
     </div>
     <div class="row">
 
-        <div class="form-group row col-sm-4">
-            <label for="schoolName" class="col-sm-5 col-form-label">School Name</label>
-            <div class="col-sm-7">
+        <div class="form-group row col-sm-3">
+            <label for="schoolName" class="col-sm-3 col-form-label">School</label>
+            <div class="col-sm-9">
                 <select class="form-control" id="schoolName">
                     <option disabled selected hidden>Select School</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group row col-sm-4">
-            <label for="className" class="col-sm-5 col-form-label">Class Name :</label>
-            <div class="col-sm-7">
+        <div class="form-group row col-sm-3">
+            <label for="className" class="col-sm-3 col-form-label">Class</label>
+            <div class="col-sm-9">
                 <select class="form-control" id="className">
                     <option disabled selected hidden>Select Class</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group row col-sm-4">
-            <label for="status" class="col-sm-5 col-form-label">Status :</label>
-            <div class="col-sm-7">
+        <div class="form-group row col-sm-3">
+            <label for="status" class="col-sm-3 col-form-label">Status</label>
+            <div class="col-sm-9">
                 <select class="form-control" id="status">
                     <option disabled selected hidden>Select Status</option>
                     <option value="true" selected>Active</option>
@@ -181,19 +181,19 @@
                 </select>
             </div>
         </div>
-        <div class="form-group row col-sm-4">
-            <label for="date" class="col-sm-5 col-form-label">Date :</label>
-            <div class="col-sm-7">
+        <div class="form-group row col-sm-3">
+            <label for="date" class="col-sm-3 col-form-label">Date</label>
+            <div class="col-sm-9">
                 <input type="date" value="" class="form-control" id="date" />
             </div>
         </div>
 
-        <div class="form-group row col-sm-2 btn-text-right">
-            <button type="button" class="btn btn-primary float-lg-end " onclick="searchClass()">Search</button>
+        <div class="form-group row " style="margin-left:4em; width:10.5em;">
+            <button type="button" class="btn btn-primary " onclick="searchClass()">Search</button>
         </div>
     </div>
 </div>
-<div class="col-md-11">
+<div class="col-md-12">
 
     <a asp-action="AddClass" asp-controller="Class" class="btn btn-primary   pull-right m-2"><span>Create New</span>   </a>
 

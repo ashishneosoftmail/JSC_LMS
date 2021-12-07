@@ -13,6 +13,105 @@
         border-color: lightgray;
        
     }
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    #snackbardanger {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
     .spacing {
         margin-left: 30px;
     }
@@ -46,19 +145,32 @@
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
     <br />
+  
+</div>
+<div id="wrapper">
     @if (ViewBag.UpdateInstituteadminSuccess != null)
     {
-        <span class="text-success">@ViewBag.UpdateInstituteadminSuccess</span>
 
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdateInstituteadminSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
-
     @if (ViewBag.UpdateInstituteadminError != null)
     {
-        <span class="text-danger">@ViewBag.UpdateInstituteadminError</span>
-
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdateInstituteadminError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
-</div>
 
+</div>
 <style>
     #div2 {
         position: relative;
@@ -116,16 +228,31 @@
         <button type="submit" class="btn btn-primary">Change Password</button>
     </form>
     <br />
-    @if (ViewBag.UpdateInstituteadminChangePasswordSuccess != null)
-    {
-        <span class="text-success">@ViewBag.UpdateInstituteadminChangePasswordSuccess</span>
+ 
+    <div id="wrapper">
+        @if (ViewBag.UpdateInstituteadminChangePasswordSuccess != null)
+        {
 
-    }
+            @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+            <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdateInstituteadminChangePasswordSuccess</div>
+            <script>
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+            </script>
+        }
+        @if (ViewBag.UpdateInstituteadminChangePasswordError != null)
+        {
+            @* <script>alert("@ViewBag.AddCircularError")</script>*@
+            <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdateInstituteadminChangePasswordError</div>
+            <script>
+                var x = document.getElementById("snackbardanger");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+            </script>
+        }
 
-    @if (ViewBag.UpdateInstituteadminChangePasswordError != null)
-    {
-        <span class="text-danger">@ViewBag.UpdateInstituteadminChangePasswordError</span>
+    </div>
 
-    }
 </div>
 

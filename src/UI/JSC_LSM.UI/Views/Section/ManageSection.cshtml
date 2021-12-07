@@ -31,9 +31,7 @@
         margin-left: 14.5%;
     }
 
-    a {
-        text-decoration: none;
-    }
+   
 
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
@@ -198,13 +196,13 @@
         </div>
 
         <div class="form-group row col-sm-2 btn-text-right">
-            <button type="button" class="btn btn-primary float-lg-end " onclick="searchSection()">Search</button>
+            <button type="button" class="btn btn-primary" onclick="searchSection()" style="margin-left: -1em; ">Search</button>
         </div>
     </div>
 </div>
 <div class="col-md-11">
 
-    <a asp-action="AddSection" asp-controller="Section" class="btn btn-primary   pull-right m-2"><span>Create New</span>   </a>
+    <a asp-action="AddSection" asp-controller="Section" class="btn btn-primary" style="margin-left:49em; width:9em;"><span>Create New</span>   </a>
 
 </div>
 

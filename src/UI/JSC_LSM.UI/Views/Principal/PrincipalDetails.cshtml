@@ -157,18 +157,18 @@
         <h2> Principal List</h2>
         <h4>Search Filter</h4>
     </div>
-    <div class="row">
+    <div class="row" >
 
-        <div class="form-group row col-sm-4">
+        <div class="form-group row col-sm-3" style="margin-left:0.5em;">
             <label for="schoolName" class="col-sm-3 col-form-label">School</label>
-            <div class="col-sm-8">
+            <div class="col-sm-9">
                 <select class="form-control" id="schoolName">
                     <option value="" disabled selected hidden>Select School</option>
                 </select>
             </div>
         </div>
 
-        <div class="form-group row col-sm-4" style="margin-left:1em;">
+        <div class="form-group row col-sm-3" style="margin-left:1em;">
             <label for="principalName" class="col-sm-4 col-form-label">Principal</label>
             <div class="col-sm-8" >
                 <select class="form-control" id="principalName">
@@ -177,23 +177,23 @@
             </div>
         </div>
 
-        <div class="form-group row col-sm-4" style="margin-left:1em;">
-            <label for="status" class="col-sm-3 col-form-label">Status</label>
-            <div class="col-sm-8" style="margin-left:0.5em;">
+        <div class="form-group row col-sm-3" style="margin-left:1em;">
+            <label for="status" class="col-sm-2 col-form-label">Status</label>
+            <div class="col-sm-9" style="margin-left:0.5em;">
                 <select class="form-control" id="status">
                     <option value="true" selected>Active</option>
                     <option value="false">Inactive</option>
                 </select>
             </div>
         </div>
-        <div class="form-group row col-sm-4">
-            <label for="date" class="col-sm-3 col-form-label">Date</label>
-            <div class="col-sm-8">
+        <div class="form-group row col-sm-3" style="margin-left:0.5em;">
+            <label for="date" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-10">
                 <input type="date" value="" class="form-control" id="date" />
             </div>
         </div>
 
-        <div class="form-group row  " style="width:8em;">
+        <div class="form-group row  " style="margin-left:5.5em;width:10.5em;" >
             <button type="button" class="btn btn-primary " onclick="searchPrincipal()">Search</button>
         </div>
     </div>
