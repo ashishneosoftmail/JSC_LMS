@@ -456,11 +456,11 @@ namespace JSC_LSM.UI.Controllers
                 AddressLine2 = institute.data.AddressLine2,
                 CityId = institute.data.City.Id,
                 StateId = institute.data.State.Id,
-                Email = institute.data.Email,
+                EmailId = institute.data.Email,
                 IsActive = institute.data.IsActive,
                 Mobile = institute.data.Mobile,
                 LicenseExpiry = institute.data.LicenseExpiry,
-                Username = institute.data.Username,
+                UserNAME = institute.data.Username,
                 ZipId = institute.data.Zip.Id
             };
             TempData["UserId"] = instituteData.UserId;
@@ -494,9 +494,9 @@ namespace JSC_LSM.UI.Controllers
                 updateInstitute.AddressLine1 = updateInstituteViewModel.AddressLine1;
                 updateInstitute.AddressLine2 = updateInstituteViewModel.AddressLine2;
                 updateInstitute.ContactPerson = updateInstituteViewModel.ContactPerson;
-                updateInstitute.Email = updateInstituteViewModel.Email;
+                updateInstitute.Email = updateInstituteViewModel.EmailId;
                 updateInstitute.Mobile = updateInstituteViewModel.Mobile;
-                updateInstitute.Username = updateInstituteViewModel.Username;
+                updateInstitute.Username = updateInstituteViewModel.UserNAME;
                 updateInstitute.CityId = updateInstituteViewModel.CityId;
                 updateInstitute.StateId = updateInstituteViewModel.StateId;
                 updateInstitute.ZipId = updateInstituteViewModel.ZipId;

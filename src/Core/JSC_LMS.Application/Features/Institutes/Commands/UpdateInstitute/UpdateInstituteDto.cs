@@ -32,12 +32,9 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
         public string Mobile { get; set; }
 
         public string UserId { get; set; }
-        [StringLength(100, ErrorMessage = "Email should not be more than 100 characters")]
-        [Required(ErrorMessage = "Email is mandatory")]
-        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
+      
         public string Email { get; set; }
-        [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
-        [Required(ErrorMessage = "Username is mandatory")]
+       
         public string Username { get; set; }
        
         [Required(ErrorMessage = "City is mandatory")]

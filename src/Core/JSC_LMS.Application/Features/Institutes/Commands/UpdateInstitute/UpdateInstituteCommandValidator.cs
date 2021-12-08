@@ -24,15 +24,11 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.UpdateInstitute
             RuleFor(p => p.updateInstituteDto.CityId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.updateInstituteDto.Email)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+        
             RuleFor(p => p.updateInstituteDto.UserId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.updateInstituteDto.Username)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+         
             /*RuleFor(p => p.updateInstituteDto.Password)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();*/
