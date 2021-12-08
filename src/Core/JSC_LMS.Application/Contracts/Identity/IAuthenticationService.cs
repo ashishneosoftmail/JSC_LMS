@@ -18,5 +18,7 @@ namespace JSC_LMS.Application.Contracts.Identity
         Task<TemporaryPasswordEmailValidateResponse> TempPasswordValidateEmail(string email);
         Task<VerifyTemporaryPasswordResponse> VerifyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest);
         Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest updateResetPasswordRequest);
+
+        Task<IEnumerable<User>> GetAllUsers();
     }
 }

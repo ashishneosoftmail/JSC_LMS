@@ -7,6 +7,7 @@ using JSC_LMS.Application.Features.Common.Roles.Commands.UpdateRole;
 using JSC_LMS.Application.Features.Common.Roles.Queries.GetRoleById;
 using JSC_LMS.Application.Features.Common.Roles.Queries.GetRolesList;
 using JSC_LMS.Application.Features.Common.States.Queries.GetStatesList;
+using JSC_LMS.Application.Features.Common.Users.Queries.GetUsersList;
 using JSC_LMS.Application.Features.Common.ZipCodes.Queries.GetZipcodeListWithCityId;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -46,6 +47,16 @@ namespace JSC_LMS.Api.Controllers.v1
             _logger.LogInformation("GetAllRoles Initiated");
             var dtos = await _mediator.Send(new GetRolesListQuery());
             _logger.LogInformation("GetAllRoles Completed");
+            return Ok(dtos);
+        }
+
+        [HttpGet("GetAllUsers", Name = "GetAllUsers")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> GetAllUsers()
+        {
+            _logger.LogInformation("GetAllUsers Initiated");
+            var dtos = await _mediator.Send(new GetUsersListQuery());
+            _logger.LogInformation("GetAllUsers Completed");
             return Ok(dtos);
         }
         /* [HttpGet("{id}", Name = "GetRoleById")]

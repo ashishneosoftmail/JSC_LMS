@@ -300,6 +300,22 @@ namespace JSC_LMS.Identity.Services
             }
             return response;
         }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            var userData = _userManager.Users;
+            List<User> response = new List<User>();
+            foreach (var role in userData)
+            {
+                response.Add(new User()
+                {
+                    Id = role.Id,
+                    UserName = role.UserName,
+                    Email = role.Email
+                });
+            }
+            return response;
+        }
         public async Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request)
         {
             var userExist = await _userManager.FindByIdAsync(request.UserId);
