@@ -224,5 +224,24 @@ namespace JSC_LSM.UI.Services.Repositories
             }
         }
 
+        public async Task<GetAllUsersResponseModel> GetAllUser()
+        {
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllUsers, HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getAllUsersResponseModel = JsonConvert.DeserializeObject<GetAllUsersResponseModel>(_oApiResponse.data);
+                getAllUsersResponseModel.isSuccess = true;
+            }
+
+            return getAllUsersResponseModel;
+
+        }
+
     }
 }

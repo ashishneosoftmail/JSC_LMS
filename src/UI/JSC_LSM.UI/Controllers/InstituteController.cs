@@ -40,6 +40,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IEventsDetailsRepository _eventsRepository;
+        private readonly IUserRepository _usersRepository;
         /// <summary>
         /// constructor for institute controller
         /// </summary>
@@ -47,7 +48,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository , IUserRepository usersRepository)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
@@ -60,6 +61,7 @@ namespace JSC_LSM.UI.Controllers
             _teacherRepository = teacherRepository;
             _schoolRepository = schoolRepository;
             _eventsRepository = eventsRepository;
+            _usersRepository = usersRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -137,6 +139,75 @@ namespace JSC_LSM.UI.Controllers
             return View(institute);
         }
 
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExists(string EmailId)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email,
+                    Username = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.EmailId.ToUpper() == EmailId.ToUpper()
+                              select new { EmailId }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email already exists.");
+            }
+
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckUserNameExists(string UserNAME)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email,
+                    UserNAME = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.UserNAME == UserNAME
+                              select new { UserNAME }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Username already exists.");
+            }
+
+
+        }
         /// <summary>
         /// Post method to add a new institute :by Shivani Goswami
         /// </summary>
@@ -157,10 +228,10 @@ namespace JSC_LSM.UI.Controllers
                 createNewInstitute.AddressLine1 = institute.AddressLine1;
                 createNewInstitute.AddressLine2 = institute.AddressLine2;
                 createNewInstitute.ContactPerson = institute.ContactPerson;
-                createNewInstitute.Email = institute.Email;
+                createNewInstitute.Email = institute.EmailId;
                 createNewInstitute.Mobile = institute.Mobile;
                 createNewInstitute.Password = institute.Password;
-                createNewInstitute.Username = institute.Username;
+                createNewInstitute.Username = institute.UserNAME;
                 createNewInstitute.CityId = institute.CityId;
                 createNewInstitute.StateId = institute.StateId;
                 createNewInstitute.ZipId = institute.ZipId;

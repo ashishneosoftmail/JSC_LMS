@@ -21,6 +21,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<TemporaryPasswordEmailValidateResponse> TemporaryPasswordEmailValidate(string email);
         Task<VerifyTemporaryPasswordResponse> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest);
         Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest UpdateResetPasswordRequest);
+        Task<GetAllUsersResponseModel> GetAllUser();
 
     }
 }

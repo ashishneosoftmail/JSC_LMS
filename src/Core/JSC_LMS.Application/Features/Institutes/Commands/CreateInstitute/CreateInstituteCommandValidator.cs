@@ -21,12 +21,8 @@ namespace JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute
             RuleFor(p => p.createInstituteDto.CityId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.createInstituteDto.Email)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
-            RuleFor(p => p.createInstituteDto.Username)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+           
+           
             RuleFor(p => p.createInstituteDto.Password)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();

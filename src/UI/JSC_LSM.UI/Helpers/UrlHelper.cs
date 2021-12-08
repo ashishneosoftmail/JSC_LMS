@@ -10,6 +10,7 @@ namespace JSC_LSM.UI.Helpers
         //User
         public static string UserAuthenticate = "/api/v1/Account/authenticate";
         public static string GetAllRole = "/api/v1/Common/GetAllRole";
+        public static string GetAllUsers = "/api/v1/Common/GetAllUsers";
         //Common
         public static string GetAllCity = "/api/v1/Common/";
         public static string GetAllState = "/api/v1/Common/GetAllState";
