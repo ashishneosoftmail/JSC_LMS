@@ -140,12 +140,12 @@
 <h4 class="m-3">Add Student</h4>
 
 <div class="m-2">
-    <div class="border border-dark p-4 m-3">
+    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
+    <div class="border border-dark p-3">
         <div class="row">
             <form method="post" asp-action="AddStudent" asp-controller="User">
-                <div class="spacing">
-                    <span class="row text-danger">* Marked are required fields</span>
-                </div>
+               
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -341,15 +341,15 @@
                 <div class="row">
 
                 </div>
-                <br />
+              
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">
                             <div class="col-sm-12">
 
-                                <a asp-action="ManageStudentUsers" asp-controller="User" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
-                                <span class="m-2 pull-right"></span>
-                                <button type="submit" class="btn btn-primary pull-right m-2">Save</button>
+                                <a asp-action="ManageStudentUsers" asp-controller="User" class="btn btn-danger pull-right m-1"><span>Cancel</span>   </a>
+                                <span class="m-1 pull-right"></span>
+                                <button type="submit" class="btn btn-primary pull-right m-1">Save</button>
                             </div>
                         </div>
                     </div>

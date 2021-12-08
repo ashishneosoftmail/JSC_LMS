@@ -113,12 +113,12 @@
 <h4 class="m-3">Update Teacher</h4>
 
 <div class="m-2">
+    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post">
-                <div class="spacing">
-                    <span class="row text-danger">* Marked are required fields</span>
-                </div>
+               
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -189,17 +189,7 @@
                         </div>
                     </div>
 
-                    @*<div class="col-sm-6">
-                            <div class="form-group row">
-                                <label for="class" class="col-sm-3 col-form-label">Class</label>
-                                <div class="col-sm-9">
-                                    <select asp-for="ClassId" class="form-control" id="class">
-                                        <option disabled selected hidden>Select Class</option>
-                                    </select>
-                                    <span asp-validation-for="Mobile" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>*@
+                  
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="mobile" class="col-sm-3 col-form-label">Mobile<span class="text-danger">*</span></label>
@@ -345,11 +335,11 @@
 
 
                 </div>
-                <br />
+              
                 <div class="row">
 
                 </div>
-                <br />
+               
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">

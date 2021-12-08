@@ -71,8 +71,8 @@
                             <button type="button" class="btn btn-primary float-lg-end " >Search</button>
                         </div>
                     </div>*@
-                <div class="form-group row col-sm-3 ">
-                    <button type="Submit" class="btn btn-primary   float-lg-end">Search</button>
+                <div class="form-group row " style=" margin-left: 3.5em; width: 10.5em;">
+                    <button type="Submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
         </div>
@@ -80,7 +80,7 @@
 </div>
 <div class="col-md-12">
 
-    <button type="button" class="btn btn-primary pull-right    " 
+    <button type="button" class="btn btn-primary    " style=" margin-left: 53em;"
             data-toggle="modal" data-target="#myModal">
         Add Announcement
     </button>
@@ -100,11 +100,10 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
+                        <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="AddAnnouncement" asp-controller="Teacher">
 
-                            <div class="spacing">
-                                <span class="row text-danger">* Marked are required fields</span>
-                            </div>
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
@@ -116,14 +115,14 @@
                                             @*<option disabled selected hidden> Select option</option>*@
                                             <option selected value="Teacher"> Teacher</option>
                                             @*<option value="Admin"> Admin</option>
-                                                <option value="Principal"> Principal</option>*@
+                            <option value="Principal"> Principal</option>*@
                                         </select>
                                         <span asp-validation-for="AddAnnouncement.AnnouncementMadeBy" class="text-danger"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Select Class<span class="text-danger">*</span></label>
+                                        <label>Class<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -136,7 +135,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Section<span class="text-danger">*</span></label>
+                                        <label>Section<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -149,7 +148,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Subject<span class="text-danger">*</span></label>
+                                        <label>Subject<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -162,7 +161,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Announcement Title<span class="text-danger">*</span></label>
+                                        <label>Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="AddAnnouncement.AnnouncementTitle" id="announcementtitle" />
@@ -172,7 +171,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Announcement Content<span class="text-danger">*</span></label>
+                                        <label>Content<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <textarea id="description" asp-for="AddAnnouncement.AnnouncementContent" rows="4" cols="40"></textarea>
@@ -352,11 +351,11 @@
 
 
                     <div class="modal-body">
+                        <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateAnnouncement" asp-controller="Teacher">
                             @Html.HiddenFor(m => m.UpdateAnnouncement.Id, new { id = "announcementId", name = "announcementId" })
-                            <div class="spacing">
-                                <span class="row text-danger">* Marked are required fields</span>
-                            </div>
+
                             <table class="table table-borderless">
                                 <tr>
                                     <th>
@@ -368,14 +367,14 @@
                                             @*<option disabled selected hidden> Select option</option>*@
                                             <option selected value="Teacher"> Teacher</option>
                                             @*<option value="Admin"> Admin</option>
-                                                <option value="Principal"> Principal</option>*@
+                            <option value="Principal"> Principal</option>*@
                                         </select>
                                         <span asp-validation-for="UpdateAnnouncement.AnnouncementMadeBy" class="text-danger"></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Select Class<span class="text-danger">*</span></label>
+                                        <label>Class<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -388,7 +387,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Section<span class="text-danger">*</span></label>
+                                        <label>Section<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -401,7 +400,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Select Subject<span class="text-danger">*</span></label>
+                                        <label>Subject<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
 
@@ -414,7 +413,7 @@
 
                                 <tr>
                                     <th>
-                                        <label>Announcement Title<span class="text-danger">*</span></label>
+                                        <label>Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="UpdateAnnouncement.AnnouncementTitle" id="announcementTitle" />
@@ -424,7 +423,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <label>Announcement Content<span class="text-danger">*</span></label>
+                                        <label>Content<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <textarea id="announcementContent" asp-for="UpdateAnnouncement.AnnouncementContent" rows="4" cols="40"></textarea>

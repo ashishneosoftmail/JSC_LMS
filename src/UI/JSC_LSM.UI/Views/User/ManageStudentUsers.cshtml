@@ -155,7 +155,7 @@
     <div class="col-sm-3">
         <div class="form-group row">
             <label for="className" class="col-sm-3 col-form-label">Class</label>
-            <div class="col-sm-7">
+            <div class="col-sm-9">
                 <select class="form-control" id="className">
                     <option disabled selected hidden>Select Class</option>
 
@@ -165,8 +165,8 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="sectionName" class="col-sm-5 col-form-label">Section</label>
-            <div class="col-sm-7">
+            <label for="sectionName" class="col-sm-3 col-form-label">Section</label>
+            <div class="col-sm-9">
                 <select class="form-control" id="sectionName">
                     <option disabled selected hidden>Select Section</option>
 
@@ -176,8 +176,8 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="studentName" class="col-sm-5 col-form-label">Student</label>
-            <div class="col-sm-7">
+            <label for="studentName" class="col-sm-3 col-form-label">Student</label>
+            <div class="col-sm-9">
                 <select class="form-control" id="studentName">
                     <option disabled selected hidden>Select Student</option>
                 </select>
@@ -186,20 +186,20 @@
     </div>
     <div class="col-sm-3">
         <div class="form-group row">
-            <label for="date" class="col-sm-5 col-form-label">Date</label>
-            <div class="col-sm-7">
+            <label for="date" class="col-sm-3 col-form-label">Date</label>
+            <div class="col-sm-9">
                 <input type="date" value="" class="form-control" id="date" />
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-3">
+<div class="row ">
    
     <div class="col-sm-3">
         <div class="form-group row">
             <label for="status" class="col-sm-3 col-form-label">Status</label>
-            <div class="col-sm-7">
+            <div class="col-sm-9">
                 <select class="form-control" id="status">
                     
                     <option selected value="true">Active</option>
@@ -210,9 +210,9 @@
     </div>
    
 
-    <div class="col-sm-1">
-        <div class="form-group row">
-            <button type="button" class="btn btn-primary float-lg-end pull-right " onclick="searchStudent()">Search</button>
+    <div class="col-sm-3">
+        <div class="form-group row col-sm-10">
+            <button type="button" class="btn btn-primary  " onclick="searchStudent()" style=" margin-left: 4em;">Search</button>
         </div>
         @*<div class="form-group row">
                 <button class="btn btn-primary">Search</button>
@@ -220,13 +220,11 @@
     </div>
 </div>
 
-<div class="col-md-11">
-    <a asp-controller="User" asp-action="DownloadExcel" class="btn   btn-primary pull-right m-2" download>Export</a>    
-    <a asp-action="AddStudent" asp-controller="User" class="btn btn-primary   pull-right m-2"><span>Add New</span>   </a>
-    <div class="col-sm-9">
-        <button class="btn   btn-primary pull-right m-2">Upload</button>
-        <a href="#" class="pull-right btn   btn-link m-2">Download Sample Template</a>
-    </div>
+<div class="col-md-12">
+    <a href="#" class=" btn   btn-link " style="margin-left: 27em;">Download Sample Template</a>
+    <button class="btn   btn-primary ">Upload</button>
+    <a asp-action="AddStudent" asp-controller="User" class="btn btn-primary   " style="margin-left: 6em;"><span>Add New</span>   </a>
+    <a asp-controller="User" asp-action="DownloadExcel" class="btn   btn-primary " download>Export</a>
 
 </div>
 

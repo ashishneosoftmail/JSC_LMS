@@ -9,7 +9,7 @@
         padding: inherit;
         margin: 5px 5px 5px 5px;
         border: 2px solid gray;
-        height: 100%;
+        height: 80%;
         /*  width : 100%;*/
     }
 
@@ -35,15 +35,14 @@
 </div>
 <div class="container p-3 my-3 border fixed" id="div1">
     <h3>Update Subject</h3>
+    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
     <form method="post" novalidate>
-        <div class="spacing">
-            <span class="row text-danger">* Marked are required fields</span>
-        </div>
-        <div class="row">
+      
             <div class="col">
                 <div class="form-group row">
-                    <label for="inputSchool" class="col-sm-2 col-form-label">School<span class="text-danger">*</span> :</label>
-                    <div class="col-sm-7">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">School Name<span class="text-danger">*</span> :</label>
+                    <div class="col-sm-5">
                         <select class="form-control" asp-for="SchoolId" id="school" asp-items="Model.Schools">
                             <option disabled selected hidden>Select School</option>
                         </select>
@@ -54,7 +53,7 @@
 
                 <div class="form-group row">
                     <label for="inputClass" class="col-sm-2 col-form-label">Class Name<span class="text-danger">*</span> :</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-5">
                         <select class="form-control" asp-for="ClassId" id="class" asp-items="Model.Classes">
                             <option disabled selected hidden>Select Class</option>
                         </select>
@@ -65,7 +64,7 @@
 
                 <div class="form-group row">
                     <label for="inputSection" class="col-sm-2 col-form-label">Section Name<span class="text-danger">*</span> :</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-5">
                         <select class="form-control" asp-for="SectionId" id="school" asp-items="Model.Sections">
                             <option disabled selected hidden>Select School</option>
                         </select>
@@ -79,7 +78,7 @@
             <div class="col">
                 <div class="form-group row">
                     <label for="inputSubjectName" class="col-sm-2 col-form-label">Subject Name<span class="text-danger">*</span> :</label><br />
-                    <div class="col-sm-7">
+                    <div class="col-sm-5">
                         <input type="text" class="form-control" id="inputSubjectName" asp-for="SubjectName" placeholder="Ex: Abc">
                         <span asp-validation-for="SubjectName" class="text-danger"></span>
 
@@ -87,9 +86,9 @@
                 </div>
                 <br />
 
-                <br />
+               
 
-                <label>Status :</label>
+                <label style="margin-right:7em;">Status :</label>
 
                 <div class="form-check form-check-inline">
                     @Html.RadioButtonFor(m => m.IsActive, true, new { @class = "form-check-input", @checked = "checked" }) <label class="form-check-label" for="inlineRadio1">Active</label>
@@ -104,10 +103,10 @@
                 <span asp-validation-for="IsActive" class="text-danger"></span>
 
                 <br />
-                <br />
+               
 
             </div>
-        </div>
+     
 
 
         <a asp-action="ManageSubject" asp-controller="Subject" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>

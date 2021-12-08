@@ -20,6 +20,7 @@
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
+        margin:0;
     }
 </style>
 
@@ -31,9 +32,9 @@
         <div>
             <form novalidate asp-action="SearchAnnouncement" asp-controller="Principal" method="get" class="d-flex flex-row">
                 <div class="row ">                  
-                    <div class="form-group row col-sm-4">
+                    <div class="form-group row col-sm-3">
                         <label for="classId" class="col-sm-3 col-form-label">Class</label>
-                        <div class="col-sm-7">
+                        <div class="col-sm-9">
                             <select class="form-control" asp-items="Model.Classes" id="ClassId" name="ClassId">
                                 <option disabled selected hidden>Select Class</option>
                             </select>
@@ -41,8 +42,8 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group row">
-                            <label for="sectionId" class="col-sm-4 col-form-label">Section</label>
-                            <div class="col-sm-7">
+                            <label for="sectionId" class="col-sm-3 col-form-label">Section</label>
+                            <div class="col-sm-9">
                                 <select class="form-control" asp-items="Model.Sections" id="SectionId" name="SectionId">
                                     <option disabled selected hidden>Select Section</option>
                                 </select>
@@ -51,8 +52,8 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group row">
-                            <label for="subjectId" class="col-sm-4 col-form-label">Subject</label>
-                            <div class="col-sm-7">
+                            <label for="subjectId" class="col-sm-3 col-form-label">Subject</label>
+                            <div class="col-sm-9">
                                 <select class="form-control" asp-items="Model.Subjects" id="SubjectId" name="SubjectId">
                                     <option disabled selected hidden>Select Subject</option>
                                 </select>
@@ -61,26 +62,26 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="form-group row">
-                            <label for="subjectId" class="col-sm-4 col-form-label">Teacher</label>
-                            <div class="col-sm-8">
+                            <label for="subjectId" class="col-sm-3 col-form-label">Teacher</label>
+                            <div class="col-sm-9">
                                 <select class="form-control" asp-items="Model.Teachers" id="TeacherName" name="TeacherName">
                                     <option value="Selected Teacher" disabled selected hidden>Select Teacher</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-sm-3">
-                        <div class="form-group row">
+                   
+                   
+                        <div class="form-group row col-sm-3">
                             <label for="CreatedDate" class="col-sm-3 col-form-label">Date</label>
-                            <div class="col-sm-7">
+                            <div class="col-sm-9">
                                 <input type="date" value="" class="form-control" id="CreatedDate" name="CreatedDate" />
                             </div>
                         </div>
-                    </div>
+                    
 
-                    <div class="form-group row  btn-text-right " style="margin-left:20em;">
-                        <button type="Submit" class="btn btn-primary   float-lg-end">Search</button>
+                    <div class="form-group row  " style=" width: 12em; margin-left: 4.5em;">
+                        <button type="Submit" class="btn btn-primary">Search</button>
                     </div>
                 </div>
             </form>

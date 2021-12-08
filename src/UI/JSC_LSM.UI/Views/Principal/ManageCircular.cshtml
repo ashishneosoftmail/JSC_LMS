@@ -139,7 +139,7 @@
         <form novalidate asp-action="SearchCircular" asp-controller="Principal" method="get" class="d-flex flex-row">
             <div class="form-group row col-sm-4">
                 <label for="circularTitle" class="col-sm-3 col-form-label">Title</label>
-                <div class="col-sm-7">
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="circularTitle" name="circularTitle" placeholder="Enter The Circular Title">
                 </div>
             </div>
@@ -153,7 +153,7 @@
 
             <div class="form-group row col-sm-4">
                 <label for="status" class="col-sm-3 col-form-label">Status </label>
-                <div class="col-sm-5">
+                <div class="col-sm-6">
                     <select class="form-control" id="status" name="status">
                         <option value="true" selected>Sent</option>
                         <option value="false">Draft</option>
@@ -161,13 +161,13 @@
                 </div>
             </div>
             <div class="form-group row ">
-                <button type="Submit" class="btn btn-primary pull-left ">Search</button>
+                <button type="Submit" class="btn btn-primary pull-left " style=" width: 10em; margin-left: -2em;">Search</button>
             </div>
         </form>
     </div>
 </div>
 <br />
-<div class="col-md-11">
+<div class="col-md-12">
 
     <button type="button" class="btn btn-primary pull-right m-2" data-toggle="modal" data-target="#myModal">
         Create Circular
@@ -188,28 +188,28 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
+                        <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="SendCircular" asp-controller="Principal">
-                            <div class="spacing">
-                                <span class="row text-danger">* Marked are required fields</span>
-                            </div>
+                           
                             <table class="table table-borderless">
                                 @Html.HiddenFor(m => m.AddCircular.SchoolId, new { id = "addSchoolId", name = "addSchoolId" })
 
                                 @*  <tr>
-                                        <th>
-                                            <label>Select School</label>
-                                        </th>
-                                        <td>
+                    <th>
+                        <label>Select School</label>
+                    </th>
+                    <td>
 
-                                            <select class="form-control" asp-for="AddCircular.SchoolId" asp-items="Model.Schools" id="school">
-                                                <option disabled selected hidden> Select School</option>
-                                            </select>
-                                            <span asp-validation-for="AddCircular.SchoolId" class="text-danger"></span>
-                                        </td>
-                                    </tr>*@
+                        <select class="form-control" asp-for="AddCircular.SchoolId" asp-items="Model.Schools" id="school">
+                            <option disabled selected hidden> Select School</option>
+                        </select>
+                        <span asp-validation-for="AddCircular.SchoolId" class="text-danger"></span>
+                    </td>
+                </tr>*@
                                 <tr>
                                     <th>
-                                        <label>Circular Title<span class="text-danger">*</span></label>
+                                        <label>Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="AddCircular.CircularTitle" id="circulartitle" />
@@ -531,6 +531,7 @@
 
 
                     <div class="modal-header">
+
                         <h4 class="modal-title text-center">Edit Circular</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -539,28 +540,28 @@
 
 
                     <div class="modal-body">
+                        <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateCircular" asp-controller="Principal">
-                            <div class="spacing">
-                                <span class="row text-danger">* Marked are required fields</span>
-                            </div>
+
                             @Html.HiddenFor(m => m.EditCircular.Id, new { id = "circularId", name = "circularId" })
                             <table class="table table-borderless">
                                 @Html.HiddenFor(m => m.EditCircular.SchoolId, new { id = "editSchoolId", name = "editSchoolId" })
                                 @*  <tr>
-                                        <th>
-                                            <label>Select School</label>
-                                        </th>
-                                        <td>
+                    <th>
+                        <label>Select School</label>
+                    </th>
+                    <td>
 
-                                            <select class="form-control" asp-for="EditCircular.SchoolId" asp-items="Model.Schools" id="updateschool">
-                                                <option disabled selected hidden> Select School</option>
-                                            </select>
-                                            <span asp-validation-for="EditCircular.SchoolId" class="text-danger"></span>
-                                        </td>
-                                    </tr>*@
+                        <select class="form-control" asp-for="EditCircular.SchoolId" asp-items="Model.Schools" id="updateschool">
+                            <option disabled selected hidden> Select School</option>
+                        </select>
+                        <span asp-validation-for="EditCircular.SchoolId" class="text-danger"></span>
+                    </td>
+                </tr>*@
                                 <tr>
                                     <th>
-                                        <label>Circular Title<span class="text-danger">*</span></label>
+                                        <label>Title<span class="text-danger">*</span></label>
                                     </th>
                                     <td>
                                         <input type="text" class="form-control" asp-for="EditCircular.CircularTitle" id="updateCirculartitle" />
