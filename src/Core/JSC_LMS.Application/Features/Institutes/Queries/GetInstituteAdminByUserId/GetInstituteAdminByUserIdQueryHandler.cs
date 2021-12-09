@@ -44,6 +44,7 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteAdminByUse
                 Id = instituteadmin.Id,
                 Name = instituteadmin.ContactPerson,
                 Mobile = instituteadmin.Mobile
+             
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetInstituteAdminByUserIdDto>(instituteadminData, "success");

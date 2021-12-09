@@ -208,6 +208,94 @@ namespace JSC_LSM.UI.Controllers
 
 
         }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExistsForUpdate(string EmailId)
+        {
+            var email = HttpContext.Session.GetString("UpdateInstituteEmail");
+            var j = Json(true);
+            if (EmailId == email)
+            {
+                j= Json(true);
+            }
+            else  if (EmailId != email)
+                {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        Username = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.EmailId.ToUpper() == EmailId.ToUpper()
+                                  select new { EmailId }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j= Json(true);
+                }
+                else
+                {
+                    j= Json($"Email already exists.");
+                }
+            }
+
+            return j;
+        }
+
+        public async Task<ActionResult> CheckUsernameExistsForUpdate(string UserNAME)
+        {
+
+           var username = HttpContext.Session.GetString("UpdateInstituteUsername");
+           
+            var j = Json(true);
+            if (UserNAME == username)
+            {
+                j = Json(true);
+            }
+            else if (UserNAME != username)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        UserNAME = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.UserNAME == UserNAME
+                                  select new { UserNAME }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Username already exists.");
+                }
+            }
+
+            return j;
+        }
         /// <summary>
         /// Post method to add a new institute :by Shivani Goswami
         /// </summary>
@@ -445,6 +533,9 @@ namespace JSC_LSM.UI.Controllers
                 TempData["GetInstituteById"] = institute.message;
                 return RedirectToAction("InstituteDetails", "Institute");
             }
+            HttpContext.Session.SetString("UpdateInstituteEmail", institute.data.Email);
+            HttpContext.Session.SetString("UpdateInstituteUsername", institute.data.Username);
+
             var instituteData = new UpdateInstituteViewModel()
             {
                 Id = institute.data.Id,
