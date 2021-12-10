@@ -28,12 +28,8 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
             RuleFor(p => p.createPrincipalDto.CityId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.createPrincipalDto.Email)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
-            RuleFor(p => p.createPrincipalDto.Username)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+           
+         
             RuleFor(p => p.createPrincipalDto.Password)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();

@@ -27,12 +27,7 @@ namespace JSC_LMS.Application.Features.Students.Commands.CreateStudent
             RuleFor(p => p.createStudentDto.CityId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.createStudentDto.Email)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
-            RuleFor(p => p.createStudentDto.Username)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+          
             RuleFor(p => p.createStudentDto.Password)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();

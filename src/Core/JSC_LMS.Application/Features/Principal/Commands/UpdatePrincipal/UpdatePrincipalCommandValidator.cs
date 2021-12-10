@@ -27,18 +27,11 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
             RuleFor(p => p.updatePrincipalDto.CityId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.updatePrincipalDto.Email)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+          
             RuleFor(p => p.updatePrincipalDto.UserId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.updatePrincipalDto.Username)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
-            /*RuleFor(p => p.updatePrincipalDto.Password)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();*/
+           
             RuleFor(p => p.updatePrincipalDto.StateId)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
@@ -51,9 +44,7 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
             RuleFor(p => p.updatePrincipalDto.Name)
          .NotEmpty().WithMessage("{PropertyName} is required.")
          .NotNull().MaximumLength(50).WithMessage("{PropertyName} must not exceed 50 characters.");
-            //     RuleFor(p => p.updatePrincipalDto.IsActive)
-            //.NotEmpty().WithMessage("{PropertyName} is required.")
-            //.NotNull();
+         
         }
 
     }

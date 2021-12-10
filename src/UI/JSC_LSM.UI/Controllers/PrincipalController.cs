@@ -37,6 +37,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IInstituteRepository _instituteRepository;
         public readonly IEventsDetailsRepository _eventsRepository;
+        private readonly IUserRepository _usersRepository;
 
         /// <summary>
         /// Constructor For the PrincipalController - Developed By Harsh Chheda
@@ -46,7 +47,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="principalRepository"></param>
 
 
-        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository , IEventsDetailsRepository eventsRepository)
+        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository , IEventsDetailsRepository eventsRepository , IUserRepository usersRepository)
 
         {
             _circularRepository = circularRepository;
@@ -59,6 +60,7 @@ namespace JSC_LSM.UI.Controllers
             _configuration = configuration;
             _instituteRepository = instituteRepository;
             _eventsRepository = eventsRepository;
+            _usersRepository = usersRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -106,6 +108,74 @@ namespace JSC_LSM.UI.Controllers
         /// </summary>
         /// <param name="principalModel"></param>
         /// <returns></returns>
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExists(string EmailId)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email                   
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.EmailId.ToUpper() == EmailId.ToUpper()
+                              select new { EmailId }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email already exists.");
+            }
+
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckUserNameExists(string UserNAME)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                       UserNAME = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.UserNAME == UserNAME
+                              select new { UserNAME }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Username already exists.");
+            }
+
+
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPrincipal(PrincipalModel principalModel)
@@ -123,10 +193,10 @@ namespace JSC_LSM.UI.Controllers
                 createNewPrincipal.AddressLine1 = principalModel.AddressLine1;
                 createNewPrincipal.AddressLine2 = principalModel.AddressLine2;
                 createNewPrincipal.Name = principalModel.Name;
-                createNewPrincipal.Email = principalModel.Email;
+                createNewPrincipal.Email = principalModel.EmailId;
                 createNewPrincipal.Mobile = principalModel.Mobile;
                 createNewPrincipal.Password = principalModel.Password;
-                createNewPrincipal.Username = principalModel.Username;
+                createNewPrincipal.Username = principalModel.UserNAME;
                 createNewPrincipal.CityId = principalModel.CityId;
                 createNewPrincipal.StateId = principalModel.StateId;
                 createNewPrincipal.ZipId = principalModel.ZipId;
@@ -356,6 +426,94 @@ namespace JSC_LSM.UI.Controllers
             }
             return principal;
         }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExistsForUpdate(string EmailId)
+        {
+            var email = HttpContext.Session.GetString("UpdatePrincipalEmail");
+            var j = Json(true);
+            if (EmailId == email)
+            {
+                j = Json(true);
+            }
+            else if (EmailId != email)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        Username = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.EmailId.ToUpper() == EmailId.ToUpper()
+                                  select new { EmailId }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Email already exists.");
+                }
+            }
+
+            return j;
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckUsernameExistsForUpdate(string UserNAME)
+        {
+
+            var username = HttpContext.Session.GetString("UpdatePrincipalUsername");
+
+            var j = Json(true);
+            if (UserNAME == username)
+            {
+                j = Json(true);
+            }
+            else if (UserNAME != username)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _usersRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        UserNAME = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.UserNAME == UserNAME
+                                  select new { UserNAME }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Username already exists.");
+                }
+            }
+
+            return j;
+        }
         /// <summary>
         /// Returns the ui and the data for the principal for Edit the data - Developed By Harsh Chheda
         /// </summary>
@@ -370,6 +528,8 @@ namespace JSC_LSM.UI.Controllers
                 TempData["GetPrincipalById"] = principal.message;
                 return RedirectToAction("PrincipalDetails", "Principal");
             }
+            HttpContext.Session.SetString("UpdatePrincipalEmail", principal.data.Email);
+            HttpContext.Session.SetString("UpdatePrincipalUsername", principal.data.Username);
             var principalData = new UpdatePrincipalViewModel()
             {
                 Id = principal.data.Id,
@@ -379,11 +539,11 @@ namespace JSC_LSM.UI.Controllers
                 AddressLine2 = principal.data.AddressLine2,
                 CityId = principal.data.City.Id,
                 StateId = principal.data.State.Id,
-                Email = principal.data.Email,
+                EmailId = principal.data.Email,
                 IsActive = principal.data.IsActive,
                 Mobile = principal.data.Mobile,
                 SchoolId = principal.data.School.Id,
-                Username = principal.data.Username,
+                UserNAME = principal.data.Username,
                 ZipId = principal.data.Zip.Id
             };
             principalData.Schools = await _common.GetSchool();
@@ -417,9 +577,9 @@ namespace JSC_LSM.UI.Controllers
                 updatePrincipal.AddressLine1 = updatePrincipalViewModel.AddressLine1;
                 updatePrincipal.AddressLine2 = updatePrincipalViewModel.AddressLine2;
                 updatePrincipal.Name = updatePrincipalViewModel.Name;
-                updatePrincipal.Email = updatePrincipalViewModel.Email;
+                updatePrincipal.Email = updatePrincipalViewModel.EmailId;
                 updatePrincipal.Mobile = updatePrincipalViewModel.Mobile;
-                updatePrincipal.Username = updatePrincipalViewModel.Username;
+                updatePrincipal.Username = updatePrincipalViewModel.UserNAME;
                 updatePrincipal.CityId = updatePrincipalViewModel.CityId;
                 updatePrincipal.StateId = updatePrincipalViewModel.StateId;
                 updatePrincipal.ZipId = updatePrincipalViewModel.ZipId;

@@ -30,12 +30,7 @@ namespace JSC_LMS.Application.Features.Students.Commands.UpdateStudent
             RuleFor(p => p.updateStudentDto.CityId)
                .NotEmpty().WithMessage("{PropertyName} is required.")
                .NotNull();
-            RuleFor(p => p.updateStudentDto.Email)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
-            RuleFor(p => p.updateStudentDto.Username)
-               .NotEmpty().WithMessage("{PropertyName} is required.")
-               .NotNull();
+           
            
             RuleFor(p => p.updateStudentDto.StateId)
             .NotEmpty().WithMessage("{PropertyName} is required.")

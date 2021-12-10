@@ -22,19 +22,14 @@ namespace JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal
         [Required(ErrorMessage = "Name is mandatory")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Phone Number is mandatory")]
-        /*[RegularExpression(@"^\+?([0-9]{2})\)?[-. ]?([0-9]{5})[-. ]?([0-9]{5})$", ErrorMessage = "Please enter correct mobile number")]*/
-        /* [RegularExpression(@"(?:(?:\+)91)?[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]*/
+      
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
-        [Required(ErrorMessage = "Email is mandatory")]
-        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
+     
         public string Email { get; set; }
-        [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
-        [Required(ErrorMessage = "Username is mandatory")]
+      
         public string Username { get; set; }
-        /* [Required(ErrorMessage = "Password is mandatory")]
-         [RegularExpression("^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])|(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^a-zA-Z0-9])|(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])|(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^a-zA-Z0-9])).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]
-         public string Password { get; set; }*/
+       
         [Required(ErrorMessage = "City is mandatory")]
         public int CityId { get; set; }
         [Required(ErrorMessage = "State is mandatory")]

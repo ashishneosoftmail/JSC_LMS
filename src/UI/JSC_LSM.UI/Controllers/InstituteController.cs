@@ -252,7 +252,7 @@ namespace JSC_LSM.UI.Controllers
 
             return j;
         }
-
+        [AcceptVerbs("Get", "Post")]
         public async Task<ActionResult> CheckUsernameExistsForUpdate(string UserNAME)
         {
 

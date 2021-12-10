@@ -33,8 +33,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly IClassRepository _classRepository;
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IInstituteRepository _instituteRepository;
+        private readonly IUserRepository _userRepository;
 
-        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository)
+        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository , IUserRepository userRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -46,6 +47,7 @@ namespace JSC_LSM.UI.Controllers
             _subjectRepository = subjectRepository;
             _announcementRepository = announcementRepository;
             _instituteRepository = instituteRepository;
+            _userRepository = userRepository;
 
         }
 
@@ -55,15 +57,7 @@ namespace JSC_LSM.UI.Controllers
             var userId = Convert.ToString(Request.Cookies["Id"]);
             var teacherUserID = await _teacherRepository.GetTeacherByUserId(userId);
             var teacherData = (await _teacherRepository.GetAllTeacherDetails()).data.Where(x => x.UserId == userId).ToList();
-            
-           /* var school = await _schoolRepository.GetSchoolById(teacherData.data.School.Id);
-          */
-           /* var classes = await _classRepository.GetClassById(teacherData.data.Class.Id);
-            var section = await _sectionRepository.GetSectionById(teacherData.data.Section.Id);
-            var subject = await _subjectRepository.GetSubjectById(teacherData.data.Subject.Id);
-            var institute = await _instituteRepository.GetInstituteById(school.data.Institute.Id);*/
-
-
+           
             List<TeacherInformation> model = new List<TeacherInformation>();
             foreach(var data in teacherData)
             {
@@ -84,9 +78,6 @@ namespace JSC_LSM.UI.Controllers
         }
 
 
-
-
-
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);
@@ -98,6 +89,161 @@ namespace JSC_LSM.UI.Controllers
             return cities;
         }
 
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckEmailExists(string EmailId)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email,
+                    Username = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.EmailId.ToUpper() == EmailId.ToUpper()
+                              select new { EmailId }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email already exists.");
+            }
+
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckUserNameExists(string UserNAME)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email,
+                    UserNAME = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.UserNAME == UserNAME
+                              select new { UserNAME }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Username already exists.");
+            }
+
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExistsForUpdate(string EmailId)
+        {
+            var email = HttpContext.Session.GetString("UpdateTeacherEmail");
+            var j = Json(true);
+            if (EmailId == email)
+            {
+                j = Json(true);
+            }
+            else if (EmailId != email)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        Username = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.EmailId.ToUpper() == EmailId.ToUpper()
+                                  select new { EmailId }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Email already exists.");
+                }
+            }
+
+            return j;
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckUsernameExistsForUpdate(string UserNAME)
+        {
+
+            var username = HttpContext.Session.GetString("UpdateTeacherUsername");
+
+            var j = Json(true);
+            if (UserNAME == username)
+            {
+                j = Json(true);
+            }
+            else if (UserNAME != username)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        UserNAME = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.UserNAME == UserNAME
+                                  select new { UserNAME }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Username already exists.");
+                }
+            }
+
+            return j;
+        }
         [HttpGet]
         public async Task<IActionResult> AddTeacher()
         {
@@ -135,10 +281,10 @@ namespace JSC_LSM.UI.Controllers
                 createNewTeacher.AddressLine1 = teacher.AddressLine1;
                 createNewTeacher.AddressLine2 = teacher.AddressLine2;
                 createNewTeacher.SubjectId = teacher.SubjectId;
-                createNewTeacher.Email = teacher.Email;
+                createNewTeacher.Email = teacher.EmailId;
                 createNewTeacher.Mobile = teacher.Mobile;
                 createNewTeacher.Password = teacher.Password;
-                createNewTeacher.Username = teacher.Username;
+                createNewTeacher.Username = teacher.UserNAME;
                 createNewTeacher.CityId = teacher.CityId;
                 createNewTeacher.StateId = teacher.StateId;
                 createNewTeacher.ZipId = teacher.ZipId;
@@ -220,6 +366,8 @@ namespace JSC_LSM.UI.Controllers
                 TempData["GetTeacherById"] = teacher.message;
                 return RedirectToAction("ManageStudentUsers", "Teacher");
             }
+            HttpContext.Session.SetString("UpdateTeacherEmail", teacher.data.Email);
+            HttpContext.Session.SetString("UpdateTeacherUsername", teacher.data.Username);
             var teacherData = new UpdateTeacherViewModel()
             {
                 Id = teacher.data.Id,
@@ -230,14 +378,14 @@ namespace JSC_LSM.UI.Controllers
                 AddressLine2 = teacher.data.AddressLine2,
                 CityId = teacher.data.City.Id,
                 StateId = teacher.data.State.Id,
-                Email = teacher.data.Email,
+                EmailId = teacher.data.Email,
                 IsActive = teacher.data.IsActive,
                 Mobile = teacher.data.Mobile,
                 SchoolId = teacher.data.School.Id,
                 ClassId = teacher.data.Class.Id,
                 SectionId = teacher.data.Section.Id,
                 SubjectId=teacher.data.Subject.Id,
-                Username = teacher.data.Username,
+                UserNAME = teacher.data.Username,
                 ZipId = teacher.data.Zip.Id
             };
             teacherData.Schools = await _common.GetSchool();
@@ -278,9 +426,9 @@ namespace JSC_LSM.UI.Controllers
                 updateTeacher.AddressLine1 = updateTeacherViewModel.AddressLine1;
                 updateTeacher.AddressLine2 = updateTeacherViewModel.AddressLine2;
                 updateTeacher.TeacherName = updateTeacherViewModel.TeacherName;
-                updateTeacher.Email = updateTeacherViewModel.Email;
+                updateTeacher.Email = updateTeacherViewModel.EmailId;
                 updateTeacher.Mobile = updateTeacherViewModel.Mobile;
-                updateTeacher.Username = updateTeacherViewModel.Username;
+                updateTeacher.Username = updateTeacherViewModel.UserNAME;
                 updateTeacher.CityId = updateTeacherViewModel.CityId;
                 updateTeacher.StateId = updateTeacherViewModel.StateId;
                 updateTeacher.ZipId = updateTeacherViewModel.ZipId;

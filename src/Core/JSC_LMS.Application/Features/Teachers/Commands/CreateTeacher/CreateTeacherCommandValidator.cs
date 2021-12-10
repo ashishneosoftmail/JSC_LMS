@@ -50,9 +50,6 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
            .NotEmpty().WithMessage("{PropertyName} is required.")
            .NotNull().MaximumLength(20).WithMessage("{PropertyName} must not exceed 20 characters.");
             
-            RuleFor(p => p.createTeacherDto.Email)
-          .NotEmpty().WithMessage("{PropertyName} is required.")
-          .NotNull().MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
            
         }
     }

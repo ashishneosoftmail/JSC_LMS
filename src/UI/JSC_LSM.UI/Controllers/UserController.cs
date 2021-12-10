@@ -84,8 +84,248 @@ namespace JSC_LSM.UI.Controllers
             var sections = await _common.GetSection();
             return sections;
         }
-       
-       
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckEmailExists(string EmailId)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email,
+                    Username = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.EmailId.ToUpper() == EmailId.ToUpper()
+                              select new { EmailId }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Email already exists.");
+            }
+
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckUserNameExists(string UserNAME)
+        {
+            List<Institute> RegisterUsers = new List<Institute>();
+            GetAllUsersResponseModel getAllUsersResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+            foreach (var item in getAllUsersResponseModel.data)
+            {
+                RegisterUsers.Add(new Institute
+                {
+                    EmailId = item.Email,
+                    UserNAME = item.UserName
+                });
+            }
+
+            var RegEmailId = (from u in RegisterUsers
+                              where u.UserNAME == UserNAME
+                              select new { UserNAME }).FirstOrDefault();
+
+
+            if (RegEmailId == null)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json($"Username already exists.");
+            }
+
+
+        }
+
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExistsForUpdateStudent(string EmailId)
+        {
+            var email = HttpContext.Session.GetString("UpdateStudentEmail");
+            var j = Json(true);
+            if (EmailId == email)
+            {
+                j = Json(true);
+            }
+            else if (EmailId != email)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        Username = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.EmailId.ToUpper() == EmailId.ToUpper()
+                                  select new { EmailId }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Email already exists.");
+                }
+            }
+
+            return j;
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckUsernameExistsForUpdateStudent(string UserNAME)
+        {
+
+            var username = HttpContext.Session.GetString("UpdateStudentUsername");
+
+            var j = Json(true);
+            if (UserNAME == username)
+            {
+                j = Json(true);
+            }
+            else if (UserNAME != username)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        UserNAME = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.UserNAME == UserNAME
+                                  select new { UserNAME }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Username already exists.");
+                }
+            }
+
+            return j;
+        }
+        [AcceptVerbs("Get", "Post")]
+
+        public async Task<ActionResult> CheckEmailExistsForUpdateParents(string EmailId)
+        {
+            var email = HttpContext.Session.GetString("UpdateParentsEmail");
+            var j = Json(true);
+            if (EmailId == email)
+            {
+                j = Json(true);
+            }
+            else if (EmailId != email)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        Username = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.EmailId.ToUpper() == EmailId.ToUpper()
+                                  select new { EmailId }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Email already exists.");
+                }
+            }
+
+            return j;
+        }
+        [AcceptVerbs("Get", "Post")]
+        public async Task<ActionResult> CheckUsernameExistsForUpdateParents(string UserNAME)
+        {
+
+            var username = HttpContext.Session.GetString("UpdateParentsUsername");
+
+            var j = Json(true);
+            if (UserNAME == username)
+            {
+                j = Json(true);
+            }
+            else if (UserNAME != username)
+            {
+                List<Institute> RegisterUsers = new List<Institute>();
+                GetAllUsersResponseModel getAllUsersResponseModel = null;
+                ResponseModel responseModel = new ResponseModel();
+                getAllUsersResponseModel = await _userRepository.GetAllUser();
+
+                foreach (var item in getAllUsersResponseModel.data)
+                {
+                    RegisterUsers.Add(new Institute
+                    {
+                        EmailId = item.Email,
+                        UserNAME = item.UserName
+                    });
+                }
+
+                var RegEmailId = (from u in RegisterUsers
+                                  where u.UserNAME == UserNAME
+                                  select new { UserNAME }).FirstOrDefault();
+
+
+                if (RegEmailId == null)
+                {
+                    j = Json(true);
+                }
+                else
+                {
+                    j = Json($"Username already exists.");
+                }
+            }
+
+            return j;
+        }
         [HttpGet]
         public async Task<IActionResult> AddStudent()
         {
@@ -122,10 +362,10 @@ namespace JSC_LSM.UI.Controllers
                 createNewStudent.AddressLine1 = studentModel.AddressLine1;
                 createNewStudent.AddressLine2 = studentModel.AddressLine2;
                 createNewStudent.StudentName = studentModel.StudentName;
-                createNewStudent.Email = studentModel.Email;
+                createNewStudent.Email = studentModel.EmailId;
                 createNewStudent.Mobile = studentModel.Mobile;
                 createNewStudent.Password = studentModel.Password;
-                createNewStudent.Username = studentModel.Username;
+                createNewStudent.Username = studentModel.UserNAME;
                 createNewStudent.CityId = studentModel.CityId;
                 createNewStudent.StateId = studentModel.StateId;
                 createNewStudent.ZipId = studentModel.ZipId;
@@ -196,6 +436,8 @@ namespace JSC_LSM.UI.Controllers
                 TempData["GetStudentById"] = student.message;
                 return RedirectToAction("ManageStudentUsers", "User");
             }
+            HttpContext.Session.SetString("UpdateStudentEmail", student.data.Email);
+            HttpContext.Session.SetString("UpdateStudentUsername", student.data.Username);
             var studentData = new UpdateStudentViewModel()
             {
                 Id = student.data.Id,
@@ -206,12 +448,12 @@ namespace JSC_LSM.UI.Controllers
                 AddressLine2 = student.data.AddressLine2,
                 CityId = student.data.City.Id,
                 StateId = student.data.State.Id,
-                Email = student.data.Email,
+                EmailId = student.data.Email,
                 IsActive = student.data.IsActive,
                 Mobile = student.data.Mobile,
                 ClassId = student.data.Class.Id,
                 SectionId = student.data.Section.Id,
-                Username = student.data.Username,
+                UserNAME = student.data.Username,
                 ZipId = student.data.Zip.Id
             };
             studentData.Classes = await _common.GetClass();
@@ -249,9 +491,9 @@ namespace JSC_LSM.UI.Controllers
                 updateStudent.AddressLine2 = updateStudentViewModel.AddressLine2;
                 updateStudent.StudentName = updateStudentViewModel.StudentName;
                 updateStudent.UserType = updateStudentViewModel.UserType;
-                updateStudent.Email = updateStudentViewModel.Email;
+                updateStudent.Email = updateStudentViewModel.EmailId;
                 updateStudent.Mobile = updateStudentViewModel.Mobile;
-                updateStudent.Username = updateStudentViewModel.Username;
+                updateStudent.Username = updateStudentViewModel.UserNAME;
                 updateStudent.CityId = updateStudentViewModel.CityId;
                 updateStudent.StateId = updateStudentViewModel.StateId;
                 updateStudent.ZipId = updateStudentViewModel.ZipId;
@@ -548,10 +790,10 @@ namespace JSC_LSM.UI.Controllers
                 createNewParent.AddressLine1 = parentsModel.AddressLine1;
                 createNewParent.AddressLine2 = parentsModel.AddressLine2;
                 createNewParent.ParentName = parentsModel.ParentName;
-                createNewParent.Email = parentsModel.Email;
+                createNewParent.Email = parentsModel.EmailId;
                 createNewParent.Mobile = parentsModel.Mobile;
                 createNewParent.Password = parentsModel.Password;
-                createNewParent.Username = parentsModel.Username;
+                createNewParent.Username = parentsModel.UserNAME;
                 createNewParent.CityId = parentsModel.CityId;
                 createNewParent.StateId = parentsModel.StateId;
                 createNewParent.ZipId = parentsModel.ZipId;
@@ -624,6 +866,8 @@ namespace JSC_LSM.UI.Controllers
                 TempData["GetParentsById"] = parents.message;
                 return RedirectToAction("ParentsDetails", "User");
             }
+            HttpContext.Session.SetString("UpdateParentsEmail", parents.data.Email);
+            HttpContext.Session.SetString("UpdateParentsUsername", parents.data.Username);
             List<int> tempStd = new List<int>();
             foreach(var std in parents.data.Student)
             {
@@ -667,12 +911,12 @@ namespace JSC_LSM.UI.Controllers
                 AddressLine2 = parents.data.AddressLine2,
                 CityId = parents.data.City.Id,
                 StateId = parents.data.State.Id,
-                Email = parents.data.Email,
+                EmailId = parents.data.Email,
                 IsActive = parents.data.IsActive,
                 Mobile = parents.data.Mobile,
                 ClassId = parents.data.Class.Id,
                 SectionId = parents.data.Section.Id,
-                Username = parents.data.Username,
+                UserNAME = parents.data.Username,
                 ZipId = parents.data.Zip.Id ,
                 StudentId = tempStd
 
@@ -713,9 +957,9 @@ namespace JSC_LSM.UI.Controllers
                 updateParents.AddressLine2 = updateParentsViewModel.AddressLine2;
                 updateParents.ParentName = updateParentsViewModel.ParentName;
                 updateParents.UserType = updateParentsViewModel.UserType;
-                updateParents.Email = updateParentsViewModel.Email;
+                updateParents.Email = updateParentsViewModel.EmailId;
                 updateParents.Mobile = updateParentsViewModel.Mobile;
-                updateParents.Username = updateParentsViewModel.Username;
+                updateParents.Username = updateParentsViewModel.UserNAME;
                 updateParents.CityId = updateParentsViewModel.CityId;
                 updateParents.StateId = updateParentsViewModel.StateId;
                 updateParents.ZipId = updateParentsViewModel.ZipId;

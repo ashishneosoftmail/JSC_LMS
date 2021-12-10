@@ -25,8 +25,8 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISchoolRepository _schoolRepository;
         private readonly IPrincipalRepository _principalRepository;
         private readonly ISubjectRepository _subjectRepository;
-
-        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository)
+        private readonly IUserRepository _userRepository;
+        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository , IUserRepository userRepository)
         {
             _common = common;
             _circularRepository = circularRepository;
@@ -38,6 +38,7 @@ namespace JSC_LSM.UI.Controllers
             _schoolRepository = schoolRepository;
             _principalRepository = principalRepository;
             _subjectRepository = subjectRepository;
+            _userRepository = userRepository;
         }
         public async Task<IActionResult> Index()
         {

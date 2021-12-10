@@ -23,11 +23,9 @@ namespace JSC_LMS.Application.Features.Students.Commands.CreateStudent
         [Required(ErrorMessage = "Phone Number is mandatory")]       
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
-        [Required(ErrorMessage = "Email is mandatory")]
-        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
+      
         public string Email { get; set; }
-        [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
-        [Required(ErrorMessage = "Username is mandatory")]
+       
         public string Username { get; set; }
         [Required(ErrorMessage = "Password is mandatory")]
         [RegularExpression(@"^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$", ErrorMessage = "Password should contain 8 character - one uppercase, one lowercase, one numeric value and a special character.")]

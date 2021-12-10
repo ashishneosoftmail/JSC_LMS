@@ -25,12 +25,9 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher
         [StringLength(10)]
         [Required(ErrorMessage = "Phone Number is mandatory")]
         public string Mobile { get; set; }
-        [StringLength(100, ErrorMessage = "Email should not be more than 100 characters")]
-        [Required(ErrorMessage = "Email is mandatory")]
-        [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
+       
         public string Email { get; set; }
-        [StringLength(100, ErrorMessage = "Username should not be more than 100 characters")]
-        [Required(ErrorMessage = "Username is mandatory")]
+      
         public string Username { get; set; }       
         public string UserId { get; set; }
         [Required(ErrorMessage = "School is mandatory")]
