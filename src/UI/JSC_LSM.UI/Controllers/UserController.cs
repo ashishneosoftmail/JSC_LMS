@@ -13,10 +13,12 @@ using JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
+using JSC_LSM.UI.ResponseModels.EventsResponseModel;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -41,11 +43,12 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
+        private readonly IConfiguration _configuration;
 
         private readonly IUserRepository _userRepository;
         private readonly IEventsDetailsRepository _eventsRepository;
 
-        public UserController(IStateRepository stateRepository, IPrincipalRepository principalRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository , IEventsDetailsRepository eventsRepository)
+        public UserController(IStateRepository stateRepository, IPrincipalRepository principalRepository, IStudentRepository studentRepository, ISectionRepository sectionRepository, IParentsRepository parentsRepository, IClassRepository classRepository,JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IUserRepository userRepository , IEventsDetailsRepository eventsRepository , IConfiguration configuration)
 
         {
             _stateRepository = stateRepository;
@@ -58,6 +61,7 @@ namespace JSC_LSM.UI.Controllers
             _userRepository = userRepository;
             _parentsRepository = parentsRepository;
             _eventsRepository = eventsRepository;
+            _configuration = configuration;
 
         }
 
@@ -1428,6 +1432,13 @@ namespace JSC_LSM.UI.Controllers
             }
             model.GetEventsListBySchoolId = data;
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<GetEventsByIdResponseModel> ViewEventsData(int Id)
+        {
+            var eventdata = await _eventsRepository.GetEventsById(Id);
+            return eventdata;
         }
     }
 }

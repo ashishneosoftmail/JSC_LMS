@@ -20,9 +20,7 @@
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
-        margin: 0;
-        padding: 0;
-        color: green;
+       
     }
 
     #viewUserModel {
@@ -161,7 +159,7 @@
                         <td>
                             <label>@i</label>
                             @{ i++; }
-                        </td>                        
+                        </td>
                         <td>@Html.DisplayFor(modelItem => @item.EventTitle)</td>
                         <td>@Html.DisplayFor(modelItem => @item.EventCoordinator)</td>
                         <td>@Html.DisplayFor(modelItem => @item.EventDateTime)</td>
@@ -169,7 +167,21 @@
                         <td>@Html.DisplayFor(modelItem => @item.statusName)</td>
                         <td>@Html.DisplayFor(modelItem => @item.CreatedDate)</td>
                         <td>
-                            <a>Edit</a>
+                            @if (item.Status)
+                            {
+                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#viewEventData" onclick="ShowEventDetail(@item.Id)">
+                                    View
+                                </button>
+
+                            }
+
+                            else
+                            {<div>
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editEventData" onclick="EditEventData(@item.Id)">
+                                        Edit
+                                    </button>
+                                </div>}
+
                         </td>
 
                     </tr>
@@ -179,6 +191,234 @@
     </div>
 </div>
 
+
+<div class="col-sm-12">
+    <button type="button" class="btn btn-primary pull-right m-2" data-toggle="modal" data-target="#myModal">
+        Create Event
+    </button>
+</div>
+<div class="col-md-11">
+
+
+    <div class="container">
+        <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">Create Event</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <form method="post" novalidate enctype="multipart/form-data" asp-action="SendEventsData" asp-controller="Principal">
+
+                            <table class="table table-borderless">
+                          
+                                <tr>
+                                    <th>
+                                        <label>Title<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="AddNewEvents.EventTitle" id="eventstitle" />
+                                        <span asp-validation-for="AddNewEvents.EventTitle" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Description<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <textarea id="description" asp-for="AddNewEvents.Description" rows="4" cols="40"></textarea>
+                                        <span asp-validation-for="AddNewEvents.Description" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Date and Time<span class="text-danger">*</span></label></th>
+                                    <td>
+                                        <input type="datetime-local" class="form-control" id="eventsdatetime" asp-for="AddNewEvents.EventDateTime" />
+                                        <span asp-validation-for="AddNewEvents.EventDateTime" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Venue<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="AddNewEvents.Venue" id="eventstitle" />
+                                        <span asp-validation-for="AddNewEvents.Venue" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Coordinator<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="AddNewEvents.EventCoordinator" id="eventstitle" />
+                                        <span asp-validation-for="AddNewEvents.EventCoordinator" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>
+                                            Co-ordinator Contact No<span class="text-danger">*</span>
+                                        </label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="AddNewEvents.CoordinatorNumber" id="eventstitle" />
+                                        <span asp-validation-for="AddNewEvents.CoordinatorNumber" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>File</label>
+                                    </th>
+                                    <td>
+
+                                        @Html.TextBoxFor(m => m.AddNewEvents.fileUpload, new { type = "file" })
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.AddNewEvents.fileUpload, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        <label>Image</label>
+                                    </th>
+                                    <td>
+
+                                        @Html.TextBoxFor(m => m.AddNewEvents.imageUpload, new { type = "file" })
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.AddNewEvents.imageUpload, "", new { @class = "text-danger" })
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Send" name="SendEventsData" />
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="SendEventsData" />
+                                @*  <a href="/Institute/SaveCircular" class="btn btn-primary float-lg-end ButtonDesign">Save</a>*@
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="col-md-11">
+    <div class="container">
+        <!-- The Modal -->
+        <div class="modal" id="viewEventData">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">View Event</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th>
+                                    <label>School Name</label>
+                                </th>
+                                <td>
+                                    <span id="detailsSchoolName"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Event Title</label>
+                                </th>
+                                <td>
+                                    <span id="detailsEventTitle"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Description</label>
+                                </th>
+                                <td>
+                                    <span id="detailsDescription"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Venue</label>
+                                </th>
+                                <td>
+                                    <span id="detailsVenue"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Co-ordinator</label>
+                                </th>
+                                <td>
+                                    <span id="detailsCoordinator"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Co-ordinator Contact No.</label>
+                                </th>
+                                <td>
+                                    <span id="detailsContact"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>File</label>
+                                </th>
+                                <td>
+                                    <a href="" id="detailsUploadedFile"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Image</label>
+                                </th>
+                                <td>
+
+                                    <img src="" id="detailsImage" height="200" width="300" />
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
@@ -188,7 +428,7 @@
             "oLanguage": {
                 "sLengthMenu": "Page Size _MENU_",
             },
-           /* "dom": '<"top"i>rt<"bottom"flp><"clear">'*/
+            /* "dom": '<"top"i>rt<"bottom"flp><"clear">'*/
         });
         $('.datatable').each(function () {
             var datatable = $(this);
@@ -196,4 +436,38 @@
             length_sel.addClass('form-control input-lg');
         });
     });
+
+
+    function ShowEventDetail(id) {
+        $.get("/Institute/ViewEventsData", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                $("#detailsSchoolName").text(data.data.school.schoolName);
+                $("#detailsEventTitle").text(data.data.eventTitle);
+                $("#detailsDescription").text(data.data.description);
+                $("#detailsVenue").text(data.data.venue);
+                $("#detailsCoordinator").text(data.data.eventCoordinator);
+                $("#detailsContact").text(data.data.coordinatorNumber);
+
+                if (data.data.file != null) {
+
+                    $("#detailsUploadedFile").text(data.data.file);
+                    $("#detailsUploadedFile").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+                } else {
+                    $("#detailsUploadedFile").text("No File Uploaded");
+                    $("#detailsUploadedFile").attr("href", "#")
+                }
+
+
+                if (data.data.image != null) {
+                    /* $("#detailsImage").text(data.data.image);*/
+                    $("#detailsImage").attr("src", `/Upload/EventsImage/${data.data.image}`);
+                } else {
+                    $("#detailsImage").text("No Image Uploaded");
+                    $("#detailsImage").attr("href", "#")
+
+                }
+            }
+        });
+    }
 </script>

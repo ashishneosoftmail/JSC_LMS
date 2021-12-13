@@ -2,6 +2,7 @@
 using JSC_LMS.Application.Features.EventsFeature.Commands.UpdateEvents;
 using JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsList;
 using JSC_LMS.Application.Features.EventsFeature.Queries.GetAllEventsListBySchool;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,19 @@ namespace JSC_LSM.UI.Models
         public List<GetEventsList> GetEventsList { get; set; }
         public List<GetEventsListBySchoolId> GetEventsListBySchoolId { get; set; }
         public List<SelectListItem> Schools { get; set; }
+        public string ImageName { get; set; }
+        public string ImageFileName { get; set; }
+
     }
     public class AddNewEvents : CreateEventsDto
     {
+        public IFormFile fileUpload { get; set; }
+        public IFormFile imageUpload { get; set; }
     }
     public class UpdateEventsById : UpdateEventsDto
     {
+        public IFormFile fileUpload { get; set; }
+        public IFormFile imageUpload { get; set; }
     }
     public class GetEventsList : GetAllEventsListDto
     {
