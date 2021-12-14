@@ -1,4 +1,5 @@
 ﻿using JSC_LSM.UI.ResponseModels;
+using JSC_LSM.UI.ResponseModels.EventsResponseModel;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -25,9 +26,10 @@ namespace JSC_LSM.UI.Common
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IEventsDetailsRepository _eventRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
@@ -39,6 +41,7 @@ namespace JSC_LSM.UI.Common
             _sectionRepository = sectionRepository;
             _subjectRepository = subjectRepository;
             _teacherRepository = teacherRepository;
+            _eventRepository = eventRepository;
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
         }
@@ -446,6 +449,43 @@ namespace JSC_LSM.UI.Common
         }
 
 
+        public async Task<List<SelectListItem>> GetEvent()
+        {
+            List<SelectListItem> events = new List<SelectListItem>();
+            GetEventsListResponseModel getEventsListResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getEventsListResponseModel = await _eventRepository.GetEventsList();
+
+            if (getEventsListResponseModel.Succeeded)
+            {
+                if (getEventsListResponseModel == null && getEventsListResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getEventsListResponseModel.message;
+                    responseModel.IsSuccess = getEventsListResponseModel.isSuccess;
+                }
+                if (getEventsListResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getEventsListResponseModel.message;
+                    responseModel.IsSuccess = getEventsListResponseModel.isSuccess;
+                    foreach (var item in getEventsListResponseModel.data)
+                    {
+                        events.Add(new SelectListItem
+                        {
+                            Text = item.EventTitle,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return events;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getEventsListResponseModel.message;
+                responseModel.IsSuccess = getEventsListResponseModel.isSuccess;
+            }
+            return null;
+        }
 
 
 
