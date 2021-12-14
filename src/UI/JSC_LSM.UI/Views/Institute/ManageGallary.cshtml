@@ -1,0 +1,160 @@
+﻿@model GallaryDetailsModel
+
+@{
+    ViewData["Title"] = "ManageGallary";
+    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+
+}
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
+
+<br />
+<br />
+<h3>Gallary</h3>
+
+<div>
+
+
+    <h4>Search Filter</h4>
+    <div class="form-group row col-sm-3">
+        <label for="schoolName" class="col-sm-3 col-form-label">School</label>
+        <div class="col-sm-9">
+            <select class="form-control" id="schoolName">
+                <option disabled selected hidden>Select School</option>
+                <option>School 1</option>
+                <option>School 2</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row col-sm-3">
+        <label for="schoolName" class="col-sm-3 col-form-label">Events</label>
+        <div class="col-sm-9">
+            <select class="form-control" id="schoolName">
+                <option disabled selected hidden>Select Event</option>
+                <option>event 1</option>
+                <option>event 2</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#uploadModal">Upload file</button>
+
+<!-- Modal -->
+<div id="uploadModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Form -->
+                <form method="post" novalidate enctype="multipart/form-data" asp-action="UploadImage" asp-controller="Institute">
+
+                    <div class="form-group row col-md-12">
+                        <label for="status">Event Type </label>
+                        <div class="col-md-12">
+                            <select class="form-control" asp-for="AddGallary.EventsTableId" asp-items="Model.Events" id="event">
+                                <option disabled selected hidden> Select Events</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row col-md-12">
+                        <label for="status">File Type </label>
+                        <div class="col-md-12">
+                            <select class="form-control" asp-for="AddGallary.FileType" asp-items="Model.FileType" id="filetype" onchange="Filetypevalid()">
+                                <option disabled selected hidden> Select Type</option>
+                                <option value="image/jpeg">JPEG</option>
+                                <option value="image/png">PNG</option>
+                                <option value="image/jpeg">JPG</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row col-md-12">
+                        <label for="fileTitle" class="col-sm-3 col-form-label">File Name</label>
+                        <div class="col-md-12">
+                            <input type="text" class="form-control" asp-for="AddGallary.FileName" id="fileTitle" name="FileTitle" placeholder="Enter File Name">
+                        </div>
+                    </div>
+
+                    <label for="uploadfile" class="col-sm-3 col-form-label">Select File</label>
+
+                    <input type='file' name='file' id='file' class='form-control' asp-for="AddGallary.image"><br>
+
+
+
+                    <div>
+                        <input type='submit' class='btn btn-info' value='Upload' id='btn_upload'>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+
+                <!-- GallaryMain-->
+                <div>
+
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<div id="maingallary">
+    <h2>Hello</h2>
+    <!-- Gallery -->
+    <div class="row">
+        <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="Boat on Calm Water" />
+
+            <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain1.jpg"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="Wintry Mountain Landscape" />
+        </div>
+
+        <div class="col-lg-4 mb-4 mb-lg-0">
+            <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain2.jpg"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="Mountains in the Clouds" />
+
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(73).jpg"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="Boat on Calm Water" />
+        </div>
+
+        <div class="col-lg-4 mb-4 mb-lg-0">
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="Waves at Sea" />
+
+            <img src="https://mdbootstrap.com/img/Photos/Vertical/mountain3.jpg"
+                 class="w-100 shadow-1-strong rounded mb-4"
+                 alt="Yosemite National Park" />
+        </div>
+    </div>
+    <!-- Gallery -->
+</div>
+
+<script>
+    function Filetypevalid() {
+
+        var filetype = $("#filetype :selected").val();
+        $("#file").attr("accept", filetype);
+    }
+</script>

@@ -10,6 +10,7 @@ using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.ResponseModels.EventsResponseModel;
+using JSC_LSM.UI.ResponseModels.GallaryResponseModel;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,6 +43,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IEventsDetailsRepository _eventsRepository;
+        private readonly IGallaryRepository _gallaryRepository;
         private readonly IUserRepository _usersRepository;
         /// <summary>
         /// constructor for institute controller
@@ -1336,6 +1338,34 @@ namespace JSC_LSM.UI.Controllers
             var eventdata = await _eventsRepository.GetEventsById(Id);
             return eventdata;
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteGallary(int id)
+        {
+            await _gallaryRepository.DeleteGallary(id);
+            ViewBag.DeleteGallarySuccess = "Image Deleted Successfully";
+            return RedirectToAction("ManageGallary");
+        }
+
+        [HttpGet]
+        public async Task<GetGallaryListByIdResponseModel> ViewGallary(int Id)
+        {
+            var gallary = await _gallaryRepository.GetGallaryById(Id);
+            return gallary;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ManageGallary()
+        {
+
+            GallaryDetailsModel model = new GallaryDetailsModel();
+            model.Events = await _common.GetEvent();
+            return View(model);
+        }
+
+
+
 
     }
 

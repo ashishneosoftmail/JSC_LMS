@@ -18,6 +18,7 @@ namespace JSC_LSM.UI.Models
         public List<GetGallaryListById> GetGallaryListById { get; set; }
         public List<SelectListItem> Schools { get; set; }
         public List<SelectListItem> Events { get; set; }
+        public List<SelectListItem> FileType { get; set; }
         public string ImageName { get; set; }
         public string ImageFileName { get; set; }
     }
