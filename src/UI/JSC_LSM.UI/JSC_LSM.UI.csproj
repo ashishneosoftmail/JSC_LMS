@@ -656,6 +656,7 @@
     <Folder Include="wwwroot\Upload\Logos\" />
     <Folder Include="wwwroot\Upload\LoginImages\" />
     <Folder Include="wwwroot\Upload\Gallary\" />
+    <Folder Include="wwwroot\Upload\Gallary\" />
   </ItemGroup>
 
   <ItemGroup>
