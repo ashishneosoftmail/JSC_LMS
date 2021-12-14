@@ -2,6 +2,7 @@
 using JSC_LMS.Application.Features.Circulars.Commands.CreateCircular;
 using JSC_LMS.Application.Features.Circulars.Commands.UpdateCircular;
 using JSC_LMS.Application.Features.EventsFeature.Commands.CreateEvents;
+using JSC_LMS.Application.Features.EventsFeature.Commands.UpdateEvents;
 using JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal;
 using JSC_LMS.Application.Features.Principal.Commands.UpdatePrincipal;
 using JSC_LSM.UI.Models;
@@ -1320,7 +1321,8 @@ namespace JSC_LSM.UI.Controllers
                                     statusName = tempstatus,
                                     Venue = eventsdata.Venue,
                                     SchoolName = eventsdata.School.SchoolName,
-                                    CreatedDate = eventsdata.CreatedDate
+                                    CreatedDate = eventsdata.CreatedDate,
+                                    Status = eventsdata.Status
 
                                 });
                             }
@@ -1353,6 +1355,149 @@ namespace JSC_LSM.UI.Controllers
         {
             var eventdata = await _eventsRepository.GetEventsById(Id);
             return eventdata;
+        }
+
+        public async Task<IActionResult> UpdateEventsData(EventsDetailsModel eventsDetailsModel, string UpdateEventsData)
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+            ViewBag.UpdateEventSuccess = null;
+            ViewBag.UpdateEventError = null;
+            eventsDetailsModel.Schools = await _common.GetSchool();
+            UpdateEventsDto updateEventsDto = new UpdateEventsDto();
+            if (ModelState.IsValid)
+            {
+                updateEventsDto.SchoolId = principal.data.schoolid;
+                updateEventsDto.EventTitle = eventsDetailsModel.UpdateEventsById.EventTitle;
+                updateEventsDto.Description = eventsDetailsModel.UpdateEventsById.Description;
+                updateEventsDto.EventDateTime = eventsDetailsModel.UpdateEventsById.EventDateTime;
+                updateEventsDto.Venue = eventsDetailsModel.UpdateEventsById.Venue;
+                updateEventsDto.CoordinatorNumber = eventsDetailsModel.UpdateEventsById.CoordinatorNumber;
+                updateEventsDto.EventCoordinator = eventsDetailsModel.UpdateEventsById.EventCoordinator;
+
+                updateEventsDto.Id = eventsDetailsModel.UpdateEventsById.Id;
+
+                switch (UpdateEventsData)
+                {
+                    case "Save":
+                        updateEventsDto.Status = false;
+                        break;
+                    case "Send":
+                        updateEventsDto.Status = true;
+                        break;
+                    default:
+                        updateEventsDto.Status = false;
+                        break;
+                }
+                updateEventsDto.IsActive = true;
+
+                if (eventsDetailsModel.UpdateEventsById.File == null)
+                {
+                    updateEventsDto.File = null;
+                }
+                if (eventsDetailsModel.UpdateEventsById.File != null)
+                {
+                    updateEventsDto.File = eventsDetailsModel.UpdateEventsById.File;
+                }
+                if (eventsDetailsModel.UpdateEventsById.fileUpload != null)
+                {
+                    var EventsPath = _configuration["EventsFile"];
+
+                    updateEventsDto.File = _common.ProcessUploadFile(eventsDetailsModel.UpdateEventsById.fileUpload, EventsPath);
+                }
+
+                if (eventsDetailsModel.UpdateEventsById.Image == null)
+                {
+                    updateEventsDto.Image = null;
+                }
+                if (eventsDetailsModel.UpdateEventsById.Image != null)
+                {
+                    updateEventsDto.Image = eventsDetailsModel.UpdateEventsById.Image;
+                }
+                if (eventsDetailsModel.UpdateEventsById.imageUpload != null)
+                {
+                    var EventsPathImg = _configuration["EventsImage"];
+
+                    updateEventsDto.Image = _common.ProcessUploadFile(eventsDetailsModel.UpdateEventsById.imageUpload, EventsPathImg);
+                }
+                UpdateEventsResponseModel updateEventsResponseModel = null;
+                ViewBag.UpdateEventsSuccess = null;
+                ViewBag.UpdateEventsError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                updateEventsResponseModel = await _eventsRepository.UpdateEventsDetails(updateEventsDto);
+
+
+                if (updateEventsResponseModel.Succeeded)
+                {
+                    if (updateEventsResponseModel == null && updateEventsResponseModel?.data == null)
+                    {
+                        responseModel.ResponseMessage = updateEventsResponseModel.message;
+                        responseModel.IsSuccess = updateEventsResponseModel.Succeeded;
+                    }
+                    if (updateEventsResponseModel != null)
+                    {
+                        if (updateEventsResponseModel?.data != null)
+                        {
+                            responseModel.ResponseMessage = updateEventsResponseModel.message;
+                            responseModel.IsSuccess = updateEventsResponseModel.Succeeded;
+                            ViewBag.UpdateEventsSuccess = "Details Updated Successfully";
+
+                            ModelState.Clear();
+                            EventsDetailsModel model = new EventsDetailsModel();
+
+                            var data = new List<GetEventsListBySchoolId>();
+                            var dataList = await _eventsRepository.GetAllEventsBySchoolList(principal.data.schoolid);
+
+                            var tempstatus = "";
+                            foreach (var eventsdata in dataList.data)
+                            {
+                                if (eventsdata.Status)
+                                {
+                                    tempstatus = "Sent";
+                                }
+                                else
+                                {
+                                    tempstatus = "Draft";
+                                }
+                                data.Add(new GetEventsListBySchoolId()
+                                {
+
+                                    Id = eventsdata.Id,
+                                    EventTitle = eventsdata.EventTitle,
+                                    EventCoordinator = eventsdata.EventCoordinator,
+                                    EventDateTime = eventsdata.EventDateTime,
+                                    CoordinatorNumber = eventsdata.CoordinatorNumber,
+                                    SchoolId = eventsdata.SchoolId,
+                                    statusName = tempstatus,
+                                    Venue = eventsdata.Venue,
+                                    SchoolName = eventsdata.School.SchoolName,
+                                    CreatedDate = eventsdata.CreatedDate,
+                                    Status = eventsdata.Status
+
+                                });
+                            }
+                            model.GetEventsListBySchoolId = data;
+                            return View("ManageAllEvents", model);
+
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = updateEventsResponseModel.message;
+                            responseModel.IsSuccess = updateEventsResponseModel.Succeeded;
+                            ViewBag.UpdateEventsError = updateEventsResponseModel.message;
+                            return View(eventsDetailsModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = updateEventsResponseModel.message;
+                    responseModel.IsSuccess = updateEventsResponseModel.Succeeded;
+                    ViewBag.UpdateEventsError = updateEventsResponseModel.message;
+                }
+            }
+            return View(eventsDetailsModel);
         }
     }
     #endregion

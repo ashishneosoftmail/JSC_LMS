@@ -177,7 +177,7 @@
 
                             else
                             {<div>
-                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editEventData" onclick="EditEventData(@item.Id)">
+                                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editEventsData" onclick="EditEventData(@item.Id)">
                                         Edit
                                     </button>
                                 </div>}
@@ -419,6 +419,170 @@
 
     </div>
 </div>
+
+<div class="col-md-11">
+
+
+    <div class="container">
+
+        <div class="modal" id="editEventsData">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">Edit Events</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+
+                    <div class="modal-body">
+                        <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+                        <form method="post" novalidate enctype="multipart/form-data" asp-action="UpdateEventsData" asp-controller="Principal">
+
+                            @Html.HiddenFor(m => m.UpdateEventsById.Id, new { id = "eventsId", name = "eventsId" })
+                            <table class="table table-borderless">
+                         
+                                <tr>
+                                    <th>
+                                        <label>Title<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="UpdateEventsById.EventTitle" id="updateeventstitle" />
+                                        <span asp-validation-for="UpdateEventsById.EventTitle" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Description<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <textarea id="updatedescription" asp-for="UpdateEventsById.Description" rows="4" cols="40"></textarea>
+                                        <span asp-validation-for="UpdateEventsById.Description" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Date and Time<span class="text-danger">*</span></label></th>
+                                    <td>
+                                        <input type="datetime-local" class="form-control" id="updateeventsdatetime" asp-for="UpdateEventsById.EventDateTime" />
+                                        <span asp-validation-for="UpdateEventsById.EventDateTime" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Venue<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="UpdateEventsById.Venue" id="updateeventsvenue" />
+                                        <span asp-validation-for="UpdateEventsById.Venue" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>Coordinator<span class="text-danger">*</span></label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="UpdateEventsById.EventCoordinator" id="updateeventscoordinator" />
+                                        <span asp-validation-for="UpdateEventsById.EventCoordinator" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>
+                                            Co-ordinator Contact No<span class="text-danger">*</span>
+                                        </label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" asp-for="UpdateEventsById.CoordinatorNumber" id="updateeventsnumber" />
+                                        <span asp-validation-for="UpdateEventsById.CoordinatorNumber" class="text-danger"></span>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>File</label>  :
+
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <span id="filenameremove">
+                                            </span>
+                                            @Html.HiddenFor(m => m.UpdateEventsById.File, new { id = "filename", name = "filename" })
+                                            <a id="filenameremove"></a>
+                                            <button type="button" class="close" id="removeButton" name="Cancel" onclick="removeFileName()" value="checked" style=" width: 0em; margin-left: 24em; margin-top: 0.3em;">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+
+                                        @Html.TextBoxFor(m => m.UpdateEventsById.fileUpload, new { type = "file", Style = "margin-left:9.8em;", onclick = "removeFileName()" })
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label>File</label>  :
+
+                                    </th>
+                                    <td>
+                                        <div class="row">
+                                            <img src="" id="imagenameremove" height="200" width="300" />
+                                            @Html.HiddenFor(m => m.UpdateEventsById.Image, new { id = "imagename", name = "imagename" })
+
+
+                                            <button type="button" class="close" id="removeimageButton" name="Cancel" onclick="removeImageName()" value="checked" style=" width: 0em; margin-left: 24em; margin-top: 0.3em;">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                    </td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+
+                                        @Html.TextBoxFor(m => m.UpdateEventsById.imageUpload, new { type = "file", accept = "image/*", Style = "margin-left:9.8em;", onchange = "loadFile(event)" })
+                                        <img id="output" />
+                                    </td>
+                                </tr>
+
+
+                            </table>
+                            <div class="modal-footer">
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Send" name="UpdateEventsData" />
+                                <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Save" name="UpdateEventsData" />
+
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
@@ -467,6 +631,65 @@
                     $("#detailsImage").attr("href", "#")
 
                 }
+            }
+        });
+    }
+
+    function removeFileName() {
+        $('#filenameremove').text("");
+        $('#removeButton').remove();
+        $("#filename").val(null);
+    }
+
+
+    function removeImageName() {
+        $('#imagenameremove').attr("src", "");
+        $('img').hide();
+        $('#removeimageButton').remove();
+        $('#imagename').val(null);
+    }
+
+    var loadFile = function (event) {
+
+        var output = document.getElementById('imagenameremove');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+
+    };
+    function EditEventData(id) {
+        $.get("/Principal/ViewEventsData", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                $("#eventsId").val(data.data.id);
+               
+                $("#updateeventstitle").val(data.data.eventTitle);
+                $("#updatedescription").text(data.data.description);
+                $("#updateeventsvenue").val(data.data.venue);
+                $("#updateeventscoordinator").val(data.data.eventCoordinator);
+                $("#updateeventsnumber").val(data.data.coordinatorNumber);
+                $("#updateeventsdatetime").val(data.data.eventDateTime);
+
+                if (data.data.file != null) {
+                    $("#filenameremove").text(data.data.file);
+                    $("#filename").val(data.data.file);
+                    $("#filenameremove").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+
+                }
+                else {
+                    $('#removeButton').remove();
+                }
+
+                if (data.data.image != null) {
+
+                    $("#imagename").val(data.data.image);
+                    $("#imagenameremove").attr("src", `/Upload/EventsImage/${data.data.image}`);
+                } else {
+                    $('#removeButton').remove();
+
+                }
+
             }
         });
     }
