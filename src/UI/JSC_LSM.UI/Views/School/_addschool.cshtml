@@ -139,7 +139,7 @@
     <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
 
     <form method="post" novalidate>
-       
+
         <div class="row">
             <div class="col">
                 <div class="form-group row">
@@ -226,7 +226,7 @@
                 <div class="form-group row">
                     <label for="inputMobile" class="col-sm-2 col-form-label">Mobile<span class="text-danger">*</span> </label><br />
                     <div class="col-sm-7">
-                        <input type="text" asp-for="Mobile" class="form-control" id="inputMobile" placeholder="Contact Number">
+                        <input type="text" asp-for="Mobile" class="form-control" id="mobile" placeholder="Contact Number">
                         <span asp-validation-for="Mobile" class="text-danger"></span>
 
                     </div>
@@ -341,4 +341,20 @@
             });
         }
     }
+
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+        $(function () {
+                $('#mobile').keydown(function (e) {
+                    if (e.shiftKey || e.ctrlKey || e.altKey) {
+                        e.preventDefault();
+                    } else {
+                        var key = e.keyCode;
+                        if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                            e.preventDefault();
+                        }
+                    }
+                });
+        });
 </script>

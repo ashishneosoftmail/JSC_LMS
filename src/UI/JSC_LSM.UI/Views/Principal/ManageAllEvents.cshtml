@@ -20,7 +20,6 @@
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
-       
     }
 
     #viewUserModel {
@@ -134,7 +133,12 @@
         }
     }
 </style>
-
+<div class="mt-4">
+    <span style="font-size:30px;font-weight:300">Manage Events</span>
+    <button type="button" class="btn btn-primary " style="margin-left:42em;" data-toggle="modal" data-target="#myModal">
+        Create Event
+    </button>
+</div>
 <div id="wrap" class="mt-5">
     <div class="container-fluid">
         <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover ">
@@ -192,11 +196,7 @@
 </div>
 
 
-<div class="col-sm-12">
-    <button type="button" class="btn btn-primary pull-right m-2" data-toggle="modal" data-target="#myModal">
-        Create Event
-    </button>
-</div>
+
 <div class="col-md-11">
 
 
@@ -220,7 +220,7 @@
                         <form method="post" novalidate enctype="multipart/form-data" asp-action="SendEventsData" asp-controller="Principal">
 
                             <table class="table table-borderless">
-                          
+
                                 <tr>
                                     <th>
                                         <label>Title<span class="text-danger">*</span></label>
@@ -276,7 +276,7 @@
                                         </label>
                                     </th>
                                     <td>
-                                        <input type="text" class="form-control" asp-for="AddNewEvents.CoordinatorNumber" id="eventstitle" />
+                                        <input type="text" class="form-control" asp-for="AddNewEvents.CoordinatorNumber" id="mobile" />
                                         <span asp-validation-for="AddNewEvents.CoordinatorNumber" class="text-danger"></span>
 
                                     </td>
@@ -444,7 +444,7 @@
 
                             @Html.HiddenFor(m => m.UpdateEventsById.Id, new { id = "eventsId", name = "eventsId" })
                             <table class="table table-borderless">
-                         
+
                                 <tr>
                                     <th>
                                         <label>Title<span class="text-danger">*</span></label>
@@ -627,9 +627,7 @@
                     /* $("#detailsImage").text(data.data.image);*/
                     $("#detailsImage").attr("src", `/Upload/EventsImage/${data.data.image}`);
                 } else {
-                    $("#detailsImage").text("No Image Uploaded");
-                    $("#detailsImage").attr("href", "#")
-
+                    $("#detailsImage").attr("src", `/Upload/EventsImage/defaultevent.png`);
                 }
             }
         });
@@ -663,7 +661,7 @@
             console.log(data);
             if (data) {
                 $("#eventsId").val(data.data.id);
-               
+
                 $("#updateeventstitle").val(data.data.eventTitle);
                 $("#updatedescription").text(data.data.description);
                 $("#updateeventsvenue").val(data.data.venue);
@@ -686,6 +684,7 @@
                     $("#imagename").val(data.data.image);
                     $("#imagenameremove").attr("src", `/Upload/EventsImage/${data.data.image}`);
                 } else {
+                    $("#imagenameremove").attr("src", `/Upload/EventsImage/defaultevent.png`);
                     $('#removeButton').remove();
 
                 }
@@ -693,4 +692,32 @@
             }
         });
     }
+</script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#updateeventsnumber').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
+    $(function () {
+        $('#mobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 </script>

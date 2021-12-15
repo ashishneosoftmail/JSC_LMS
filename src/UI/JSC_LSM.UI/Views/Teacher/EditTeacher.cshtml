@@ -7,6 +7,7 @@
     .spacing {
         margin-left: 30px;
     }
+
     #snackbar {
         background-color: green;
         visibility: hidden;
@@ -118,7 +119,7 @@
     <div class="border border-dark p-4 m-3">
         <div class="row">
             <form method="post">
-               
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -189,7 +190,7 @@
                         </div>
                     </div>
 
-                  
+
                     <div class="col-sm-6">
                         <div class="form-group row">
                             <label for="mobile" class="col-sm-3 col-form-label">Mobile<span class="text-danger">*</span></label>
@@ -335,11 +336,11 @@
 
 
                 </div>
-              
+
                 <div class="row">
 
                 </div>
-               
+
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">
@@ -379,7 +380,7 @@
             setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
         </script>
     }
-   
+
 </div>
 <script type="text/javascript">
     function GetCityById() {
@@ -414,4 +415,19 @@
             });
         }
     }
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#mobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 </script>

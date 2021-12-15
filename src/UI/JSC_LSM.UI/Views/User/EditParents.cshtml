@@ -132,10 +132,10 @@
             opacity: 0;
         }
     }
+
     .spacing {
         margin-left: 30px;
     }
-
 </style>
 <h4 class="m-3">Edit Parents</h4>
 
@@ -145,7 +145,7 @@
     <div class="border border-dark p-3">
         <div class="row">
             <form method="post" asp-action="EditParents" asp-controller="User">
-               
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -322,7 +322,7 @@
                     </div>
 
                 </div>
-               
+
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">
@@ -341,7 +341,7 @@
 
 
 <div id="wrapper">
-    
+
 
     @if (ViewBag.UpdateParentsSuccess != null)
     {
@@ -370,8 +370,8 @@
 
 <script type="text/javascript">
 
-    
-   
+
+
     function GetCityById() {
         var stateValue = $("#state :selected").val();
         //You can check selected value using alert
@@ -405,5 +405,20 @@
         }
     }
 
-  
+
+</script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#mobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 </script>

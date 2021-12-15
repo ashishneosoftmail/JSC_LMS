@@ -6,6 +6,7 @@
     .spacing {
         margin-left: 30px;
     }
+
     #snackbar {
         background-color: green;
         visibility: hidden;
@@ -336,7 +337,7 @@
                     </div>
 
                 </div>
-              
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -355,7 +356,7 @@
                     </div>
 
                 </div>
-               
+
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group row">
@@ -429,4 +430,20 @@
             });
         }
     }
+</script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#mobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
 </script>

@@ -22,6 +22,7 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Commands.CreateParents
         public string AddressLine2 { get; set; }
 
         [Required(ErrorMessage = "Phone Number is mandatory")]
+        [StringLength(10, ErrorMessage = "Please enter correct mobile number")]
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
        
