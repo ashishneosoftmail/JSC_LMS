@@ -28,9 +28,7 @@
     .table-borderless, .table-borderless td, .table-borderless th {
         border: none;
         border-top: none !important;
-        margin: 0;
-        padding: 0;
-        color: green;
+      
     }
 
     #viewUserModel {
@@ -176,7 +174,9 @@
                     <td>@Html.DisplayFor(modelItem => @item.Venue)</td>
 
                     <td>
-                        <a href="#">View</a>
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#viewEventData" onclick="ShowEventDetail(@item.Id)">
+                            View
+                        </button>
                     </td>
 
                 </tr>
@@ -185,7 +185,102 @@
         </table>
     </div>
 </div>
+<div class="col-md-11">
+    <div class="container">
+        <!-- The Modal -->
+        <div class="modal" id="viewEventData">
+            <div class="modal-dialog">
+                <div class="modal-content">
 
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center">View Event</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th>
+                                    <label>School Name</label>
+                                </th>
+                                <td>
+                                    <span id="detailsSchoolName"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Event Title</label>
+                                </th>
+                                <td>
+                                    <span id="detailsEventTitle"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Description</label>
+                                </th>
+                                <td>
+                                    <span id="detailsDescription"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Venue</label>
+                                </th>
+                                <td>
+                                    <span id="detailsVenue"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label style="width:100px !important;">Co-ordinator</label>
+                                </th>
+                                <td>
+                                    <span id="detailsCoordinator"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Contact No.</label>
+                                </th>
+                                <td>
+                                    <span id="detailsContact"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>File</label>
+                                </th>
+                                <td>
+                                    <a href="" id="detailsUploadedFile"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <label>Image</label>
+                                </th>
+                                <td>
+
+                                    <img src="" id="detailsImage" height="200" width="300" />
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
 <script type="text/javascript">
@@ -203,4 +298,37 @@
             length_sel.addClass('form-control input-lg');
         });
     });
+
+    function ShowEventDetail(id) {
+        $.get("/User/ViewEventsData", { Id: id }, function (data) {
+            console.log(data);
+            if (data) {
+                $("#detailsSchoolName").text(data.data.school.schoolName);
+                $("#detailsEventTitle").text(data.data.eventTitle);
+                $("#detailsDescription").text(data.data.description);
+                $("#detailsVenue").text(data.data.venue);
+                $("#detailsCoordinator").text(data.data.eventCoordinator);
+                $("#detailsContact").text(data.data.coordinatorNumber);
+
+                if (data.data.file != null) {
+
+                    $("#detailsUploadedFile").text(data.data.file);
+                    $("#detailsUploadedFile").attr("href", `/Institute/ViewFileData?fileName=${data.data.file}`)
+                } else {
+                    $("#detailsUploadedFile").text("No File Uploaded");
+                    $("#detailsUploadedFile").attr("href", "#")
+                }
+
+
+                if (data.data.image != null) {
+                    /* $("#detailsImage").text(data.data.image);*/
+                    $("#detailsImage").attr("src", `/Upload/EventsImage/${data.data.image}`);
+                } else {
+                    $("#detailsImage").text("No Image Uploaded");
+                    $("#detailsImage").attr("href", "#")
+
+                }
+            }
+        });
+    }
 </script>
