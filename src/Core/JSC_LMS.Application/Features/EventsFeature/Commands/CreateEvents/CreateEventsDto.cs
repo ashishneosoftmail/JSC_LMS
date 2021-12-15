@@ -17,6 +17,8 @@ namespace JSC_LMS.Application.Features.EventsFeature.Commands.CreateEvents
         [MaxLength(150, ErrorMessage = "Event Coordinator's Name should be less than 100 characters")]
         public string EventCoordinator { get; set; }
         [Required(ErrorMessage = "Event Coordinator's phone number is mandatory")]
+        [StringLength(10, ErrorMessage = "Please enter correct mobile number")]
+
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string CoordinatorNumber { get; set; }
         [Required(ErrorMessage = "Event's Title is mandatory")]
