@@ -30,6 +30,7 @@ namespace JSC_LMS.Application.Features.School.Commands.CreateSchool
         [Required(ErrorMessage = "Zip is mandatory")]
         public int ZipId { get; set; }
         [Required(ErrorMessage = "Phone Number is mandatory")]
+        [StringLength(10, ErrorMessage = "Please enter correct mobile number")]
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
         public bool IsActive { get; set; }

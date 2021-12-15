@@ -1382,7 +1382,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     updateEventsDto.File = eventsDetailsModel.UpdateEventsById.File;
                 }
-                if (eventsDetailsModel.UpdateEventsById.fileUpload != null)
+                if (eventsDetailsModel.UpdateEventsById.fileUpload != null )
                 {
                     var EventsPath = _configuration["EventsFile"];
 

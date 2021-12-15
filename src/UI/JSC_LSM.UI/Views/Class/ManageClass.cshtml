@@ -149,7 +149,7 @@
 <div class="container">
     <div class="row">
         <h2> Class List</h2>
-        <h4>Search Filter</h4>
+       
     </div>
     <div class="row">
 
@@ -188,14 +188,12 @@
             </div>
         </div>
 
-        <div class="form-group row " style="margin-left:4em; width:10.5em;">
-            <button type="button" class="btn btn-primary " onclick="searchClass()">Search</button>
-        </div>
+       
     </div>
 </div>
-<div class="col-md-12">
-
-    <a asp-action="AddClass" asp-controller="Class" class="btn btn-primary   pull-right m-2"><span>Create New</span>   </a>
+<div class="row" >
+    <button type="button" style="margin-left: 5em; width: 9em;" class="btn btn-primary " onclick="searchClass()">Search</button>
+    <a asp-action="AddClass" asp-controller="Class" class="btn btn-primary " style="width: 9em; margin-left: 35em; "><span>Create New</span>   </a>
 
 </div>
 

@@ -21,7 +21,8 @@ namespace JSC_LMS.Application.Features.Teachers.Commands.CreateTeacher
         public string AddressLine2 { get; set; }
         [Required(ErrorMessage = "Class is mandatory")]
         public int ClassId { get; set; }
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "Please enter correct mobile number")]
+        [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         [Required(ErrorMessage = "Phone Number is mandatory")]
         public string Mobile { get; set; }
       

@@ -19,8 +19,7 @@ namespace JSC_LMS.Application.Features.Principal.Commands.CreatePrincipal
         [Required(ErrorMessage = "Name is mandatory")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Phone Number is mandatory")]
-        /*[RegularExpression(@"^\+?([0-9]{2})\)?[-. ]?([0-9]{5})[-. ]?([0-9]{5})$", ErrorMessage = "Please enter correct mobile number")]*/
-        /*[RegularExpression(@"(?:(?:\+)91)?[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]*/
+        [StringLength(10, ErrorMessage = "Please enter correct mobile number")]
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
        

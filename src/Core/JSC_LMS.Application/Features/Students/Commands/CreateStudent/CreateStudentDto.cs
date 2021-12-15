@@ -20,7 +20,8 @@ namespace JSC_LMS.Application.Features.Students.Commands.CreateStudent
         [Required(ErrorMessage = "Address Line 2  is mandatory")]
         public string AddressLine2 { get; set; }
         
-        [Required(ErrorMessage = "Phone Number is mandatory")]       
+        [Required(ErrorMessage = "Phone Number is mandatory")]
+        [StringLength(10, ErrorMessage = "Please enter correct mobile number")]
         [RegularExpression(@"[6-9]\d{9}", ErrorMessage = "Please enter correct mobile number")]
         public string Mobile { get; set; }
       
