@@ -27,7 +27,7 @@ namespace JSC_LMS.Api.Controllers.v1
             _mediator = mediator;
             _logger = logger;
         }
-        [HttpPost(Name = "AddGallary")]
+        [HttpPost("AddGallary",Name = "AddGallary")]
         public async Task<ActionResult> AddGallary(UploadImageDto uploadImageDto)
         {
             var uploadImageCommand = new UploadImageCommand(uploadImageDto);
