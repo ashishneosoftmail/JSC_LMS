@@ -62,6 +62,16 @@
                     <div class="form-group row col-md-12">
                         <label for="status">Event Type </label>
                         <div class="col-md-12">
+                            <select class="form-control" asp-for="AddGallary.SchoolId" asp-items="Model.Schools" id="school">
+                                <option disabled selected hidden> Select School</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row col-md-12">
+                        <label for="status">Event Type </label>
+                        <div class="col-md-12">
                             <select class="form-control" asp-for="AddGallary.EventsTableId" asp-items="Model.Events" id="event">
                                 <option disabled selected hidden> Select Events</option>
                             </select>
@@ -83,7 +93,7 @@
                     <div class="form-group row col-md-12">
                         <label for="fileTitle" class="col-sm-3 col-form-label">File Name</label>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" asp-for="AddGallary.FileName" id="eventstitle" placeholder="Enter File Name"/>
+                            <input type="text" class="form-control" asp-for="AddGallary.FileName" id="eventstitle" placeholder="Enter File Name" />
                         </div>
                     </div>
 

@@ -7,9 +7,9 @@ namespace JSC_LMS.Application.Features.Gallary.Commands.UploadImage
    public class UploadImageDto
     {
       
-       public int Id { get; set; }
+    
         public int EventsTableId { get; set; }
-
+         public int SchoolId { get; set; }
         public string image { get; set; }
 
         public string FileName { get; set; }

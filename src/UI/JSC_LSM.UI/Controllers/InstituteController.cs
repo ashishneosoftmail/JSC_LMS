@@ -1511,6 +1511,7 @@ namespace JSC_LSM.UI.Controllers
             GallaryDetailsModel model = new GallaryDetailsModel();
 
             model.Events = await _common.GetEvent();
+            model.Schools = await _common.GetSchool();
             var dataList = await _gallaryRepository.GetGallaryList();
          
             foreach (var gallarydata in dataList.data)
@@ -1537,11 +1538,12 @@ namespace JSC_LSM.UI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UploadImage(/*IFormFile Image, string ImageName, */GallaryDetailsModel gallaryDetailsModel)
+        public async Task<IActionResult> UploadImage(GallaryDetailsModel gallaryDetailsModel)
         {
             ViewBag.AddGallarySuccess = null;
             ViewBag.AddGallaryError = null;
             gallaryDetailsModel.Events = await _common.GetEvent();
+            gallaryDetailsModel.Schools = await _common.GetSchool();
             UploadImageDto uploadImageDto = new UploadImageDto();
 
             if (ModelState.IsValid)
@@ -1560,8 +1562,8 @@ namespace JSC_LSM.UI.Controllers
                 uploadImageDto.FileName = gallaryDetailsModel.AddGallary.FileName;
                 uploadImageDto.FileType = gallaryDetailsModel.AddGallary.FileType;
                 uploadImageDto.IsActive = true;
-              
                 uploadImageDto.image = imagename;
+                uploadImageDto.SchoolId = gallaryDetailsModel.AddGallary.SchoolId;
 
                 //if (Image != null)
                 //{
@@ -1594,6 +1596,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
                             ViewBag.AddEventsSuccess = "Details Added Successfully";
                             ModelState.Clear();
+
                             GallaryDetailsModel model = new GallaryDetailsModel();
 
                             var data = new List<GetGallaryList>();
