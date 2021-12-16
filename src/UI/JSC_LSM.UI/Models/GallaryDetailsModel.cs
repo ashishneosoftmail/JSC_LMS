@@ -28,7 +28,8 @@ namespace JSC_LSM.UI.Models
     }
     public class GetGallaryList : GetAllGallaryListDto
     {
-       
+        public IFormFile imageUpload { get; set; }
+        public string EventTitle { get; set; }
     }
     public class GetGallaryListById : GetGallaryByIdDto
     {

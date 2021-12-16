@@ -1490,13 +1490,13 @@ namespace JSC_LSM.UI.Controllers
 
 
         [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> DeleteGallary(int id)
         {
             await _gallaryRepository.DeleteGallary(id);
-            ViewBag.DeleteGallarySuccess = "Image Deleted Successfully";
+            ViewBag.DeleteGallarySuccess = "Images Deleted Successfully";
             return RedirectToAction("ManageGallary");
         }
-
         [HttpGet]
         public async Task<GetGallaryListByIdResponseModel> ViewGallary(int Id)
         {
@@ -1504,7 +1504,38 @@ namespace JSC_LSM.UI.Controllers
             return gallary;
         }
 
+
         [HttpGet]
+        public async Task<IActionResult> ListGallary()
+        {
+            var data = new List<GetGallaryList>();
+            GallaryDetailsModel model = new GallaryDetailsModel();
+
+            model.Events = await _common.GetEvent();
+            model.Schools = await _common.GetSchool();
+            var dataList = await _gallaryRepository.GetGallaryList();
+
+            foreach (var gallarydata in dataList.data)
+            {
+
+                data.Add(new GetGallaryList()
+                {
+                    Id = gallarydata.Id,
+                    EventsTableId = gallarydata.EventsTableId,
+                    EventTitle = gallarydata.EventsData.EventTitle,
+                    FileName = gallarydata.FileName,
+                    FileType = gallarydata.FileType,
+                    image = gallarydata.image,
+
+
+                });
+            }
+            model.GetGallaryList = data;
+            return View(model);
+        }
+
+
+            [HttpGet]
         public async Task<IActionResult> ManageGallary()
         {
             var data = new List<GetGallaryList>();
@@ -1519,6 +1550,11 @@ namespace JSC_LSM.UI.Controllers
               
                 data.Add(new GetGallaryList()
                 {
+                    Id=gallarydata.Id,
+                    EventsTableId=gallarydata.EventsTableId,
+                    EventTitle=gallarydata.EventsData.EventTitle, 
+                    FileName=gallarydata.FileName,
+                    FileType=gallarydata.FileType,
 
                     image = gallarydata.image,
                 

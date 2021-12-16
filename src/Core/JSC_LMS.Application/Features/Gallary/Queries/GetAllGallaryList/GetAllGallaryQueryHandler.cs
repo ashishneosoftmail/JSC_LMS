@@ -44,6 +44,7 @@ namespace JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryList
                         FileType = gallary.FileType,
                         image = gallary.image,
                         EventsTableId = gallary.EventsTableId,
+                        
                         IsActive = gallary.IsActive,
                         SchoolId = gallary.SchoolId,
                         
