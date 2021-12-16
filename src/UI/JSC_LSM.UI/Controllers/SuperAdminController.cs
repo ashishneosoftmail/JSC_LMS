@@ -18,23 +18,38 @@ namespace JSC_LSM.UI.Controllers
     public class SuperAdminController : BaseController
     {
         private readonly ISuperadminRepository _superadminRepository;
+        private readonly IInstituteRepository _instituteRepository;
+        private readonly IPrincipalRepository _principalRepository;
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
-        public SuperAdminController(ISuperadminRepository superadminRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        private readonly IFAQRepository _faqRepository;
+        private readonly IKnowledgeBaseRepository _knowledgebaseRepository;
+        public SuperAdminController(ISuperadminRepository superadminRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, IInstituteRepository instituteRepository,
+       IPrincipalRepository principalRepository, ITeacherRepository teacherRepository,  IStudentRepository studentRepository , IFAQRepository faqRepository , IKnowledgeBaseRepository knowledgebaseRepository)
         {
             _superadminRepository = superadminRepository;
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
+            _instituteRepository = instituteRepository;
+            _principalRepository = principalRepository;
+            _teacherRepository = teacherRepository;
+            _studentRepository = studentRepository;
+            _faqRepository = faqRepository;
+            _knowledgebaseRepository = knowledgebaseRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            SuperadminChartDetails model= new SuperadminChartDetails();
+            model.InstituteCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
+            model.KnowledgebaseCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            model.FAQCount = (await _faqRepository.GetAllFAQList()).data.Count();
+           
+            return View(model);
         }
 
-        public IActionResult ManagesSchools()
-        {
-            return View();
-        }
+       
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
