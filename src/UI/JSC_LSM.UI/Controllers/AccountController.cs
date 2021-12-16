@@ -108,7 +108,7 @@ namespace JSC_LSM.UI.Controllers
                             Response.Cookies.Append("RoleName", Convert.ToString(authenticationResponseModel.userDetails.Role.RoleName), option);
                             if (authenticationResponseModel.userDetails.Role.RoleName == "Super administrator")
                             {
-                                return RedirectToAction("InstituteDetails", "Institute");
+                                return RedirectToAction("Index", "SuperAdmin");
                             }
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Institute Admin")
                             {
