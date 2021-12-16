@@ -23,6 +23,7 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
+
         public async Task<AddGallaryResponseModel> AddGallary(UploadImageDto uploadImageDto)
         {
             AddGallaryResponseModel addGallaryResponseModel = null;

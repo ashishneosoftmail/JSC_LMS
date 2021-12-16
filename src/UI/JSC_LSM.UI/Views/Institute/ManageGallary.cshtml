@@ -62,6 +62,16 @@
                     <div class="form-group row col-md-12">
                         <label for="status">Event Type </label>
                         <div class="col-md-12">
+                            <select class="form-control" asp-for="AddGallary.SchoolId" asp-items="Model.Schools" id="school">
+                                <option disabled selected hidden> Select School</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row col-md-12">
+                        <label for="status">Event Type </label>
+                        <div class="col-md-12">
                             <select class="form-control" asp-for="AddGallary.EventsTableId" asp-items="Model.Events" id="event">
                                 <option disabled selected hidden> Select Events</option>
                             </select>
@@ -83,14 +93,15 @@
                     <div class="form-group row col-md-12">
                         <label for="fileTitle" class="col-sm-3 col-form-label">File Name</label>
                         <div class="col-md-12">
-                            <input type="text" class="form-control" asp-for="AddGallary.FileName" id="fileTitle" name="FileTitle" placeholder="Enter File Name">
+                            <input type="text" class="form-control" asp-for="AddGallary.FileName" id="eventstitle" placeholder="Enter File Name" />
                         </div>
                     </div>
 
                     <label for="uploadfile" class="col-sm-3 col-form-label">Select File</label>
 
-                    <input type='file' name='file' id='file' class='form-control' asp-for="AddGallary.image"><br>
-
+                    @Html.TextBoxFor(m => m.AddGallary.imageUpload, new { type = "file" })
+                    <br />
+                    @Html.ValidationMessageFor(m => m.AddGallary.imageUpload, "", new { @class = "text-danger" })
 
 
                     <div>
@@ -116,6 +127,29 @@
 </div>
 <div id="maingallary">
     <h2>Hello</h2>
+
+
+    <div class="row">
+        @if (Model.GetGallaryList != null)
+        {
+            foreach (var item in Model.GetGallaryList)
+            {
+                <div class="col-sm-2">
+                    <a href="@Url.Content("~/Upload/Gallary/"+item.image)" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                        <img src="~/Upload/Gallary/" asp-append-version="true" class="img-fluid mb-2" alt="white sample">
+                    </a>
+                    <a href="@Url.Action("DeleteGallary","Institute",new { id=item.Id})" style="float:right">Delete</a>
+                </div>
+            }
+
+        }
+
+    </div>
+
+
+
+
+
     <!-- Gallery -->
     <div class="row">
         <div class="col-lg-4 col-md-12 mb-4 mb-lg-0">
