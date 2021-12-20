@@ -13,6 +13,24 @@
     Layout = "~/Views/Shared/_InstituteLayout.cshtml";
 }
 
-<h1 class="mt-3">List Gallary</h1>
-
 @{ Html.RenderPartial("_GallaryList"); }
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.datatable').DataTable({
+            searching: true,
+            "oLanguage": {
+                "sLengthMenu": "Page Size _MENU_",
+            },
+            /* "dom": '<"top"i>rt<"bottom"flp><"clear">'*/
+        });
+        $('.datatable').each(function () {
+            var datatable = $(this);
+            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+            length_sel.addClass('form-control input-lg');
+        });
+    });
+</script>
