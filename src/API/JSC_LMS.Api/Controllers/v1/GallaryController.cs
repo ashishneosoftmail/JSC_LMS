@@ -35,7 +35,7 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(result);
         }
 
-        [HttpDelete("{id}", Name = "DeleteImage")]
+        [HttpDelete("delete", Name = "DeleteImage")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
@@ -53,7 +53,7 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(dtos);
         }
 
-        [HttpGet("{id}", Name = "GetGallaryById")]
+        [HttpGet("id", Name = "GetGallaryById")]
         public async Task<ActionResult> GetGallaryById(int id)
         {
             var getGallaryByIdQuery = new GetGallaryByIdQuery() { Id = id };

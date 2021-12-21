@@ -178,8 +178,8 @@ namespace JSC_LSM.UI.Helpers
 
         public static string AddGallary = "/api/v1/Gallary/AddGallary";
         public static string GetAllGallaryList = "/api/v1/Gallary/all";
-        public static string GetGallaryById = "/api/v1/Gallary/{id}";
-        public static string DeleteGallaryById = "/api/v1/Gallary/{id}";
+        public static string GetGallaryById = "/api/v1/Gallary/id";
+        public static string DeleteGallaryById = "/api/v1/Gallary/delete";
 
     }
 }

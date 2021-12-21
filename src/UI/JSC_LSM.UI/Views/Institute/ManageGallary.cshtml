@@ -6,53 +6,41 @@
 
 }
 
-<meta charset="utf-8">
+<!--<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link href="~/Content/all.min.css" rel="stylesheet" />
+<link href="~/Content/ekko-lightbox.css" rel="stylesheet" />
+<script src="~/Scripts/ekko-lightbox.min.js"></script>-->
 @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>*@
+
+
+
 <style>
     #borderimg1 {
-     border-radius:1em;
-        
+        border-radius: 1em;
     }
 </style>
 <br />
 <br />
-<h3>Gallary</h3>
 
-<div>
-    <div id="btnContainer">
-        <button class="btn" onclick="location.href='@Url.Action("ListGallary","Institute")'"> <i class="fa fa-bars"></i>List</button>
-        <button class="btn active" onclick="location.href='@Url.Action("ManageGallary","Institute")'"> <i class="fa fa-th-large"></i>Grid</button>
-    </div>
-
-
-    <div class="form-group row col-sm-3">
-        <label for="schoolName" class="col-sm-3 col-form-label">School</label>
-        <div class="col-sm-9">
-            <select class="form-control" id="schoolName">
-                <option disabled selected hidden>Select School</option>
-                <option>School 1</option>
-                <option>School 2</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group row col-sm-3">
-        <label for="schoolName" class="col-sm-3 col-form-label">Events</label>
-        <div class="col-sm-9">
-            <select class="form-control" id="schoolName">
-                <option disabled selected hidden>Select Event</option>
-                <option>event 1</option>
-                <option>event 2</option>
-            </select>
-        </div>
-    </div>
+<div class="mt-4">
+    <span style="font-size:30px;font-weight:300">Gallary </span>
+    <button type="button" class="btn btn-primary " style="margin-left:42em;" data-toggle="modal" data-target="#uploadModal">
+        Upload
+    </button>
 </div>
 
-<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#uploadModal">Upload file</button>
+<div id="btnContainer">
+
+    <button class="btn dark" onclick="location.href='@Url.Action("ListGallary","Institute")'"> <i class="fa fa-bars"></i>List</button>
+
+
+    <button class="btn" onclick="location.href='@Url.Action("ManageGallary","Institute")'"> <i class="fa fa-th-large"></i>Grid</button>
+</div>
+
 
 <!-- Modal -->
 <div id="uploadModal" class="modal fade" role="dialog">
@@ -94,6 +82,10 @@
                                 <option value="image/jpeg">JPEG</option>
                                 <option value="image/png">PNG</option>
                                 <option value="image/jpeg">JPG</option>
+                                <option value="application/pdf">pdf</option>
+                                <option value="application/pdf">pdf</option>
+                                <option value="application/pdf">pdf</option>
+
                             </select>
                         </div>
                     </div>
@@ -133,7 +125,7 @@
 
     </div>
 </div>
-<div id="maingallary">
+
 
 
     <div class="row">
@@ -142,11 +134,12 @@
             foreach (var item in Model.GetGallaryList)
             {
                 <div class="col-sm-4">
-                    <a href="@Url.Content("~/Upload/Gallary/"+item.image)" class="pop" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                    <a href="~/Upload/Gallary/@item.image" download="w3logo" class="pop">
 
-                        <img src="~/Upload/Gallary/@item.image" width="400" height="400" asp-append-version="true" id="borderimg1" Type="Thumbnail" alt="white sample">
+                        <img src="~/Upload/Gallary/@item.image" width="400" height="400" asp-append-version="true" id="borderimg1" data-toggle="lightbox" Type="Thumbnail" alt="white sample">
                     </a>
                     <a href="@Url.Action("DeleteGallary","Institute",new { id=@item.Id})" style="float:right">Delete</a>
+
 
                 </div>
             }
@@ -167,29 +160,27 @@
     </script>
 
 
-    <a href="#" class="pop">
-        <img src="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg" style="width: 400px; height: 264px;">
-    </a>
+    @*<a href="#" class="pop">
+            <img src="http://upload.wikimedia.org/wikipedia/commons/2/22/Turkish_Van_Cat.jpg" style="width: 400px; height: 264px;">
+        </a>*@
 
     <div class="modal fade" id="imagemodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" data-dismiss="modal">
             <div class="modal-content">
                 <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <button type="button" class="close" data-dismiss="modal"></button>
                     <img src="" class="imagepreview" style="width: 100%;">
                 </div>
                 <div class="modal-footer">
-                    <div class="col-xs-12">
-                        <p class="text-left">1. line of description<br>2. line of description <br>3. line of description</p>
-
-                    </div>
-
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Download</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
 
 
             </div>
         </div>
     </div>
+
     <script>
         $(function () {
             $('.pop').on('click', function () {
@@ -198,12 +189,19 @@
             });
         });
     </script>
-    <script>    <a href="/Institute/ViewGallary/${id}"
-            class="btn btn-link">Edit</a>
 
+    <script>
+
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+        });
 
 
     </script>
 
-    
 
