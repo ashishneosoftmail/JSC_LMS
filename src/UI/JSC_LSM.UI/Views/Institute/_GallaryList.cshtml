@@ -234,7 +234,7 @@
 
 <div id="wrap" class="mt-3">
     <div class="container">
-          <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover  ">
+        <table cellpadding="0" cellspacing="0" border="0" class="datatable table table-striped table-bordered table-hover  ">
             <thead>
                 <tr>
                     <th>#</th>
@@ -272,13 +272,11 @@
                         <td>
 
                             <div>
-                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#editCircular" onclick="ViewGallary(@item.Id)">
+                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#viewEventData" onclick="ShowEventDetail(@item.Id)">
                                     View
                                 </button>
 
-                                <button type="button" class="btn btn-link" data-toggle="modal" data-target="#confirmdelete" onclick="tempData(@item.Id)">
-                                        Delete
-                                    </button>
+                                <a href="@Url.Action("DeleteGallary","Institute",new { id=@item.Id})" style="float:right">Delete</a>
 
                             </div>
 
@@ -294,21 +292,84 @@
     </div>
 </div>
 
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.datatable').DataTable({
-            searching: true,
-            "oLanguage": {
-                "sLengthMenu": "Page Size _MENU_",
-            },
-            /* "dom": '<"top"i>rt<"bottom"flp><"clear">'*/
+    <div class="col-md-11">
+        <div class="container">
+            <!-- The Modal -->
+            <div class="modal" id="viewEventData">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title text-center">View File</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body">
+                            <table class="table table-borderless">
+
+                                <tr>
+
+                                    <td>
+
+                                        <img src="" id="detailsImage" height="300" width="400" />
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                      
+                            <!-- Modal footer -->
+                        <div class="modal-footer">
+         
+                         
+                            
+                            <a href="" id="downloadimage" class="btn btn-primary">Download</a>
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.datatable').DataTable({
+                searching: true,
+                "oLanguage": {
+                    "sLengthMenu": "Page Size _MENU_",
+                },
+                /* "dom": '<"top"i>rt<"bottom"flp><"clear">'*/
+            });
+            $('.datatable').each(function () {
+                var datatable = $(this);
+                var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
+                length_sel.addClass('form-control input-lg');
+            });
         });
-        $('.datatable').each(function () {
-            var datatable = $(this);
-            var length_sel = datatable.closest('.dataTables_wrapper').find('div[id$=_length] select');
-            length_sel.addClass('form-control input-lg');
-        });
-    });
-</script>
+    </script>
+
+    <script>
+        function ShowEventDetail(id) {
+            $.get("/Institute/ViewGallary", { Id: id }, function (data) {
+                console.log(data);
+                if (data) {
+
+                    if (data.data.image != null) {
+                        /* $("#detailsImage").text(data.data.image);*/
+                        $("#detailsImage").attr("src", `/Upload/Gallary/${data.data.image}`);
+                        $("#downloadimage").attr("href", `/Institute/Download?filename=${data.data.image}`);
+                    }
+                }
+            });
+        }
+
+    </script>

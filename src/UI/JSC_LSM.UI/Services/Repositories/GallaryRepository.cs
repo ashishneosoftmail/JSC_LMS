@@ -77,7 +77,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetGallaryById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetGallaryById + "?id="+ Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getGallaryListByIdResponseModel = JsonConvert.DeserializeObject<GetGallaryListByIdResponseModel>(_oApiResponse.data);
@@ -95,7 +95,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteGallaryById + id, HttpMethod.Delete, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteGallaryById + "?id=" + id, HttpMethod.Delete, bytes, _sToken);
         }
 
 
