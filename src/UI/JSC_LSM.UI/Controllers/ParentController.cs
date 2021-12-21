@@ -26,7 +26,8 @@ namespace JSC_LSM.UI.Controllers
         private readonly IPrincipalRepository _principalRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IUserRepository _userRepository;
-        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository , IUserRepository userRepository)
+        private readonly IEventsDetailsRepository _eventsRepository;
+        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository , IUserRepository userRepository , IEventsDetailsRepository eventsRepository)
         {
             _common = common;
             _circularRepository = circularRepository;
@@ -39,6 +40,7 @@ namespace JSC_LSM.UI.Controllers
             _principalRepository = principalRepository;
             _subjectRepository = subjectRepository;
             _userRepository = userRepository;
+            _eventsRepository = eventsRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -69,6 +71,17 @@ namespace JSC_LSM.UI.Controllers
             model.SubjectName = subList;
             return View(model);
         }
+
+        public async Task<IActionResult> Dashboard()
+        {
+            ParentsChartDetails model = new ParentsChartDetails();
+
+            model.CircularCount = (await _circularRepository.GetAllCircularList()).data.Count();
+            model.EventsCount = (await _eventsRepository.GetEventsList()).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            return View(model);
+        }
+
         [HttpGet]
         public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)
         {

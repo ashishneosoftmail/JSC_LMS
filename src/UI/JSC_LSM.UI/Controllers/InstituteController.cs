@@ -50,6 +50,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IEventsDetailsRepository _eventsRepository;
         private readonly IGallaryRepository _gallaryRepository;
         private readonly IUserRepository _usersRepository;
+        private readonly IPrincipalRepository _principalRepository;
         /// <summary>
         /// constructor for institute controller
         /// </summary>
@@ -57,7 +58,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository, IUserRepository usersRepository)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository, IUserRepository usersRepository , IPrincipalRepository principalRepository)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
@@ -72,6 +73,7 @@ namespace JSC_LSM.UI.Controllers
             _eventsRepository = eventsRepository;
             _usersRepository = usersRepository;
             _gallaryRepository = gallaryRepository;
+            _principalRepository = principalRepository;
 
         }
         public async Task<IActionResult> Index()
@@ -88,6 +90,97 @@ namespace JSC_LSM.UI.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Dashboard()
+        {
+            InstituteChartDetails model = new InstituteChartDetails();
+           
+            model.PrincipalCount = (await _principalRepository.GetAllPrincipalDetails()).data.Count();
+            model.SchoolCount = (await _schoolRepository.GetAllSchool()).data.Count();
+            model.EventsCount = (await _eventsRepository.GetEventsList()).data.Count();
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public JsonResult EventsDataBarChart()
+        {
+            
+            var eventsData = _eventsRepository.GetEventsList().GetAwaiter().GetResult();
+            /*userList.InstituteMonthWiseUserCount */
+            var list = eventsData.data.Where(v => v.EventDateTime.Year == DateTime.Now.Year).GroupBy(u => u.EventDateTime.Month)
+                          .Select(u => new EventsData
+                          {
+                              EventsChartCount = u.Count(),
+                              Month = u.FirstOrDefault().EventDateTime.Month.ToString()
+                          }).ToList();
+            for (int i = 1; i <= 12; i++)
+            {
+                int f = 0;
+                for (int j = 0; j < list.Count(); j++)
+                {
+                    if (i == Convert.ToInt32(list[j].Month)) { f = 1; break; }
+
+                }
+                if (f == 0)
+                {
+
+                    list.Add(
+                        new EventsData
+                        {
+                            EventsChartCount = 0,
+                            Month = i.ToString()
+                        });
+                }
+            }
+            list.Sort(new EventsDataSortByMonth());
+            foreach (var userdata in list)
+            {
+                switch (userdata.Month)
+                {
+                    case "1":
+                        userdata.Month = "Jan";
+                        break;
+                    case "2":
+                        userdata.Month = "Feb";
+                        break;
+                    case "3":
+                        userdata.Month = "Mar";
+                        break;
+                    case "4":
+                        userdata.Month = "Apr";
+                        break;
+                    case "5":
+                        userdata.Month = "May";
+                        break;
+                    case "6":
+                        userdata.Month = "Jun";
+                        break;
+                    case "7":
+                        userdata.Month = "Jul";
+                        break;
+                    case "8":
+                        userdata.Month = "Aug";
+                        break;
+                    case "9":
+                        userdata.Month = "Sep";
+                        break;
+                    case "10":
+                        userdata.Month = "Oct";
+                        break;
+                    case "11":
+                        userdata.Month = "Nov";
+                        break;
+                    case "12":
+                        userdata.Month = "Dec";
+                        break;
+                    default:
+                        userdata.Month = "error";
+                        break;
+                }
+            }
+            return Json(list);
+
+        }
         /// <summary>
         /// Gives all the details in form of a list:by Shivani Goswami
         /// </summary>

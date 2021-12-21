@@ -29,8 +29,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IStudentRepository _studentRepository;
         private readonly IConfiguration _configuration;
+        private readonly IEventsDetailsRepository _eventsRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -45,6 +46,7 @@ namespace JSC_LSM.UI.Controllers
             _studentRepository = studentRepository;
             _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
+            _eventsRepository = eventsRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -73,7 +75,15 @@ namespace JSC_LSM.UI.Controllers
             return View(model);
         }
 
-
+        public async Task<IActionResult> Dashboard()
+        {
+            StudentChartDetails model = new StudentChartDetails();
+         
+            model.CircularCount = (await _circularRepository.GetAllCircularList()).data.Count();
+            model.EventsCount = (await _eventsRepository.GetEventsList()).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            return View(model);
+        }
         [HttpGet]
         public async Task<List<SelectListItem>> GetTeacherName()
         {

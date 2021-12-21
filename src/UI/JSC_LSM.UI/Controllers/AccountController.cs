@@ -112,26 +112,26 @@ namespace JSC_LSM.UI.Controllers
                             }
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Institute Admin")
                             {
-                                return RedirectToAction("Index", "Institute");
+                                return RedirectToAction("Dashboard", "Institute");
                             }
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Principal")
                             {
-                                return RedirectToAction("Index", "Principal");
+                                return RedirectToAction("Dashboard", "Principal");
 
                             }
 
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Teacher")
                             {
-                                return RedirectToAction("Index", "Teacher");
+                                return RedirectToAction("Dashboard", "Teacher");
                             }
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Parent")
                             {
-                                return RedirectToAction("Index", "Parent");
+                                return RedirectToAction("Dashboard", "Parent");
 
                             }
                             else if (authenticationResponseModel.userDetails.Role.RoleName == "Student")
                             {
-                                return RedirectToAction("Index", "Student");
+                                return RedirectToAction("Dashboard", "Student");
 
 
                             }

@@ -77,7 +77,13 @@ namespace JSC_LSM.UI.Controllers
 
         }
 
-
+        public async Task<IActionResult> Dashboard()
+        {
+            TeacherChartDetails model = new TeacherChartDetails();
+           
+            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            return View(model);
+        }
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {
             var cities = await _common.GetAllCityByStateId(id);

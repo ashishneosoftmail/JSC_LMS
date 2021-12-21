@@ -12,4 +12,16 @@ namespace JSC_LSM.UI.Models
         public int FAQCount { get; set; }
        
     }
+    public class UserData
+    {
+        public int UserCount { get; set; }
+        public string Month { get; set; }
+    }
+    class UserDataSortByMonth : IComparer<UserData>
+    {
+        public int Compare(UserData x, UserData y)
+        {
+            return Convert.ToInt32(x.Month).CompareTo(Convert.ToInt32(y.Month));
+        }
+    }
 }

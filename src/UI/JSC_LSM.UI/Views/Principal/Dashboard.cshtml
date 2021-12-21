@@ -1,0 +1,144 @@
+﻿@model PrincipalChartDetails
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
+}
+
+
+<div class="col-sm-6 mt-4">
+    <h1 class="m-0">Dashboard</h1>
+</div><!-- /.col -->
+
+
+<section class="content">
+    <div class="container-fluid" style="margin-left:-2em;">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-blue-gradient">
+                    <div class="inner">
+                        <h3>@Model.ClassCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Classes</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion  ion-ios-compose "></i>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"> </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-red-gradient">
+                    <div class="inner">
+                        <h3>@Model.SectionCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Sections</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-create"></i>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"> </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-green-gradient">
+                    <div class="inner">
+                        <h3>@Model.SubjectCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Subjects</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-book"></i>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"> </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-purple-gradient">
+                    <div class="inner">
+                        <h3>@Model.TeacherCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Teachers</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-person"></i>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"> </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box  bg-maroon-gradient">
+                    <div class="inner">
+                        <h3>@Model.StudentCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Students</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-android-people"></i>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"> </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-yellow-gradient">
+                    <div class="inner">
+                        <h3>@Model.ParentCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Parents</p>
+                    </div>
+                    <div class="icon">
+                        <i class="ion ion-ios-people"></i>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"> </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-aqua-gradient">
+                    <div class="inner">
+                        <h3>@Model.EventsCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Events</p>
+                    </div>
+                    <div class="icon">
+                        @*<i class="ion ion-person-add"></i>*@
+                        <ion-icon class="ion ion-ios-calendar-outline"></ion-icon>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"></a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-teal-gradient">
+                    <div class="inner">
+                        <h3>@Model.AnnouncementCount</h3>
+
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Announcements</p>
+                    </div>
+                    <div class="icon">
+                        @*<i class="ion ion-person-add"></i>*@
+                        <ion-icon class="ion ion-speakerphone"></ion-icon>
+                    </div>
+                    <a href="#" class="small-box-footer pb-3"></a>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</section>

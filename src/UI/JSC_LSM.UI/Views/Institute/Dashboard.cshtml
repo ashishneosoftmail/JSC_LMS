@@ -1,8 +1,9 @@
-﻿@model SuperadminChartDetails
+﻿@model InstituteChartDetails
 @{
     ViewData["Title"] = "Profile";
-    Layout = "~/Views/Shared/_SuperAdminLayout.cshtml";
+    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
 }
+@*<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>*@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
@@ -19,12 +20,12 @@
                 <!-- small box -->
                 <div class="small-box bg-green-gradient">
                     <div class="inner">
-                        <h3>@Model.InstituteCount</h3>
+                        <h3>@Model.SchoolCount</h3>
 
-                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Institutes</p>
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Schools</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-university "></i>
+                        <i class="ion ion-android-create "></i>
                     </div>
                     <a href="#" class="small-box-footer pb-3"> </a>
                 </div>
@@ -34,12 +35,12 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow-gradient">
                     <div class="inner">
-                        <h3>@Model.KnowledgebaseCount</h3>
+                        <h3>@Model.PrincipalCount</h3>
 
-                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Knowledgebase</p>
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Principals</p>
                     </div>
                     <div class="icon">
-                        <i class="ion ion-ios-bookmarks"></i>
+                        <i class="ion ion-ios-briefcase"></i>
                     </div>
                     <a href="#" class="small-box-footer pb-3"> </a>
                 </div>
@@ -49,13 +50,13 @@
                 <!-- small box -->
                 <div class="small-box bg-red-gradient">
                     <div class="inner">
-                        <h3>@Model.FAQCount</h3>
+                        <h3>@Model.EventsCount</h3>
 
-                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total FAQs</p>
+                        <p style="font-weight: bold; font-size: 18px; margin-top: 2em; margin-bottom: 0em;">Total Events</p>
                     </div>
                     <div class="icon">
                         @*<i class="ion ion-person-add"></i>*@
-                        <ion-icon class="ion ion-ios-chatboxes"></ion-icon>
+                        <ion-icon class="ion ion-ios-calendar-outline"></ion-icon>
                     </div>
                     <a href="#" class="small-box-footer pb-3"></a>
                 </div>
@@ -67,6 +68,8 @@
 
     </div>
 </section>
+
+
 <div id="chart_div" style="margin-bottom:3em;"></div>
 
 
@@ -82,7 +85,7 @@
     function LoadData() {
         $.ajax({
 
-            url: 'InstitutePieChart',
+            url: 'EventsDataBarChart',
             dataType: "json",
             type: "GET",
             error: function (xhr, status, error) {
@@ -90,27 +93,27 @@
                 toastr.error(err.message);
             },
             success: function (data) {
-                InstituteBarChart(data);
+                EventsDataBarChart(data);
                 return false;
             }
         });
         return false;
     }
 
-    function InstituteBarChart(data) {
+    function EventsDataBarChart(data) {
         var dataArray = [
-            ['Month', 'UserCount']
+            ['Month', 'Events']
         ];
         $.each(data, function (i, item) {
-            dataArray.push([item.month, item.userCount]);
+            dataArray.push([item.month, item.eventsChartCount]);
         });
         var data = google.visualization.arrayToDataTable(dataArray);
         var options = {
-            title: 'Number of Users',
+            title: 'Number of events held ',
             width: 950,
             height: 400,
             chartArea: {
-                width: '70%'
+                width: '75%'
             },
             colors: ['#4876FF'],
             hAxis: {
@@ -118,10 +121,9 @@
                 minValue: 0
             },
             vAxis: {
-                title: 'Total Users',
-                minValue: 0,
-                ticks: [0, 2, 4, 6, 8, 10,12,14,16,18,20],
-                
+                title: 'Total Events',
+                ticks: [0, 2, 4, 6, 8, 10],
+             /*   gridlines: { count: 5 }*/
             }
         };
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
@@ -130,3 +132,4 @@
         return false;
     }
 </script>
+

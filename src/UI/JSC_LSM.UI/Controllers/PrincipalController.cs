@@ -31,10 +31,14 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IPrincipalRepository _principalRepository;
-
+        private readonly IClassRepository _classRepository;
+        private readonly ISectionRepository _sectionRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        private readonly IAcademicRepository _academicRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IParentsRepository _parentRepository;
         private readonly IAnnouncementRepository _announcementRepository;
-
         private readonly ICircularRepository _circularRepository;
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -50,7 +54,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="principalRepository"></param>
 
 
-        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository , IEventsDetailsRepository eventsRepository , IUserRepository usersRepository)
+        public PrincipalController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ITeacherRepository teacherRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IInstituteRepository instituteRepository , IEventsDetailsRepository eventsRepository , IUserRepository usersRepository , IClassRepository classRepository , ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IAcademicRepository academicRepository, IStudentRepository studentRepository , IParentsRepository parentRepository)
 
         {
             _circularRepository = circularRepository;
@@ -64,6 +68,12 @@ namespace JSC_LSM.UI.Controllers
             _instituteRepository = instituteRepository;
             _eventsRepository = eventsRepository;
             _usersRepository = usersRepository;
+            _classRepository = classRepository;
+            _sectionRepository = sectionRepository;
+            _subjectRepository = subjectRepository;
+            _academicRepository = academicRepository;
+            _studentRepository = studentRepository;
+            _parentRepository = parentRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -77,6 +87,21 @@ namespace JSC_LSM.UI.Controllers
             model.InstituteName = institute.data.InstituteName;
             return View(model);
         }
+        public async Task<IActionResult> Dashboard()
+        {
+            PrincipalChartDetails model = new PrincipalChartDetails();
+            model.ClassCount = (await _classRepository.GetAllClass()).data.Count();
+            model.SectionCount = (await _sectionRepository.GetAllSection()).data.Count();
+            model.SubjectCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+            model.AcedemicCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+            model.TeacherCount = (await _teacherRepository.GetAllTeacherDetails()).data.Count();
+            model.StudentCount = (await _studentRepository.GetAllStudentDetails()).data.Count();
+            model.ParentCount = (await _parentRepository.GetAllParentsDetails()).data.Count();          
+            model.EventsCount = (await _eventsRepository.GetEventsList()).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            return View(model);
+        }
+
         [HttpGet]
 
         public async Task<IActionResult> AddPrincipal()
