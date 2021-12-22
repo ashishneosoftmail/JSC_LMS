@@ -26,10 +26,14 @@ namespace JSC_LSM.UI.Common
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IParentsRepository _parentsRepository;
+        private readonly IStudentRepository _studentRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
         private readonly IEventsDetailsRepository _eventRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+      
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository,IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
@@ -42,6 +46,8 @@ namespace JSC_LSM.UI.Common
             _subjectRepository = subjectRepository;
             _teacherRepository = teacherRepository;
             _eventRepository = eventRepository;
+            _studentRepository = studentRepository;
+            _parentsRepository = parentsRepository;
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
         }
@@ -487,6 +493,83 @@ namespace JSC_LSM.UI.Common
             return null;
         }
 
+
+        public async Task<List<SelectListItem>> GetAllsStudent()
+        {
+            List<SelectListItem> students = new List<SelectListItem>();
+            GetAllStudentListResponseModel getAllStudentResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllStudentResponseModel = await _studentRepository.GetAllStudentDetails();
+
+            if (getAllStudentResponseModel.Succeeded)
+            {
+                if (getAllStudentResponseModel == null && getAllStudentResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllStudentResponseModel.message;
+                    responseModel.IsSuccess = getAllStudentResponseModel.isSuccess;
+                }
+                if (getAllStudentResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllStudentResponseModel.message;
+                    responseModel.IsSuccess = getAllStudentResponseModel.isSuccess;
+                    foreach (var item in getAllStudentResponseModel.data)
+                    {
+                        students.Add(new SelectListItem
+                        {
+                            Text = item.StudentName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return students;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllStudentResponseModel.message;
+                responseModel.IsSuccess = getAllStudentResponseModel.isSuccess;
+            }
+            return null;
+        }
+
+
+        public async Task<List<SelectListItem>> GetAllParents()
+        {
+            List<SelectListItem> parents = new List<SelectListItem>();
+            GetAllParentsListResponseModel getAllParentsResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getAllParentsResponseModel = await _parentsRepository.GetAllParentsDetails();
+
+            if (getAllParentsResponseModel.Succeeded)
+            {
+                if (getAllParentsResponseModel == null && getAllParentsResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getAllParentsResponseModel.message;
+                    responseModel.IsSuccess = getAllParentsResponseModel.isSuccess;
+                }
+                if (getAllParentsResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getAllParentsResponseModel.message;
+                    responseModel.IsSuccess = getAllParentsResponseModel.isSuccess;
+                    foreach (var item in getAllParentsResponseModel.data)
+                    {
+                        parents.Add(new SelectListItem
+                        {
+                            Text = item.ParentName,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return parents;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getAllParentsResponseModel.message;
+                responseModel.IsSuccess = getAllParentsResponseModel.isSuccess;
+            }
+            return null;
+        }
 
 
 

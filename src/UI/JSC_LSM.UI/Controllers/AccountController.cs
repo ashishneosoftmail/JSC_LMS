@@ -59,28 +59,9 @@ namespace JSC_LSM.UI.Controllers
                 AuthenticationResponseModel authenticationResponseModel = null;
                 ResponseModel responseModel = new ResponseModel();
 
+                   
 
-                //using (HttpClient client = new HttpClient())
-                //{
-                //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/plain"));
-                //    var jsonData = JsonConvert.SerializeObject(authenticationRequest);
-                //    var dataEncode = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-                //    HttpResponseMessage httpResponseMessage = client.PostAsync(_apiBaseUrl.Value.LmsApiBaseUrl + UrlHelper.UserAuthenticate, dataEncode).Result;
-
-                //    if (httpResponseMessage.IsSuccessStatusCode)
-                //    {
-                //        var loginInfo = httpResponseMessage.Content.ReadAsStringAsync().Result;
-                //        var Pack = JsonConvert.DeserializeObject(loginInfo);
-                //        authenticationResponseModel = JsonConvert.DeserializeObject<AuthenticationResponseModel>(Convert.ToString(Pack));
-                //        if (authenticationResponseModel.isSuccess)
-                //        {
-
-                //        }
-                //    }
-                //}
-
-                authenticationResponseModel = await _userRepository.UserAuthenticate(authenticationRequest);
+                    authenticationResponseModel = await _userRepository.UserAuthenticate(authenticationRequest);
 
                 if (authenticationResponseModel.isSuccess)
                 {

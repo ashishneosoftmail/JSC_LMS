@@ -185,5 +185,6 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllFeedbackDetails = "/api/v1/Feedback/GetFeedbackList";
         public static string GetFeedbackById = "/api/v1/Feedback/id";
 
+       
     }
 }

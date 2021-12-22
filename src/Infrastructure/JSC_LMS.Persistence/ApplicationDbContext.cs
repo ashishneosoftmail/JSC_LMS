@@ -54,6 +54,8 @@ namespace JSC_LMS.Persistence
 
         public DbSet<Gallary> Gallary { get; set; }
 
+        public DbSet<Feedback> Feedbacks { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);

@@ -27,6 +27,7 @@ using JSC_LMS.Application.Features.Events.Queries.GetEventsList;
 using JSC_LMS.Application.Features.EventsFeature.Commands.CreateEvents;
 using JSC_LMS.Application.Features.FAQ.Commands.CreateFAQ;
 using JSC_LMS.Application.Features.FAQ.Commands.UpdateFAQ;
+using JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback;
 using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
 using JSC_LMS.Application.Features.Institutes.Commands.CreateInstitute;
 using JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter;
@@ -218,6 +219,11 @@ namespace JSC_LMS.Application.Profiles
 
             CreateMap<Gallary, UploadImageDto>();
             CreateMap<Gallary, UploadImageDto>().ReverseMap();
+
+
+
+            CreateMap<Feedback, CreateFeedbackDto>();
+            CreateMap<Feedback, CreateFeedbackDto>().ReverseMap();
 
         }
     }

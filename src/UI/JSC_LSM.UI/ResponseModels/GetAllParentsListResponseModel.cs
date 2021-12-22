@@ -8,6 +8,7 @@ namespace JSC_LSM.UI.ResponseModels
 {
     public class GetAllParentsListResponseModel
     {
+        public bool isSuccess { get; set; }
         public bool Succeeded { get; set; }
         public string message { get; set; }
         public string statusCode { get; set; }

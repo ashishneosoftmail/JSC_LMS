@@ -28,6 +28,6 @@ namespace JSC_LMS.Domain.Entities
         public int SchoolId { get; set; }
         public School SchoolData { get; set; }
 
-
+        public virtual ICollection<Feedback> Feedback { get; set; }
     }
 }

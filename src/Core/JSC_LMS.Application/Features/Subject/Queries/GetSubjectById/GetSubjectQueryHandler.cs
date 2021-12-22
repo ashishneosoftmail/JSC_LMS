@@ -83,12 +83,6 @@ namespace JSC_LMS.Application.Features.Subject.Queries.GetSubjectById
                     ClassName = (await _classRepository.GetByIdAsync(subject.ClassId)).ClassName
                 },
              
-            
-               
-                
-
-
-
             };
             _logger.LogInformation("Handle Completed");
             return new Response<GetSubjectByIdVm>(subjectData, "success");

@@ -46,7 +46,8 @@ namespace JSC_LMS.Persistence
             services.AddScoped<IEventsTableRepository, EventsTableRepository>();
             services.AddScoped<IGallaryRepository, GallaryRepository>();
 
-
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IFeedbackTitleRepository, FeedbackTitleRepository>();
 
 
             return services;
