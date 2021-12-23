@@ -98,7 +98,17 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteGallaryById + "?id=" + id, HttpMethod.Delete, bytes, _sToken);
         }
 
+        public async Task DeleteAllGallary()
+        {
 
-    
-}
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteAllGallary, HttpMethod.Delete, bytes, _sToken);
+        }
+
+
+    }
 }

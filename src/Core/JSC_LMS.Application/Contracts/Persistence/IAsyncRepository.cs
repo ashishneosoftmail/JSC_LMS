@@ -12,5 +12,6 @@ namespace JSC_LMS.Application.Contracts.Persistence
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);
         Task<IReadOnlyList<T>> GetPagedReponseAsync(int page, int size);
+        Task DeleteAllAsync(IReadOnlyList<T> entity);
     }
 }
