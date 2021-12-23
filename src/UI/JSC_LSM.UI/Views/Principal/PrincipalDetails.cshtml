@@ -154,7 +154,7 @@
 
 <div class="container">
     <div class="row">
-        <h2> Principal List</h2>
+        <h3> Principal List</h3>
      
     </div>
     <div class="row" >
@@ -193,18 +193,19 @@
             </div>
         </div>
 
-        <div class="form-group row  " style="margin-left:54.5em;width:10.5em;" >
-            <button type="button" class="btn btn-primary " onclick="searchPrincipal()">Search</button>
-        </div>
+        <div class="form-group row  " style="margin-left:53.5em;width:11.5em;" >
+              </div>
     </div>
 </div>
 <div class="col-md-12">
     <a asp-controller="Principal" asp-action="DownloadExcel" class="btn btn-primary pull-right m-2" download>Export</a>
     
-    <a asp-action="AddPrincipal" asp-controller="Principal" class="btn btn-primary pull-right m-2">Add New   </a>
-    <div class="col-sm-9">
-        <button class="btn  btn-primary pull-right m-2">Upload</button>
-        <a href="#" class="pull-right btn  btn-link m-2">Download Sample Template</a>
+    <a asp-action="AddPrincipal" asp-controller="Principal" class="btn btn-primary pull-right m-2" style="width:5rem;">Add</a>
+    <div class="col">
+        <button type="button" class="btn btn-primary " onclick="searchPrincipal()" style="margin-left: 4rem;width: 9rem;">Search</button>
+        <a href="#" class="  btn-link " style="margin-left: 14.5rem;">Download Sample Template</a>
+        <button class="btn  btn-primary m-2 ">Upload</button>
+
     </div>
 
 </div>

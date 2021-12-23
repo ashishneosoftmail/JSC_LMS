@@ -82,7 +82,7 @@ namespace JSC_LSM.UI.Controllers
             var student =await _studentRepository.GetStudentByUserId(userId);
             model.CircularCount = (await _circularRepository.GetAllCircularBySchoolList(student.data.Schoolid)).data.Count();
             model.EventsCount = (await _eventsRepository.GetAllEventsBySchoolList(student.data.Schoolid)).data.Count();
-            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolList(student.data.Schoolid)).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(student.data.Schoolid, student.data.Classid, student.data.Sectionid)).data.Count();
             return View(model);
         }
 
