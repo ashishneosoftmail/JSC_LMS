@@ -77,6 +77,9 @@ namespace JSC_LSM.UI
 
 
 
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>(s => new FeedbackRepository());
+        
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -40,7 +40,10 @@ namespace JSC_LSM.UI.Helpers
             response.statusCode = HttpStatusCode.BadRequest;
             try
             {
-                using (var client = new HttpClient())
+                HttpClientHandler clientHandler = new HttpClientHandler();
+                clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+                using (var client = new HttpClient(clientHandler))
                 {
                     //client.BaseAddress = new Uri(_apiBaseUrl + URL);
                     client.BaseAddress = new Uri("https://localhost:44330" + URL);

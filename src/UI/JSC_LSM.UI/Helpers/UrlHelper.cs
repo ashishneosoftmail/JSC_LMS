@@ -181,5 +181,10 @@ namespace JSC_LSM.UI.Helpers
         public static string GetGallaryById = "/api/v1/Gallary/id";
         public static string DeleteGallaryById = "/api/v1/Gallary/delete";
 
+        public static string AddNewFeedback = "/api/v1/Feedback/Add";
+        public static string GetAllFeedbackDetails = "/api/v1/Feedback/GetFeedbackList";
+        public static string GetFeedbackById = "/api/v1/Feedback/id";
+
+       
     }
 }
