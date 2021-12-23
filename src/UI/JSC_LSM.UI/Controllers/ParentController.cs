@@ -76,10 +76,95 @@ namespace JSC_LSM.UI.Controllers
         {
             ParentsChartDetails model = new ParentsChartDetails();
 
-            model.CircularCount = (await _circularRepository.GetAllCircularList()).data.Count();
-            model.EventsCount = (await _eventsRepository.GetEventsList()).data.Count();
-            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parents = await _parentRepository.GetParentByUserId(userId);
+            model.CircularCount = (await _circularRepository.GetAllCircularBySchoolList(parents.data.SchoolId)).data.Count();
+            model.EventsCount = (await _eventsRepository.GetAllEventsBySchoolList(parents.data.SchoolId)).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolList(parents.data.SchoolId)).data.Count();
             return View(model);
+        }
+
+
+        [HttpGet]
+        public JsonResult EventsDataParentsBarChart()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parents = _parentRepository.GetParentByUserId(userId).GetAwaiter().GetResult();
+            var eventsData = _eventsRepository.GetAllEventsBySchoolList(parents.data.SchoolId).GetAwaiter().GetResult();
+
+            var list = eventsData.data.Where(v => v.EventDateTime.Year == DateTime.Now.Year).GroupBy(u => u.EventDateTime.Month)
+                          .Select(u => new EventsParentsData
+                          {
+                              EventsParentsCount = u.Count(),
+                              Month = u.FirstOrDefault().EventDateTime.Month.ToString()
+                          }).ToList();
+            for (int i = 1; i <= 12; i++)
+            {
+                int f = 0;
+                for (int j = 0; j < list.Count(); j++)
+                {
+                    if (i == Convert.ToInt32(list[j].Month)) { f = 1; break; }
+
+                }
+                if (f == 0)
+                {
+
+                    list.Add(
+                        new EventsParentsData
+                        {
+                            EventsParentsCount = 0,
+                            Month = i.ToString()
+                        });
+                }
+            }
+            list.Sort(new EventsParentsDataSortByMonth());
+            foreach (var userdata in list)
+            {
+                switch (userdata.Month)
+                {
+                    case "1":
+                        userdata.Month = "Jan";
+                        break;
+                    case "2":
+                        userdata.Month = "Feb";
+                        break;
+                    case "3":
+                        userdata.Month = "Mar";
+                        break;
+                    case "4":
+                        userdata.Month = "Apr";
+                        break;
+                    case "5":
+                        userdata.Month = "May";
+                        break;
+                    case "6":
+                        userdata.Month = "Jun";
+                        break;
+                    case "7":
+                        userdata.Month = "Jul";
+                        break;
+                    case "8":
+                        userdata.Month = "Aug";
+                        break;
+                    case "9":
+                        userdata.Month = "Sep";
+                        break;
+                    case "10":
+                        userdata.Month = "Oct";
+                        break;
+                    case "11":
+                        userdata.Month = "Nov";
+                        break;
+                    case "12":
+                        userdata.Month = "Dec";
+                        break;
+                    default:
+                        userdata.Month = "error";
+                        break;
+                }
+            }
+            return Json(list);
+
         }
 
         [HttpGet]

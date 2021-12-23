@@ -3,10 +3,11 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_ParentLayout.cshtml";
 }
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
 <div class="col-sm-6 mt-4">
-    <h1 class="m-0">Dashboard</h1>
+    <h3 class="m-0">Dashboard</h3>
 </div><!-- /.col -->
 
 
@@ -14,7 +15,7 @@
     <div class="container-fluid" style="margin-left:-2em;">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-         
+
             <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-purple-gradient">
@@ -45,7 +46,7 @@
                     <a href="#" class="small-box-footer pb-3"></a>
                 </div>
             </div>
-          
+
             <!-- ./col -->
             <div class="col-lg-3 col-6">
                 <!-- small box -->
@@ -68,3 +69,64 @@
 
     </div>
 </section>
+
+<div id="chart_divParent" style="margin-bottom:3em;"></div>
+
+<script type="text/javascript">
+
+
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(LoadData);
+
+    function LoadData() {
+        $.ajax({
+
+            url: 'EventsDataParentsBarChart',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                EventsDataParentsBarChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function EventsDataParentsBarChart(data) {
+        var dataArray = [
+            ['Month', 'Events']
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item.month, item.eventsParentsCount]);
+        });
+        var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: 'Number of events held ',
+            width: 920,
+            height: 400,
+            chartArea: {
+                width: '75%'
+            },
+            colors: ['#4876FF'],
+            hAxis: {
+                title: 'Month',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Total Events',
+                ticks: [0, 2, 4, 6, 8, 10],
+                /*   gridlines: { count: 5 }*/
+            }
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_divParent'));
+
+        chart.draw(data, options);
+        return false;
+    }
+</script>

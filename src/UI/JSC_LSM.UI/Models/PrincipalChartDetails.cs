@@ -17,4 +17,21 @@ namespace JSC_LSM.UI.Models
         public int AnnouncementCount { get; set; }
         public int EventsCount { get; set; }
     }
+    public class EventsPrincipalData
+    {
+        public int EventsChartCount { get; set; }
+        public string Month { get; set; }
+    }
+    public class ClassStudentsData
+    {
+        public int StudentsPieCount { get; set; }
+        public string ClassName { get; set; }
+    }
+    class EventsPrincipalDataSortByMonth : IComparer<EventsPrincipalData>
+    {
+        public int Compare(EventsPrincipalData x, EventsPrincipalData y)
+        {
+            return Convert.ToInt32(x.Month).CompareTo(Convert.ToInt32(y.Month));
+        }
+    }
 }

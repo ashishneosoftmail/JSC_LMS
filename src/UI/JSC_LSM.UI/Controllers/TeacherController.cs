@@ -79,10 +79,93 @@ namespace JSC_LSM.UI.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
             TeacherChartDetails model = new TeacherChartDetails();
-           
-            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            var teacher = await _teacherRepository.GetTeacherByUserId(userId);
+            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolList(teacher.data.schoolid)).data.Count();
             return View(model);
+        }
+
+        [HttpGet]
+        public JsonResult AnnouncementDataTeacherBarChart()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var teacher = _teacherRepository.GetTeacherByUserId(userId).GetAwaiter().GetResult();
+            var announcementData = _announcementRepository.GetAllAnnouncementBySchoolList(teacher.data.schoolid).GetAwaiter().GetResult();
+
+            var list = announcementData.data.Where(v => v.CreatedDate.Year == DateTime.Now.Year).GroupBy(u => u.CreatedDate.Month)
+                          .Select(u => new AnnouncementPrincipalData
+                          {
+                              AnnouncementChartCount = u.Count(),
+                              Month = u.FirstOrDefault().CreatedDate.Month.ToString()
+                          }).ToList();
+            for (int i = 1; i <= 12; i++)
+            {
+                int f = 0;
+                for (int j = 0; j < list.Count(); j++)
+                {
+                    if (i == Convert.ToInt32(list[j].Month)) { f = 1; break; }
+
+                }
+                if (f == 0)
+                {
+
+                    list.Add(
+                        new AnnouncementPrincipalData
+                        {
+                            AnnouncementChartCount = 0,
+                            Month = i.ToString()
+                        });
+                }
+            }
+            list.Sort(new AnnouncementDataSortByMonth());
+            foreach (var userdata in list)
+            {
+                switch (userdata.Month)
+                {
+                    case "1":
+                        userdata.Month = "Jan";
+                        break;
+                    case "2":
+                        userdata.Month = "Feb";
+                        break;
+                    case "3":
+                        userdata.Month = "Mar";
+                        break;
+                    case "4":
+                        userdata.Month = "Apr";
+                        break;
+                    case "5":
+                        userdata.Month = "May";
+                        break;
+                    case "6":
+                        userdata.Month = "Jun";
+                        break;
+                    case "7":
+                        userdata.Month = "Jul";
+                        break;
+                    case "8":
+                        userdata.Month = "Aug";
+                        break;
+                    case "9":
+                        userdata.Month = "Sep";
+                        break;
+                    case "10":
+                        userdata.Month = "Oct";
+                        break;
+                    case "11":
+                        userdata.Month = "Nov";
+                        break;
+                    case "12":
+                        userdata.Month = "Dec";
+                        break;
+                    default:
+                        userdata.Month = "error";
+                        break;
+                }
+            }
+            return Json(list);
+
         }
         public async Task<List<SelectListItem>> GetCityByStateId(int id)
         {

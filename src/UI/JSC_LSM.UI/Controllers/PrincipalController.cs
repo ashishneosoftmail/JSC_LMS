@@ -87,9 +87,112 @@ namespace JSC_LSM.UI.Controllers
             model.InstituteName = institute.data.InstituteName;
             return View(model);
         }
+
+
+        [HttpGet]
+        public JsonResult EventsDataPrincipalBarChart()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal =  _principalRepository.GetPrincipalByUserId(userId).GetAwaiter().GetResult();
+            var eventsData = _eventsRepository.GetAllEventsBySchoolList(principal.data.schoolid).GetAwaiter().GetResult();
+           
+            var list = eventsData.data.Where(v => v.EventDateTime.Year == DateTime.Now.Year).GroupBy(u => u.EventDateTime.Month)
+                          .Select(u => new EventsPrincipalData
+                          {
+                              EventsChartCount = u.Count(),
+                              Month = u.FirstOrDefault().EventDateTime.Month.ToString()
+                          }).ToList();
+            for (int i = 1; i <= 12; i++)
+            {
+                int f = 0;
+                for (int j = 0; j < list.Count(); j++)
+                {
+                    if (i == Convert.ToInt32(list[j].Month)) { f = 1; break; }
+
+                }
+                if (f == 0)
+                {
+
+                    list.Add(
+                        new EventsPrincipalData
+                        {
+                            EventsChartCount = 0,
+                            Month = i.ToString()
+                        });
+                }
+            }
+            list.Sort(new EventsPrincipalDataSortByMonth());
+            foreach (var userdata in list)
+            {
+                switch (userdata.Month)
+                {
+                    case "1":
+                        userdata.Month = "Jan";
+                        break;
+                    case "2":
+                        userdata.Month = "Feb";
+                        break;
+                    case "3":
+                        userdata.Month = "Mar";
+                        break;
+                    case "4":
+                        userdata.Month = "Apr";
+                        break;
+                    case "5":
+                        userdata.Month = "May";
+                        break;
+                    case "6":
+                        userdata.Month = "Jun";
+                        break;
+                    case "7":
+                        userdata.Month = "Jul";
+                        break;
+                    case "8":
+                        userdata.Month = "Aug";
+                        break;
+                    case "9":
+                        userdata.Month = "Sep";
+                        break;
+                    case "10":
+                        userdata.Month = "Oct";
+                        break;
+                    case "11":
+                        userdata.Month = "Nov";
+                        break;
+                    case "12":
+                        userdata.Month = "Dec";
+                        break;
+                    default:
+                        userdata.Month = "error";
+                        break;
+                }
+            }
+            return Json(list);
+
+        }
+
+        [HttpGet]
+        public JsonResult ClassStudentsDataPieChart()
+        {
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = _principalRepository.GetPrincipalByUserId(userId).GetAwaiter().GetResult();
+            var classData = _studentRepository.GetAllStudentBySchoolList(principal.data.schoolid).GetAwaiter().GetResult();
+
+            var list = classData.data.Where(v => v.CreatedDate.Value.Year == DateTime.Now.Year).GroupBy(u => u.Class.Id)
+                          .Select(u => new ClassStudentsData
+                          {
+                              StudentsPieCount = u.Count(),
+                              ClassName = u.FirstOrDefault().Class.ClassName
+                          }).ToList();
+          
+             return Json(list);
+
+        }
+
         public async Task<IActionResult> Dashboard()
         {
             PrincipalChartDetails model = new PrincipalChartDetails();
+
             model.ClassCount = (await _classRepository.GetAllClass()).data.Count();
             model.SectionCount = (await _sectionRepository.GetAllSection()).data.Count();
             model.SubjectCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();

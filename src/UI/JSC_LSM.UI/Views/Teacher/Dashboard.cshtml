@@ -3,6 +3,7 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_TeacherLayout.cshtml";
 }
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
 <div class="col-sm-6 mt-4">
@@ -14,7 +15,7 @@
     <div class="container-fluid" style="margin-left:-2em;">
         <!-- Small boxes (Stat box) -->
         <div class="row">
-          
+
             <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-teal-gradient">
@@ -36,3 +37,64 @@
 
     </div>
 </section>
+
+<div id="chart_divAnnouncement" style="margin-bottom:3em;"></div>
+
+<script type="text/javascript">
+
+
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(LoadData);
+
+    function LoadData() {
+        $.ajax({
+
+            url: 'AnnouncementDataTeacherBarChart',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                AnnouncementDataTeacherBarChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function AnnouncementDataTeacherBarChart(data) {
+        var dataArray = [
+            ['Month', 'Announcements']
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item.month, item.announcementChartCount]);
+        });
+        var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: 'Number of announcements held ',
+            width: 950,
+            height: 400,
+            chartArea: {
+                width: '65%'
+            },
+            colors: ['#4876FF'],
+            hAxis: {
+                title: 'Month',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Total Announcements',
+                ticks: [0, 2, 4, 6, 8, 10],
+                /*   gridlines: { count: 5 }*/
+            }
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_divAnnouncement'));
+
+        chart.draw(data, options);
+        return false;
+    }
+</script>

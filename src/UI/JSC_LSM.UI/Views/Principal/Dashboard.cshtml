@@ -3,12 +3,16 @@
     ViewData["Title"] = "Profile";
     Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 }
-
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+    g {
+        margin-left: 10em;
+    }
+</style>
 
 <div class="col-sm-6 mt-4">
-    <h1 class="m-0">Dashboard</h1>
+    <h3 class="m-0">Dashboard</h3>
 </div><!-- /.col -->
-
 
 <section class="content">
     <div class="container-fluid" style="margin-left:-2em;">
@@ -142,3 +146,124 @@
 
     </div>
 </section>
+
+
+<div id="chart_div" style="margin-bottom:3em;"></div>
+
+<script type="text/javascript">
+
+
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(LoadData);
+
+    function LoadData() {
+        $.ajax({
+
+            url: 'EventsDataPrincipalBarChart',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                EventsDataPrincipalBarChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function EventsDataPrincipalBarChart(data) {
+        var dataArray = [
+            ['Month', 'Events']
+        ];
+        $.each(data, function (i, item) {
+            dataArray.push([item.month, item.eventsChartCount]);
+        });
+        var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: 'Number of events held',
+            width: 970,
+            height: 400,
+            chartArea: {
+                width: '75%'
+            },
+            colors: ['#4876FF'],
+            hAxis: {
+                title: 'Month',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Total Events',
+                ticks: [0, 2, 4, 6],
+
+            }
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+        return false;
+    }
+</script>
+
+<div id="chart_divClassStudent"></div>
+<script type="text/javascript">
+
+
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(LoadData);
+
+    function LoadData() {
+        $.ajax({
+
+            url: 'ClassStudentsDataPieChart',
+            dataType: "json",
+            type: "GET",
+            error: function (xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                toastr.error(err.message);
+            },
+            success: function (data) {
+                ClassStudentsDataPieChart(data);
+                return false;
+            }
+        });
+        return false;
+    }
+
+    function ClassStudentsDataPieChart(data) {
+        var dataArray = [
+            ['Class', 'StudentsPieCount']
+        ];
+        console.log(data);
+        $.each(data, function (i, item) {
+            dataArray.push([item.className, item.studentsPieCount]);
+        });
+        var data = google.visualization.arrayToDataTable(dataArray);
+        var options = {
+            title: 'Number of students in a class ',
+            width: 970,
+            height: 400,
+            chartArea: {
+                width: '100%'
+            },
+            colors: ['#880FDC', '#1388F5', '#22FA58', '#FFF81A', '#FD912C', '#E10F31', '#E3E0A5', '#638886'],
+            hAxis: {
+                title: 'Class names',
+                minValue: 0
+            },
+            vAxis: {
+                title: 'Total number of students'
+            }
+        };
+        var chart = new google.visualization.PieChart(document.getElementById('chart_divClassStudent'));
+
+        chart.draw(data, options);
+        return false;
+    }
+</script>
