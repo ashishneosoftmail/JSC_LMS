@@ -180,6 +180,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllGallaryList = "/api/v1/Gallary/all";
         public static string GetGallaryById = "/api/v1/Gallary/id";
         public static string DeleteGallaryById = "/api/v1/Gallary/delete";
+        public static string DeleteAllGallary = "/api/v1/Gallary/deleteAll";
 
         public static string AddNewFeedback = "/api/v1/Feedback/Add";
         public static string GetAllFeedbackDetails = "/api/v1/Feedback/GetFeedbackList";

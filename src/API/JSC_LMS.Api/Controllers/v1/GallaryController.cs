@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Gallary.Commands.DeleteImage;
+﻿using JSC_LMS.Application.Features.Gallary.Commands.DeleteAllImage;
+using JSC_LMS.Application.Features.Gallary.Commands.DeleteImage;
 using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
 using JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryFilter;
 using JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryList;
@@ -67,5 +68,15 @@ namespace JSC_LMS.Api.Controllers.v1
             return Ok(await _mediator.Send(getAllGallaryByFilterQuery));
         }
 
+        [HttpDelete("deleteAll", Name = "DeleteAllImage")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
+        public async Task<ActionResult> DeleteAllImage()
+        {
+            var deleteAllImageCommand = new DeleteAllImageCommand() ;
+            await _mediator.Send(deleteAllImageCommand);
+            return NoContent();
+        }
     }
 }

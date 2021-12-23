@@ -55,5 +55,12 @@ namespace JSC_LMS.Persistence.Repositories
             _dbContext.Set<T>().Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task DeleteAllAsync(IReadOnlyList<T> entity)
+        {
+            _dbContext.Set<T>().RemoveRange(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
     }
 }

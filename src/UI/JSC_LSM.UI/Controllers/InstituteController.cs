@@ -1662,10 +1662,6 @@ namespace JSC_LSM.UI.Controllers
             model.GetGallaryList = data;
             return View(model);
 
-    
-
-        
-
         }
 
 
@@ -1728,7 +1724,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = addGallaryResponseModel.message;
                             responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
-                            ViewBag.AddEventsSuccess = "Details Added Successfully";
+                            ViewBag.AddGallarySuccess = "Details Added Successfully";
                             ModelState.Clear();
 
                             GallaryDetailsModel model = new GallaryDetailsModel();
@@ -1757,7 +1753,7 @@ namespace JSC_LSM.UI.Controllers
                             responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
 
 
-                            ViewBag.AddCircularError = addGallaryResponseModel.message;
+                            ViewBag.AddGallaryError = addGallaryResponseModel.message;
                             return View(gallaryDetailsModel);
                         }
                     }
@@ -1766,7 +1762,7 @@ namespace JSC_LSM.UI.Controllers
                 {
                     responseModel.ResponseMessage = addGallaryResponseModel.message;
                     responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
-                    ViewBag.AddCircularError = addGallaryResponseModel.message;
+                    ViewBag.AddGallaryError = addGallaryResponseModel.message;
                 }
             }
             return View(gallaryDetailsModel);
@@ -1808,19 +1804,32 @@ namespace JSC_LSM.UI.Controllers
         {".pdf", "application/pdf"},
         {".doc", "application/vnd.ms-word"},
         {".docx", "application/vnd.ms-word"},
+        {".ppt","application/vnd.ms-powerpoint"},
         {".xls", "application/vnd.ms-excel"},
         {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
         {".png", "image/png"},
         {".jpg", "image/jpeg"},
         {".jpeg", "image/jpeg"},
         {".gif", "image/gif"},
+        {".jfif","image/jpeg" },
         {".csv", "text/csv"}
     };
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DeleteAllGallary()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Upload/Gallary");
+            System.IO.DirectoryInfo di = new DirectoryInfo(path);
 
-
-
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            await _gallaryRepository.DeleteAllGallary();
+            ViewBag.DeleteAllGallarySuccess = "All Images Deleted Successfully";
+            return RedirectToAction("ManageGallary");
+        }
     }
 
 }
