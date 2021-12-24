@@ -8,16 +8,12 @@ namespace JSC_LMS.Application.Features.Gallary.Queries.GetAllGallaryFilter
 {
    public class GetAllGallaryByFilterQuery :IRequest<Response<IEnumerable<GetAllGallaryByFilterDto>>>
     {
-        public GetAllGallaryByFilterQuery(string _SchoolName, string _EventTitle )
+        public GetAllGallaryByFilterQuery(int _SchoolId)
         {
-            SchoolName = _SchoolName;
-            EventTitle = _EventTitle;
-            
+            SchoolId = _SchoolId;
         }
-        public string SchoolName { get; set; }
-        public string EventTitle { get; set; }
-     
- 
+        public int SchoolId{ get; set; }
+       
     }
 
 }

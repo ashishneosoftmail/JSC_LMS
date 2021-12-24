@@ -109,6 +109,25 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteAllGallary, HttpMethod.Delete, bytes, _sToken);
         }
 
+        public async Task<GetGallaryListBySchoolIdResponseModel> GetGallaryBySchoolId(int SchoolId)
+        {
+            GetGallaryListBySchoolIdResponseModel getGallaryListByIdResponseModel = null;
+            _aPIRepository = new APIRepository(_configuration);
+
+            _oApiResponse = new APICommunicationResponseModel<string>();
+            byte[] content = Array.Empty<byte>();
+            var bytes = new ByteArrayContent(content);
+            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetGallaryBySchoolId +$"?SchoolId={SchoolId}", HttpMethod.Get, bytes, _sToken);
+            if (_oApiResponse.data != null)
+            {
+                getGallaryListByIdResponseModel = JsonConvert.DeserializeObject<GetGallaryListBySchoolIdResponseModel>(_oApiResponse.data);
+                getGallaryListByIdResponseModel.Succeeded = true;
+            }
+
+            return getGallaryListByIdResponseModel;
+        }
+
+
 
     }
 }

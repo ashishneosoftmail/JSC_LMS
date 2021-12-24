@@ -1591,7 +1591,7 @@ namespace JSC_LSM.UI.Controllers
         {
             await _gallaryRepository.DeleteGallary(id);
             ViewBag.DeleteGallarySuccess = "Images Deleted Successfully";
-            return RedirectToAction("ManageGallary");
+            return RedirectToAction("ListGallary");
         }
         [HttpGet]
         public async Task<GetGallaryListByIdResponseModel> ViewGallary(int Id)
