@@ -306,7 +306,7 @@ namespace JSC_LSM.UI.Controllers
                     Id = faq.Id,
                     FAQTitle = faq.FAQTitle,
                     CategoryName = faq.Category.CategoryName,
-                    Content = faq.Content,
+                    Content = $"{ faq.Content.Substring(0, 10)}...",
                     IsActive = faq.IsActive
                 });
                 ;
@@ -335,7 +335,7 @@ namespace JSC_LSM.UI.Controllers
                     {
                         Id = faq.Id,
                         FAQTitle = faq.FAQTitle,
-                        Content = faq.Content,
+                        Content = $"{ faq.Content.Substring(0, 10)}...",
                         CategoryName = faq.Category.CategoryName,
                         IsActive = faq.IsActive
                     });
