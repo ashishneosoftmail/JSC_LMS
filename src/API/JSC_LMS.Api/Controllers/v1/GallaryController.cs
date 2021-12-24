@@ -62,9 +62,9 @@ namespace JSC_LMS.Api.Controllers.v1
         }
 
         [HttpGet("GetGallaryByFilter", Name = "GetGallaryByFilter")]
-        public async Task<ActionResult> GetGallaryByFilter(string _SchoolName, string _EventTitle)
+        public async Task<ActionResult> GetGallaryByFilter(int SchoolId )
         {
-            var getAllGallaryByFilterQuery = new GetAllGallaryByFilterQuery(_SchoolName, _EventTitle);
+            var getAllGallaryByFilterQuery = new GetAllGallaryByFilterQuery(SchoolId);
             return Ok(await _mediator.Send(getAllGallaryByFilterQuery));
         }
 

@@ -12,6 +12,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         Task<AddGallaryResponseModel> AddGallary(UploadImageDto uploadImageDto);
         Task<GetAllGallaryListResponseModel> GetGallaryList();
         Task<GetGallaryListByIdResponseModel> GetGallaryById(int Id);
+        Task<GetGallaryListBySchoolIdResponseModel> GetGallaryBySchoolId(int Id);
         Task DeleteGallary(int id);
         Task DeleteAllGallary();
     }
