@@ -196,16 +196,17 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> Dashboard()
         {
             PrincipalChartDetails model = new PrincipalChartDetails();
-
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principalUserID = await _principalRepository.GetPrincipalByUserId(userId);
             model.ClassCount = (await _classRepository.GetAllClass()).data.Count();
             model.SectionCount = (await _sectionRepository.GetAllSection()).data.Count();
             model.SubjectCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
             model.AcedemicCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
             model.TeacherCount = (await _teacherRepository.GetAllTeacherDetails()).data.Count();
-            model.StudentCount = (await _studentRepository.GetAllStudentDetails()).data.Count();
-            model.ParentCount = (await _parentRepository.GetAllParentsDetails()).data.Count();          
-            model.EventsCount = (await _eventsRepository.GetEventsList()).data.Count();
-            model.AnnouncementCount = (await _announcementRepository.GetAnnouncementList()).data.Count();
+            model.StudentCount = (await _studentRepository.GetAllStudentBySchoolList(principalUserID.data.schoolid)).data.Count();
+            model.ParentCount = (await _parentRepository.GetAllParentsBySchoolList(principalUserID.data.schoolid)).data.Count();         
+            model.EventsCount = (await _eventsRepository.GetAllEventsBySchoolList(principalUserID.data.schoolid)).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolList(principalUserID.data.schoolid)).data.Count();
             return View(model);
         }
 

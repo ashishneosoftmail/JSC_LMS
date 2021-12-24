@@ -148,7 +148,7 @@
 
 <div class="container">
     <div class="row">
-        <h2> Subject List</h2>
+        <h3> Subject List</h3>
        
     </div>
     <div class="row">
@@ -206,16 +206,21 @@
                 <input type="date" value="" class="form-control" id="date" />
             </div>
         </div>
-        <div class="col-sm-12">
+        @*<div class="col-sm-12">
             <div class="form-group row col-sm-2 float-md-start">
                 <button type="button" class="btn btn-primary  " onclick="searchSubject()" style="width:7em;margin-left:0em;">Search</button>
             </div>
-        </div>
+        </div>*@
     </div>
 </div>
-<div class="col-md-11">
+@*<div class="col-md-11">
 
     <a asp-action="AddSubject" asp-controller="Subject" class="btn btn-primary   pull-right m-2" style=" width: 9.5em;"><span>Create New</span>   </a>
+
+</div>*@
+<div class="row">
+    <button type="button" style="margin-left: 9.5em; width: 10em;" class="btn btn-primary " onclick="searchSubject()">Search</button>
+    <a asp-action="AddSubject" asp-controller="Subject" class="btn btn-primary " style="width: 10rem; margin-left: 30.5rem; "><span>Create New</span>   </a>
 
 </div>
 
