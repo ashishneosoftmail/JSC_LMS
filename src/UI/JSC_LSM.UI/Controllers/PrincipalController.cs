@@ -1657,9 +1657,12 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<GetGallaryList>();
             GallaryDetailsModel model = new GallaryDetailsModel();
 
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+
             model.Events = await _common.GetEvent();
             model.Schools = await _common.GetSchool();
-            var dataList = await _gallaryRepository.GetGallaryList();
+            var dataList = await _gallaryRepository.GetGallaryBySchoolId(principal.data.schoolid);
 
             foreach (var gallarydata in dataList.data)
             {
@@ -1687,9 +1690,12 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<GetGallaryList>();
             GallaryDetailsModel model = new GallaryDetailsModel();
 
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var principal = await _principalRepository.GetPrincipalByUserId(userId);
+
             model.Events = await _common.GetEvent();
             model.Schools = await _common.GetSchool();
-            var dataList = await _gallaryRepository.GetGallaryList();
+            var dataList = await _gallaryRepository.GetGallaryBySchoolId(principal.data.schoolid);
 
             foreach (var gallarydata in dataList.data)
             {
