@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "ManageGallary";
-    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 
 }
 
@@ -32,29 +32,29 @@
         <span style="font-size:30px;font-weight:300">Gallary </span>
 
 
-        <a class="btn btn-danger pull-right m-2" data-toggle="modal" data-target="#deleteAllModal"><span>Delete All</span>   </a>
-        <a data-toggle="modal" data-target="#uploadModal" class="  btn btn-primary pull-right m-2 " download>Upload</a>
+        @*<a class="btn btn-danger pull-right m-2" data-toggle="modal" data-target="#deleteAllModal"><span>Delete All</span>   </a>*@
+
+        @*<a data-toggle="modal" data-target="#uploadModal" class="  btn btn-primary pull-right m-2 " download>Upload</a>*@
     </div>
 
     <div id="btnContainer">
 
-        <button class="btn dark" onclick="location.href='@Url.Action("ListGallary","Institute")'"> <i class="fa fa-bars"></i>List</button>
+        <button class="btn dark" onclick="location.href='@Url.Action("ListGallary","Student")'"> <i class="fa fa-bars"></i>List</button>
 
 
-        <button class="btn" onclick="location.href='@Url.Action("ManageGallary","Institute")'"> <i class="fa fa-th-large"></i>Grid</button>
+        <button class="btn" onclick="location.href='@Url.Action("ManageGallary","Student")'"> <i class="fa fa-th-large"></i>Grid</button>
     </div>
 
 
 
     <!-- Modal -->
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="uploadModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
+
+            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Upload File</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
                     <!-- Form -->
@@ -116,53 +116,48 @@
 
                         <span asp-validation-for="AddGallary.imageUpload" class="text-danger"></span>
                         <div>
-
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            <input type='submit' class='btn btn-primary' value='Upload' id='btn_upload'>
+                            <input type='submit' class='btn btn-info' value='Upload' id='btn_upload'>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         </div>
 
                     </form>
 
+                    <!-- GallaryMain-->
+                    <div>
+
+
+
+                    </div>
+
+
                 </div>
-             
+
             </div>
+
         </div>
     </div>
 
 
 
 
-
-
     <div class="row">
-
-        @if (Model.GetGallaryList.Count() < 1)
-        {
-
-            <div class="row">
-                <center><h3> No Records Found</h3></center>
-            </div>
-
-
-
-        }
         @if (Model.GetGallaryList != null)
         {
             foreach (var item in Model.GetGallaryList)
             {
-                <div class="container">
-                    <div class="columns">
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6">
                         <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" onclick="ShowEventDetail(@item.Id)">
-                            <div class="column">
+                            <div>
 
-                                <img src="~/Upload/Gallary/@item.image" id="image" class="img-responsive" width="300" height="300">
+                                <img src="~/Upload/Gallary/@item.image" class="img-fluid" width="300" height="300">
 
                             </div>
                         </button>
 
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmdelete" onclick="tempData(@item.Id)">
-                            Delete
-                        </button>
+                        @*<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmdelete" onclick="tempData(@item.Id)">
+                                Delete
+                            </button>*@
                     </div>
                 </div>
 
@@ -312,40 +307,39 @@
 
 </script>
 
-<script>
-    $(document).ready(function () {
-        $('#action').click(function () {
+@*<script>
+        $(document).ready(function () {
+            $('#action').click(function () {
 
-           @* var itemId = $('#hdnItemId').val();
-            alert("Start Value: " + itemId);*@
+                var itemId = $('#hdnItemId').val();
+                alert("Start Value: " + itemId);
 
-            var actionLink = "/Institute/DeleteGallary?id=" + number;
+                var actionLink = "/Institute/DeleteGallary?id=" + number;
 
-            window.location.href = actionLink;
+                window.location.href = actionLink;
+            });
         });
-    });
-    var number = 0;
-    function tempData(id) {
-        console.log(number);
-        number = id;
-        console.log(number);
-    }
-</script>
+        var number = 0;
+        function tempData(id) {
+            console.log(number);
+            number = id;
+            console.log(number);
+        }
+    </script>*@
 
-<script>
-    $(document).ready(function () {
-        $('#actionlink').click(function () {
+@*<script>
+        $(document).ready(function () {
+            $('#actionlink').click(function () {
 
-            var actionLink = "/Institute/DeleteAllGallary";
+                var actionLink = "/Institute/DeleteAllGallary";
 
-            window.location.href = actionLink;
+                window.location.href = actionLink;
+            });
         });
-    });
-    var number = 0;
-    function tempData(id) {
-        console.log(number);
-        number = id;
-        console.log(number);
-    }
-</script>
-
+        var number = 0;
+        function tempData(id) {
+            console.log(number);
+            number = id;
+            console.log(number);
+        }
+    </script>*@
