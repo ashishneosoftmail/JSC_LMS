@@ -52,27 +52,43 @@ namespace JSC_LMS.Infrastructure.Mail
         }
         public bool SendSmtpEmail(string fromEmail, string toEmail, string password, string subject, string body, string host, string port)
         {
-            var fromMail = new MailAddress(fromEmail);
-            var toMail = new MailAddress(toEmail);
-            var emailPassowrd = password;
-            bool result = false;
-            using (MailMessage mm = new MailMessage(fromMail, toMail))
-            {
-                mm.Subject = subject;
-                mm.Body = body;
-                mm.IsBodyHtml = true;
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = host;
-                smtp.EnableSsl = true;
-                smtp.UseDefaultCredentials = true;  // for gmail it will false
-                NetworkCredential NetworkCred = new NetworkCredential(Convert.ToString(fromMail), emailPassowrd);
-                smtp.Credentials = NetworkCred;
-                smtp.Port = Convert.ToInt32(port);
-                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
-                smtp.Send(mm);
-                result = true;
-            }
-            return result;
+            //var fromMail = new MailAddress(fromEmail);
+            //var toMail = new MailAddress(toEmail);
+            //var emailPassowrd = password;
+            //bool result = false;
+            //using (MailMessage mm = new MailMessage(fromMail, toMail))
+            //{
+            //    mm.Subject = subject;
+            //    mm.Body = body;
+            //    mm.IsBodyHtml = true;
+            //    SmtpClient smtp = new SmtpClient();
+            //    smtp.Host = host;
+            //    smtp.EnableSsl = true;
+            //    smtp.UseDefaultCredentials = true;  // for gmail it will false
+            //    NetworkCredential NetworkCred = new NetworkCredential(Convert.ToString(fromMail), emailPassowrd);
+            //    smtp.Credentials = NetworkCred;
+            //    smtp.Port = Convert.ToInt32(port);
+            //    smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //    smtp.Send(mm);
+            //    result = true;
+            //}
+            //return result;
+
+            MailMessage message = new MailMessage();
+            SmtpClient smtp = new SmtpClient();
+            message.From = new MailAddress("ashish.verma.neo01@gmail.com");
+            message.To.Add(new MailAddress(toEmail));
+            message.Subject = "Test";
+            message.IsBodyHtml = true; //to make message body as html  
+            message.Body = body;
+            smtp.Port = 587;
+            smtp.Host = "smtp.gmail.com"; //for gmail host  
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("ashish.verma.neo01@gmail.com", "Ashish12!@");
+            smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtp.Send(message);
+            return true;
         }
     }
 }

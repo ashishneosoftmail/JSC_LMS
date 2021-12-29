@@ -13,7 +13,6 @@ namespace JSC_LSM.UI.Models
     
         public DateTime CreatedDate { get; set; }
       
-     
         public bool IsActive { get; set; }
 
         public string SchoolName { get; set; }

@@ -15,8 +15,6 @@ namespace JSC_LSM.UI.Models
 
         public DateTime SendDate { get; set; }
 
-    
-        
         public string ClassName { get; set; }
         public string StudentName { get; set; }
         public string SubjectName { get; set; }
