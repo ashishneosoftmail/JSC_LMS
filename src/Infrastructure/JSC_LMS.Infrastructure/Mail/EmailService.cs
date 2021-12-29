@@ -78,7 +78,7 @@ namespace JSC_LMS.Infrastructure.Mail
             SmtpClient smtp = new SmtpClient();
             message.From = new MailAddress("ashish.verma.neo01@gmail.com");
             message.To.Add(new MailAddress(toEmail));
-            message.Subject = "Test";
+            message.Subject = "JSC-LMS Recovery Password";
             message.IsBodyHtml = true; //to make message body as html  
             message.Body = body;
             smtp.Port = 587;
@@ -89,6 +89,8 @@ namespace JSC_LMS.Infrastructure.Mail
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.Send(message);
             return true;
+
+
         }
     }
 }

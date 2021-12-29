@@ -475,7 +475,8 @@ namespace JSC_LMS.Identity.Services
             var port = "587";
             var smtppassword = "Ashish12!@";
             var subject = "JSC_LMS Forgot Password Recovery";
-            var body = $"Your Password is reset, Kindly use this Password : {password} to Log in on JSC_LMS Portal.";
+            var body = $"Dear User,<br><br><br>The One-Time password for reset the password in Learning Management System is: {password} <br><br><br>Regards,<br>LMS Team";
+
             var sendEmail = _emailService.SendSmtpEmail(fromEmail, email, smtppassword, subject, body, host, port);
             if (!sendEmail)
             {
