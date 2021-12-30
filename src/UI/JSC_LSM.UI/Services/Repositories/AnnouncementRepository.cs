@@ -28,7 +28,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<AddAnnouncementResponseModel> AddAnnouncement(CreateAnnouncementDto createAnnouncementDto)
+        public async Task<AddAnnouncementResponseModel> AddAnnouncement(string baseurl, CreateAnnouncementDto createAnnouncementDto)
         {
             AddAnnouncementResponseModel addAnnouncementResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -38,7 +38,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddAnnouncement, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddAnnouncement, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 addAnnouncementResponseModel = JsonConvert.DeserializeObject<AddAnnouncementResponseModel>(_oApiResponse.data);
@@ -55,7 +55,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return addAnnouncementResponseModel;
         }
 
-        public async Task<GetAnnouncementListByPaginationResponseModel> GetAnnouncementListByPagination(int page, int size)
+        public async Task<GetAnnouncementListByPaginationResponseModel> GetAnnouncementListByPagination(string baseurl, int page, int size)
         {
             GetAnnouncementListByPaginationResponseModel getAnnouncementListByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -63,7 +63,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAnnouncementByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAnnouncementListByPaginationResponseModel = JsonConvert.DeserializeObject<GetAnnouncementListByPaginationResponseModel>(_oApiResponse.data);
@@ -73,7 +73,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAnnouncementListByPaginationResponseModel;
         }
 
-        public async Task<GetAnnouncementListResponseModel> GetAnnouncementList()
+        public async Task<GetAnnouncementListResponseModel> GetAnnouncementList(string baseurl)
         {
             GetAnnouncementListResponseModel getAnnouncementListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -81,7 +81,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementList, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAnnouncementList, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAnnouncementListResponseModel = JsonConvert.DeserializeObject<GetAnnouncementListResponseModel>(_oApiResponse.data);
@@ -91,7 +91,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAnnouncementListResponseModel;
         }
 
-        public async Task<GetAnnouncementByIdResponseModel> GetAnnouncementById(int Id)
+        public async Task<GetAnnouncementByIdResponseModel> GetAnnouncementById(string baseurl, int Id)
         {
             GetAnnouncementByIdResponseModel getAnnouncementByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -99,7 +99,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementById + "?id=" + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAnnouncementById + "?id=" + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAnnouncementByIdResponseModel = JsonConvert.DeserializeObject<GetAnnouncementByIdResponseModel>(_oApiResponse.data);
@@ -109,7 +109,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAnnouncementByIdResponseModel;
 
         }
-        public async Task<UpdateAnnouncementResponseModel> UpdateAnnouncement(UpdateAnnouncementDto updateAnnouncementDto)
+        public async Task<UpdateAnnouncementResponseModel> UpdateAnnouncement(string baseurl, UpdateAnnouncementDto updateAnnouncementDto)
         {
             UpdateAnnouncementResponseModel updateAnnouncementResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -119,7 +119,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Announcement/Update", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Announcement/Update", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateAnnouncementResponseModel = JsonConvert.DeserializeObject<UpdateAnnouncementResponseModel>(_oApiResponse.data);
@@ -136,7 +136,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateAnnouncementResponseModel;
         }
 
-        public async Task<GetAnnouncementByFiltersResponseModel> GetAnnouncementByFilters(int SchoolId, int ClassId, int SectionId, int SubjectId, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
+        public async Task<GetAnnouncementByFiltersResponseModel> GetAnnouncementByFilters(string baseurl, int SchoolId, int ClassId, int SectionId, int SubjectId, string TeacherName, string AnnouncementMadeBy, string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
         {
             GetAnnouncementByFiltersResponseModel getAnnouncementByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -144,7 +144,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);          
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Announcement/Filter?SchoolId={SchoolId}&ClassId={ClassId}&SectionId={SectionId}&SubjectId={SubjectId}&TeacherName={TeacherName}&AnnouncementMadeBy={AnnouncementMadeBy}&AnnouncementTitle={AnnouncementTitle}&AnnouncementContent={AnnouncementContent}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Announcement/Filter?SchoolId={SchoolId}&ClassId={ClassId}&SectionId={SectionId}&SubjectId={SubjectId}&TeacherName={TeacherName}&AnnouncementMadeBy={AnnouncementMadeBy}&AnnouncementTitle={AnnouncementTitle}&AnnouncementContent={AnnouncementContent}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAnnouncementByFiltersResponseModel = JsonConvert.DeserializeObject<GetAnnouncementByFiltersResponseModel>(_oApiResponse.data);
@@ -154,7 +154,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAnnouncementByFiltersResponseModel;
 
         }
-        public async Task<GetAllAnnouncementListBySchoolPaginationResponseModel> GetAnnouncementListBySchoolPagination(int page, int size, int schoolid)
+        public async Task<GetAllAnnouncementListBySchoolPaginationResponseModel> GetAnnouncementListBySchoolPagination(string baseurl, int page, int size, int schoolid)
         {
             GetAllAnnouncementListBySchoolPaginationResponseModel getAllAnnouncementListBySchoolPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -162,7 +162,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAnnouncementListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllAnnouncementListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolPaginationResponseModel>(_oApiResponse.data);
@@ -172,7 +172,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllAnnouncementListBySchoolPaginationResponseModel;
         }
 
-        public async Task<GetAllAnnouncementListBySchoolResponseModel> GetAllAnnouncementBySchoolList(int schoolid)
+        public async Task<GetAllAnnouncementListBySchoolResponseModel> GetAllAnnouncementBySchoolList(string baseurl, int schoolid)
         {
             GetAllAnnouncementListBySchoolResponseModel getAllAnnouncementListBySchoolResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -180,7 +180,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllAnnouncementBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllAnnouncementBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllAnnouncementListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolResponseModel>(_oApiResponse.data);
@@ -190,7 +190,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllAnnouncementListBySchoolResponseModel;
         }
 
-        public async Task<GetAllAnnouncementListBySchoolClassSectionResponseModel> GetAllAnnouncementBySchoolClassSectionList(int schoolid, int classid, int sectionid)
+        public async Task<GetAllAnnouncementListBySchoolClassSectionResponseModel> GetAllAnnouncementBySchoolClassSectionList(string baseurl, int schoolid, int classid, int sectionid)
         {
             GetAllAnnouncementListBySchoolClassSectionResponseModel getAllAnnouncementListBySchoolClassSectionResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -198,7 +198,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllAnnouncementBySchoolClassSection + $"?schoolid={schoolid}&classid={classid}&sectionid={sectionid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllAnnouncementBySchoolClassSection + $"?schoolid={schoolid}&classid={classid}&sectionid={sectionid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllAnnouncementListBySchoolClassSectionResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolClassSectionResponseModel>(_oApiResponse.data);
@@ -208,7 +208,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllAnnouncementListBySchoolClassSectionResponseModel;
         }
 
-        public async Task<GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel> GetAnnouncementListBySchoolClassSectionPagination(int page, int size, int schoolid, int classid, int sectionid)
+        public async Task<GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel> GetAnnouncementListBySchoolClassSectionPagination(string baseurl, int page, int size, int schoolid, int classid, int sectionid)
         {
             GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel getAllAnnouncementListBySchoolClassSectionPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -216,7 +216,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAnnouncementListBySchoolClassSectionPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}&_classid={classid}&_sectionid={sectionid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAnnouncementListBySchoolClassSectionPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}&_classid={classid}&_sectionid={sectionid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllAnnouncementListBySchoolClassSectionPaginationResponseModel = JsonConvert.DeserializeObject<GetAllAnnouncementListBySchoolClassSectionPaginationResponseModel>(_oApiResponse.data);

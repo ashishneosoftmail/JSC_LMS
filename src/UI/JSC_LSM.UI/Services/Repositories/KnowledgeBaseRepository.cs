@@ -26,7 +26,7 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
-        public async Task<AddKnowledgeBaseResponseModel> AddKnowledgeBase(CreateKnowledgeBaseDto createKnowledgeBaseDto)
+        public async Task<AddKnowledgeBaseResponseModel> AddKnowledgeBase(string baseurl, CreateKnowledgeBaseDto createKnowledgeBaseDto)
         {
             AddKnowledgeBaseResponseModel aAddKnowledgeBaseResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -36,7 +36,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddKnowledgeBase, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddKnowledgeBase, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 aAddKnowledgeBaseResponseModel = JsonConvert.DeserializeObject<AddKnowledgeBaseResponseModel>(_oApiResponse.data);
@@ -53,7 +53,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return aAddKnowledgeBaseResponseModel;
         }
 
-        public async Task<UpdateKnowledgeBaseResponseModel> EditKnowledgeBase(UpdateKnowledgeBaseDto updateKnowledgeBaseDto)
+        public async Task<UpdateKnowledgeBaseResponseModel> EditKnowledgeBase(string baseurl, UpdateKnowledgeBaseDto updateKnowledgeBaseDto)
         {
             UpdateKnowledgeBaseResponseModel updateKnowledgeBaseResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -63,7 +63,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/KnowledgeBase/UpdateKnowledgeBase", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/KnowledgeBase/UpdateKnowledgeBase", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateKnowledgeBaseResponseModel = JsonConvert.DeserializeObject<UpdateKnowledgeBaseResponseModel>(_oApiResponse.data);
@@ -79,7 +79,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return updateKnowledgeBaseResponseModel;
         }
-        public async Task<GetKnowledgeBaseByIdResponseModel> GetKnowlegebaseById(int id)
+        public async Task<GetKnowledgeBaseByIdResponseModel> GetKnowlegebaseById(string baseurl, int id)
         {
             GetKnowledgeBaseByIdResponseModel getKnowledgeBaseByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -87,7 +87,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetKnowledgeBaseById + id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetKnowledgeBaseById + id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getKnowledgeBaseByIdResponseModel = JsonConvert.DeserializeObject<GetKnowledgeBaseByIdResponseModel>(_oApiResponse.data);
@@ -97,7 +97,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getKnowledgeBaseByIdResponseModel;
         }
 
-        public async Task<GetAllKnowledgeBasePaginationResponseModel> GetAllKnowledgeBaseByPagination(int page, int size)
+        public async Task<GetAllKnowledgeBasePaginationResponseModel> GetAllKnowledgeBaseByPagination(string baseurl, int page, int size)
         {
             GetAllKnowledgeBasePaginationResponseModel getAllKnowledgeBasePaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -105,7 +105,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllKnowledgeBasePagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllKnowledgeBasePagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllKnowledgeBasePaginationResponseModel = JsonConvert.DeserializeObject<GetAllKnowledgeBasePaginationResponseModel>(_oApiResponse.data);
@@ -115,7 +115,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllKnowledgeBasePaginationResponseModel;
         }
 
-        public async Task<GetAllKnowledgeBaseFilterResponseModel> GetAllKnowledgeBaseByFilters(string title, string subtitle, string category)
+        public async Task<GetAllKnowledgeBaseFilterResponseModel> GetAllKnowledgeBaseByFilters(string baseurl, string title, string subtitle, string category)
         {
             GetAllKnowledgeBaseFilterResponseModel getAllKnowledgeBaseFilterResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -123,7 +123,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllKnowledgeBaseByFilter + $"?_DocTitle={title}&_Subtitle={subtitle}&_Category={category}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllKnowledgeBaseByFilter + $"?_DocTitle={title}&_Subtitle={subtitle}&_Category={category}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllKnowledgeBaseFilterResponseModel = JsonConvert.DeserializeObject<GetAllKnowledgeBaseFilterResponseModel>(_oApiResponse.data);
@@ -133,7 +133,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllKnowledgeBaseFilterResponseModel;
         }
 
-        public async Task<GetAllKnowledgeBaseListResponseModel> GetAllKnowledgeBaseList()
+        public async Task<GetAllKnowledgeBaseListResponseModel> GetAllKnowledgeBaseList(string baseurl)
         {
             GetAllKnowledgeBaseListResponseModel getAllKnowledgeBaseListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -141,7 +141,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllKnowledgeBase, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllKnowledgeBase, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllKnowledgeBaseListResponseModel = JsonConvert.DeserializeObject<GetAllKnowledgeBaseListResponseModel>(_oApiResponse.data);
@@ -151,7 +151,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllKnowledgeBaseListResponseModel;
         }
 
-        public async Task DeleteKnowledgeBase(int id)
+        public async Task DeleteKnowledgeBase(string baseurl, int id)
         {
 
             _aPIRepository = new APIRepository(_configuration);
@@ -159,7 +159,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteKnowledgeBase + id, HttpMethod.Delete, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.DeleteKnowledgeBase + id, HttpMethod.Delete, bytes, _sToken);
         }
     }
 }

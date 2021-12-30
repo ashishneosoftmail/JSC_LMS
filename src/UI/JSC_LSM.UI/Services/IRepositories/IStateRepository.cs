@@ -13,7 +13,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// Returns all the state -developed by harsh chheda
         /// </summary>
         /// <returns></returns>
-        Task<GetAllStatesResponseModel> GetAllStates();
+        Task<GetAllStatesResponseModel> GetAllStates(string baseurl);
     }
     #endregion
 }

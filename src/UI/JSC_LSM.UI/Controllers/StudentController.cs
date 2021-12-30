@@ -57,17 +57,17 @@ namespace JSC_LSM.UI.Controllers
         {
             ParentClassInformationModel model = new ParentClassInformationModel();
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var studentData = await _studentRepository.GetStudentByUserId(userId);
-            var getStudent = await _studentRepository.GetStudentById(studentData.data.Id);
+            var studentData = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
+            var getStudent = await _studentRepository.GetStudentById(_apiBaseUrl.Value.LmsApiBaseUrl,studentData.data.Id);
 
             model.StudentName = getStudent.data.StudentName;
 
-            var school = await _schoolRepository.GetSchoolById(getStudent.data.SchoolId);
+            var school = await _schoolRepository.GetSchoolById(_apiBaseUrl.Value.LmsApiBaseUrl,getStudent.data.SchoolId);
             model.SchoolName = school.data.SchoolName;
             model.ClassName = getStudent.data.Class.ClassName;
             model.SectionName = getStudent.data.Section.SectionName;
             List<SubjectTeacher> subList = new List<SubjectTeacher>();
-            var teacherlist = (await _teacherRepository.GetAllTeacherDetails()).data.Where(x => x.SchoolId.Id == getStudent.data.SchoolId).Where(x => x.SectionId.Id == getStudent.data.Section.Id).Where(x => x.ClassId.Id == getStudent.data.Class.Id).ToList();
+            var teacherlist = (await _teacherRepository.GetAllTeacherDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Where(x => x.SchoolId.Id == getStudent.data.SchoolId).Where(x => x.SectionId.Id == getStudent.data.Section.Id).Where(x => x.ClassId.Id == getStudent.data.Class.Id).ToList();
             foreach (var d in teacherlist)
             {
                 subList.Add(new SubjectTeacher()
@@ -84,10 +84,10 @@ namespace JSC_LSM.UI.Controllers
         {
             StudentChartDetails model = new StudentChartDetails();
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var student =await _studentRepository.GetStudentByUserId(userId);
-            model.CircularCount = (await _circularRepository.GetAllCircularBySchoolList(student.data.Schoolid)).data.Count();
-            model.EventsCount = (await _eventsRepository.GetAllEventsBySchoolList(student.data.Schoolid)).data.Count();
-            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(student.data.Schoolid, student.data.Classid, student.data.Sectionid)).data.Count();
+            var student =await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
+            model.CircularCount = (await _circularRepository.GetAllCircularBySchoolList(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid)).data.Count();
+            model.EventsCount = (await _eventsRepository.GetAllEventsBySchoolList(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid)).data.Count();
+            model.AnnouncementCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid, student.data.Classid, student.data.Sectionid)).data.Count();
             return View(model);
         }
 
@@ -95,8 +95,8 @@ namespace JSC_LSM.UI.Controllers
         public JsonResult EventsDataStudentsBarChart()
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var student = _studentRepository.GetStudentByUserId(userId).GetAwaiter().GetResult();
-            var eventsData = _eventsRepository.GetAllEventsBySchoolList(student.data.Schoolid).GetAwaiter().GetResult();
+            var student = _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId).GetAwaiter().GetResult();
+            var eventsData = _eventsRepository.GetAllEventsBySchoolList(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid).GetAwaiter().GetResult();
 
             var list = eventsData.data.Where(v => v.EventDateTime.Year == DateTime.Now.Year).GroupBy(u => u.EventDateTime.Month)
                           .Select(u => new EventsStudentData
@@ -176,7 +176,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetTeacherName()
         {
-            var data = await _teacherRepository.GetAllTeacherDetails();
+            var data = await _teacherRepository.GetAllTeacherDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> teachers = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -192,8 +192,8 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> ManageAnnouncement(int page = 1, int size = 20)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var student = await _studentRepository.GetStudentByUserId(userId);
-            int recsCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(student.data.Schoolid, student.data.Classid, student.data.Sectionid)).data.Count();
+            var student = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
+            int recsCount = (await _announcementRepository.GetAllAnnouncementBySchoolClassSectionList(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid, student.data.Classid, student.data.Sectionid)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -204,7 +204,7 @@ namespace JSC_LSM.UI.Controllers
             //model.Sections = await _common.GetSection();
             model.Subjects = await _common.GetSubject();
             model.Teachers = await GetTeacherName();
-            var paginationData = await _announcementRepository.GetAnnouncementListBySchoolClassSectionPagination(page, size, student.data.Schoolid, student.data.Classid, student.data.Sectionid);
+            var paginationData = await _announcementRepository.GetAnnouncementListBySchoolClassSectionPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size, student.data.Schoolid, student.data.Classid, student.data.Sectionid);
             List<AnnouncementPagination> pagedData = new List<AnnouncementPagination>();
             foreach (var data in paginationData.data)
             {
@@ -230,10 +230,10 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> SearchAnnouncement(string AnnouncementTitle, string AnnouncementContent, DateTime CreatedDate)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var student = await _studentRepository.GetStudentByUserId(userId);
+            var student = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
 
             List<AnnouncementPagination> data = new List<AnnouncementPagination>();
-            var dataList = await _announcementRepository.GetAnnouncementByFilters(student.data.Schoolid, student.data.Classid, student.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
+            var dataList = await _announcementRepository.GetAnnouncementByFilters(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid, student.data.Classid, student.data.Sectionid, 0, "Select Teacher", "Select Type", AnnouncementTitle, AnnouncementContent, CreatedDate);
             if (dataList.data != null)
             {
                 foreach (var d in dataList.data)
@@ -291,7 +291,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<GetAnnouncementByIdResponseModel> ViewAnnouncement(int Id)
         {
-            var announcement = await _announcementRepository.GetAnnouncementById(Id);
+            var announcement = await _announcementRepository.GetAnnouncementById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return announcement;
         }
 
@@ -300,8 +300,8 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> ManageCircular(int page = 1, int size = 5)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var principal = await _studentRepository.GetStudentByUserId(userId);
-            int recsCount = (await _circularRepository.GetAllCircularBySchoolList(principal.data.Schoolid)).data.Count();
+            var principal = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
+            int recsCount = (await _circularRepository.GetAllCircularBySchoolList(_apiBaseUrl.Value.LmsApiBaseUrl,principal.data.Schoolid)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -309,7 +309,7 @@ namespace JSC_LSM.UI.Controllers
             ManageCircularModel model = new ManageCircularModel();
             model.Pager = pager;
             model.Schools = await _common.GetSchool();
-            var paginationData = await _circularRepository.GetCircularListBySchoolPagination(page, size, principal.data.Schoolid);
+            var paginationData = await _circularRepository.GetCircularListBySchoolPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size, principal.data.Schoolid);
             List<CircularPagination> pagedData = new List<CircularPagination>();
             foreach (var data in paginationData.data)
             {
@@ -334,7 +334,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<GetCircularByIdResponseModel> ViewCircular(int Id)
         {
-            var circular = await _circularRepository.GetCircularById(Id);
+            var circular = await _circularRepository.GetCircularById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return circular;
         }
         [HttpGet]
@@ -354,9 +354,9 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> SearchCircular(string circularTitle, string description, DateTime date)
         {
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var principal = await _studentRepository.GetStudentByUserId(userId);
+            var principal = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
             List<CircularPagination> data = new List<CircularPagination>();
-            var dataList = await _circularRepository.GetAllCircularListByFilterSchoolAndCreatedDate(circularTitle, description, date, principal.data.Schoolid);
+            var dataList = await _circularRepository.GetAllCircularListByFilterSchoolAndCreatedDate(_apiBaseUrl.Value.LmsApiBaseUrl,circularTitle, description, date, principal.data.Schoolid);
             if (dataList.data != null)
             {
                 foreach (var d in dataList.data)
@@ -405,7 +405,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteGallary(int id)
         {
-            await _gallaryRepository.DeleteGallary(id);
+            await _gallaryRepository.DeleteGallary(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             ViewBag.DeleteGallarySuccess = "Images Deleted Successfully";
             return RedirectToAction("ManageGallary");
         }
@@ -413,7 +413,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetGallaryListByIdResponseModel> ViewGallary(int Id)
         {
 
-            var gallary = await _gallaryRepository.GetGallaryById(Id);
+            var gallary = await _gallaryRepository.GetGallaryById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return gallary;
         }
 
@@ -426,11 +426,11 @@ namespace JSC_LSM.UI.Controllers
             GallaryDetailsModel model = new GallaryDetailsModel();
 
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var student = await _studentRepository.GetStudentByUserId(userId);
+            var student = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
 
             model.Events = await _common.GetEvent();
             model.Schools = await _common.GetSchool();
-            var dataList = await _gallaryRepository.GetGallaryBySchoolId(student.data.Schoolid);
+            var dataList = await _gallaryRepository.GetGallaryBySchoolId(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid);
 
             foreach (var gallarydata in dataList.data)
             {
@@ -459,11 +459,11 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<GetGallaryList>();
             GallaryDetailsModel model = new GallaryDetailsModel();
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var student = await _studentRepository.GetStudentByUserId(userId);
+            var student = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
 
             model.Events = await _common.GetEvent();
             model.Schools = await _common.GetSchool();
-            var dataList = await _gallaryRepository.GetGallaryBySchoolId(student.data.Schoolid);
+            var dataList = await _gallaryRepository.GetGallaryBySchoolId(_apiBaseUrl.Value.LmsApiBaseUrl,student.data.Schoolid);
 
             foreach (var gallarydata in dataList.data)
             {
@@ -530,7 +530,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddGallarySuccess = null;
                 ViewBag.AddGallaryError = null;
                 ResponseModel responseModel = new ResponseModel();
-                addGallaryResponseModel = await _gallaryRepository.AddGallary(uploadImageDto);
+                addGallaryResponseModel = await _gallaryRepository.AddGallary(_apiBaseUrl.Value.LmsApiBaseUrl,uploadImageDto);
 
 
                 if (addGallaryResponseModel.Succeeded)
@@ -553,7 +553,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var data = new List<GetGallaryList>();
 
-                            var dataList = await _gallaryRepository.GetGallaryList();
+                            var dataList = await _gallaryRepository.GetGallaryList(_apiBaseUrl.Value.LmsApiBaseUrl);
 
                             foreach (var gallarydata in dataList.data)
                             {
@@ -648,7 +648,7 @@ namespace JSC_LSM.UI.Controllers
             {
                 file.Delete();
             }
-            await _gallaryRepository.DeleteAllGallary();
+            await _gallaryRepository.DeleteAllGallary(_apiBaseUrl.Value.LmsApiBaseUrl);
             ViewBag.DeleteAllGallarySuccess = "All Images Deleted Successfully";
             return RedirectToAction("ManageGallary");
         }

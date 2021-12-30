@@ -1,11 +1,13 @@
 ﻿
 using JSC_LMS.Application.Features.Subject.Commands.CreateSubject;
 using JSC_LMS.Application.Features.Subject.Commands.UpdateSubject;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,13 +24,15 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
-        public SubjectController(JSC_LSM.UI.Common.Common common, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        public SubjectController(JSC_LSM.UI.Common.Common common, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository , IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _common = common;
             _schoolRepository = schoolRepository;
             _sectionRepository = sectionRepository;
             _classRepository = classRepository;
             _subjectRepository = subjectRepository;
+            _apiBaseUrl = apiBaseUrl;
         }
 
         /// <summary>
@@ -41,7 +45,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+            int recsCount = (await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             ViewBag.GetSubjectById = TempData["GetSubjectById"] as string;
@@ -104,7 +108,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddSubjectError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                subjectResponseModel = await _subjectRepository.AddNewSubject(createNewSubject);
+                subjectResponseModel = await _subjectRepository.AddNewSubject(_apiBaseUrl.Value.LmsApiBaseUrl,createNewSubject);
 
 
                 if (subjectResponseModel.Succeeded)
@@ -130,7 +134,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+                            int recsCount = (await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetSubjectById = TempData["GetSubjectById"] as string;
@@ -169,7 +173,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetSubjectByIdResponseModel> GetSubjectById(int Id)
         {
 
-            var subjects = await _subjectRepository.GetSubjectById(Id);
+            var subjects = await _subjectRepository.GetSubjectById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return subjects;
         }
 
@@ -183,7 +187,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<SubjectDetailsViewModel>();
 
-            var dataList = await _subjectRepository.GetAllSubjectDetails();
+            var dataList = await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             foreach (var subjects in dataList.data)
             {
                 data.Add(new SubjectDetailsViewModel()
@@ -218,7 +222,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<SubjectDetailsViewModel>> GetAllSubjectsDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+            int recsCount = (await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -227,7 +231,7 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<SubjectDetailsViewModel>();
 
             //int recSkip = (page - 1) * size;
-            var dataList = await _subjectRepository.GetSubjectByPagination(page, size);
+            var dataList = await _subjectRepository.GetSubjectByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var subjects in dataList.data.GetSubjectListPaginationDto)
             {
@@ -295,7 +299,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetSubjectName()
         {
-            var data = await _subjectRepository.GetAllSubjectDetails();
+            var data = await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> subjects = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -316,7 +320,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> EditSubject(int id)
         {
-            var subjects = await _subjectRepository.GetSubjectById(id);
+            var subjects = await _subjectRepository.GetSubjectById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (subjects.data == null)
             {
                 TempData["GetSubjectById"] = subjects.message;
@@ -383,7 +387,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateSubjectError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateSubjectResponseModel = await _subjectRepository.UpdateSubject(updateSubject);
+                updateSubjectResponseModel = await _subjectRepository.UpdateSubject(_apiBaseUrl.Value.LmsApiBaseUrl,updateSubject);
 
 
                 if (updateSubjectResponseModel.Succeeded)
@@ -403,7 +407,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _subjectRepository.GetAllSubjectDetails()).data.Count();
+                            int recsCount = (await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetSubjectById = TempData["GetSubjectById"] as string;
@@ -447,7 +451,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<SubjectDetailsViewModel>> GetSubjectByFilters(string className, string schoolName, string sectionName, string subjectName, DateTime createdDate, bool isActive)
         {
             var data = new List<SubjectDetailsViewModel>();
-            var dataList = await _subjectRepository.GetSubjectByFilters(schoolName, className, sectionName, subjectName, createdDate, isActive);
+            var dataList = await _subjectRepository.GetSubjectByFilters(_apiBaseUrl.Value.LmsApiBaseUrl,schoolName, className, sectionName, subjectName, createdDate, isActive);
             if (dataList.data != null)
             {
                 foreach (var subjects in dataList.data)

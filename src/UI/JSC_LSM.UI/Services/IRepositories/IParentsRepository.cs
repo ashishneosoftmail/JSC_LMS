@@ -10,19 +10,19 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface IParentsRepository
     {
-        Task<ParentsResponseModel> AddNewParents(CreateParentsDto createParentsDto);
-        Task<UpdateParentsResponseModel> UpdateParents(UpdateParentsDto updateParentsDto);
-        Task<GetParentsByIdResponseModel> GetParentsById(int Id);
+        Task<ParentsResponseModel> AddNewParents(string baseurl, CreateParentsDto createParentsDto);
+        Task<UpdateParentsResponseModel> UpdateParents(string baseurl, UpdateParentsDto updateParentsDto);
+        Task<GetParentsByIdResponseModel> GetParentsById(string baseurl, int Id);
 
-        Task<GetAllParentsListResponseModel> GetAllParentsDetails();
+        Task<GetAllParentsListResponseModel> GetAllParentsDetails(string baseurl);
 
-        Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(int SchoolId , string ClassName, string SectionName, string StudentName, string ParentName,bool IsActive, DateTime CreatedDate);
+        Task<GetAllParentsByFiltersResponseModel> GetParentsByFilters(string baseurl, int SchoolId , string ClassName, string SectionName, string StudentName, string ParentName,bool IsActive, DateTime CreatedDate);
 
-        Task<GetAllParentsByPaginationResponseModel> GetParentsByPagination(int page, int size);
+        Task<GetAllParentsByPaginationResponseModel> GetParentsByPagination(string baseurl, int page, int size);
 
-        Task<GetParentByUserIdResponseModel> GetParentByUserId(string UserId);
-        Task<GetAllParentsListBySchoolPaginationResponseModel> GetParentsListBySchoolPagination(int page, int size, int schoolid);
-        Task<GetAllParentsListBySchoolResponseModel> GetAllParentsBySchoolList(int schoolid);
+        Task<GetParentByUserIdResponseModel> GetParentByUserId(string baseurl, string UserId);
+        Task<GetAllParentsListBySchoolPaginationResponseModel> GetParentsListBySchoolPagination(string baseurl, int page, int size, int schoolid);
+        Task<GetAllParentsListBySchoolResponseModel> GetAllParentsBySchoolList(string baseurl, int schoolid);
 
     }
 }

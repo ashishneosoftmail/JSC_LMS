@@ -31,7 +31,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllFeedbackListResponseModel> GetAllFeedbackDetails()
+        public async Task<GetAllFeedbackListResponseModel> GetAllFeedbackDetails(string baseurl)
         {
             GetAllFeedbackListResponseModel getAllFeedbackListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -39,7 +39,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllFeedbackDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllFeedbackDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllFeedbackListResponseModel = JsonConvert.DeserializeObject<GetAllFeedbackListResponseModel>(_oApiResponse.data);
@@ -49,7 +49,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllFeedbackListResponseModel;
         }
 
-        public async Task<FeedbackResponseModel> AddNewFeedback(CreateFeedbackDto createFeedbackDto)
+        public async Task<FeedbackResponseModel> AddNewFeedback(string baseurl, CreateFeedbackDto createFeedbackDto)
         {
             FeedbackResponseModel feedbackResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -59,7 +59,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewFeedback, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddNewFeedback, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 feedbackResponseModel = JsonConvert.DeserializeObject<FeedbackResponseModel>(_oApiResponse.data);
@@ -78,7 +78,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<GetFeedbackByIdResponseModel> GetFeedbackById(int Id)
+        public async Task<GetFeedbackByIdResponseModel> GetFeedbackById(string baseurl, int Id)
         {
             GetFeedbackByIdResponseModel getFeedbackByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -86,7 +86,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetSectionById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetSectionById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getFeedbackByIdResponseModel = JsonConvert.DeserializeObject<GetFeedbackByIdResponseModel>(_oApiResponse.data);
@@ -99,7 +99,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        //public async Task<AddFeedbackResponseModel> AddFeedbackData(CreateFeedbackDto createFeedbackDto)
+        //public async Task<AddFeedbackResponseModel> AddFeedbackData(string baseurl,CreateFeedbackDto createFeedbackDto)
         //{
         //    AddFeedbackResponseModel addFeedbackResponseModel = null;
         //    _aPIRepository = new APIRepository(_configuration);
@@ -109,7 +109,7 @@ namespace JSC_LSM.UI.Services.Repositories
         //    byte[] content = Encoding.ASCII.GetBytes(json);
         //    var bytes = new ByteArrayContent(content);
 
-        //    _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddFeedbackData, HttpMethod.Post, bytes, _sToken);
+        //    _oApiResponse = await _aPIRepository.APICommunication( baseurl,UrlHelper.AddFeedbackData, HttpMethod.Post, bytes, _sToken);
         //    if (_oApiResponse.data != null)
         //    {
         //        addFeedbackResponseModel = JsonConvert.DeserializeObject<AddFeedbackResponseModel>(_oApiResponse.data);

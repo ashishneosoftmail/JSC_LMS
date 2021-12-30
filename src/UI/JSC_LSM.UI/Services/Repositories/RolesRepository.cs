@@ -31,7 +31,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// returns all the role - developed by harsh chheda
         /// </summary>
         /// <returns></returns>
-        public async Task<GetAllRolesResponseModel> GetAllRoles()
+        public async Task<GetAllRolesResponseModel> GetAllRoles(string baseurl)
         {
             GetAllRolesResponseModel getAllRolesResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -39,7 +39,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllRole, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication(baseurl,UrlHelper.GetAllRole, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllRolesResponseModel = JsonConvert.DeserializeObject<GetAllRolesResponseModel>(_oApiResponse.data);

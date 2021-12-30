@@ -18,17 +18,17 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// Get All School  - Developed By Harsh Chheda
         /// </summary>
         /// <returns></returns>
-        Task<GetAllSchoolResponseModel> GetAllSchool();
+        Task<GetAllSchoolResponseModel> GetAllSchool(string baseurl);
 
-        Task<SchoolResponseModel> AddNewSchool(CreateSchoolDto createSchoolDto);
+        Task<SchoolResponseModel> AddNewSchool(string baseurl, CreateSchoolDto createSchoolDto);
 
-        Task<GetSchoolByIdResponseModel> GetSchoolById(int Id);
+        Task<GetSchoolByIdResponseModel> GetSchoolById(string baseurl, int Id);
 
-        Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilter(string SchoolName, string InstituteName,string City,string State, bool IsActive,DateTime CreatedDate);
+        Task<GetAllSchoolByFiltersResponseModel> GetSchoolByFilter(string baseurl, string SchoolName, string InstituteName,string City,string State, bool IsActive,DateTime CreatedDate);
 
-        Task<GetAllSchoolByPaginationResponseModel> GetSchoolByPagination(int page, int size);
+        Task<GetAllSchoolByPaginationResponseModel> GetSchoolByPagination(string baseurl, int page, int size);
 
-        Task<UpdateSchoolResponseModel> UpdateSchool(UpdateSchoolDto updateSchoolDto);
+        Task<UpdateSchoolResponseModel> UpdateSchool(string baseurl, UpdateSchoolDto updateSchoolDto);
         #endregion
 
     }

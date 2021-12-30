@@ -1,4 +1,5 @@
-﻿using JSC_LSM.UI.ResponseModels;
+﻿using JSC_LSM.UI.Helpers;
+using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.ResponseModels.EventsResponseModel;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,8 +34,9 @@ namespace JSC_LSM.UI.Common
         private readonly IEventsDetailsRepository _eventRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
-      
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository,IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository,IWebHostEnvironment webHostEnvironment, IConfiguration configuration, IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
@@ -50,6 +53,7 @@ namespace JSC_LSM.UI.Common
             _parentsRepository = parentsRepository;
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
+            _apiBaseUrl = apiBaseUrl;
         }
         [NonAction]
         public string ProcessUploadFile(IFormFile formFile, string path)
@@ -78,7 +82,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> category = new List<SelectListItem>();
             GetAllCategoryResponseModel getAllCategoryResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllCategoryResponseModel = await _categoryRepository.GetAllCategory();
+            getAllCategoryResponseModel = await _categoryRepository.GetAllCategory(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllCategoryResponseModel.isSuccess)
             {
@@ -117,7 +121,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> state = new List<SelectListItem>();
             GetAllStatesResponseModel getAllStateResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllStateResponseModel = await _stateRepository.GetAllStates();
+            getAllStateResponseModel = await _stateRepository.GetAllStates(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllStateResponseModel.isSuccess)
             {
@@ -155,7 +159,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> cities = new List<SelectListItem>();
             GetAllCitiesResponseModel getAllCititesResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllCititesResponseModel = await _cityRepository.GetAllCities(id);
+            getAllCititesResponseModel = await _cityRepository.GetAllCities(_apiBaseUrl.Value.LmsApiBaseUrl,id);
 
             if (getAllCititesResponseModel.isSuccess)
             {
@@ -193,7 +197,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> zip = new List<SelectListItem>();
             GetAllZipResponseModel getAllZipResponse = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllZipResponse = await _zipRepository.GetAllZipcodes(cityId);
+            getAllZipResponse = await _zipRepository.GetAllZipcodes(_apiBaseUrl.Value.LmsApiBaseUrl,cityId);
 
             if (getAllZipResponse.isSuccess)
             {
@@ -231,7 +235,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> classes = new List<SelectListItem>();
             GetAllClassResponseModel getAllClassResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllClassResponseModel = await _classRepository.GetAllClass();
+            getAllClassResponseModel = await _classRepository.GetAllClass(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllClassResponseModel.isSuccess)
             {
@@ -271,7 +275,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> school = new List<SelectListItem>();
             GetAllSchoolResponseModel getAllSchoolResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllSchoolResponseModel = await _schoolRepository.GetAllSchool();
+            getAllSchoolResponseModel = await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllSchoolResponseModel.isSuccess)
             {
@@ -309,7 +313,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> section = new List<SelectListItem>();
             GetAllSectionResponseModel getAllSectionResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllSectionResponseModel = await _sectionRepository.GetAllSection();
+            getAllSectionResponseModel = await _sectionRepository.GetAllSection(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllSectionResponseModel.isSuccess)
             {
@@ -346,7 +350,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> subject = new List<SelectListItem>();
             GetAllSubjectListResponseModel getAllSubjectResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllSubjectResponseModel = await _subjectRepository.GetAllSubjectDetails();
+            getAllSubjectResponseModel = await _subjectRepository.GetAllSubjectDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllSubjectResponseModel.Succeeded)
             {
@@ -383,7 +387,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> teacher = new List<SelectListItem>();
             GetAllTeacherListResponseModel getAllTeacherResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllTeacherResponseModel = await _teacherRepository.GetAllTeacherDetails();
+            getAllTeacherResponseModel = await _teacherRepository.GetAllTeacherDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllTeacherResponseModel.Succeeded)
             {
@@ -421,7 +425,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> subject = new List<SelectListItem>();
             GetAllInstituteListResponseModel getAllInstituteResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllInstituteResponseModel = await _instituteRepository.GetAllInstituteDetails();
+            getAllInstituteResponseModel = await _instituteRepository.GetAllInstituteDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllInstituteResponseModel.Succeeded)
             {
@@ -460,7 +464,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> events = new List<SelectListItem>();
             GetEventsListResponseModel getEventsListResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getEventsListResponseModel = await _eventRepository.GetEventsList();
+            getEventsListResponseModel = await _eventRepository.GetEventsList(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getEventsListResponseModel.Succeeded)
             {
@@ -499,7 +503,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> students = new List<SelectListItem>();
             GetAllStudentListResponseModel getAllStudentResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllStudentResponseModel = await _studentRepository.GetAllStudentDetails();
+            getAllStudentResponseModel = await _studentRepository.GetAllStudentDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllStudentResponseModel.Succeeded)
             {
@@ -538,7 +542,7 @@ namespace JSC_LSM.UI.Common
             List<SelectListItem> parents = new List<SelectListItem>();
             GetAllParentsListResponseModel getAllParentsResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllParentsResponseModel = await _parentsRepository.GetAllParentsDetails();
+            getAllParentsResponseModel = await _parentsRepository.GetAllParentsDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllParentsResponseModel.Succeeded)
             {

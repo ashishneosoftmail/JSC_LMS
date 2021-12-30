@@ -3,11 +3,13 @@ using JSC_LMS.Application.Features.Categories.Commands;
 using JSC_LMS.Application.Features.Common.Categories.Commands;
 using JSC_LMS.Application.Features.FAQ.Commands.CreateFAQ;
 using JSC_LMS.Application.Features.FAQ.Commands.UpdateFAQ;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,11 +24,13 @@ namespace JSC_LSM.UI.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IFAQRepository _faqRepository;
-        public FAQController(ICategoryRepository categoryRepository, IFAQRepository faqRepository, JSC_LSM.UI.Common.Common common)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        public FAQController(ICategoryRepository categoryRepository, IFAQRepository faqRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _categoryRepository = categoryRepository;
             _faqRepository = faqRepository;
             _common = common;
+            _apiBaseUrl = apiBaseUrl;
         }
         public IActionResult Index()
         {
@@ -58,7 +62,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddCategoryError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                createCategoryResponseModel = await _categoryRepository.AddCategory(createCategoryDto);
+                createCategoryResponseModel = await _categoryRepository.AddCategory(_apiBaseUrl.Value.LmsApiBaseUrl,createCategoryDto);
 
 
                 if (createCategoryResponseModel.Succeeded)
@@ -78,7 +82,7 @@ namespace JSC_LSM.UI.Controllers
                             ModelState.Clear();
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+                            int recsCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -128,7 +132,7 @@ namespace JSC_LSM.UI.Controllers
 
                 ResponseModel responseModel = new ResponseModel();
 
-                addFAQResponseModel = await _faqRepository.AddFAQ(createFAQBaseDto);
+                addFAQResponseModel = await _faqRepository.AddFAQ(_apiBaseUrl.Value.LmsApiBaseUrl,createFAQBaseDto);
 
 
                 if (addFAQResponseModel.Succeeded)
@@ -150,7 +154,7 @@ namespace JSC_LSM.UI.Controllers
                             faqViewModel.Categories = await _common.GetAllCategory();
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+                            int recsCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -182,7 +186,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> EditFAQ(int id)
         {
             FAQViewModel faqViewModel = new FAQViewModel();
-            var faq = await _faqRepository.GetFAQById(id);
+            var faq = await _faqRepository.GetFAQById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (faq.data == null)
             {
                 TempData["GetKnowledgeBaseById"] = faq.message;
@@ -226,7 +230,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateFAQError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateFAQResponseModel = await _faqRepository.EditFAQ(updateKnowledgeBaseDto);
+                updateFAQResponseModel = await _faqRepository.EditFAQ(_apiBaseUrl.Value.LmsApiBaseUrl,updateKnowledgeBaseDto);
 
 
                 if (updateFAQResponseModel.Succeeded)
@@ -245,7 +249,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.UpdateFAQSuccess = "Details Updated Successfully";
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+                            int recsCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -277,7 +281,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+            int recsCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -289,7 +293,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<FAQList>> GetAllFAQByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+            int recsCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -297,7 +301,7 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             var data = new List<FAQList>();
 
-            var dataList = await _faqRepository.GetAllFAQByPagination(page, size);
+            var dataList = await _faqRepository.GetAllFAQByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var faq in dataList.data)
             {
@@ -326,7 +330,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<FAQList>> GetFAQByFilters(string faqtitle, bool isactive, string categoryname)
         {
             var data = new List<FAQList>();
-            var dataList = await _faqRepository.GetAllFAQByFilters(faqtitle, isactive, categoryname);
+            var dataList = await _faqRepository.GetAllFAQByFilters(_apiBaseUrl.Value.LmsApiBaseUrl, faqtitle, isactive, categoryname);
             if (dataList.data != null)
             {
                 foreach (var faq in dataList.data)
@@ -348,7 +352,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> ViewFAQ(int id)
         {
             FAQList faqList = new FAQList();
-            var faq = await _faqRepository.GetFAQById(id);
+            var faq = await _faqRepository.GetFAQById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (faq.data == null)
             {
                 TempData["GetKnowledgeBaseById"] = faq.message;
@@ -373,7 +377,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<PrincipalDetailsViewModel>();
 
-            var dataList = await _faqRepository.GetAllFAQList();
+            var dataList = await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl);
             //Creating DataTable  
             DataTable dt = new DataTable();
             //Setiing Table Name  
@@ -407,11 +411,11 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteFAQ(int id)
         {
-            await _faqRepository.DeleteFAQ(id);
+            await _faqRepository.DeleteFAQ(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             ViewBag.DeleteFAQ = "Deleted Successfully";
             var page = 1;
             var size = 5;
-            int recsCount = (await _faqRepository.GetAllFAQList()).data.Count();
+            int recsCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/

@@ -40,7 +40,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="createInstituteDto"></param>
         /// <returns></returns>
-        public async Task<InstituteResponseModel> CreateInstitute(CreateInstituteDto createInstituteDto)
+        public async Task<InstituteResponseModel> CreateInstitute(string baseurl, CreateInstituteDto createInstituteDto)
         {
             InstituteResponseModel instituteResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -50,7 +50,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.CreateInstitute, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.CreateInstitute, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 instituteResponseModel = JsonConvert.DeserializeObject<InstituteResponseModel>(_oApiResponse.data);
@@ -72,7 +72,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// Returns all the institute data : by Shivani Goswami
         /// </summary>
         /// <returns></returns>
-        public async Task<GetAllInstituteListResponseModel> GetAllInstituteDetails()
+        public async Task<GetAllInstituteListResponseModel> GetAllInstituteDetails(string baseurl)
         {
             GetAllInstituteListResponseModel getAllInstituteListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -80,7 +80,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllInstituteDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllInstituteDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllInstituteListResponseModel = JsonConvert.DeserializeObject<GetAllInstituteListResponseModel>(_oApiResponse.data);
@@ -96,7 +96,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<GetInstituteByIdResponseModel> GetInstituteById(int Id)
+        public async Task<GetInstituteByIdResponseModel> GetInstituteById(string baseurl, int Id)
         {
             GetInstituteByIdResponseModel getInstituteByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -104,7 +104,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetInstituteById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetInstituteById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getInstituteByIdResponseModel = JsonConvert.DeserializeObject<GetInstituteByIdResponseModel>(_oApiResponse.data);
@@ -124,7 +124,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// <param name="LicenseExpiry"></param>
         /// <param name="IsActive"></param>
         /// <returns></returns>
-        public async Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive)
+        public async Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string baseurl, string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive)
         {
             GetAllInstituteByFiltersResponseModel getInstituteByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -132,7 +132,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Institute/GetInstituteByFilter?InstituteName={InstituteName}&City={City}&State={State}&IsActive={IsActive}&LicenseExpiry={LicenseExpiry:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Institute/GetInstituteByFilter?InstituteName={InstituteName}&City={City}&State={State}&IsActive={IsActive}&LicenseExpiry={LicenseExpiry:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getInstituteByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllInstituteByFiltersResponseModel>(_oApiResponse.data);
@@ -149,7 +149,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public async Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(int page, int size)
+        public async Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(string baseurl, int page, int size)
         {
             GetAllInstituteByPaginationResponseModel getAllInstituteByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -157,7 +157,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllInstituteByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllInstituteByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllInstituteByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllInstituteByPaginationResponseModel>(_oApiResponse.data);
@@ -173,7 +173,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="updateInstituteDto"></param>
         /// <returns></returns>
-        public async Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto)
+        public async Task<UpdateInstituteResponseModel> UpdateInstitute(string baseurl, UpdateInstituteDto updateInstituteDto)
         {
             UpdateInstituteResponseModel updateInstituteResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -183,7 +183,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateInstitute, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdateInstitute, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateInstituteResponseModel = JsonConvert.DeserializeObject<UpdateInstituteResponseModel>(_oApiResponse.data);
@@ -200,7 +200,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateInstituteResponseModel;
         }
 
-        public async Task<GetInstituteAdminByUserIdResponseModel> GetInstituteAdminByUserId(string UserId)
+        public async Task<GetInstituteAdminByUserIdResponseModel> GetInstituteAdminByUserId(string baseurl, string UserId)
         {
             GetInstituteAdminByUserIdResponseModel getInstituteAdminByUserIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -208,7 +208,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetInstituteByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetInstituteByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getInstituteAdminByUserIdResponseModel = JsonConvert.DeserializeObject<GetInstituteAdminByUserIdResponseModel>(_oApiResponse.data);
@@ -218,7 +218,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getInstituteAdminByUserIdResponseModel;
         }
 
-        public async Task<UpdateInstituteAdminProfileInformationResponseModel> UpdateInstituteAdminPersonalInformation(UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto)
+        public async Task<UpdateInstituteAdminProfileInformationResponseModel> UpdateInstituteAdminPersonalInformation(string baseurl, UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto)
         {
             UpdateInstituteAdminProfileInformationResponseModel updateInstituteAdminProfileInformationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -228,7 +228,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateInstituteAdminProfileInformation, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdateInstituteAdminProfileInformation, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateInstituteAdminProfileInformationResponseModel = JsonConvert.DeserializeObject<UpdateInstituteAdminProfileInformationResponseModel>(_oApiResponse.data);
@@ -243,7 +243,7 @@ namespace JSC_LSM.UI.Services.Repositories
             }
             return updateInstituteAdminProfileInformationResponseModel;
         }
-        public async Task<UpdateInstituteAdminChangePasswordResponseModel> UpdateInstituteAdminChangePassword(UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto)
+        public async Task<UpdateInstituteAdminChangePasswordResponseModel> UpdateInstituteAdminChangePassword(string baseurl, UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto)
         {
             UpdateInstituteAdminChangePasswordResponseModel updateInstituteAdminChangePasswordResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -251,7 +251,7 @@ namespace JSC_LSM.UI.Services.Repositories
             var json = JsonConvert.SerializeObject(updateInstituteAdminChangePasswordDto, Formatting.Indented);
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateInstituteAdminChangePassword, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdateInstituteAdminChangePassword, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateInstituteAdminChangePasswordResponseModel = JsonConvert.DeserializeObject<UpdateInstituteAdminChangePasswordResponseModel>(_oApiResponse.data);

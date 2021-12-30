@@ -9,7 +9,7 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface ICategoryRepository
     {
-        Task<CreateCategoryResponseModel> AddCategory(CreateCategoryDto createCategoryDto);
-        Task<GetAllCategoryResponseModel> GetAllCategory();
+        Task<CreateCategoryResponseModel> AddCategory(string baseurl, CreateCategoryDto createCategoryDto);
+        Task<GetAllCategoryResponseModel> GetAllCategory(string baseurl);
     }
 }

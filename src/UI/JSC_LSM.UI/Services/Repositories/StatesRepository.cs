@@ -28,7 +28,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// returns all the state from the api - developed by harsh chheda
         /// </summary>
         /// <returns></returns>
-        public async Task<GetAllStatesResponseModel> GetAllStates()
+        public async Task<GetAllStatesResponseModel> GetAllStates(string baseurl)
         {
             GetAllStatesResponseModel getAllStatesResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -36,7 +36,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllState, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllState, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllStatesResponseModel = JsonConvert.DeserializeObject<GetAllStatesResponseModel>(_oApiResponse.data);

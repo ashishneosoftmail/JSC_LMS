@@ -10,13 +10,13 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface IKnowledgeBaseRepository
     {
-        Task<AddKnowledgeBaseResponseModel> AddKnowledgeBase(CreateKnowledgeBaseDto createKnowledgeBaseDto);
-        Task<UpdateKnowledgeBaseResponseModel> EditKnowledgeBase(UpdateKnowledgeBaseDto updateKnowledgeBaseDto);
-        Task<GetKnowledgeBaseByIdResponseModel> GetKnowlegebaseById(int id);
+        Task<AddKnowledgeBaseResponseModel> AddKnowledgeBase(string baseurl, CreateKnowledgeBaseDto createKnowledgeBaseDto);
+        Task<UpdateKnowledgeBaseResponseModel> EditKnowledgeBase(string baseurl, UpdateKnowledgeBaseDto updateKnowledgeBaseDto);
+        Task<GetKnowledgeBaseByIdResponseModel> GetKnowlegebaseById(string baseurl, int id);
 
-        Task<GetAllKnowledgeBasePaginationResponseModel> GetAllKnowledgeBaseByPagination(int page, int size);
-        Task<GetAllKnowledgeBaseFilterResponseModel> GetAllKnowledgeBaseByFilters(string title, string subtitle, string category);
-        Task<GetAllKnowledgeBaseListResponseModel> GetAllKnowledgeBaseList();
-        Task DeleteKnowledgeBase(int id);
+        Task<GetAllKnowledgeBasePaginationResponseModel> GetAllKnowledgeBaseByPagination(string baseurl, int page, int size);
+        Task<GetAllKnowledgeBaseFilterResponseModel> GetAllKnowledgeBaseByFilters(string baseurl, string title, string subtitle, string category);
+        Task<GetAllKnowledgeBaseListResponseModel> GetAllKnowledgeBaseList(string baseurl);
+        Task DeleteKnowledgeBase(string baseurl, int id);
     }
 }

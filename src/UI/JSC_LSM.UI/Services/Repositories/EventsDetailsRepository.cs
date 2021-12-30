@@ -29,7 +29,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<AddEventsResponseModel> AddEventsData(CreateEventsDto createEventsDto)
+        public async Task<AddEventsResponseModel> AddEventsData(string baseurl, CreateEventsDto createEventsDto)
         {
             AddEventsResponseModel addEventsResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -39,7 +39,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddEventsData, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddEventsData, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 addEventsResponseModel = JsonConvert.DeserializeObject<AddEventsResponseModel>(_oApiResponse.data);
@@ -56,7 +56,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return addEventsResponseModel;
         }
 
-        public async Task<GetEventsListResponseModel> GetEventsList()
+        public async Task<GetEventsListResponseModel> GetEventsList(string baseurl)
         {
             GetEventsListResponseModel getAllEventsListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -64,7 +64,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllEventsList, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllEventsList, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllEventsListResponseModel = JsonConvert.DeserializeObject<GetEventsListResponseModel>(_oApiResponse.data);
@@ -74,7 +74,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllEventsListResponseModel;
         }
 
-        public async Task<GetEventsByIdResponseModel> GetEventsById(int Id)
+        public async Task<GetEventsByIdResponseModel> GetEventsById(string baseurl, int Id)
         {
             GetEventsByIdResponseModel getEventsByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -82,7 +82,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetEventsById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetEventsById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getEventsByIdResponseModel = JsonConvert.DeserializeObject<GetEventsByIdResponseModel>(_oApiResponse.data);
@@ -92,7 +92,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getEventsByIdResponseModel;
         }
 
-        public async Task<UpdateEventsResponseModel> UpdateEventsDetails(UpdateEventsDto updateEventsDto)
+        public async Task<UpdateEventsResponseModel> UpdateEventsDetails(string baseurl, UpdateEventsDto updateEventsDto)
         {
             UpdateEventsResponseModel updateEventsResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -102,7 +102,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.EditEventsDetails, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.EditEventsDetails, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateEventsResponseModel = JsonConvert.DeserializeObject<UpdateEventsResponseModel>(_oApiResponse.data);
@@ -119,7 +119,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateEventsResponseModel;
         }
 
-        public async Task<GetAllEventsListBySchoolResponseModel> GetAllEventsBySchoolList(int schoolid)
+        public async Task<GetAllEventsListBySchoolResponseModel> GetAllEventsBySchoolList(string baseurl, int schoolid)
         {
             GetAllEventsListBySchoolResponseModel getAllEventsListBySchoolResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -127,7 +127,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllEventsBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllEventsBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllEventsListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllEventsListBySchoolResponseModel>(_oApiResponse.data);

@@ -10,15 +10,15 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
   public  interface ISubjectRepository
     {
-        Task<SubjectResponseModel> AddNewSubject(CreateSubjectDto createSubjectDto);
+        Task<SubjectResponseModel> AddNewSubject(string baseurl, CreateSubjectDto createSubjectDto);
 
-        Task<GetSubjectByIdResponseModel> GetSubjectById(int Id);
+        Task<GetSubjectByIdResponseModel> GetSubjectById(string baseurl, int Id);
 
-        Task<GetAllSubjectListResponseModel> GetAllSubjectDetails();
-        Task<GetAllSubjectByFiltersResponseModel> GetSubjectByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, DateTime CreatedDate, bool IsActive);
+        Task<GetAllSubjectListResponseModel> GetAllSubjectDetails(string baseurl);
+        Task<GetAllSubjectByFiltersResponseModel> GetSubjectByFilters(string baseurl, string SchoolName, string ClassName, string SectionName, string SubjectName, DateTime CreatedDate, bool IsActive);
 
-        Task<GetAllSubjectByPaginationResponseModel> GetSubjectByPagination(int page, int size);
+        Task<GetAllSubjectByPaginationResponseModel> GetSubjectByPagination(string baseurl, int page, int size);
 
-        Task<UpdateSubjectResponseModel> UpdateSubject(UpdateSubjectDto updateSubjectDto);
+        Task<UpdateSubjectResponseModel> UpdateSubject(string baseurl, UpdateSubjectDto updateSubjectDto);
     }
 }

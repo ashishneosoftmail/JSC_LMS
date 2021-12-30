@@ -27,7 +27,7 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
-        public async Task<UpdateSuperadminProfileInformationResponseModel> UpdateSuperadminPersonalInformation(UpdateSuperadminDto updateSuperadminDto)
+        public async Task<UpdateSuperadminProfileInformationResponseModel> UpdateSuperadminPersonalInformation(string baseurl, UpdateSuperadminDto updateSuperadminDto)
         {
             UpdateSuperadminProfileInformationResponseModel updateSuperadminProfileInformationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -37,7 +37,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdatePrincipalPersonalInformation, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdatePrincipalPersonalInformation, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateSuperadminProfileInformationResponseModel = JsonConvert.DeserializeObject<UpdateSuperadminProfileInformationResponseModel>(_oApiResponse.data);
@@ -54,7 +54,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateSuperadminProfileInformationResponseModel;
         }
 
-        public async Task<GetSuperadminByUserIdResponseModel> GetSuperadminByUserId(string id)
+        public async Task<GetSuperadminByUserIdResponseModel> GetSuperadminByUserId(string baseurl, string id)
         {
             GetSuperadminByUserIdResponseModel getSuperadminByUserIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -62,7 +62,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetSuperadminByUserId + id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetSuperadminByUserId + id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getSuperadminByUserIdResponseModel = JsonConvert.DeserializeObject<GetSuperadminByUserIdResponseModel>(_oApiResponse.data);
@@ -73,7 +73,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<SuperadminChangePasswordResponseModel> SuperAdminChangePassword(UpdateSuperadminChangePasswordDto updateSuperadminChangePasswordDto)
+        public async Task<SuperadminChangePasswordResponseModel> SuperAdminChangePassword(string baseurl, UpdateSuperadminChangePasswordDto updateSuperadminChangePasswordDto)
         {
             SuperadminChangePasswordResponseModel superadminChangePasswordResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -82,7 +82,7 @@ namespace JSC_LSM.UI.Services.Repositories
             var json = JsonConvert.SerializeObject(updateSuperadminChangePasswordDto, Formatting.Indented);
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Superadmin/UpdateSuperadminChangePassword", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Superadmin/UpdateSuperadminChangePassword", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 superadminChangePasswordResponseModel = JsonConvert.DeserializeObject<SuperadminChangePasswordResponseModel>(_oApiResponse.data);
@@ -92,7 +92,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return superadminChangePasswordResponseModel;
         }
 
-        public async Task<UpdateSuperadminImageResponseModel> UpdateSuperadminImage(int Id, string LogoImageFileName, string LoginImageFileName)
+        public async Task<UpdateSuperadminImageResponseModel> UpdateSuperadminImage(string baseurl, int Id, string LogoImageFileName, string LoginImageFileName)
         {
             UpdateSuperadminImageResponseModel updateSuperadminImageResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -100,7 +100,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateSuperadminImage + $"?_Id={Id}&_LogoFileName={LogoImageFileName}&_LoginImageFileName={LoginImageFileName}", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdateSuperadminImage + $"?_Id={Id}&_LogoFileName={LogoImageFileName}&_LoginImageFileName={LoginImageFileName}", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateSuperadminImageResponseModel = JsonConvert.DeserializeObject<UpdateSuperadminImageResponseModel>(_oApiResponse.data);

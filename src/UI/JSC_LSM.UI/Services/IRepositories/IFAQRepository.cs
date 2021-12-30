@@ -10,13 +10,13 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
   public  interface IFAQRepository
     {
-        Task<AddFAQBaseResponseModel> AddFAQ(CreateFAQDto createFAQDto);
-        Task<UpdateFAQResponseModel> EditFAQ(UpdateFAQDto updateFAQDto);
-        Task<GetFAQByIdResponseModel> GetFAQById(int id);
+        Task<AddFAQBaseResponseModel> AddFAQ(string baseurl, CreateFAQDto createFAQDto);
+        Task<UpdateFAQResponseModel> EditFAQ(string baseurl, UpdateFAQDto updateFAQDto);
+        Task<GetFAQByIdResponseModel> GetFAQById(string baseurl, int id);
 
-        Task<GetAllFAQPaginationResponseModel> GetAllFAQByPagination(int page, int size);
-        Task<GetAllFAQFiltersResponseModel> GetAllFAQByFilters(string faqtitle, bool isactive, string category);
-        Task<GetAllFAQListResponseModel> GetAllFAQList();
-        Task DeleteFAQ(int id);
+        Task<GetAllFAQPaginationResponseModel> GetAllFAQByPagination(string baseurl, int page, int size);
+        Task<GetAllFAQFiltersResponseModel> GetAllFAQByFilters(string baseurl, string faqtitle, bool isactive, string category);
+        Task<GetAllFAQListResponseModel> GetAllFAQList(string baseurl);
+        Task DeleteFAQ(string baseurl, int id);
     }
 }

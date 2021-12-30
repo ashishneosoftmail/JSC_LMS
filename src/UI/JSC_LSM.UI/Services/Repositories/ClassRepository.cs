@@ -30,7 +30,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<GetAllClassResponseModel> GetAllClass()
+        public async Task<GetAllClassResponseModel> GetAllClass(string baseurl)
         {
             GetAllClassResponseModel getAllClassResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -38,7 +38,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClass, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllClass, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllClassResponseModel = JsonConvert.DeserializeObject<GetAllClassResponseModel>(_oApiResponse.data);
@@ -50,7 +50,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<GetAllClassListResponseModel> GetAllClassDetails()
+        public async Task<GetAllClassListResponseModel> GetAllClassDetails(string baseurl)
         {
             GetAllClassListResponseModel getAllClassListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -58,7 +58,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClassDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllClassDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllClassListResponseModel = JsonConvert.DeserializeObject<GetAllClassListResponseModel>(_oApiResponse.data);
@@ -68,7 +68,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllClassListResponseModel;
         }
 
-            public async Task<ClassResponseModel> AddNewClass(CreateClassDto createClassDto)
+            public async Task<ClassResponseModel> AddNewClass(string baseurl, CreateClassDto createClassDto)
         {
             ClassResponseModel classResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -78,7 +78,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewClass, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddNewClass, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 classResponseModel = JsonConvert.DeserializeObject<ClassResponseModel>(_oApiResponse.data);
@@ -98,7 +98,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
     
 
-        public async Task<GetClassByIdResponseModel> GetClassById(int Id)
+        public async Task<GetClassByIdResponseModel> GetClassById(string baseurl, int Id)
         {
             GetClassByIdResponseModel getClassByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -106,7 +106,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetClassById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetClassById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getClassByIdResponseModel = JsonConvert.DeserializeObject<GetClassByIdResponseModel>(_oApiResponse.data);
@@ -118,7 +118,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllClassByFiltersResponseModel> GetClassByFilters(string SchoolName, string ClassName, DateTime CreatedDate, bool IsActive)
+        public async Task<GetAllClassByFiltersResponseModel> GetClassByFilters(string baseurl, string SchoolName, string ClassName, DateTime CreatedDate, bool IsActive)
         {
             GetAllClassByFiltersResponseModel getClassByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -126,7 +126,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Class/GetClassByFilter?SchoolName={SchoolName}&ClassName={ClassName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Class/GetClassByFilter?SchoolName={SchoolName}&ClassName={ClassName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getClassByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllClassByFiltersResponseModel>(_oApiResponse.data);
@@ -137,7 +137,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllClassByPaginationResponseModel> GetClassByPagination(int page, int size)
+        public async Task<GetAllClassByPaginationResponseModel> GetClassByPagination(string baseurl, int page, int size)
         {
             GetAllClassByPaginationResponseModel getAllClassByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -145,7 +145,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllClassByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllClassByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllClassByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllClassByPaginationResponseModel>(_oApiResponse.data);
@@ -156,7 +156,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<UpdateClassResponseModel> UpdateClass(UpdateClassDto updateClassDto)
+        public async Task<UpdateClassResponseModel> UpdateClass(string baseurl, UpdateClassDto updateClassDto)
         {
             UpdateClassResponseModel updateClassResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -166,7 +166,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Class/UpdateClass", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Class/UpdateClass", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateClassResponseModel = JsonConvert.DeserializeObject<UpdateClassResponseModel>(_oApiResponse.data);

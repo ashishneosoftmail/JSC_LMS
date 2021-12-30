@@ -48,6 +48,7 @@ namespace JSC_LSM.UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(Login login)
         {
+            
             ViewBag.LoginError = null;
             login.Roles = await GetAllRoles();
             AuthenticationRequest authenticationRequest = new AuthenticationRequest();
@@ -61,7 +62,7 @@ namespace JSC_LSM.UI.Controllers
 
                    
 
-                    authenticationResponseModel = await _userRepository.UserAuthenticate(authenticationRequest);
+                    authenticationResponseModel = await _userRepository.UserAuthenticate(_apiBaseUrl.Value.LmsApiBaseUrl, authenticationRequest);
 
                 if (authenticationResponseModel.isSuccess)
                 {
@@ -146,7 +147,7 @@ namespace JSC_LSM.UI.Controllers
             List<SelectListItem> role = new List<SelectListItem>();
             GetAllRolesResponseModel getAllRolesResponseModel = null;
             ResponseModel responseModel = new ResponseModel();
-            getAllRolesResponseModel = await _roleRepository.GetAllRoles();
+            getAllRolesResponseModel = await _roleRepository.GetAllRoles(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             if (getAllRolesResponseModel.isSuccess)
             {
@@ -199,7 +200,7 @@ namespace JSC_LSM.UI.Controllers
                 ResponseModel responseModel = new ResponseModel();
 
 
-                temporaryPasswordEmailValidateResponse = await _userRepository.TemporaryPasswordEmailValidate(forgotPasswordValidateEmailModel.Email);
+                temporaryPasswordEmailValidateResponse = await _userRepository.TemporaryPasswordEmailValidate(_apiBaseUrl.Value.LmsApiBaseUrl , forgotPasswordValidateEmailModel.Email);
 
                 if (temporaryPasswordEmailValidateResponse.isSuccess)
                 {
@@ -252,7 +253,7 @@ namespace JSC_LSM.UI.Controllers
                 VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest = new VerfiyTemporaryPasswordRequest();
                 verfiyTemporaryPasswordRequest.TemporaryPassword = temporaryPasswordModel.TemporaryPassword;
                 verfiyTemporaryPasswordRequest.Email = HttpContext.Session.GetString("Email");
-                verifyTemporaryPasswordResponse = await _userRepository.VerfiyTemporaryPassword(verfiyTemporaryPasswordRequest);
+                verifyTemporaryPasswordResponse = await _userRepository.VerfiyTemporaryPassword(_apiBaseUrl.Value.LmsApiBaseUrl, verfiyTemporaryPasswordRequest);
 
                 if (verifyTemporaryPasswordResponse.Succeeded)
                 {
@@ -306,7 +307,7 @@ namespace JSC_LSM.UI.Controllers
                 UpdateResetPasswordRequest updateResetPasswordRequest = new UpdateResetPasswordRequest();
                 updateResetPasswordRequest.NewPassword = forgotPasswordChangePasswordModel.NewPassword;
                 updateResetPasswordRequest.Email = HttpContext.Session.GetString("Email");
-                updateResetPasswordResponse = await _userRepository.UpdateForgotPasswordToNewPassword(updateResetPasswordRequest);
+                updateResetPasswordResponse = await _userRepository.UpdateForgotPasswordToNewPassword(_apiBaseUrl.Value.LmsApiBaseUrl, updateResetPasswordRequest);
 
                 if (updateResetPasswordResponse.Succeeded)
                 {

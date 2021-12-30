@@ -29,7 +29,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<AuthenticationResponseModel> UserAuthenticate(AuthenticationRequest authenticateRequest)
+        public async Task<AuthenticationResponseModel> UserAuthenticate(string baseurl , AuthenticationRequest authenticateRequest)
         {
             AuthenticationResponseModel authenticationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -39,7 +39,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UserAuthenticate, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication(baseurl ,UrlHelper.UserAuthenticate, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 authenticationResponseModel = JsonConvert.DeserializeObject<AuthenticationResponseModel>(_oApiResponse.data);
@@ -58,7 +58,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<ChangePasswordResponseModel> UpdateChangePassword(ChangePasswordDto changePasswordDto)
+        public async Task<ChangePasswordResponseModel> UpdateChangePassword(string baseurl, ChangePasswordDto changePasswordDto)
         {
             ChangePasswordResponseModel changePasswordResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -66,7 +66,7 @@ namespace JSC_LSM.UI.Services.Repositories
             var json = JsonConvert.SerializeObject(changePasswordDto, Formatting.Indented);
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateChangePassword, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication(  baseurl,UrlHelper.UpdateChangePassword, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 changePasswordResponseModel = JsonConvert.DeserializeObject<ChangePasswordResponseModel>(_oApiResponse.data);
@@ -76,7 +76,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<UpdateProfileInformationResponseModel> UpdatePersonalInformation(UpdateProfileInfoDto updateProfileInformationDto)
+        public async Task<UpdateProfileInformationResponseModel> UpdatePersonalInformation(string baseurl, UpdateProfileInfoDto updateProfileInformationDto)
         {
             UpdateProfileInformationResponseModel updateProfileInformationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -86,7 +86,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateProfileInformation, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdateProfileInformation, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateProfileInformationResponseModel = JsonConvert.DeserializeObject<UpdateProfileInformationResponseModel>(_oApiResponse.data);
@@ -104,7 +104,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
 
 
-        public async Task<TemporaryPasswordEmailValidateResponse> TemporaryPasswordEmailValidate(string email)
+        public async Task<TemporaryPasswordEmailValidateResponse> TemporaryPasswordEmailValidate(string baseurl, string email)
         {
             TemporaryPasswordEmailValidateResponse temporaryPasswordEmailValidateResponse = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -113,7 +113,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.ForgotPasswordValidateEmail + $"?email={email}", HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.ForgotPasswordValidateEmail + $"?email={email}", HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.Success)
             {
                 temporaryPasswordEmailValidateResponse = JsonConvert.DeserializeObject<TemporaryPasswordEmailValidateResponse>(_oApiResponse.data);
@@ -143,7 +143,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
 
         }
-        public async Task<VerifyTemporaryPasswordResponse> VerfiyTemporaryPassword(VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest)
+        public async Task<VerifyTemporaryPasswordResponse> VerfiyTemporaryPassword(string baseurl, VerfiyTemporaryPasswordRequest verfiyTemporaryPasswordRequest)
         {
             VerifyTemporaryPasswordResponse verifyTemporaryPasswordResponse = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -154,7 +154,7 @@ namespace JSC_LSM.UI.Services.Repositories
             var bytes = new ByteArrayContent(content);
 
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.VerifyTemporaryPassword, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.VerifyTemporaryPassword, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.Success)
             {
                 verifyTemporaryPasswordResponse = JsonConvert.DeserializeObject<VerifyTemporaryPasswordResponse>(_oApiResponse.data);
@@ -184,7 +184,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(UpdateResetPasswordRequest updateResetPasswordRequest)
+        public async Task<UpdateResetPasswordResponse> UpdateForgotPasswordToNewPassword(string baseurl, UpdateResetPasswordRequest updateResetPasswordRequest)
         {
             UpdateResetPasswordResponse updateResetPasswordResponse = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -195,7 +195,7 @@ namespace JSC_LSM.UI.Services.Repositories
             var bytes = new ByteArrayContent(content);
 
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.UpdateForgotPasswordToNewPassword, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.UpdateForgotPasswordToNewPassword, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.Success)
             {
                 updateResetPasswordResponse = JsonConvert.DeserializeObject<UpdateResetPasswordResponse>(_oApiResponse.data);
@@ -224,7 +224,7 @@ namespace JSC_LSM.UI.Services.Repositories
             }
         }
 
-        public async Task<GetAllUsersResponseModel> GetAllUser()
+        public async Task<GetAllUsersResponseModel> GetAllUser(string baseurl)
         {
             GetAllUsersResponseModel getAllUsersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -232,7 +232,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllUsers, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllUsers, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllUsersResponseModel = JsonConvert.DeserializeObject<GetAllUsersResponseModel>(_oApiResponse.data);

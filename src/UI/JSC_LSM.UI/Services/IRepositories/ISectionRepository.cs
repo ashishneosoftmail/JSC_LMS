@@ -11,18 +11,18 @@ namespace JSC_LSM.UI.Services.IRepositories
    public interface ISectionRepository
     {
     
-        Task<SectionResponseModel> AddNewSection(CreateSectionDto createSectionDto);
+        Task<SectionResponseModel> AddNewSection(string baseurl, CreateSectionDto createSectionDto);
 
-        Task<GetSectionByIdResponseModel> GetSectionById(int Id);
+        Task<GetSectionByIdResponseModel> GetSectionById(string baseurl, int Id);
 
-        Task<GetAllSectionListResponseModel> GetAllSectionDetails();
-        Task<GetAllSectionByFiltersResponseModel> GetSectionByFilters(string SchoolName, string ClassName, string SectionName, DateTime CreatedDate, bool IsActive);
+        Task<GetAllSectionListResponseModel> GetAllSectionDetails(string baseurl);
+        Task<GetAllSectionByFiltersResponseModel> GetSectionByFilters(string baseurl, string SchoolName, string ClassName, string SectionName, DateTime CreatedDate, bool IsActive);
 
-        Task<GetAllSectionByPaginationResponseModel> GetSectionByPagination(int page, int size);
+        Task<GetAllSectionByPaginationResponseModel> GetSectionByPagination(string baseurl, int page, int size);
 
-        Task<UpdateSectionResponseModel> UpdateSection(UpdateSectionDto updateSectionDto);
+        Task<UpdateSectionResponseModel> UpdateSection(string baseurl, UpdateSectionDto updateSectionDto);
 
-        Task<GetAllSectionResponseModel> GetAllSection();
+        Task<GetAllSectionResponseModel> GetAllSection(string baseurl);
 
     }
 }

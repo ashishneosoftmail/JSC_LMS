@@ -13,7 +13,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// returns all the roles - developed by harsh chheda
         /// </summary>
         /// <returns></returns>
-        Task<GetAllRolesResponseModel> GetAllRoles();
+        Task<GetAllRolesResponseModel> GetAllRoles(string baseurl);
     }
     #endregion
 }

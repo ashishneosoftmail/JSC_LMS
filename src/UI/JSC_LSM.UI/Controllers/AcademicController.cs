@@ -1,11 +1,13 @@
 ﻿using ClosedXML.Excel;
 using JSC_LMS.Application.Features.Academics.Commands.CreateAcademic;
 using JSC_LMS.Application.Features.Academics.Commands.UpdateAcademic;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +27,8 @@ namespace JSC_LSM.UI.Controllers
         private readonly IClassRepository _classRepository;
         private readonly IAcademicRepository _academicRepository;
         private readonly ITeacherRepository _teacherRepository;
-        public AcademicController(JSC_LSM.UI.Common.Common common, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository,  IAcademicRepository academicRepository)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        public AcademicController(JSC_LSM.UI.Common.Common common, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository,  IAcademicRepository academicRepository, IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _common = common;
             _schoolRepository = schoolRepository;
@@ -34,6 +37,7 @@ namespace JSC_LSM.UI.Controllers
             _subjectRepository = subjectRepository;
             _teacherRepository = teacherRepository;
             _academicRepository = academicRepository;
+            _apiBaseUrl = apiBaseUrl;
         }
 
         public IActionResult Index()
@@ -47,7 +51,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+            int recsCount = (await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
 
@@ -65,7 +69,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetAcademicByIdResponseModel> GetAcademicById(int Id)
         {
 
-            var subjects = await _academicRepository.GetAcademicById(Id);
+            var subjects = await _academicRepository.GetAcademicById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return subjects;
         }
 
@@ -75,7 +79,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<AcademicViewModel>();
 
-            var dataList = await _academicRepository.GetAllAcademicDetails();
+            var dataList = await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             foreach (var academics in dataList.data)
             {
                 data.Add(new AcademicViewModel()
@@ -108,7 +112,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<AcademicViewModel>> GetAllAcademicDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+            int recsCount = (await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -117,7 +121,7 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<AcademicViewModel>();
 
             //int recSkip = (page - 1) * size;
-            var dataList = await _academicRepository.GetAcademicByPagination(page, size);
+            var dataList = await _academicRepository.GetAcademicByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var academics in dataList.data.GetAcademicListPaginationDto)
             {
@@ -186,7 +190,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<AcademicViewModel>> GetAcademicByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, string Type, DateTime CreatedDate, bool IsActive)
         {
             var data = new List<AcademicViewModel>();
-            var dataList = await _academicRepository.GetAcademicByFilters( SchoolName, ClassName,  SectionName, SubjectName, TeacherName,  Type, CreatedDate,  IsActive);
+            var dataList = await _academicRepository.GetAcademicByFilters(_apiBaseUrl.Value.LmsApiBaseUrl, SchoolName, ClassName,  SectionName, SubjectName, TeacherName,  Type, CreatedDate,  IsActive);
             if (dataList.data != null)
             {
                 foreach (var academics in dataList.data)
@@ -222,7 +226,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetAcademicName()
         {
-            var data = await _academicRepository.GetAllAcademicDetails();
+            var data = await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> academics = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -240,7 +244,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> EditAcademic(int id)
         {
-            var academic = await _academicRepository.GetAcademicById(id);
+            var academic = await _academicRepository.GetAcademicById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (academic.data == null)
             {
                 TempData["GetAcademicById"] = academic.message;
@@ -318,7 +322,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateSubjectError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateAcademicResponseModel = await _academicRepository.UpdateAcademic(updateAcademic);
+                updateAcademicResponseModel = await _academicRepository.UpdateAcademic(_apiBaseUrl.Value.LmsApiBaseUrl,updateAcademic);
 
 
                 if (updateAcademicResponseModel.Succeeded)
@@ -337,7 +341,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.UpdateAcademicSuccess = "Details Updated Successfully";
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+                            int recsCount = (await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
 
@@ -414,7 +418,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddAcademicError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                academicResponseModel = await _academicRepository.AddNewAcademic(createNewAcademic);
+                academicResponseModel = await _academicRepository.AddNewAcademic(_apiBaseUrl.Value.LmsApiBaseUrl,createNewAcademic);
 
 
                 if (academicResponseModel.Succeeded)
@@ -441,7 +445,7 @@ namespace JSC_LSM.UI.Controllers
                             newAcademicModel.Teachers = await _common.GetTeacher();
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _academicRepository.GetAllAcademicDetails()).data.Count();
+                            int recsCount = (await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
 
@@ -475,7 +479,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<AcademicViewModel>();
 
-            var dataList = await _academicRepository.GetAllAcademicDetails();
+            var dataList = await _academicRepository.GetAllAcademicDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             //Creating DataTable  
             DataTable dt = new DataTable();
             //Setiing Table Name  

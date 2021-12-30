@@ -29,7 +29,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<GetAllCitiesResponseModel> GetAllCities(int Id)
+        public async Task<GetAllCitiesResponseModel> GetAllCities(string baseurl, int Id)
         {
             GetAllCitiesResponseModel getAllCitiesResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -37,7 +37,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCity + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllCity + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCitiesResponseModel = JsonConvert.DeserializeObject<GetAllCitiesResponseModel>(_oApiResponse.data);

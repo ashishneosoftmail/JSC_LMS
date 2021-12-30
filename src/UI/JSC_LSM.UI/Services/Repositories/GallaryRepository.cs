@@ -24,7 +24,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<AddGallaryResponseModel> AddGallary(UploadImageDto uploadImageDto)
+        public async Task<AddGallaryResponseModel> AddGallary(string baseurl, UploadImageDto uploadImageDto)
         {
             AddGallaryResponseModel addGallaryResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -34,7 +34,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddGallary, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddGallary, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 addGallaryResponseModel = JsonConvert.DeserializeObject<AddGallaryResponseModel>(_oApiResponse.data);
@@ -51,7 +51,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return addGallaryResponseModel;
         }
 
-        public async Task<GetAllGallaryListResponseModel> GetGallaryList()
+        public async Task<GetAllGallaryListResponseModel> GetGallaryList(string baseurl)
         {
             GetAllGallaryListResponseModel getAllGallaryListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -59,7 +59,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllGallaryList, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllGallaryList, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllGallaryListResponseModel = JsonConvert.DeserializeObject<GetAllGallaryListResponseModel>(_oApiResponse.data);
@@ -69,7 +69,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllGallaryListResponseModel;
         }
 
-        public async Task<GetGallaryListByIdResponseModel> GetGallaryById(int Id)
+        public async Task<GetGallaryListByIdResponseModel> GetGallaryById(string baseurl, int Id)
         {
             GetGallaryListByIdResponseModel getGallaryListByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -77,7 +77,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetGallaryById + "?id="+ Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetGallaryById + "?id="+ Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getGallaryListByIdResponseModel = JsonConvert.DeserializeObject<GetGallaryListByIdResponseModel>(_oApiResponse.data);
@@ -87,7 +87,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getGallaryListByIdResponseModel;
         }
 
-        public async Task DeleteGallary(int id)
+        public async Task DeleteGallary(string baseurl, int id)
         {
 
             _aPIRepository = new APIRepository(_configuration);
@@ -95,10 +95,10 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteGallaryById + "?id=" + id, HttpMethod.Delete, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.DeleteGallaryById + "?id=" + id, HttpMethod.Delete, bytes, _sToken);
         }
 
-        public async Task DeleteAllGallary()
+        public async Task DeleteAllGallary(string baseurl)
         {
 
             _aPIRepository = new APIRepository(_configuration);
@@ -106,10 +106,10 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteAllGallary, HttpMethod.Delete, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.DeleteAllGallary, HttpMethod.Delete, bytes, _sToken);
         }
 
-        public async Task<GetGallaryListBySchoolIdResponseModel> GetGallaryBySchoolId(int SchoolId)
+        public async Task<GetGallaryListBySchoolIdResponseModel> GetGallaryBySchoolId(string baseurl, int SchoolId)
         {
             GetGallaryListBySchoolIdResponseModel getGallaryListByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -117,7 +117,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetGallaryBySchoolId +$"?SchoolId={SchoolId}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetGallaryBySchoolId +$"?SchoolId={SchoolId}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getGallaryListByIdResponseModel = JsonConvert.DeserializeObject<GetGallaryListBySchoolIdResponseModel>(_oApiResponse.data);

@@ -29,7 +29,7 @@ namespace JSC_LSM.UI.Services.Repositories
             }
 
 
-        public async Task<GetAllSectionListResponseModel> GetAllSectionDetails()
+        public async Task<GetAllSectionListResponseModel> GetAllSectionDetails(string baseurl)
         {
             GetAllSectionListResponseModel getAllSectionListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -37,7 +37,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllSectionDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllSectionDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllSectionListResponseModel = JsonConvert.DeserializeObject<GetAllSectionListResponseModel>(_oApiResponse.data);
@@ -49,7 +49,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
 
 
-        public async Task<SectionResponseModel> AddNewSection(CreateSectionDto createSectionDto)
+        public async Task<SectionResponseModel> AddNewSection(string baseurl, CreateSectionDto createSectionDto)
         {
             SectionResponseModel sectionResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -59,7 +59,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewSection, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddNewSection, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 sectionResponseModel = JsonConvert.DeserializeObject<SectionResponseModel>(_oApiResponse.data);
@@ -77,7 +77,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetSectionByIdResponseModel> GetSectionById(int Id)
+        public async Task<GetSectionByIdResponseModel> GetSectionById(string baseurl, int Id)
         {
             GetSectionByIdResponseModel getSectionByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -85,7 +85,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetSectionById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetSectionById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getSectionByIdResponseModel = JsonConvert.DeserializeObject<GetSectionByIdResponseModel>(_oApiResponse.data);
@@ -98,7 +98,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<GetAllSectionByFiltersResponseModel> GetSectionByFilters(string SchoolName, string ClassName, string SectionName, DateTime CreatedDate, bool IsActive)
+        public async Task<GetAllSectionByFiltersResponseModel> GetSectionByFilters(string baseurl, string SchoolName, string ClassName, string SectionName, DateTime CreatedDate, bool IsActive)
         {
             GetAllSectionByFiltersResponseModel getSectionByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -106,7 +106,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Section/Filter?_className={ClassName}&_schoolName={SchoolName}&_sectionName={SectionName}&_isActive={IsActive}&_createdDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Section/Filter?_className={ClassName}&_schoolName={SchoolName}&_sectionName={SectionName}&_isActive={IsActive}&_createdDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getSectionByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllSectionByFiltersResponseModel>(_oApiResponse.data);
@@ -117,7 +117,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllSectionByPaginationResponseModel> GetSectionByPagination(int page, int size)
+        public async Task<GetAllSectionByPaginationResponseModel> GetSectionByPagination(string baseurl, int page, int size)
         {
             GetAllSectionByPaginationResponseModel getAllSectionByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -125,7 +125,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllSectionByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllSectionByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllSectionByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllSectionByPaginationResponseModel>(_oApiResponse.data);
@@ -137,7 +137,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<UpdateSectionResponseModel> UpdateSection(UpdateSectionDto updateSectionDto)
+        public async Task<UpdateSectionResponseModel> UpdateSection(string baseurl, UpdateSectionDto updateSectionDto)
         {
             UpdateSectionResponseModel updateSectionResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -147,7 +147,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Section/UpdateSection", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Section/UpdateSection", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateSectionResponseModel = JsonConvert.DeserializeObject<UpdateSectionResponseModel>(_oApiResponse.data);
@@ -164,7 +164,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateSectionResponseModel;
         }
 
-        public async Task<GetAllSectionResponseModel> GetAllSection()
+        public async Task<GetAllSectionResponseModel> GetAllSection(string baseurl)
         {
             GetAllSectionResponseModel getAllSectionResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -172,7 +172,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllSection, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllSection, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllSectionResponseModel = JsonConvert.DeserializeObject<GetAllSectionResponseModel>(_oApiResponse.data);

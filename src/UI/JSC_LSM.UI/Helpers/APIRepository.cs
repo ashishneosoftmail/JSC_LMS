@@ -34,7 +34,7 @@ namespace JSC_LSM.UI.Helpers
 
         #region APICommunication - Common Method for API calling
 
-        public async Task<APICommunicationResponseModel<string>> APICommunication(string URL, HttpMethod invokeType, ByteArrayContent body, string token)
+        public async Task<APICommunicationResponseModel<string>> APICommunication(string baseurl,string URL, HttpMethod invokeType, ByteArrayContent body, string token)
         {
             APICommunicationResponseModel<string> response = new APICommunicationResponseModel<string>();
             response.statusCode = HttpStatusCode.BadRequest;
@@ -45,8 +45,7 @@ namespace JSC_LSM.UI.Helpers
 
                 using (var client = new HttpClient(clientHandler))
                 {
-                    //client.BaseAddress = new Uri(_apiBaseUrl + URL);
-                    client.BaseAddress = new Uri("https://localhost:44330" + URL);
+                    client.BaseAddress = new Uri(baseurl + URL);
                     /*client.BaseAddress = new Uri("http://localhost:5000" + URL);*/
                     client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
                     HttpResponseMessage oHttpResponseMessage = new HttpResponseMessage();

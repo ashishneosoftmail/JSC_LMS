@@ -28,7 +28,7 @@ namespace JSC_LSM.UI.Services.Repositories
         {
 
         }
-        public async Task<AddFAQBaseResponseModel> AddFAQ(CreateFAQDto createFAQDto)
+        public async Task<AddFAQBaseResponseModel> AddFAQ(string baseurl, CreateFAQDto createFAQDto)
         {
             AddFAQBaseResponseModel aAddFAQResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -38,7 +38,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddFAQ, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddFAQ, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 aAddFAQResponseModel = JsonConvert.DeserializeObject<AddFAQBaseResponseModel>(_oApiResponse.data);
@@ -55,7 +55,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return aAddFAQResponseModel;
         }
 
-        public async Task<UpdateFAQResponseModel> EditFAQ(UpdateFAQDto updateFAQDto)
+        public async Task<UpdateFAQResponseModel> EditFAQ(string baseurl, UpdateFAQDto updateFAQDto)
         {
             UpdateFAQResponseModel updateFAQResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -65,7 +65,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/FAQ/UpdateFAQ", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/FAQ/UpdateFAQ", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateFAQResponseModel = JsonConvert.DeserializeObject<UpdateFAQResponseModel>(_oApiResponse.data);
@@ -82,7 +82,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateFAQResponseModel;
         }
 
-        public async Task<GetFAQByIdResponseModel> GetFAQById(int id)
+        public async Task<GetFAQByIdResponseModel> GetFAQById(string baseurl, int id)
         {
             GetFAQByIdResponseModel getFAQByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -90,7 +90,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetFAQById + id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetFAQById + id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getFAQByIdResponseModel = JsonConvert.DeserializeObject<GetFAQByIdResponseModel>(_oApiResponse.data);
@@ -100,7 +100,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getFAQByIdResponseModel;
         }
 
-        public async Task<GetAllFAQPaginationResponseModel> GetAllFAQByPagination(int page, int size)
+        public async Task<GetAllFAQPaginationResponseModel> GetAllFAQByPagination(string baseurl, int page, int size)
         {
             GetAllFAQPaginationResponseModel getAllFAQPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -108,7 +108,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllFAQByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllFAQByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllFAQPaginationResponseModel = JsonConvert.DeserializeObject<GetAllFAQPaginationResponseModel>(_oApiResponse.data);
@@ -117,7 +117,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
             return getAllFAQPaginationResponseModel;
         }
-        public async Task<GetAllFAQFiltersResponseModel> GetAllFAQByFilters(string faqtitle, bool isactive, string category)
+        public async Task<GetAllFAQFiltersResponseModel> GetAllFAQByFilters(string baseurl, string faqtitle, bool isactive, string category)
         {
             GetAllFAQFiltersResponseModel getAllFAQFilterResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -125,7 +125,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllFAQByFilters + $"?_FAQTitle={faqtitle}&_IsActive={isactive}&_Category={category}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllFAQByFilters + $"?_FAQTitle={faqtitle}&_IsActive={isactive}&_Category={category}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllFAQFilterResponseModel = JsonConvert.DeserializeObject<GetAllFAQFiltersResponseModel>(_oApiResponse.data);
@@ -135,7 +135,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllFAQFilterResponseModel;
         }
 
-        public async Task<GetAllFAQListResponseModel> GetAllFAQList()
+        public async Task<GetAllFAQListResponseModel> GetAllFAQList(string baseurl)
         {
             GetAllFAQListResponseModel getAllFAQListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -143,7 +143,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllFAQ, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllFAQ, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllFAQListResponseModel = JsonConvert.DeserializeObject<GetAllFAQListResponseModel>(_oApiResponse.data);
@@ -153,7 +153,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllFAQListResponseModel;
         }
 
-        public async Task DeleteFAQ(int id)
+        public async Task DeleteFAQ(string baseurl, int id)
         {
 
             _aPIRepository = new APIRepository(_configuration);
@@ -161,7 +161,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteFAQ + id, HttpMethod.Delete, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.DeleteFAQ + id, HttpMethod.Delete, bytes, _sToken);
         }
 
       

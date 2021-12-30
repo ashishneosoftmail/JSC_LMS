@@ -26,7 +26,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<CreateCategoryResponseModel> AddCategory(CreateCategoryDto createCategoryDto)
+        public async Task<CreateCategoryResponseModel> AddCategory(string baseurl, CreateCategoryDto createCategoryDto)
         {
             CreateCategoryResponseModel createCategoryResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -34,7 +34,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddCategory + $"?categoryName={createCategoryDto.CategoryName}&isActive={createCategoryDto.IsActive}", HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddCategory + $"?categoryName={createCategoryDto.CategoryName}&isActive={createCategoryDto.IsActive}", HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 createCategoryResponseModel = JsonConvert.DeserializeObject<CreateCategoryResponseModel>(_oApiResponse.data);
@@ -51,7 +51,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return createCategoryResponseModel;
         }
 
-        public async Task<GetAllCategoryResponseModel> GetAllCategory()
+        public async Task<GetAllCategoryResponseModel> GetAllCategory(string baseurl)
         {
             GetAllCategoryResponseModel getAllCategoryResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -59,7 +59,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCategory, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllCategory, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCategoryResponseModel = JsonConvert.DeserializeObject<GetAllCategoryResponseModel>(_oApiResponse.data);

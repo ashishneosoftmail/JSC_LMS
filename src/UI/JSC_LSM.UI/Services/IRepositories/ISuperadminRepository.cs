@@ -11,9 +11,9 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface ISuperadminRepository
     {
-        Task<UpdateSuperadminProfileInformationResponseModel> UpdateSuperadminPersonalInformation(UpdateSuperadminDto updateSuperadminDto);
-        Task<GetSuperadminByUserIdResponseModel> GetSuperadminByUserId(string id);
-        Task<SuperadminChangePasswordResponseModel> SuperAdminChangePassword(UpdateSuperadminChangePasswordDto updateSuperadminChangePasswordDto);
-        Task<UpdateSuperadminImageResponseModel> UpdateSuperadminImage(int Id, string LogoImageFileName, string LoginImageFileName);
+        Task<UpdateSuperadminProfileInformationResponseModel> UpdateSuperadminPersonalInformation(string baseurl, UpdateSuperadminDto updateSuperadminDto);
+        Task<GetSuperadminByUserIdResponseModel> GetSuperadminByUserId(string baseurl, string id);
+        Task<SuperadminChangePasswordResponseModel> SuperAdminChangePassword(string baseurl, UpdateSuperadminChangePasswordDto updateSuperadminChangePasswordDto);
+        Task<UpdateSuperadminImageResponseModel> UpdateSuperadminImage(string baseurl, int Id, string LogoImageFileName, string LoginImageFileName);
     }
 }

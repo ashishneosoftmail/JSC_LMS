@@ -3,11 +3,13 @@ using ClosedXML.Excel;
 using JSC_LMS.Application.Features.Common.Categories.Commands;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.CreateKnowledgeBase;
 using JSC_LMS.Application.Features.KnowledgeBase.Commands.UpdateKnowledgeBase;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,11 +24,13 @@ namespace JSC_LSM.UI.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IKnowledgeBaseRepository _knowledgebaseRepository;
-        public KnowledgeController(ICategoryRepository categoryRepository, IKnowledgeBaseRepository knowledgebaseRepository, JSC_LSM.UI.Common.Common common)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        public KnowledgeController(ICategoryRepository categoryRepository, IKnowledgeBaseRepository knowledgebaseRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _categoryRepository = categoryRepository;
             _knowledgebaseRepository = knowledgebaseRepository;
             _common = common;
+            _apiBaseUrl = apiBaseUrl;
         }
         public IActionResult Index()
         {
@@ -57,7 +61,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddCategoryError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                createCategoryResponseModel = await _categoryRepository.AddCategory(createCategoryDto);
+                createCategoryResponseModel = await _categoryRepository.AddCategory(_apiBaseUrl.Value.LmsApiBaseUrl,createCategoryDto);
 
 
                 if (createCategoryResponseModel.Succeeded)
@@ -122,7 +126,7 @@ namespace JSC_LSM.UI.Controllers
 
                 ResponseModel responseModel = new ResponseModel();
 
-                addKnowledgeBaseResponseModel = await _knowledgebaseRepository.AddKnowledgeBase(createKnowledgeBaseDto);
+                addKnowledgeBaseResponseModel = await _knowledgebaseRepository.AddKnowledgeBase(_apiBaseUrl.Value.LmsApiBaseUrl,createKnowledgeBaseDto);
 
 
                 if (addKnowledgeBaseResponseModel.Succeeded)
@@ -144,7 +148,7 @@ namespace JSC_LSM.UI.Controllers
                             knowledgeBaseViewModel.Categories = await _common.GetAllCategory();
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+                            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -175,7 +179,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> EditKnowledge(int id)
         {
             KnowledgeBaseViewModel knowledgeBaseViewModel = new KnowledgeBaseViewModel();
-            var knowledgebase = await _knowledgebaseRepository.GetKnowlegebaseById(id);
+            var knowledgebase = await _knowledgebaseRepository.GetKnowlegebaseById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (knowledgebase.data == null)
             {
                 TempData["GetKnowledgeBaseById"] = knowledgebase.message;
@@ -219,7 +223,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateKnowledgeBaseError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateKnowledgeBaseResponseModel = await _knowledgebaseRepository.EditKnowledgeBase(updateKnowledgeBaseDto);
+                updateKnowledgeBaseResponseModel = await _knowledgebaseRepository.EditKnowledgeBase(_apiBaseUrl.Value.LmsApiBaseUrl,updateKnowledgeBaseDto);
 
 
                 if (updateKnowledgeBaseResponseModel.Succeeded)
@@ -238,7 +242,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.UpdateKnowledgeBaseSuccess = "Details Updated Successfully";
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+                            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -269,7 +273,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/
@@ -281,7 +285,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<KnowledgeBaseList>> GetAllKnowledgeBaseByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -289,7 +293,7 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             var data = new List<KnowledgeBaseList>();
 
-            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseByPagination(page, size);
+            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var knowledgeBase in dataList.data)
             {
@@ -315,7 +319,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<KnowledgeBaseList>> GetKnowledgeBaseByFilters(string title, string subtitle, string categoryname)
         {
             var data = new List<KnowledgeBaseList>();
-            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseByFilters(title, subtitle, categoryname);
+            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseByFilters(_apiBaseUrl.Value.LmsApiBaseUrl,title, subtitle, categoryname);
             if (dataList.data != null)
             {
                 foreach (var knowledgeBase in dataList.data)
@@ -336,7 +340,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> ViewKnowledgeBase(int id)
         {
             KnowledgeBaseList knowledgeBaseList = new KnowledgeBaseList();
-            var knowledgebase = await _knowledgebaseRepository.GetKnowlegebaseById(id);
+            var knowledgebase = await _knowledgebaseRepository.GetKnowlegebaseById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (knowledgebase.data == null)
             {
                 TempData["GetKnowledgeBaseById"] = knowledgebase.message;
@@ -360,7 +364,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<PrincipalDetailsViewModel>();
 
-            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseList();
+            var dataList = await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl);
             //Creating DataTable  
             DataTable dt = new DataTable();
             //Setiing Table Name  
@@ -394,10 +398,10 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> DeleteKnowledge(int id)
         {
-            await _knowledgebaseRepository.DeleteKnowledgeBase(id);
+            await _knowledgebaseRepository.DeleteKnowledgeBase(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             var page = 1;
             var size = 5;
-            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
+            int recsCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             /*ViewBag.GetPrincipalById = TempData["GetPrincipalById"] as string;*/

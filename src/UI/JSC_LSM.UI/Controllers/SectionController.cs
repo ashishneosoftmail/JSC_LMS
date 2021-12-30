@@ -1,10 +1,12 @@
 ﻿using JSC_LMS.Application.Features.Section.Commands.CreateSection;
 using JSC_LMS.Application.Features.Section.Commands.CreateUpdate;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +22,14 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISchoolRepository _schoolRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly IClassRepository _classRepository;
-        public SectionController(JSC_LSM.UI.Common.Common common, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository)
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
+        public SectionController(JSC_LSM.UI.Common.Common common, IClassRepository classRepository, ISchoolRepository schoolRepository, ISectionRepository sectionRepository , IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _common = common;
             _schoolRepository = schoolRepository;
             _sectionRepository = sectionRepository;
             _classRepository = classRepository;
+            _apiBaseUrl = apiBaseUrl;
         }
 
         /// <summary>
@@ -37,7 +41,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
+            int recsCount = (await _sectionRepository.GetAllSectionDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             ViewBag.GetSectionById = TempData["GetSectionById"] as string;
@@ -100,7 +104,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddSectionError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                sectionResponseModel = await _sectionRepository.AddNewSection(createNewSection);
+                sectionResponseModel = await _sectionRepository.AddNewSection(_apiBaseUrl.Value.LmsApiBaseUrl,createNewSection);
 
 
                 if (sectionResponseModel.Succeeded)
@@ -126,7 +130,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
+                            int recsCount = (await _sectionRepository.GetAllSectionDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetSectionById = TempData["GetSectionById"] as string;
@@ -166,7 +170,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetSectionByIdResponseModel> GetSectionById(int Id)
         {
 
-            var classes = await _sectionRepository.GetSectionById(Id);
+            var classes = await _sectionRepository.GetSectionById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return classes;
         }
 
@@ -185,7 +189,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<SectionDetailsViewModel>();
 
-            var dataList = await _sectionRepository.GetAllSectionDetails();
+            var dataList = await _sectionRepository.GetAllSectionDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             foreach (var sections in dataList.data)
             {
                 data.Add(new SectionDetailsViewModel()
@@ -217,7 +221,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<SectionDetailsViewModel>> GetAllSectionsDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
+            int recsCount = (await _sectionRepository.GetAllSectionDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -226,7 +230,7 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<SectionDetailsViewModel>();
 
             //int recSkip = (page - 1) * size;
-            var dataList = await _sectionRepository.GetSectionByPagination(page, size);
+            var dataList = await _sectionRepository.GetSectionByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var sections in dataList.data.GetSectionListPaginationDto)
             {
@@ -281,7 +285,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetSectionName()
         {
-            var data = await _sectionRepository.GetAllSectionDetails();
+            var data = await _sectionRepository.GetAllSectionDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> sections = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -303,7 +307,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> EditSection(int id)
         {
-            var sections = await _sectionRepository.GetSectionById(id);
+            var sections = await _sectionRepository.GetSectionById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (sections.data == null)
             {
                 TempData["GetSectionById"] = sections.message;
@@ -364,7 +368,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateSectionError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateSectionResponseModel = await _sectionRepository.UpdateSection(updateSection);
+                updateSectionResponseModel = await _sectionRepository.UpdateSection(_apiBaseUrl.Value.LmsApiBaseUrl,updateSection);
 
 
                 if (updateSectionResponseModel.Succeeded)
@@ -384,7 +388,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _sectionRepository.GetAllSectionDetails()).data.Count();
+                            int recsCount = (await _sectionRepository.GetAllSectionDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetSectionById = TempData["GetSectionById"] as string;
@@ -424,7 +428,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<SectionDetailsViewModel>> GetSectionByFilters(string className, string schoolName, string sectionName, DateTime createdDate, bool isActive)
         {
             var data = new List<SectionDetailsViewModel>();
-            var dataList = await _sectionRepository.GetSectionByFilters(schoolName,  className, sectionName, createdDate, isActive);
+            var dataList = await _sectionRepository.GetSectionByFilters(_apiBaseUrl.Value.LmsApiBaseUrl,schoolName,  className, sectionName, createdDate, isActive);
             if (dataList.data != null)
             {
                 foreach (var sections in dataList.data)

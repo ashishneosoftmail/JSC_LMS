@@ -29,7 +29,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="cityId"></param>
         /// <returns></returns>
-        public async Task<GetAllZipResponseModel> GetAllZipcodes(int cityId)
+        public async Task<GetAllZipResponseModel> GetAllZipcodes(string baseurl, int cityId)
         {
             GetAllZipResponseModel getAllZipResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -37,7 +37,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllZip + cityId, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllZip + cityId, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllZipResponseModel = JsonConvert.DeserializeObject<GetAllZipResponseModel>(_oApiResponse.data);

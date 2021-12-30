@@ -30,7 +30,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<TeacherResponseModel> CreateTeacher(CreateTeacherDto createTeacherDto)
+        public async Task<TeacherResponseModel> CreateTeacher(string baseurl, CreateTeacherDto createTeacherDto)
         {
             TeacherResponseModel teacherResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -40,7 +40,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.CreateTeacher, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.CreateTeacher, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 teacherResponseModel = JsonConvert.DeserializeObject<TeacherResponseModel>(_oApiResponse.data);
@@ -58,7 +58,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetTeacherByIdResponseModel> GetTeacherById(int Id)
+        public async Task<GetTeacherByIdResponseModel> GetTeacherById(string baseurl, int Id)
         {
             GetTeacherByIdResponseModel getTeacherByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -66,7 +66,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetTeacherById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetTeacherById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getTeacherByIdResponseModel = JsonConvert.DeserializeObject<GetTeacherByIdResponseModel>(_oApiResponse.data);
@@ -77,7 +77,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<UpdateTeacherResponseModel> UpdateTeacher(UpdateTeacherDto updateTeacherDto)
+        public async Task<UpdateTeacherResponseModel> UpdateTeacher(string baseurl, UpdateTeacherDto updateTeacherDto)
         {
             UpdateTeacherResponseModel updateTeacherResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -87,7 +87,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Teacher/UpdateTeacher", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Teacher/UpdateTeacher", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateTeacherResponseModel = JsonConvert.DeserializeObject<UpdateTeacherResponseModel>(_oApiResponse.data);
@@ -105,7 +105,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(int page, int size)
+        public async Task<GetAllTeacherByPaginationResponseModel> GetTeacherByPagination(string baseurl, int page, int size)
         {
             GetAllTeacherByPaginationResponseModel getAllTeacherByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -113,7 +113,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllTeacherByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllTeacherByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllTeacherByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllTeacherByPaginationResponseModel>(_oApiResponse.data);
@@ -123,7 +123,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllTeacherByPaginationResponseModel;
         }
 
-        public async Task<GetAllTeacherListResponseModel> GetAllTeacherDetails()
+        public async Task<GetAllTeacherListResponseModel> GetAllTeacherDetails(string baseurl)
         {
             GetAllTeacherListResponseModel getAllTeacherListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -131,7 +131,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllTeacherDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllTeacherDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllTeacherListResponseModel = JsonConvert.DeserializeObject<GetAllTeacherListResponseModel>(_oApiResponse.data);
@@ -141,7 +141,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllTeacherListResponseModel;
         }
 
-        public async Task<GetAllTeacherByFiltersResponseModel> GetTeacherByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, DateTime CreatedDate, bool IsActive)
+        public async Task<GetAllTeacherByFiltersResponseModel> GetTeacherByFilters(string baseurl, string SchoolName, string ClassName, string SectionName, string SubjectName, string TeacherName, DateTime CreatedDate, bool IsActive)
         {
             GetAllTeacherByFiltersResponseModel getTeacherByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -151,7 +151,7 @@ namespace JSC_LSM.UI.Services.Repositories
             var bytes = new ByteArrayContent(content);
 
 
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Teacher/Filter?_schoolName={SchoolName}&_ClassName={ClassName}&_SectionName={SectionName}&_SubjectName={SubjectName}&_TeacherName={TeacherName}&_IsActive={IsActive}&_CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Teacher/Filter?_schoolName={SchoolName}&_ClassName={ClassName}&_SectionName={SectionName}&_SubjectName={SubjectName}&_TeacherName={TeacherName}&_IsActive={IsActive}&_CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getTeacherByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllTeacherByFiltersResponseModel>(_oApiResponse.data);
@@ -161,7 +161,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getTeacherByFiltersResponseModel;
         }
 
-        public async Task<GetTeacherByUserIdResponseModel> GetTeacherByUserId(string UserId)
+        public async Task<GetTeacherByUserIdResponseModel> GetTeacherByUserId(string baseurl, string UserId)
         {
             GetTeacherByUserIdResponseModel getTeacherByUserIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -169,7 +169,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetTeacherByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetTeacherByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getTeacherByUserIdResponseModel = JsonConvert.DeserializeObject<GetTeacherByUserIdResponseModel>(_oApiResponse.data);

@@ -10,21 +10,21 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
     public interface IStudentRepository
     {
-        Task<GetAllStudentListResponseModel> GetAllStudentDetails();
+        Task<GetAllStudentListResponseModel> GetAllStudentDetails(string baseurl);
 
-        Task<GetStudentByIdResponseModel> GetStudentById(int Id);
+        Task<GetStudentByIdResponseModel> GetStudentById(string baseurl, int Id);
 
-        Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(int SchoolId , string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate);
+        Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(string baseurl, int SchoolId , string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate);
 
-        Task<GetAllStudentByPaginationResponseModel> GetStudentByPagination(int page, int size);
+        Task<GetAllStudentByPaginationResponseModel> GetStudentByPagination(string baseurl, int page, int size);
 
-        Task<UpdateStudentResponseModel> UpdateStudent(UpdateStudentDto updateStudentDto);
+        Task<UpdateStudentResponseModel> UpdateStudent(string baseurl, UpdateStudentDto updateStudentDto);
 
-        Task<StudentResponseModel> AddNewStudent(CreateStudentDto createStudentDto);
+        Task<StudentResponseModel> AddNewStudent(string baseurl, CreateStudentDto createStudentDto);
 
-        Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string UserId);
-        Task<GetAllStudentListBySchoolPaginationResponseModel> GetStudentListBySchoolPagination(int page, int size, int schoolid);
-        Task<GetAllStudentListBySchoolResponseModel> GetAllStudentBySchoolList(int schoolid);
+        Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string baseurl, string UserId);
+        Task<GetAllStudentListBySchoolPaginationResponseModel> GetStudentListBySchoolPagination(string baseurl, int page, int size, int schoolid);
+        Task<GetAllStudentListBySchoolResponseModel> GetAllStudentBySchoolList(string baseurl, int schoolid);
 
     }
 }

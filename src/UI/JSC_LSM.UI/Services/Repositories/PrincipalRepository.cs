@@ -32,7 +32,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="createPrincipalDto"></param>
         /// <returns></returns>
-        public async Task<PrincipalResponseModel> AddNewPrinicipal(CreatePrincipalDto createPrincipalDto)
+        public async Task<PrincipalResponseModel> AddNewPrinicipal(string baseurl, CreatePrincipalDto createPrincipalDto)
         {
             PrincipalResponseModel principalResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -42,7 +42,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewPrincipal, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddNewPrincipal, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 principalResponseModel = JsonConvert.DeserializeObject<PrincipalResponseModel>(_oApiResponse.data);
@@ -63,7 +63,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// Returns all the principal data - Developed By Harsh Chheda
         /// </summary>
         /// <returns></returns>
-        public async Task<GetAllPrincipalListResponseModel> GetAllPrincipalDetails()
+        public async Task<GetAllPrincipalListResponseModel> GetAllPrincipalDetails(string baseurl)
         {
             GetAllPrincipalListResponseModel getAllPrincipalListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -71,7 +71,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllPrincipalDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllPrincipalDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllPrincipalListResponseModel = JsonConvert.DeserializeObject<GetAllPrincipalListResponseModel>(_oApiResponse.data);
@@ -86,7 +86,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(int Id)
+        public async Task<GetPrincipalByIdResponseModel> GetPrincipalById(string baseurl, int Id)
         {
             GetPrincipalByIdResponseModel getPrincipalByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -94,7 +94,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetPrincipalById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetPrincipalById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getPrincipalByIdResponseModel = JsonConvert.DeserializeObject<GetPrincipalByIdResponseModel>(_oApiResponse.data);
@@ -112,7 +112,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// <param name="CreatedDate"></param>
         /// <param name="IsActive"></param>
         /// <returns></returns>
-        public async Task<GetAllPrincipalByFiltersResponseModel> GetPrincipalByFilters(string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive)
+        public async Task<GetAllPrincipalByFiltersResponseModel> GetPrincipalByFilters(string baseurl, string SchoolName, string PrincipalName, DateTime CreatedDate, bool IsActive)
         {
             GetAllPrincipalByFiltersResponseModel getPrincipalByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -120,7 +120,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Principal/GetPrincipalByFilter?SchoolName={SchoolName}&PrincipalName={PrincipalName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Principal/GetPrincipalByFilter?SchoolName={SchoolName}&PrincipalName={PrincipalName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getPrincipalByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllPrincipalByFiltersResponseModel>(_oApiResponse.data);
@@ -136,7 +136,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public async Task<GetAllPrincipalByPaginationResponseModel> GetPrincipalByPagination(int page, int size)
+        public async Task<GetAllPrincipalByPaginationResponseModel> GetPrincipalByPagination(string baseurl, int page, int size)
         {
             GetAllPrincipalByPaginationResponseModel getAllPrincipalByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -144,7 +144,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllPrincipalByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllPrincipalByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllPrincipalByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllPrincipalByPaginationResponseModel>(_oApiResponse.data);
@@ -159,7 +159,7 @@ namespace JSC_LSM.UI.Services.Repositories
         /// </summary>
         /// <param name="updatePrincipalDto"></param>
         /// <returns></returns>
-        public async Task<UpdatePrincipalResponseModel> UpdatePrincipal(UpdatePrincipalDto updatePrincipalDto)
+        public async Task<UpdatePrincipalResponseModel> UpdatePrincipal(string baseurl, UpdatePrincipalDto updatePrincipalDto)
         {
             UpdatePrincipalResponseModel updatePrincipalResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -169,7 +169,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Principal/UpdatePrincipal", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Principal/UpdatePrincipal", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updatePrincipalResponseModel = JsonConvert.DeserializeObject<UpdatePrincipalResponseModel>(_oApiResponse.data);
@@ -187,7 +187,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<GetPrincipalByUserIdResponseModel> GetPrincipalByUserId(string UserId)
+        public async Task<GetPrincipalByUserIdResponseModel> GetPrincipalByUserId(string baseurl, string UserId)
         {
             GetPrincipalByUserIdResponseModel getPrincipalByUserIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -195,7 +195,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetPrincipalByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetPrincipalByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getPrincipalByUserIdResponseModel = JsonConvert.DeserializeObject<GetPrincipalByUserIdResponseModel>(_oApiResponse.data);

@@ -12,6 +12,8 @@ using JSC_LMS.Application.Features.Superadmin.Commands.UpdateSuperadminPassword;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using JSC_LSM.UI.Helpers;
 
 namespace JSC_LSM.UI.Controllers
 {
@@ -26,8 +28,9 @@ namespace JSC_LSM.UI.Controllers
         private readonly IConfiguration _configuration;
         private readonly IFAQRepository _faqRepository;
         private readonly IKnowledgeBaseRepository _knowledgebaseRepository;
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         public SuperAdminController(ISuperadminRepository superadminRepository, IWebHostEnvironment webHostEnvironment, IConfiguration configuration, IInstituteRepository instituteRepository,
-       IPrincipalRepository principalRepository, ITeacherRepository teacherRepository,  IStudentRepository studentRepository , IFAQRepository faqRepository , IKnowledgeBaseRepository knowledgebaseRepository)
+       IPrincipalRepository principalRepository, ITeacherRepository teacherRepository,  IStudentRepository studentRepository , IFAQRepository faqRepository , IKnowledgeBaseRepository knowledgebaseRepository , IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _superadminRepository = superadminRepository;
             _webHostEnvironment = webHostEnvironment;
@@ -38,13 +41,14 @@ namespace JSC_LSM.UI.Controllers
             _studentRepository = studentRepository;
             _faqRepository = faqRepository;
             _knowledgebaseRepository = knowledgebaseRepository;
+            _apiBaseUrl = apiBaseUrl;
         }
         public async Task<IActionResult> Index()
         {
             SuperadminChartDetails model= new SuperadminChartDetails();
-            model.InstituteCount = (await _instituteRepository.GetAllInstituteDetails()).data.Count();
-            model.KnowledgebaseCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList()).data.Count();
-            model.FAQCount = (await _faqRepository.GetAllFAQList()).data.Count();
+            model.InstituteCount = (await _instituteRepository.GetAllInstituteDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
+            model.KnowledgebaseCount = (await _knowledgebaseRepository.GetAllKnowledgeBaseList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
+            model.FAQCount = (await _faqRepository.GetAllFAQList(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
            
             return View(model);
         }
@@ -52,7 +56,7 @@ namespace JSC_LSM.UI.Controllers
         public JsonResult InstitutePieChart()
         {
             //InstituteChartDetails userList = new InstituteChartDetails();
-            var institute = _instituteRepository.GetAllInstituteDetails().GetAwaiter().GetResult();
+            var institute = _instituteRepository.GetAllInstituteDetails(_apiBaseUrl.Value.LmsApiBaseUrl).GetAwaiter().GetResult();
             /*userList.InstituteMonthWiseUserCount */
             var list = institute.data.Where(v=> v.CreatedDate.Value.Year == DateTime.Now.Year).GroupBy(u => u.CreatedDate.Value.Month)
                           .Select(u => new UserData
@@ -135,7 +139,7 @@ namespace JSC_LSM.UI.Controllers
             var user = User;
             Console.WriteLine(user);
             var userId = Convert.ToString(Request.Cookies["Id"]);
-            var superadmin = await _superadminRepository.GetSuperadminByUserId(userId);
+            var superadmin = await _superadminRepository.GetSuperadminByUserId(_apiBaseUrl.Value.LmsApiBaseUrl,userId);
             var LoginImagePath = _configuration["LoginImages"];
             var LogoImagePath = _configuration["Logos"];
             var superadminvm = new UpdateSuperadminProfileInformationModel()
@@ -175,7 +179,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateSuperadminError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateSuperadminProfileInformationResponseModel = await _superadminRepository.UpdateSuperadminPersonalInformation(updateSuperadminDto);
+                updateSuperadminProfileInformationResponseModel = await _superadminRepository.UpdateSuperadminPersonalInformation(_apiBaseUrl.Value.LmsApiBaseUrl,updateSuperadminDto);
 
 
                 if (updateSuperadminProfileInformationResponseModel.Succeeded)
@@ -249,7 +253,7 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.UpdateSuperadminChangePasswordError = null;
             ResponseModel responseModel = new ResponseModel();
 
-            updateSuperadminImageResponseModel = await _superadminRepository.UpdateSuperadminImage(Id, LogoImageFileName, LoginImageFileName);
+            updateSuperadminImageResponseModel = await _superadminRepository.UpdateSuperadminImage(_apiBaseUrl.Value.LmsApiBaseUrl,Id, LogoImageFileName, LoginImageFileName);
 
 
             if (updateSuperadminImageResponseModel.Succeeded)
@@ -306,7 +310,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateSuperadminChangePasswordError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                superadminChangePasswordResponseModel = await _superadminRepository.SuperAdminChangePassword(updateSuperadminChangePasswordDto);
+                superadminChangePasswordResponseModel = await _superadminRepository.SuperAdminChangePassword(_apiBaseUrl.Value.LmsApiBaseUrl,updateSuperadminChangePasswordDto);
 
 
                 if (superadminChangePasswordResponseModel.Succeeded)

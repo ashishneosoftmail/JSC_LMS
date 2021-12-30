@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 using JSC_LMS.Application.Features.School.Commands.CreateSchool;
 using JSC_LMS.Application.Features.School.Commands.UpdateSchool;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 
 using JSC_LSM.UI.ResponseModels;
@@ -8,6 +9,7 @@ using JSC_LSM.UI.ResponseModels.SchoolResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,12 +25,14 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IInstituteRepository _instituteRepository;
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
 
-        public SchoolController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IInstituteRepository instituteRepository)
+        public SchoolController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IInstituteRepository instituteRepository , IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _common = common;
             _schoolRepository = schoolRepository;
             _instituteRepository = instituteRepository;
+            _apiBaseUrl = apiBaseUrl;
         }
 
         [HttpGet]
@@ -91,7 +95,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddSchoolError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                schoolResponseModel = await _schoolRepository.AddNewSchool(createNewSchool);
+                schoolResponseModel = await _schoolRepository.AddNewSchool(_apiBaseUrl.Value.LmsApiBaseUrl,createNewSchool);
 
 
                 if (schoolResponseModel.Succeeded)
@@ -114,7 +118,7 @@ namespace JSC_LSM.UI.Controllers
                             newPrincipalModel.Institutes = await _common.GetInstitute();
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
+                            int recsCount = (await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
@@ -147,7 +151,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
+            int recsCount = (await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
@@ -160,7 +164,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<SchoolViewModel>> GetSchoolByFilter(string schoolName, string instituteName, string city,string state,bool isActive ,DateTime createdDate)
         {
             var data = new List<SchoolViewModel>();
-            var dataList = await _schoolRepository.GetSchoolByFilter(schoolName, instituteName,city,state, isActive, createdDate);
+            var dataList = await _schoolRepository.GetSchoolByFilter(_apiBaseUrl.Value.LmsApiBaseUrl,schoolName, instituteName,city,state, isActive, createdDate);
             if (dataList.data != null)
             {
                 foreach (var school in dataList.data)
@@ -190,7 +194,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<SchoolViewModel>> GetAllSchoolDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
+            int recsCount = (await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -198,7 +202,7 @@ namespace JSC_LSM.UI.Controllers
             ViewBag.Pager = pager;
             var data = new List<SchoolViewModel>();
 
-            var dataList = await _schoolRepository.GetSchoolByPagination(page, size);
+            var dataList = await _schoolRepository.GetSchoolByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var school in dataList.data.GetSchoolByPaginationDto)
             {
@@ -226,7 +230,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetSchoolByIdResponseModel> GetSchoolById(int Id)
         {
 
-            var school = await _schoolRepository.GetSchoolById(Id);
+            var school = await _schoolRepository.GetSchoolById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return school;
         }
 
@@ -240,7 +244,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetSchoolName()
         {
-            var data = await _schoolRepository.GetAllSchool();
+            var data = await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> school = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -256,7 +260,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> EditSchool(int id)
         {
-            var school = await _schoolRepository.GetSchoolById(id);
+            var school = await _schoolRepository.GetSchoolById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (school.data == null)
             {
                 TempData["GetSchoolById"] = school.message;
@@ -320,7 +324,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateSchoolError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateSchoolResponseModel = await _schoolRepository.UpdateSchool(updatePrincipal);
+                updateSchoolResponseModel = await _schoolRepository.UpdateSchool(_apiBaseUrl.Value.LmsApiBaseUrl,updatePrincipal);
 
 
                 if (updateSchoolResponseModel.Succeeded)
@@ -340,7 +344,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _schoolRepository.GetAllSchool()).data.Count();
+                            int recsCount = (await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetSchoolById = TempData["GetSchoolById"] as string;
@@ -372,7 +376,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<SchoolViewModel>();
 
-            var dataList = await _schoolRepository.GetAllSchool();
+            var dataList = await _schoolRepository.GetAllSchool(_apiBaseUrl.Value.LmsApiBaseUrl);
             //Creating DataTable  
             DataTable dt = new DataTable();
             //Setiing Table Name  

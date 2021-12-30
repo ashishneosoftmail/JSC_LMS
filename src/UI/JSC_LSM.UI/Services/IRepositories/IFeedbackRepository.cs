@@ -11,20 +11,20 @@ namespace JSC_LSM.UI.Services.IRepositories
     public interface IFeedbackRepository
     {
 
-        Task<FeedbackResponseModel> AddNewFeedback(CreateFeedbackDto createSectionDto);
+        Task<FeedbackResponseModel> AddNewFeedback(string baseurl, CreateFeedbackDto createSectionDto);
 
-        Task<GetFeedbackByIdResponseModel> GetFeedbackById(int Id);
+        Task<GetFeedbackByIdResponseModel> GetFeedbackById(string baseurl, int Id);
 
-        Task<GetAllFeedbackListResponseModel> GetAllFeedbackDetails();
-        //Task<GetAllFeedbackByFiltersResponseModel> GetFeedbackByFilters(string StudentName, string ClassName, string SectionName, string ParentName, string SubjectName, string Type, DateTime SendDate, bool IsActive);
+        Task<GetAllFeedbackListResponseModel> GetAllFeedbackDetails(string baseurl);
+        //Task<GetAllFeedbackByFiltersResponseModel> GetFeedbackByFilters(string baseurl,string StudentName, string ClassName, string SectionName, string ParentName, string SubjectName, string Type, DateTime SendDate, bool IsActive);
 
-        //Task<GetAllFeedbackByPaginationResponseModel> GetFeedbackByPagination(int page, int size);
+        //Task<GetAllFeedbackByPaginationResponseModel> GetFeedbackByPagination(string baseurl,int page, int size);
 
 
 
-        //Task<GetAllFeedbackResponseModel> GetAllFeedback();
+        //Task<GetAllFeedbackResponseModel> GetAllFeedback(string baseurl);
 
-        //Task<AddFeedbackResponseModel> AddFeedbackData(CreateFeedbackDto createFeedbackDto);
+        //Task<AddFeedbackResponseModel> AddFeedbackData(string baseurl,CreateFeedbackDto createFeedbackDto);
 
     }
 }

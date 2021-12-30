@@ -1,10 +1,12 @@
 ﻿using JSC_LMS.Application.Features.Class.Commands.CreateClass;
 using JSC_LMS.Application.Features.Class.Commands.UpdateClass;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -19,12 +21,14 @@ namespace JSC_LSM.UI.Controllers
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly ISchoolRepository _schoolRepository;
         private readonly IClassRepository _classRepository;
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
 
-        public ClassController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IClassRepository classRepository)
+        public ClassController(JSC_LSM.UI.Common.Common common, ISchoolRepository schoolRepository, IClassRepository classRepository ,IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _common = common;
             _schoolRepository = schoolRepository;
             _classRepository = classRepository;
+            _apiBaseUrl = apiBaseUrl;
         }
 
         /// <summary>
@@ -36,7 +40,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _classRepository.GetAllClass()).data.Count();
+            int recsCount = (await _classRepository.GetAllClass(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             ViewBag.GetClassById = TempData["GetClassById"] as string;
@@ -56,7 +60,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var page = 1;
             var size = 5;
-            int recsCount = (await _classRepository.GetAllClassDetails()).data.Count();
+            int recsCount = (await _classRepository.GetAllClassDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
 
@@ -111,7 +115,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddClassError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                classResponseModel = await _classRepository.AddNewClass(createNewClass);
+                classResponseModel = await _classRepository.AddNewClass(_apiBaseUrl.Value.LmsApiBaseUrl,createNewClass);
 
 
                 if (classResponseModel.Succeeded)
@@ -134,7 +138,7 @@ namespace JSC_LSM.UI.Controllers
                             newClassModel.Schools = await _common.GetSchool();
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _classRepository.GetAllClass()).data.Count();
+                            int recsCount = (await _classRepository.GetAllClass(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetClassById = TempData["GetClassById"] as string;
@@ -172,7 +176,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetClassByIdResponseModel> GetClassById(int Id)
         {
 
-            var classes = await _classRepository.GetClassById(Id);
+            var classes = await _classRepository.GetClassById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return classes;
         }
 
@@ -192,7 +196,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IEnumerable<ClassDetailsViewModel>> GetClassByFilters(string className, string schoolName, DateTime createdDate, bool isActive)
         {
             var data = new List<ClassDetailsViewModel>();
-            var dataList = await _classRepository.GetClassByFilters(schoolName, className, createdDate, isActive);
+            var dataList = await _classRepository.GetClassByFilters(_apiBaseUrl.Value.LmsApiBaseUrl,schoolName, className, createdDate, isActive);
             if (dataList.data != null)
             {
                 foreach (var classes in dataList.data)
@@ -225,7 +229,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<ClassDetailsViewModel>();
 
-            var dataList = await _classRepository.GetAllClassDetails();
+            var dataList = await _classRepository.GetAllClassDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             foreach (var classes in dataList.data)
             {
                 data.Add(new ClassDetailsViewModel()
@@ -254,7 +258,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IEnumerable<ClassDetailsViewModel>> GetAllClasssDetailsByPagination(int page = 1, int size = 5)
         {
-            int recsCount = (await _classRepository.GetAllClass()).data.Count();
+            int recsCount = (await _classRepository.GetAllClass(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
             if (page < 1)
                 page = 1;
             var pager = new Pager(recsCount, page, size);
@@ -263,7 +267,7 @@ namespace JSC_LSM.UI.Controllers
             var data = new List<ClassDetailsViewModel>();
 
             //int recSkip = (page - 1) * size;
-            var dataList = await _classRepository.GetClassByPagination(page, size);
+            var dataList = await _classRepository.GetClassByPagination(_apiBaseUrl.Value.LmsApiBaseUrl,page, size);
 
             foreach (var classes in dataList.data.GetClassListPaginationDto)
             {
@@ -303,7 +307,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetClassName()
         {
-            var data = await _classRepository.GetAllClass();
+            var data = await _classRepository.GetAllClass(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> classes = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -324,7 +328,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<IActionResult> EditClass(int id)
         {
-            var classes = await _classRepository.GetClassById(id);
+            var classes = await _classRepository.GetClassById(_apiBaseUrl.Value.LmsApiBaseUrl,id);
             if (classes.data == null)
             {
                 TempData["GetClassById"] = classes.message;
@@ -378,7 +382,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.UpdateClassError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                updateClassResponseModel = await _classRepository.UpdateClass(updateClass);
+                updateClassResponseModel = await _classRepository.UpdateClass(_apiBaseUrl.Value.LmsApiBaseUrl,updateClass);
 
 
                 if (updateClassResponseModel.Succeeded)
@@ -397,7 +401,7 @@ namespace JSC_LSM.UI.Controllers
                             ViewBag.UpdateClassSuccess = "Details Updated Successfully";
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _classRepository.GetAllClass()).data.Count();
+                            int recsCount = (await _classRepository.GetAllClass(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetClassById = TempData["GetClassById"] as string;

@@ -27,7 +27,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllAcademicListResponseModel> GetAllAcademicDetails()
+        public async Task<GetAllAcademicListResponseModel> GetAllAcademicDetails(string baseurl)
         {
             GetAllAcademicListResponseModel getAllAcademicListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -35,7 +35,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllAcademicDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllAcademicDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllAcademicListResponseModel = JsonConvert.DeserializeObject<GetAllAcademicListResponseModel>(_oApiResponse.data);
@@ -45,7 +45,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllAcademicListResponseModel;
         }
 
-        public async Task<GetAcademicByIdResponseModel> GetAcademicById(int Id)
+        public async Task<GetAcademicByIdResponseModel> GetAcademicById(string baseurl, int Id)
         {
             GetAcademicByIdResponseModel getAcademicByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -53,7 +53,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAcademicById + $"?id={Id}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAcademicById + $"?id={Id}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAcademicByIdResponseModel = JsonConvert.DeserializeObject<GetAcademicByIdResponseModel>(_oApiResponse.data);
@@ -65,7 +65,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllAcademicByFiltersResponseModel> GetAcademicByFilters(string SchoolName, string ClassName, string SectionName, string SubjectName,string TeacherName,string Type, DateTime CreatedDate, bool IsActive)
+        public async Task<GetAllAcademicByFiltersResponseModel> GetAcademicByFilters(string baseurl, string SchoolName, string ClassName, string SectionName, string SubjectName,string TeacherName,string Type, DateTime CreatedDate, bool IsActive)
         {
             GetAllAcademicByFiltersResponseModel getAcademicByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -73,7 +73,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Academic/GetAcademicByFilter?ClassName={ClassName}&SchoolName={SchoolName}&SubjectName={SubjectName}&SectionName={SectionName}&TeacherName={TeacherName}&Type={Type}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Academic/GetAcademicByFilter?ClassName={ClassName}&SchoolName={SchoolName}&SubjectName={SubjectName}&SectionName={SectionName}&TeacherName={TeacherName}&Type={Type}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAcademicByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllAcademicByFiltersResponseModel>(_oApiResponse.data);
@@ -84,7 +84,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllAcademicByPaginationResponseModel> GetAcademicByPagination(int page, int size)
+        public async Task<GetAllAcademicByPaginationResponseModel> GetAcademicByPagination( string baseurl, int page, int size)
         {
             GetAllAcademicByPaginationResponseModel getAllAcademicByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -92,7 +92,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllAcademicByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllAcademicByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllAcademicByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllAcademicByPaginationResponseModel>(_oApiResponse.data);
@@ -104,7 +104,7 @@ namespace JSC_LSM.UI.Services.Repositories
         }
 
 
-        public async Task<UpdateAcademicResponseModel> UpdateAcademic(UpdateAcademicDto updateAcademicDto)
+        public async Task<UpdateAcademicResponseModel> UpdateAcademic(string baseurl, UpdateAcademicDto updateAcademicDto)
         {
             UpdateAcademicResponseModel updateAcademicResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -114,7 +114,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Academic/UpdateAcademic", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Academic/UpdateAcademic", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateAcademicResponseModel = JsonConvert.DeserializeObject<UpdateAcademicResponseModel>(_oApiResponse.data);
@@ -131,7 +131,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateAcademicResponseModel;
         }
 
-        public async Task<AcademicResponseModel> AddNewAcademic(CreateAcademicDto createAcademicDto)
+        public async Task<AcademicResponseModel> AddNewAcademic(string baseurl, CreateAcademicDto createAcademicDto)
         {
             AcademicResponseModel academicResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -141,7 +141,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewAcademic, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddNewAcademic, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 academicResponseModel = JsonConvert.DeserializeObject<AcademicResponseModel>(_oApiResponse.data);

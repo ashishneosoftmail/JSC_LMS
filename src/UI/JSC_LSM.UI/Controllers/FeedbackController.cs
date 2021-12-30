@@ -1,11 +1,13 @@
 ﻿using AutoMapper.Configuration;
 using JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +28,10 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISubjectRepository _subjectRepository;
         private readonly IParentsRepository _parentsRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
 
 
-        public FeedbackController(JSC_LSM.UI.Common.Common common, IFeedbackRepository feedbackRepository, IStudentRepository studentRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IParentsRepository parentsRepository,  IWebHostEnvironment webHostEnvironment)
+        public FeedbackController(JSC_LSM.UI.Common.Common common, IFeedbackRepository feedbackRepository, IStudentRepository studentRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IParentsRepository parentsRepository,  IWebHostEnvironment webHostEnvironment , IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _common = common;
             _feedbackRepository = feedbackRepository;
@@ -38,6 +41,7 @@ namespace JSC_LSM.UI.Controllers
             _subjectRepository = subjectRepository;
             _parentsRepository = parentsRepository;
             _webHostEnvironment = webHostEnvironment;
+            _apiBaseUrl = apiBaseUrl;
         }
 
 
@@ -55,7 +59,7 @@ namespace JSC_LSM.UI.Controllers
            
            
 
-            var dataList = await _feedbackRepository.GetAllFeedbackDetails();
+            var dataList = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             var tempstatus = "";
             foreach (var feedbackdata in dataList.data)
             {
@@ -131,7 +135,7 @@ namespace JSC_LSM.UI.Controllers
                 ViewBag.AddFeedbackError = null;
                 ResponseModel responseModel = new ResponseModel();
 
-                feedbackResponseModel = await _feedbackRepository.AddNewFeedback(createNewFeedback);
+                feedbackResponseModel = await _feedbackRepository.AddNewFeedback(_apiBaseUrl.Value.LmsApiBaseUrl,createNewFeedback);
 
 
                 if (feedbackResponseModel.Succeeded)
@@ -160,7 +164,7 @@ namespace JSC_LSM.UI.Controllers
 
                             var page = 1;
                             var size = 5;
-                            int recsCount = (await _feedbackRepository.GetAllFeedbackDetails()).data.Count();
+                            int recsCount = (await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
                             if (page < 1)
                                 page = 1;
                             ViewBag.GetFeedbackById = TempData["GetFeedbackById"] as string;
@@ -196,7 +200,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetFeedbackByIdResponseModel> GetFeedbackById(int Id)
         {
 
-            var subjects = await _feedbackRepository.GetFeedbackById(Id);
+            var subjects = await _feedbackRepository.GetFeedbackById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return subjects;
         }
 
@@ -206,7 +210,7 @@ namespace JSC_LSM.UI.Controllers
         {
             var data = new List<FeedbackDetailsViewModel>();
 
-            var dataList = await _feedbackRepository.GetAllFeedbackDetails();
+            var dataList = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             foreach (var feedbacks in dataList.data)
             {
                 data.Add(new FeedbackDetailsViewModel()
@@ -282,7 +286,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public async Task<List<SelectListItem>> GetFeedbackType()
         {
-            var data = await _feedbackRepository.GetAllFeedbackDetails();
+            var data = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
             List<SelectListItem> feedbacks = new List<SelectListItem>();
             foreach (var item in data.data)
             {
@@ -331,7 +335,7 @@ namespace JSC_LSM.UI.Controllers
         //        ViewBag.AddFeedbackError = null;
         //        ResponseModel responseModel = new ResponseModel();
 
-        //        addFeedbackResponseModel = await _feedbackRepository.AddFeedbackData(createFeedbackDto);
+        //        addFeedbackResponseModel = await _feedbackRepository.AddFeedbackData(_apiBaseUrl.Value.LmsApiBaseUrl,createFeedbackDto);
 
 
         //        if (addFeedbackResponseModel.Succeeded)
@@ -391,7 +395,7 @@ namespace JSC_LSM.UI.Controllers
         public async Task<GetFeedbackByIdResponseModel> ViewFeedbackData(int Id)
         {
 
-            var feedbacksdata = await _feedbackRepository.GetFeedbackById(Id);
+            var feedbacksdata = await _feedbackRepository.GetFeedbackById(_apiBaseUrl.Value.LmsApiBaseUrl,Id);
             return feedbacksdata;
         }
 

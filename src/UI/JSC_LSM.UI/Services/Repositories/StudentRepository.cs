@@ -27,7 +27,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<StudentResponseModel> AddNewStudent(CreateStudentDto createStudentDto)
+        public async Task<StudentResponseModel> AddNewStudent(string baseurl, CreateStudentDto createStudentDto)
         {
             StudentResponseModel studentResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -37,7 +37,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddNewStudent, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddNewStudent, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 studentResponseModel = JsonConvert.DeserializeObject<StudentResponseModel>(_oApiResponse.data);
@@ -55,7 +55,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllStudentListResponseModel> GetAllStudentDetails()
+        public async Task<GetAllStudentListResponseModel> GetAllStudentDetails(string baseurl)
         {
             GetAllStudentListResponseModel getAllStudentListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -63,7 +63,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllStudentDetails, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllStudentDetails, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllStudentListResponseModel = JsonConvert.DeserializeObject<GetAllStudentListResponseModel>(_oApiResponse.data);
@@ -74,7 +74,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetStudentByIdResponseModel> GetStudentById(int Id)
+        public async Task<GetStudentByIdResponseModel> GetStudentById(string baseurl, int Id)
         {
             GetStudentByIdResponseModel getStudentByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -82,7 +82,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetStudentById+"?id=" + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetStudentById+"?id=" + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getStudentByIdResponseModel = JsonConvert.DeserializeObject<GetStudentByIdResponseModel>(_oApiResponse.data);
@@ -93,7 +93,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(int SchoolId,string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate)
+        public async Task<GetAllStudentByFiltersResponseModel> GetStudentByFilters(string baseurl, int SchoolId,string ClassName, string SectionName,string StudentName, bool IsActive, DateTime CreatedDate)
         {
             GetAllStudentByFiltersResponseModel getStudentByFiltersResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -101,7 +101,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication($"/api/v1/Student/GetStudentByFilter?SchoolId={SchoolId}&ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, $"/api/v1/Student/GetStudentByFilter?SchoolId={SchoolId}&ClassName={ClassName}&SectionName={SectionName}&StudentName={StudentName}&IsActive={IsActive}&CreatedDate={CreatedDate:yyyy/MM/dd}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getStudentByFiltersResponseModel = JsonConvert.DeserializeObject<GetAllStudentByFiltersResponseModel>(_oApiResponse.data);
@@ -112,7 +112,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<GetAllStudentByPaginationResponseModel> GetStudentByPagination(int page, int size)
+        public async Task<GetAllStudentByPaginationResponseModel> GetStudentByPagination(string baseurl, int page, int size)
         {
             GetAllStudentByPaginationResponseModel getAllStudentByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -120,7 +120,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllStudentByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllStudentByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllStudentByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllStudentByPaginationResponseModel>(_oApiResponse.data);
@@ -131,7 +131,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<UpdateStudentResponseModel> UpdateStudent(UpdateStudentDto updateStudentDto)
+        public async Task<UpdateStudentResponseModel> UpdateStudent(string baseurl, UpdateStudentDto updateStudentDto)
         {
             UpdateStudentResponseModel updateStudentResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -141,7 +141,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication("/api/v1/Student/Update", HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, "/api/v1/Student/Update", HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateStudentResponseModel = JsonConvert.DeserializeObject<UpdateStudentResponseModel>(_oApiResponse.data);
@@ -158,7 +158,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateStudentResponseModel;
         }
 
-        public async Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string UserId)
+        public async Task<GetStudentByUserIdResponseModel> GetStudentByUserId(string baseurl, string UserId)
         {
             GetStudentByUserIdResponseModel getStudentByUserIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -166,7 +166,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetStudentByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetStudentByUserId + $"?UserId={UserId}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getStudentByUserIdResponseModel = JsonConvert.DeserializeObject<GetStudentByUserIdResponseModel>(_oApiResponse.data);
@@ -176,7 +176,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getStudentByUserIdResponseModel;
         }
 
-        public async Task<GetAllStudentListBySchoolPaginationResponseModel> GetStudentListBySchoolPagination(int page, int size, int schoolid)
+        public async Task<GetAllStudentListBySchoolPaginationResponseModel> GetStudentListBySchoolPagination(string baseurl, int page, int size, int schoolid)
         {
             GetAllStudentListBySchoolPaginationResponseModel getAllStudentListBySchoolPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -184,7 +184,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetStudentListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetStudentListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllStudentListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllStudentListBySchoolPaginationResponseModel>(_oApiResponse.data);
@@ -194,7 +194,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllStudentListBySchoolPaginationResponseModel;
         }
 
-        public async Task<GetAllStudentListBySchoolResponseModel> GetAllStudentBySchoolList(int schoolid)
+        public async Task<GetAllStudentListBySchoolResponseModel> GetAllStudentBySchoolList(string baseurl, int schoolid)
         {
             GetAllStudentListBySchoolResponseModel getAllStudentListBySchoolResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -202,7 +202,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllStudentBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllStudentBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllStudentListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllStudentListBySchoolResponseModel>(_oApiResponse.data);

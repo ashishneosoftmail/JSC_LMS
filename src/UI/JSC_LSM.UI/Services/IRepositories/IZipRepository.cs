@@ -14,7 +14,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// </summary>
         /// <param name="cityId"></param>
         /// <returns></returns>
-        Task<GetAllZipResponseModel> GetAllZipcodes(int cityId);
+        Task<GetAllZipResponseModel> GetAllZipcodes(string baseurl, int cityId);
     }
     #endregion
 }

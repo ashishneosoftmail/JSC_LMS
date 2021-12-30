@@ -10,17 +10,17 @@ namespace JSC_LSM.UI.Services.IRepositories
 {
   public  interface IClassRepository
     {
-        Task<ClassResponseModel> AddNewClass(CreateClassDto createClassDto);
+        Task<ClassResponseModel> AddNewClass(string baseurl, CreateClassDto createClassDto);
        
-        Task<GetClassByIdResponseModel> GetClassById(int Id);
+        Task<GetClassByIdResponseModel> GetClassById(string baseurl, int Id);
 
-        Task<GetAllClassListResponseModel> GetAllClassDetails();
-        Task<GetAllClassByFiltersResponseModel> GetClassByFilters(string SchoolName, string ClassName, DateTime CreatedDate, bool IsActive);
+        Task<GetAllClassListResponseModel> GetAllClassDetails(string baseurl);
+        Task<GetAllClassByFiltersResponseModel> GetClassByFilters(string baseurl, string SchoolName, string ClassName, DateTime CreatedDate, bool IsActive);
 
-        Task<GetAllClassByPaginationResponseModel> GetClassByPagination(int page, int size);
+        Task<GetAllClassByPaginationResponseModel> GetClassByPagination(string baseurl, int page, int size);
 
-        Task<UpdateClassResponseModel> UpdateClass(UpdateClassDto updateClassDto);
+        Task<UpdateClassResponseModel> UpdateClass(string baseurl, UpdateClassDto updateClassDto);
 
-        Task<GetAllClassResponseModel> GetAllClass();
+        Task<GetAllClassResponseModel> GetAllClass(string baseurl);
     }
 }

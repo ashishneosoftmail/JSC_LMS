@@ -19,18 +19,18 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// </summary>
         /// <param name="createInstituteDto"></param>
         /// <returns></returns>
-        Task<InstituteResponseModel> CreateInstitute(CreateInstituteDto createInstituteDto);
+        Task<InstituteResponseModel> CreateInstitute(string baseurl, CreateInstituteDto createInstituteDto);
         /// <summary>
         /// Returns all the Institute data : by Shivani Goswami
         /// </summary>
         /// <returns></returns>
-        Task<GetAllInstituteListResponseModel> GetAllInstituteDetails();
+        Task<GetAllInstituteListResponseModel> GetAllInstituteDetails(string baseurl);
         /// <summary>
         /// Returns the Institute data based on id  : by Shivani Goswami
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        Task<GetInstituteByIdResponseModel> GetInstituteById(int Id);
+        Task<GetInstituteByIdResponseModel> GetInstituteById(string baseurl, int Id);
         /// <summary>
         /// Returns the institute data based on the search parameters : by Shivani Goswami
         /// </summary>
@@ -41,24 +41,24 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// <param name="IsActive"></param>
         /// <returns></returns>
 
-        Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive);
+        Task<GetAllInstituteByFiltersResponseModel> GetInstituteByFilters(string baseurl, string InstituteName, string City, string State, DateTime LicenseExpiry, bool IsActive);
         /// <summary>
         /// Returns the institute data based on the page and no size of rows : by Shivani Goswami
         /// </summary>
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(int page, int size);
+        Task<GetAllInstituteByPaginationResponseModel> GetInstituteByPagination(string baseurl, int page, int size);
         /// <summary>
         /// Upadate the institute data:by Shivani Goswami
         /// </summary>
         /// <param name="updateInstituteDto"></param>
         /// <returns></returns>
-        Task<UpdateInstituteResponseModel> UpdateInstitute(UpdateInstituteDto updateInstituteDto);
-        Task<GetInstituteAdminByUserIdResponseModel> GetInstituteAdminByUserId(string UserId);
-        Task<UpdateInstituteAdminProfileInformationResponseModel> UpdateInstituteAdminPersonalInformation(UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto);
+        Task<UpdateInstituteResponseModel> UpdateInstitute(string baseurl, UpdateInstituteDto updateInstituteDto);
+        Task<GetInstituteAdminByUserIdResponseModel> GetInstituteAdminByUserId(string baseurl, string UserId);
+        Task<UpdateInstituteAdminProfileInformationResponseModel> UpdateInstituteAdminPersonalInformation(string baseurl, UpdateInstituteAdminProfileInformationDto updateInstituteAdminProfileInformationDto);
 
-        Task<UpdateInstituteAdminChangePasswordResponseModel> UpdateInstituteAdminChangePassword(UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto);
+        Task<UpdateInstituteAdminChangePasswordResponseModel> UpdateInstituteAdminChangePassword(string baseurl, UpdateInstituteAdminChangePasswordDto updateInstituteAdminChangePasswordDto);
     }
 }
 #endregion

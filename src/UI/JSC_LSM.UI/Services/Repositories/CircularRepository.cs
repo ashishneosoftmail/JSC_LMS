@@ -27,7 +27,7 @@ namespace JSC_LSM.UI.Services.Repositories
 
         }
 
-        public async Task<AddCircularResponseModel> AddCircular(CreateCircularDto createCircularDto)
+        public async Task<AddCircularResponseModel> AddCircular(string baseurl, CreateCircularDto createCircularDto)
         {
             AddCircularResponseModel addCircularResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -37,7 +37,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.AddCircular, HttpMethod.Post, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.AddCircular, HttpMethod.Post, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 addCircularResponseModel = JsonConvert.DeserializeObject<AddCircularResponseModel>(_oApiResponse.data);
@@ -54,7 +54,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return addCircularResponseModel;
         }
 
-        public async Task<GetAllCircularListByPaginationResponseModel> GetAllCircularListByPagination(int page, int size)
+        public async Task<GetAllCircularListByPaginationResponseModel> GetAllCircularListByPagination(string baseurl, int page, int size)
         {
             GetAllCircularListByPaginationResponseModel getAllCircularListByPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -62,7 +62,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCircularByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllCircularByPagination + $"?_page={page}&_size={size}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCircularListByPaginationResponseModel = JsonConvert.DeserializeObject<GetAllCircularListByPaginationResponseModel>(_oApiResponse.data);
@@ -72,7 +72,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllCircularListByPaginationResponseModel;
         }
 
-        public async Task<GetAllCircularListResponseModel> GetAllCircularList()
+        public async Task<GetAllCircularListResponseModel> GetAllCircularList(string baseurl)
         {
             GetAllCircularListResponseModel getAllCircularListResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -80,7 +80,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCircularList, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllCircularList, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCircularListResponseModel = JsonConvert.DeserializeObject<GetAllCircularListResponseModel>(_oApiResponse.data);
@@ -90,7 +90,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllCircularListResponseModel;
         }
 
-        public async Task<GetCircularByIdResponseModel> GetCircularById(int Id)
+        public async Task<GetCircularByIdResponseModel> GetCircularById(string baseurl, int Id)
         {
             GetCircularByIdResponseModel getCircularByIdResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -98,7 +98,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularById + Id, HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetCircularById + Id, HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getCircularByIdResponseModel = JsonConvert.DeserializeObject<GetCircularByIdResponseModel>(_oApiResponse.data);
@@ -108,7 +108,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getCircularByIdResponseModel;
         }
 
-        public async Task DeleteCircular(int id)
+        public async Task DeleteCircular(string baseurl, int id)
         {
 
             _aPIRepository = new APIRepository(_configuration);
@@ -116,10 +116,10 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.DeleteCircularById + id, HttpMethod.Delete, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.DeleteCircularById + id, HttpMethod.Delete, bytes, _sToken);
         }
 
-        public async Task<GetAllCircularByFilterInstituteAdminResponseModel> GetAllCircularByFilterInstituteAdmin(string circularTitle, string description, bool status)
+        public async Task<GetAllCircularByFilterInstituteAdminResponseModel> GetAllCircularByFilterInstituteAdmin(string baseurl, string circularTitle, string description, bool status)
         {
             GetAllCircularByFilterInstituteAdminResponseModel getAllCircularByFilterInstituteAdminResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -127,7 +127,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilerInstituteAdmin + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetCircularByFilerInstituteAdmin + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCircularByFilterInstituteAdminResponseModel = JsonConvert.DeserializeObject<GetAllCircularByFilterInstituteAdminResponseModel>(_oApiResponse.data);
@@ -137,7 +137,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllCircularByFilterInstituteAdminResponseModel;
         }
 
-        public async Task<UpdateCircularResponseModel> EditCircular(UpdateCircularDto updateCircular)
+        public async Task<UpdateCircularResponseModel> EditCircular(string baseurl, UpdateCircularDto updateCircular)
         {
             UpdateCircularResponseModel updateCircularResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -147,7 +147,7 @@ namespace JSC_LSM.UI.Services.Repositories
             byte[] content = Encoding.ASCII.GetBytes(json);
             var bytes = new ByteArrayContent(content);
 
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.EditCircular, HttpMethod.Put, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.EditCircular, HttpMethod.Put, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 updateCircularResponseModel = JsonConvert.DeserializeObject<UpdateCircularResponseModel>(_oApiResponse.data);
@@ -164,7 +164,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return updateCircularResponseModel;
         }
 
-        public async Task<GetAllCircularListBySchoolPaginationResponseModel> GetCircularListBySchoolPagination(int page, int size, int schoolid)
+        public async Task<GetAllCircularListBySchoolPaginationResponseModel> GetCircularListBySchoolPagination(string baseurl, int page, int size, int schoolid)
         {
             GetAllCircularListBySchoolPaginationResponseModel getAllCircularListBySchoolPaginationResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -172,7 +172,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetCircularListBySchoolPagination + $"?_page={page}&_size={size}&_schoolId={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCircularListBySchoolPaginationResponseModel = JsonConvert.DeserializeObject<GetAllCircularListBySchoolPaginationResponseModel>(_oApiResponse.data);
@@ -182,7 +182,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllCircularListBySchoolPaginationResponseModel;
         }
 
-        public async Task<GetAllCircularListBySchoolResponseModel> GetAllCircularBySchoolList(int schoolid)
+        public async Task<GetAllCircularListBySchoolResponseModel> GetAllCircularBySchoolList(string baseurl, int schoolid)
         {
             GetAllCircularListBySchoolResponseModel getAllCircularListBySchoolResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -190,7 +190,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetAllCircularBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetAllCircularBySchool + $"?schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCircularListBySchoolResponseModel = JsonConvert.DeserializeObject<GetAllCircularListBySchoolResponseModel>(_oApiResponse.data);
@@ -200,7 +200,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllCircularListBySchoolResponseModel;
         }
 
-        public async Task<GetAllCircularListByFilterAndSchoolResponseModel> GetAllCircularListByFilterAndSchool(string circularTitle, string description, bool status, int schoolid)
+        public async Task<GetAllCircularListByFilterAndSchoolResponseModel> GetAllCircularListByFilterAndSchool(string baseurl, string circularTitle, string description, bool status, int schoolid)
         {
             GetAllCircularListByFilterAndSchoolResponseModel getAllCircularListByFilterAndSchoolResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -208,7 +208,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilterAndSchool + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetCircularByFilterAndSchool + $"?_CircularTitle={circularTitle}&_Description={description}&_Status={status}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getAllCircularListByFilterAndSchoolResponseModel = JsonConvert.DeserializeObject<GetAllCircularListByFilterAndSchoolResponseModel>(_oApiResponse.data);
@@ -218,7 +218,7 @@ namespace JSC_LSM.UI.Services.Repositories
             return getAllCircularListByFilterAndSchoolResponseModel;
         }
 
-        public async Task<GetCircularByFilterSchoolAndCreatedDateResponseModel> GetAllCircularListByFilterSchoolAndCreatedDate(string circularTitle, string description, DateTime createdDate, int schoolid)
+        public async Task<GetCircularByFilterSchoolAndCreatedDateResponseModel> GetAllCircularListByFilterSchoolAndCreatedDate(string baseurl, string circularTitle, string description, DateTime createdDate, int schoolid)
         {
             GetCircularByFilterSchoolAndCreatedDateResponseModel getCircularByFilterSchoolAndCreatedDateResponseModel = null;
             _aPIRepository = new APIRepository(_configuration);
@@ -226,7 +226,7 @@ namespace JSC_LSM.UI.Services.Repositories
             _oApiResponse = new APICommunicationResponseModel<string>();
             byte[] content = Array.Empty<byte>();
             var bytes = new ByteArrayContent(content);
-            _oApiResponse = await _aPIRepository.APICommunication(UrlHelper.GetCircularByFilterSchoolAndCreatedDate + $"?_CircularTitle={circularTitle}&_Description={description}&_CreatedDate={createdDate:yyyy/MM/dd}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
+            _oApiResponse = await _aPIRepository.APICommunication( baseurl, UrlHelper.GetCircularByFilterSchoolAndCreatedDate + $"?_CircularTitle={circularTitle}&_Description={description}&_CreatedDate={createdDate:yyyy/MM/dd}&schoolid={schoolid}", HttpMethod.Get, bytes, _sToken);
             if (_oApiResponse.data != null)
             {
                 getCircularByFilterSchoolAndCreatedDateResponseModel = JsonConvert.DeserializeObject<GetCircularByFilterSchoolAndCreatedDateResponseModel>(_oApiResponse.data);

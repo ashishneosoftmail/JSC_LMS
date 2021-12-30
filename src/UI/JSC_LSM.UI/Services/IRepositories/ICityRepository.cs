@@ -14,7 +14,7 @@ namespace JSC_LSM.UI.Services.IRepositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<GetAllCitiesResponseModel> GetAllCities(int id);
+        Task<GetAllCitiesResponseModel> GetAllCities(string baseurl, int id);
     }
     #endregion
 }
