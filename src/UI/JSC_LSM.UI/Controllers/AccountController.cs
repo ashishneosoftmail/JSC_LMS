@@ -182,7 +182,7 @@ namespace JSC_LSM.UI.Controllers
         [HttpGet]
         public IActionResult ForgotPassword()
         {
-            HttpContext.Session.SetString("Email", "harsh2000c3294@gmail.com");
+           
             return View();
         }
         [HttpPost]
@@ -190,8 +190,10 @@ namespace JSC_LSM.UI.Controllers
         public async Task<IActionResult> ValidateEmail(ForgotPasswordValidateEmailModel forgotPasswordValidateEmailModel)
         {
             ViewBag.LoginError = null;
+            HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
             if (ModelState.IsValid)
             {
+               
                 //HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
                 // HttpContext.Session.SetString("Email", "harsh2000c3294@gmail.com");
                 Email = HttpContext.Session.GetString("Email");

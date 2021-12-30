@@ -23,20 +23,15 @@ body{
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     }
 
-        .login-box .noUnderline:hover {
-            text-decoration: none;
-            color: #0056b3;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        }
-
+     
 .submitButtonStyle {
     width: 100%;
-    background-color: #0069d9;
+    background-color: #24a0ed;
 }
 
     .submitButtonStyle:hover {
         width: 100%;
-        background-color: #0056b3;
+        background-color: #367fa9;
     }
 
 p {
@@ -47,10 +42,10 @@ p {
     height: 300px;
 }
 .signButtonStyle {
-    background-color: #0069d9;
-  height:15%;
+    background-color: #24a0ed;
+    height: 15%;
 }
     .signButtonStyle:hover {
         height: 15%;
-        background-color: #0056b3;
+        background-color: #367fa9;
     }
