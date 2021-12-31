@@ -70,6 +70,111 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.25);
             width: 120px;
         }
+
+
+
+        #snackbar {
+            background-color: green;
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -113px;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 21px;
+            position: fixed;
+            z-index: 1;
+            left: 90%;
+            top: 82px;
+            font-size: 17px;
+        }
+
+            #snackbar.show {
+                visibility: visible;
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            }
+
+
+            #snackbar.show {
+                visibility: visible;
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            }
+
+        #snackbardanger {
+            background-color: red;
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -113px;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 21px;
+            position: fixed;
+            z-index: 1;
+            left: 90%;
+            top: 82px;
+            font-size: 17px;
+        }
+
+            #snackbardanger.show {
+                visibility: visible;
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            }
+
+        @@-webkit-keyframes fadein {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+
+            to {
+                top: 30px;
+                opacity: 1;
+            }
+        }
+
+        @@keyframes fadein {
+            from {
+                top: 0;
+                opacity: 0;
+            }
+
+            to {
+                top: 30px;
+                opacity: 1;
+            }
+        }
+
+        @@-webkit-keyframes fadeout {
+            from {
+                top: 30px;
+                opacity: 1;
+            }
+
+            to {
+                top: 0;
+                opacity: 0;
+            }
+        }
+
+        @@keyframes fadeout {
+            from {
+                top: 30px;
+                opacity: 1;
+            }
+
+            to {
+                top: 0;
+                opacity: 0;
+            }
+        }
+
+        .spacing {
+            margin-left: 30px;
+        }
     </style>
 
 </head>
@@ -81,53 +186,80 @@
                 <a class="h4 noUnderline  text-black" style="font-size: 28px; text-decoration: none"><b>Learning </b>Management System</a>
             </div>
             @*<div class="card-header text-center">
-                <div class="card-header text-center">
-                    <a href="" class="h4 noUnderline h2 text-black" style="font-size: 28px; text-decoration:none"><b>Learning </b>Management System</a>
-                </div>
-                <a href="" style="text-decoration:none" class="h2 text-black"><b>LOGIN</b></a>
-            </div>*@
-        <div class="card-body">
-            <div class="text-center">
-                <a style="text-decoration:none ; font-size:20px; " class="text-black"><b>LOGIN</b></a>
-            </div>
-            <p class="login-box-msg">Sign in to start your session</p>
-            <form method="post" novalidate>
-                <div class=" form-group mb-3">
-                    <select class="form-select" asp-for="Role" asp-items="Model.Roles" aria-label="Default select example">
-                        <option value="" disabled selected>Select Role</option>
-                    </select>
-                    <span asp-validation-for="Role" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <input type="email" asp-for="Email" class="form-control" placeholder="Email">
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-3">
-                    <input type="password" asp-for="Password" class="form-control" placeholder="Password">
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <p class="mb-1 para">
-                    <a asp-controller="Account" asp-action="ForgotPassword" class="text-primary" style="text-decoration:none">Forgot password ?</a>
-                </p>
-                <div class="row">
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary button2" id="signInButton">Sign In</button>
+                    <div class="card-header text-center">
+                        <a href="" class="h4 noUnderline h2 text-black" style="font-size: 28px; text-decoration:none"><b>Learning </b>Management System</a>
                     </div>
-                    <!-- /.col -->
+                    <a href="" style="text-decoration:none" class="h2 text-black"><b>LOGIN</b></a>
+                </div>*@
+            <div class="card-body">
+                <div class="text-center">
+                    <a style="text-decoration:none ; font-size:20px; " class="text-black"><b>LOGIN</b></a>
                 </div>
-            </form>
-            <br />
-            <div id="wrapper">
-                @if (ViewBag.LoginError != null)
-                {
-                    <div class="text-danger">@ViewBag.LoginError</div>
-                }
+                <p class="login-box-msg">Sign in to start your session</p>
+                <form method="post" novalidate>
+                    <div class=" form-group mb-3">
+                        <select class="form-select" asp-for="Role" asp-items="Model.Roles" aria-label="Default select example">
+                            <option value="" disabled selected>Select Role</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="email" asp-for="Email" class="form-control" placeholder="Email">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <p class="mb-1 para">
+                        <a asp-controller="Account" asp-action="ForgotPassword" class="text-primary" style="text-decoration:none">Forgot password ?</a>
+                    </p>
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary button2" id="signInButton">Sign In</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+                <br />
+                <div id="wrapper">
+                    @if (ViewBag.LoginError != null)
+                    {
+                        <div class="text-danger">@ViewBag.LoginError</div>
+                    }
+                </div>
             </div>
-        </div>
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
+    </div>
+
+    <div id="wrapper">
+        @if (ViewBag.UpdatePasswordSuccess != null)
+        {
+
+            @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+            <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.UpdatePasswordSuccess</div>
+            <script>
+                var x = document.getElementById("snackbar");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+            </script>
+        }
+        @if (ViewBag.UpdatePasswordError != null)
+        {
+            @* <script>alert("@ViewBag.AddCircularError")</script>*@
+            <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.UpdatePasswordError</div>
+            <script>
+                var x = document.getElementById("snackbardanger");
+                x.className = "show";
+                setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+            </script>
+        }
+
+
+
     </div>
 
     <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>

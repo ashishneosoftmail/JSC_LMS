@@ -22,6 +22,141 @@
     #borderimg1 {
         border-radius: 1em;
     }
+
+
+    .row {
+        padding-top: 10px;
+    }
+
+    .btn-text-right {
+        margin-left: 14.5%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    #viewUserModel {
+        text-align: center;
+        margin-left: 130px;
+    }
+
+    .table-borderless, .table-borderless td, .table-borderless th {
+        border: none;
+        border-top: none !important;
+    }
+
+
+
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    #snackbardanger {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    .spacing {
+        margin-left: 30px;
+    }
     
 </style>
 <br />
@@ -284,43 +419,91 @@
 </div>
 
 
-<script>
-    function Filetypevalid() {
+<div id="wrapper">
+    @if (ViewBag.AddGallarySuccess != null)
+    {
 
-        var filetype = $("#filetype :selected").val();
-        $("#file").attr("accept", filetype);
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddGallarySuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
     }
-</script>
+    @if (ViewBag.AddGallaryError != null)
+    {
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddGallaryError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+    }
+    @if (ViewBag.DeleteGallarySuccess != null)
+    {
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.DeleteGallarySuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+
+   }
+
+    @if (ViewBag.DeleteAllGallarySuccess != null)
+    {
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.DeleteAllGallarySuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+  }
+</div>
+
+    <script>
+        function Filetypevalid() {
+
+            var filetype = $("#filetype :selected").val();
+            $("#file").attr("accept", filetype);
+        }
+    </script>
 
 
 
 
 
-<script>
-    function ShowEventDetail(id) {
-        $.get("/Institute/ViewGallary", { Id: id }, function (data) {
-            console.log(data);
-            if (data) {
+    <script>
+        function ShowEventDetail(id) {
+            $.get("/Institute/ViewGallary", { Id: id }, function (data) {
+                console.log(data);
+                if (data) {
 
-                if (data.data.image != null) {
-                    /* $("#detailsImage").text(data.data.image);*/
-                    $("#detailsImage").attr("src", `/Upload/Gallary/${data.data.image}`);
-                    $("#downloadimage").attr("href", `/Institute/Download?filename=${data.data.image}`);
+                    if (data.data.image != null) {
+                        /* $("#detailsImage").text(data.data.image);*/
+                        $("#detailsImage").attr("src", `/Upload/Gallary/${data.data.image}`);
+                        $("#downloadimage").attr("href", `/Institute/Download?filename=${data.data.image}`);
+                    }
                 }
-            }
-        });
-    }
+            });
+        }
 
-</script>
+    </script>
 
-<script>
+    <script>
     $(document).ready(function () {
         $('#action').click(function () {
 
            @* var itemId = $('#hdnItemId').val();
             alert("Start Value: " + itemId);*@
 
-            var actionLink = "/Institute/DeleteGallary?id=" + number;
+            var actionLink = "/Institute/DeleteGallaryList?id=" + number;
 
             window.location.href = actionLink;
         });
@@ -331,22 +514,22 @@
         number = id;
         console.log(number);
     }
-</script>
+    </script>
 
-<script>
-    $(document).ready(function () {
-        $('#actionlink').click(function () {
+    <script>
+        $(document).ready(function () {
+            $('#actionlink').click(function () {
 
-            var actionLink = "/Institute/DeleteAllGallary";
+                var actionLink = "/Institute/DeleteAllGallary";
 
-            window.location.href = actionLink;
+                window.location.href = actionLink;
+            });
         });
-    });
-    var number = 0;
-    function tempData(id) {
-        console.log(number);
-        number = id;
-        console.log(number);
-    }
-</script>
+        var number = 0;
+        function tempData(id) {
+            console.log(number);
+            number = id;
+            console.log(number);
+        }
+    </script>
 

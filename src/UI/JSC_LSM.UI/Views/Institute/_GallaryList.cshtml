@@ -392,6 +392,35 @@
     </div>
 </div>
 
+<div id="wrapper">
+    
+  
+    @if (ViewBag.DeleteGallarySuccess != null)
+    {
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.DeleteGallarySuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+
+    }
+
+    @if (ViewBag.DeleteAllGallarySuccess != null)
+    {
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.DeleteAllGallarySuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+    }
+</div>
+
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 
@@ -453,7 +482,7 @@
     $(document).ready(function () {
         $('#actionlink').click(function () {
 
-            var actionLink = "/Institute/DeleteAllGallary";
+            var actionLink = "/Institute/DeleteAllGallaryList";
 
             window.location.href = actionLink;
         });

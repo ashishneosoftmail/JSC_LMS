@@ -325,14 +325,18 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = updateResetPasswordResponse.message;
                             responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
-                            return RedirectToAction("Login", "Account");
+                            ViewBag.UpdatePasswordSuccess = "Password Updated Successfully";
+                          
+                           
+                            return RedirectToAction("Login");
                         }
                         else
                         {
                             responseModel.ResponseMessage = updateResetPasswordResponse.message;
                             responseModel.IsSuccess = updateResetPasswordResponse.Succeeded;
                             ModelState.AddModelError("ConfirmPassword", updateResetPasswordResponse.message);
-                            return View("UpdateForgotPassword");
+                            ViewBag.UpdatePasswordError = "Something Went Wrong";
+                            return RedirectToAction("UpdateForgotPassword");
                         }
                     }
                 }
@@ -344,7 +348,7 @@ namespace JSC_LSM.UI.Controllers
                     ViewBag.LoginError = responseModel.ResponseMessage;
                 }
             }
-            return View("UpdateForgotPassword");
+            return View("Login");
         }
     }
 }
