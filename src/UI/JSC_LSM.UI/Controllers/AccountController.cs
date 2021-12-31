@@ -187,13 +187,14 @@ namespace JSC_LSM.UI.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ValidateEmail(ForgotPasswordValidateEmailModel forgotPasswordValidateEmailModel)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordValidateEmailModel forgotPasswordValidateEmailModel)
         {
             ViewBag.LoginError = null;
-            HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
+        
             if (ModelState.IsValid)
             {
-               
+                HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
+
                 //HttpContext.Session.SetString("Email", forgotPasswordValidateEmailModel.Email);
                 // HttpContext.Session.SetString("Email", "harsh2000c3294@gmail.com");
                 Email = HttpContext.Session.GetString("Email");
