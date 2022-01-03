@@ -8,6 +8,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackList
     {
         public int Id { get; set; }
         public int FeedbackTitleId { get; set; }
+        public int SchoolId { get; set; }
         public int StudentId { get; set; }
         public int ParentId { get; set; }
         public int SubjectId { get; set; }
@@ -24,6 +25,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackList
         public ParentDto Parents { get; set; }
         public ClassDto Classes { get; set; }
         public SectionDto Section { get; set; }
+        public SchoolDto School { get; set; }
 
     }
 }

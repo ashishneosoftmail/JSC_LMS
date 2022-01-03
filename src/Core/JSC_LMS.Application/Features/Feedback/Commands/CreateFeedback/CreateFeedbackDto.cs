@@ -9,7 +9,7 @@ namespace JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback
 {
     public class CreateFeedbackDto
     {
-
+        public int SchoolId { get; set; }
         [Required(ErrorMessage = "Feedback Is Required")]
         public int FeedbackTitleId { get; set; }
         [Required(ErrorMessage = "Student Is Required")]

@@ -20,13 +20,14 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
         private readonly IParentsRepository _parentsRepository;
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
+        private readonly ISchoolRepository _schoolRepository;
         private readonly IFeedbackTitleRepository _feedbackTitleRepository;
         private readonly IAuthenticationService _authenticationService;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
 
-        public GetFeedbackByIdQueryHandler(IMapper mapper, IFeedbackRepository feedbackRepository, IClassRepository classRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IFeedbackTitleRepository feedbackTitleRepository,IAuthenticationService authenticationService, ILogger<GetFeedbackByIdQueryHandler> logger)
+        public GetFeedbackByIdQueryHandler(IMapper mapper, IFeedbackRepository feedbackRepository, IClassRepository classRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IFeedbackTitleRepository feedbackTitleRepository,IAuthenticationService authenticationService, ILogger<GetFeedbackByIdQueryHandler> logger , ISchoolRepository schoolRepository)
         {
             _mapper = mapper;
             _feedbackRepository = feedbackRepository;
@@ -38,6 +39,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
             _feedbackTitleRepository = feedbackTitleRepository;
             _logger = logger;
             _authenticationService = authenticationService;
+            _schoolRepository = schoolRepository;
         }
 
 
@@ -104,6 +106,11 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
                     feedbacktitleId = feedback.FeedbackTitleId,
                     Feedback_Title = (await _feedbackTitleRepository.GetByIdAsync(feedback.FeedbackTitleId)).Feedback_Title
                 },
+                School = new SchoolDto()
+                {
+                    SchoolId = feedback.SchoolId,
+                    SchoolName = (await _schoolRepository.GetByIdAsync(feedback.SchoolId)).SchoolName
+                }
 
             };
             _logger.LogInformation("Hanlde Completed");

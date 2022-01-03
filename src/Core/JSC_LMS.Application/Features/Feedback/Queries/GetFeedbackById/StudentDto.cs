@@ -49,4 +49,11 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
 
     
     }
+    public class SchoolDto
+    {
+        public int SchoolId { get; set; }
+        public string SchoolName { get; set; }
+
+
+    }
 }

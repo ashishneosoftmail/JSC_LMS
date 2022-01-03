@@ -47,10 +47,10 @@ namespace JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback
             {
                 var data = new JSC_LMS.Domain.Entities.Feedback()
                 {
-                 
 
 
-                  
+
+                    SchoolId = request.createFeedbackDto.SchoolId,
                     SubjectId = request.createFeedbackDto.SubjectId,
                     StudentId = request.createFeedbackDto.StudentId,
                     ParentId = request.createFeedbackDto.ParentId,

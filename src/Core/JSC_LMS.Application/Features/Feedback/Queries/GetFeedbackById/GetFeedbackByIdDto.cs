@@ -9,7 +9,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
         public class GetFeedbackByIdDto
         {
             public int Id { get; set; }
-           
+           public int SchoolId { get; set; }
             public int FeedbackTitleId { get; set; }
           
             public int StudentId { get; set; }
@@ -34,7 +34,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
 
             public ClassDto Classes { get; set; }
             public SectionDto Section { get; set; }
-
+        public SchoolDto School { get; set; }
     }
     
 }
