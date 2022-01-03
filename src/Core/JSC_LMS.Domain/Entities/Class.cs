@@ -24,5 +24,6 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<Academic> Academic { get; set; }
         public ICollection<Parents> Parents { get; set; }
         public virtual ICollection<Announcement> Announcement { get; set; }
+        public virtual ICollection<Feedback> Feedback { get; set; }
     }
 }

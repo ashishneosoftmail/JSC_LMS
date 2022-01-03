@@ -4,14 +4,16 @@ using JSC_LMS.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JSC_LMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220103092524_updatefeedback")]
+    partial class updatefeedback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -555,7 +557,7 @@ namespace JSC_LMS.Persistence.Migrations
                     b.Property<int?>("ParentsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SchoolId")
+                    b.Property<int?>("SchoolId")
                         .HasColumnType("int");
 
                     b.Property<int>("SectionId")
@@ -575,15 +577,9 @@ namespace JSC_LMS.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("FeedbackTitleId");
 
                     b.HasIndex("ParentsId");
-
-                    b.HasIndex("SchoolId");
-
-                    b.HasIndex("SectionId");
 
                     b.HasIndex("StudentsId");
 
@@ -1726,12 +1722,6 @@ namespace JSC_LMS.Persistence.Migrations
 
             modelBuilder.Entity("JSC_LMS.Domain.Entities.Feedback", b =>
                 {
-                    b.HasOne("JSC_LMS.Domain.Entities.Class", "Classes")
-                        .WithMany("Feedback")
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("JSC_LMS.Domain.Entities.FeedbackTitle", "FeedbackTitle")
                         .WithMany("Feedback")
                         .HasForeignKey("FeedbackTitleId")
@@ -1742,18 +1732,6 @@ namespace JSC_LMS.Persistence.Migrations
                         .WithMany("Feedback")
                         .HasForeignKey("ParentsId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("JSC_LMS.Domain.Entities.School", "School")
-                        .WithMany("Feedback")
-                        .HasForeignKey("SchoolId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("JSC_LMS.Domain.Entities.Section", "Sections")
-                        .WithMany("Feedback")
-                        .HasForeignKey("SectionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
 
                     b.HasOne("JSC_LMS.Domain.Entities.Students", "Students")
                         .WithMany("Feedback")

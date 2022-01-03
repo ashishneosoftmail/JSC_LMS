@@ -39,6 +39,6 @@ namespace JSC_LMS.Domain.Entities
         public virtual ICollection<EventsTable> EventsTable { get; set; }
 
         public virtual ICollection<Gallary> Gallary { get; set; }
-
+        public virtual ICollection<Feedback> Feedback { get; set; }
     }
 }

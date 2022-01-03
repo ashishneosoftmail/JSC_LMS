@@ -14,7 +14,7 @@ namespace JSC_LMS.Domain.Entities
         public string FeedbackType { get; set; }
         public int StudentId { get; set; }
         public int ParentId { get; set; }
-
+        public int SchoolId { get; set; }
         public int SectionId { get; set; }
         public int ClassId { get; set; }
         public int SubjectId { get; set; }
@@ -25,7 +25,7 @@ namespace JSC_LMS.Domain.Entities
         public Subject Subject { get; set; }
         public Students Students { get; set; }
         public Parents Parents { get; set; }
-
+        public School School { get; set; }
         public Class Classes { get; set; }
         public Section Sections { get; set; }
     }
