@@ -70,6 +70,7 @@ namespace JSC_LSM.UI.Controllers
                    Id = feedbackdata.Id,
                    feedbackTitle = feedbackdata.feedbackTitle.Feedback_Title,
                    ClassName = feedbackdata.Classes.ClassName,
+                   SchoolName=feedbackdata.School.SchoolName,
                    SectionName = feedbackdata.Section.SectionName,
                    SubjectName = feedbackdata.Subject.SubjectName,
                     StudentName = feedbackdata.Section.SectionName,
@@ -219,7 +220,7 @@ namespace JSC_LSM.UI.Controllers
                     feedbackTitle = feedbacks.feedbackTitle.Feedback_Title,
 
 
-
+                    SchoolName=feedbacks.School.SchoolName,
                     StudentName = feedbacks.Students.StudentName,
                     ClassName = feedbacks.Classes.ClassName,
                     SectionName = feedbacks.Section.SectionName,

@@ -20,7 +20,7 @@ namespace JSC_LSM.UI.Models
         public string SubjectName { get; set; }
         public string SectionName { get; set; }
         public string ParentName { get; set; }
-        
+        public string SchoolName { get; set; }
         public bool IsActive { get; set; }
 
         public string feedbackTitle { get; set; }

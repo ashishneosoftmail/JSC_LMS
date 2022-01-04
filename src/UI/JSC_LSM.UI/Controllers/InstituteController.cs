@@ -47,6 +47,7 @@ namespace JSC_LSM.UI.Controllers
         private readonly IConfiguration _configuration;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly IAnnouncementRepository _announcementRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly ISchoolRepository _schoolRepository;
@@ -62,7 +63,7 @@ namespace JSC_LSM.UI.Controllers
         /// <param name="common"></param>
         /// <param name="apiBaseUrl"></param>
         /// <param name="instituteRepository"></param>
-        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository, IUserRepository usersRepository , IPrincipalRepository principalRepository)
+        public InstituteController(IStateRepository stateRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, IInstituteRepository instituteRepository, ICircularRepository circularRepository, IConfiguration configuration, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, IWebHostEnvironment webHostEnvironment, ISchoolRepository schoolRepository , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository, IUserRepository usersRepository , IPrincipalRepository principalRepository, IFeedbackRepository feedbackRepository)
         {
             _stateRepository = stateRepository;
             _circularRepository = circularRepository;
@@ -78,6 +79,7 @@ namespace JSC_LSM.UI.Controllers
             _usersRepository = usersRepository;
             _gallaryRepository = gallaryRepository;
             _principalRepository = principalRepository;
+            _feedbackRepository = feedbackRepository;
 
         }
         public async Task<IActionResult> Index()
@@ -1853,6 +1855,46 @@ namespace JSC_LSM.UI.Controllers
             await _gallaryRepository.DeleteAllGallary(_apiBaseUrl.Value.LmsApiBaseUrl);
             ViewBag.DeleteAllGallarySuccess = "All Images Deleted Successfully";
             return RedirectToAction("ListGallary");
+        }
+
+        public async Task<IActionResult> ManageFeedback()
+        {
+            var data = new List<GetAllFeedbackDetails>();
+            FeedbackModel model = new FeedbackModel();
+
+            model.Classes = await _common.GetClass();
+            model.Subjects = await _common.GetSubject();
+            model.Sections = await _common.GetSection();
+            model.Students = await _common.GetAllsStudent();
+            model.Parents = await _common.GetAllParents();
+
+
+
+            var dataList = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
+            var tempstatus = "";
+            foreach (var feedbackdata in dataList.data)
+            {
+
+                data.Add(new GetAllFeedbackDetails()
+                {
+
+                    Id = feedbackdata.Id,
+                    feedbackTitle = feedbackdata.feedbackTitle.Feedback_Title,
+                    ClassName = feedbackdata.Classes.ClassName,
+                    SchoolName = feedbackdata.School.SchoolName,
+                    SectionName = feedbackdata.Section.SectionName,
+                    SubjectName = feedbackdata.Subject.SubjectName,
+                    StudentName = feedbackdata.Section.SectionName,
+                    ParentName = feedbackdata.Subject.SubjectName,
+                    FeedbackType = feedbackdata.FeedbackType,
+                    SendDate = feedbackdata.SendDate,
+
+
+
+                });
+            }
+            model.GetFeedbackList = data;
+            return View(model);
         }
     }
 

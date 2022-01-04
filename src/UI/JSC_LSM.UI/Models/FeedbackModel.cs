@@ -28,7 +28,7 @@ namespace JSC_LSM.UI.Models
             public string SubjectName { get; set; }
         public string StudentName { get; set; }
         public string ParentName { get; set; }
-
+        public string SchoolName { get; set; }
         public string feedbackTitle { get; set; }
 
     }
