@@ -50,6 +50,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackList
                 feedbackList.Add(new GetAllFeedbackListVm()
                 {
                     Id = feedback.Id,
+                    SchoolId=feedback.SchoolId,
                     SubjectId = feedback.SubjectId,
                     StudentId = feedback.StudentId,
                     ParentId = feedback.ParentId,
@@ -58,6 +59,7 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackList
                     FeedbackComments = feedback.FeedbackComments,
                     FeedbackType = feedback.FeedbackType,
                     SendDate = (DateTime)feedback.SendDate,
+                    FeedbackTitleId=feedback.FeedbackTitleId,
                     //feedbackTitle = feedback.FeedbackTitle.Feedback_Title,
                     IsActive = feedback.IsActive,
                    

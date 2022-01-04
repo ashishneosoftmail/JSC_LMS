@@ -64,6 +64,8 @@ namespace JSC_LMS.Application.Features.Feedback.Queries.GetFeedbackById
                 Id = feedback.Id,
                 FeedbackTitleId = feedback.FeedbackTitleId,
                 SubjectId = feedback.SubjectId,
+                SchoolId=feedback.SchoolId,
+                
                 StudentId = feedback.StudentId,
                 ParentId = feedback.ParentId,
                 Type = feedback.FeedbackType,
