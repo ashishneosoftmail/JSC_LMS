@@ -289,14 +289,7 @@
                                     <span id="detailsSubject"></span>
                                 </td>
                             </tr>
-                            @*<tr>
-                                <th>
-                                    <label>Feedback Title</label>
-                                </th>
-                                <td>
-                                    <span id="detailsFeedbackTitle"></span>
-                                </td>
-                            </tr>*@
+                          
                             <tr>
                                 <th>
                                     <label>Comments</label>
@@ -342,7 +335,7 @@
             if (data) {
                 $("#detailsSubject").text(data.data.subject.subjectName);
                 
-                $("#detailsComments").text(data.data.comments);
+                $("#detailsComments").text(data.data.feedbackComments);
  
             }
         });
@@ -361,14 +354,6 @@
 
 
 
-    //function loadAllFeedback() {
-    //    $.get("/Feedback/GetFeedbackType", function (data) {
-    //        $("#feedbacktitle").append("<option disabled selected hidden>Select Feedback Title</option>");
-    //        data.forEach(function (feedbacks) {
-    //            $('#feedbacktitle').append('<option value="' + feedbacks.value + '">' + feedbacks.text + '</option>');
-    //        });
-    //    });
-    //}
 </script>
 
 
