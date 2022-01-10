@@ -1,7 +1,7 @@
 ﻿@model FeedbackModel
 @{
     ViewData["Title"] = "Manage Feedback";
-    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
 
 }
 <style>
@@ -147,11 +147,11 @@
                 <tr>
                     <th>#</th>
                     <th>Feedback Title</th>
-                    <th>School Name</th>
+                   
                     <th>Class Name</th>
                     <th>Section Name</th>
                     <th>Subject</th>
-                    <th>Type</th>
+                  
                     <th>Send Date</th>
                     <th>Action</th>
 
@@ -167,11 +167,11 @@
                         @{ i++; }
                     </td>
                     <td>@Html.DisplayFor(modelItem => @item.feedbackTitle)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.SchoolName)</td>
+                 
                     <td>@Html.DisplayFor(modelItem => @item.ClassName)</td>
                     <td>@Html.DisplayFor(modelItem => @item.SectionName)</td>
                     <td>@Html.DisplayFor(modelItem => @item.SubjectName)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.FeedbackType)</td>
+                   
                     <td>@Html.DisplayFor(modelItem => @item.SendDate)</td>
 
                     <td>
@@ -289,7 +289,14 @@
                                     <span id="detailsSubject"></span>
                                 </td>
                             </tr>
-                          
+                            @*<tr>
+                                <th>
+                                    <label>Feedback Title</label>
+                                </th>
+                                <td>
+                                    <span id="detailsFeedbackTitle"></span>
+                                </td>
+                            </tr>*@
                             <tr>
                                 <th>
                                     <label>Comments</label>
@@ -335,7 +342,7 @@
             if (data) {
                 $("#detailsSubject").text(data.data.subject.subjectName);
                 
-                $("#detailsComments").text(data.data.feedbackComments);
+                $("#detailsComments").text(data.data.comments);
  
             }
         });
@@ -354,6 +361,14 @@
 
 
 
+    //function loadAllFeedback() {
+    //    $.get("/Feedback/GetFeedbackType", function (data) {
+    //        $("#feedbacktitle").append("<option disabled selected hidden>Select Feedback Title</option>");
+    //        data.forEach(function (feedbacks) {
+    //            $('#feedbacktitle').append('<option value="' + feedbacks.value + '">' + feedbacks.text + '</option>');
+    //        });
+    //    });
+    //}
 </script>
 
 

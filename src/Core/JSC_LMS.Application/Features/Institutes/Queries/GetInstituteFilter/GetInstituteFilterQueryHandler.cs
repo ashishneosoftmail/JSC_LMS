@@ -39,7 +39,7 @@ namespace JSC_LMS.Application.Features.Institutes.Queries.GetInstituteFilter
 
             if (request.InstituteName != null)
             {
-                allInstitute = allInstitute.Where<Institute>(x => (x.InstituteName.Contains(request.InstituteName))).ToList();
+                allInstitute = allInstitute.Where<Institute>(x => (x.InstituteName.ToUpper().Contains(request.InstituteName.ToUpper()))).ToList();
 
             }
             if (request.Cityname != "Select City")

@@ -1884,8 +1884,8 @@ namespace JSC_LSM.UI.Controllers
                     SchoolName = feedbackdata.School.SchoolName,
                     SectionName = feedbackdata.Section.SectionName,
                     SubjectName = feedbackdata.Subject.SubjectName,
-                    StudentName = feedbackdata.Section.SectionName,
-                    ParentName = feedbackdata.Subject.SubjectName,
+                    StudentName = feedbackdata.Students.StudentName,
+                    ParentName = feedbackdata.Parents.ParentName,
                     FeedbackType = feedbackdata.FeedbackType,
                     SendDate = feedbackdata.SendDate,
 

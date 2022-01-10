@@ -33,9 +33,10 @@ namespace JSC_LSM.UI.Controllers
         private readonly IConfiguration _configuration;
         private readonly IEventsDetailsRepository _eventsRepository;
         private readonly IGallaryRepository _gallaryRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository)
+        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository , IFeedbackRepository feedbackRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -52,6 +53,7 @@ namespace JSC_LSM.UI.Controllers
             _webHostEnvironment = webHostEnvironment;
             _eventsRepository = eventsRepository;
             _gallaryRepository = gallaryRepository;
+            _feedbackRepository = feedbackRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -651,6 +653,51 @@ namespace JSC_LSM.UI.Controllers
             await _gallaryRepository.DeleteAllGallary(_apiBaseUrl.Value.LmsApiBaseUrl);
             ViewBag.DeleteAllGallarySuccess = "All Images Deleted Successfully";
             return RedirectToAction("ManageGallary");
+        }
+
+        public async Task<IActionResult> ManageFeedback()
+        {
+            var data = new List<GetAllFeedbackDetails>();
+            FeedbackModel model = new FeedbackModel();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var student = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl, userId);
+
+            model.Classes = await _common.GetClass();
+            model.Subjects = await _common.GetSubject();
+            model.Sections = await _common.GetSection();
+            model.Students = await _common.GetAllsStudent();
+            model.Parents = await _common.GetAllParents();
+
+
+
+            var dataList = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
+            var tempstatus = "";
+            foreach (var feedbackdata in dataList.data)
+            {
+                if (feedbackdata.SchoolId == student.data.Schoolid)
+                {
+                    data.Add(new GetAllFeedbackDetails()
+                    {
+
+                        Id = feedbackdata.Id,
+                        feedbackTitle = feedbackdata.feedbackTitle.Feedback_Title,
+                        ClassName = feedbackdata.Classes.ClassName,
+                        SchoolName = feedbackdata.School.SchoolName,
+                        SectionName = feedbackdata.Section.SectionName,
+                        SubjectName = feedbackdata.Subject.SubjectName,
+                        StudentName = feedbackdata.Students.StudentName,
+                        ParentName = feedbackdata.Parents.ParentName,
+                        FeedbackType = feedbackdata.FeedbackType,
+                        SendDate = feedbackdata.SendDate,
+
+
+
+                    });
+                }
+
+            }
+            model.GetFeedbackList = data;
+            return View(model);
         }
     }
 }
