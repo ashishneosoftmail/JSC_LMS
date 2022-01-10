@@ -34,8 +34,10 @@ namespace JSC_LSM.UI.Controllers
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IInstituteRepository _instituteRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IPrincipalRepository _principalRepository;
+        private readonly IFeedbackRepository _feedbackRepository;
 
-        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository , IUserRepository userRepository)
+        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository , IUserRepository userRepository , IPrincipalRepository principalRepository , IFeedbackRepository feedbackRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -48,6 +50,8 @@ namespace JSC_LSM.UI.Controllers
             _announcementRepository = announcementRepository;
             _instituteRepository = instituteRepository;
             _userRepository = userRepository;
+            _principalRepository = principalRepository;
+            _feedbackRepository = feedbackRepository;
 
         }
 
@@ -1100,5 +1104,49 @@ namespace JSC_LSM.UI.Controllers
             return View(manageAnnouncementModel);
         }
 
+        public async Task<IActionResult> ManageFeedback()
+        {
+            var data = new List<GetAllFeedbackDetails>();
+            FeedbackModel model = new FeedbackModel();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var teacher = await _teacherRepository.GetTeacherByUserId(_apiBaseUrl.Value.LmsApiBaseUrl, userId);
+
+            model.Classes = await _common.GetClass();
+            model.Subjects = await _common.GetSubject();
+            model.Sections = await _common.GetSection();
+            model.Students = await _common.GetAllsStudent();
+            model.Parents = await _common.GetAllParents();
+
+
+
+            var dataList = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
+            var tempstatus = "";
+            foreach (var feedbackdata in dataList.data)
+            {
+                if (feedbackdata.SchoolId == teacher.data.schoolid)
+                {
+                    data.Add(new GetAllFeedbackDetails()
+                    {
+
+                        Id = feedbackdata.Id,
+                        feedbackTitle = feedbackdata.feedbackTitle.Feedback_Title,
+                        ClassName = feedbackdata.Classes.ClassName,
+                        SchoolName = feedbackdata.School.SchoolName,
+                        SectionName = feedbackdata.Section.SectionName,
+                        SubjectName = feedbackdata.Subject.SubjectName,
+                        StudentName = feedbackdata.Students.StudentName,
+                        ParentName = feedbackdata.Parents.ParentName,
+                        FeedbackType = feedbackdata.FeedbackType,
+                        SendDate = feedbackdata.SendDate,
+
+
+
+                    });
+                }
+
+            }
+            model.GetFeedbackList = data;
+            return View(model);
+        }
     }
 }

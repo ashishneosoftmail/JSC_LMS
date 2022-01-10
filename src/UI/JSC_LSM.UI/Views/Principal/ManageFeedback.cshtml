@@ -1,7 +1,7 @@
 ﻿@model FeedbackModel
 @{
     ViewData["Title"] = "Manage Feedback";
-    Layout = "~/Views/Shared/_InstituteLayout.cshtml";
+    Layout = "~/Views/Shared/_PrincipalLayout.cshtml";
 
 }
 <style>
@@ -147,7 +147,7 @@
                 <tr>
                     <th>#</th>
                     <th>Feedback Title</th>
-                    <th>School Name</th>
+                   
                     <th>Class Name</th>
                     <th>Section Name</th>
                     <th>Subject</th>
@@ -167,7 +167,7 @@
                         @{ i++; }
                     </td>
                     <td>@Html.DisplayFor(modelItem => @item.feedbackTitle)</td>
-                    <td>@Html.DisplayFor(modelItem => @item.SchoolName)</td>
+                  
                     <td>@Html.DisplayFor(modelItem => @item.ClassName)</td>
                     <td>@Html.DisplayFor(modelItem => @item.SectionName)</td>
                     <td>@Html.DisplayFor(modelItem => @item.SubjectName)</td>
