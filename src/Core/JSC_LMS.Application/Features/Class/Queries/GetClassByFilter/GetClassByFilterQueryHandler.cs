@@ -38,7 +38,7 @@ namespace JSC_LMS.Application.Features.Class.Queries.GetClassByFilter
 
             if (request.ClassName != "Select Class")
             {
-                allClass = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName == request.ClassName)).ToList();
+                allClass = allClass.Where<JSC_LMS.Domain.Entities.Class>(x => (x.ClassName.ToUpper() == request.ClassName.ToUpper())).ToList();
             }
             if (request.CreatedDate.ToShortDateString() != "01-01-0001")
             {

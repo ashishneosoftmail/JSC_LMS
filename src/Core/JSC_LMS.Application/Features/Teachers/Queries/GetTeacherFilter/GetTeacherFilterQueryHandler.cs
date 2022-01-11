@@ -52,7 +52,7 @@ namespace JSC_LMS.Application.Features.Teachers.Queries.GetTeacherFilter
 
             if (request.TeacherName != "Select Teacher")
             {
-                allTeacher = allTeacher.Where<Teacher>(x => (x.TeacherName == request.TeacherName)).ToList();
+                allTeacher = allTeacher.Where<Teacher>(x => (x.TeacherName.ToUpper() == request.TeacherName.ToUpper())).ToList();
             }           
             if (request.CreatedDate.ToShortDateString() != "01-01-0001")
             {

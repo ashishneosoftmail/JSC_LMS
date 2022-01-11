@@ -33,7 +33,7 @@ namespace JSC_LMS.Application.Features.FAQ.Queries.GetFAQByFilter
 
             if (request.FAQTitle != null)
             {
-                allKnowledgeBase = allKnowledgeBase.Where<JSC_LMS.Domain.Entities.FAQ>(x => (x.FAQTitle.Contains(request.FAQTitle))).ToList();
+                allKnowledgeBase = allKnowledgeBase.Where<JSC_LMS.Domain.Entities.FAQ>(x => (x.FAQTitle.ToUpper().Contains(request.FAQTitle.ToUpper()))).ToList();
             }
 
             if (request.IsActive)

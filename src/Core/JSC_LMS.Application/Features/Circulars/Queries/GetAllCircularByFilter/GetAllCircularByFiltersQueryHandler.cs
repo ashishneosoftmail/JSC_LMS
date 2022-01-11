@@ -35,12 +35,12 @@ namespace JSC_LMS.Application.Features.Circulars.Queries.GetAllCircularByFilter
 
             if (request.CircularTitle != null)
             {
-                allCircular = allCircular.Where<Circular>(x => (x.CircularTitle.Contains(request.CircularTitle))).ToList();
+                allCircular = allCircular.Where<Circular>(x => (x.CircularTitle.ToUpper().Contains(request.CircularTitle.ToUpper()))).ToList();
             }
 
             if (request.Description != null)
             {
-                allCircular = allCircular.Where<Circular>(x =>( x.Description.Contains( request.Description))).ToList();
+                allCircular = allCircular.Where<Circular>(x =>( x.Description.ToUpper().Contains( request.Description.ToUpper()))).ToList();
             }
             if (request.Status)
             {
