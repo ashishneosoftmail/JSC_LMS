@@ -30,8 +30,9 @@ namespace JSC_LSM.UI.Common
         private readonly ITeacherRepository _teacherRepository;
         private readonly IParentsRepository _parentsRepository;
         private readonly IStudentRepository _studentRepository;
-        private readonly IFeedbackRepository _feedbackRepository;
+      
         private readonly IEventsDetailsRepository _eventRepository;
+ 
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
@@ -42,6 +43,7 @@ namespace JSC_LSM.UI.Common
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
             _zipRepository = zipRepository;
+         
             _schoolRepository = schoolRepository;
             _instituteRepository = instituteRepository;
             _classRepository = classRepository;
@@ -54,6 +56,7 @@ namespace JSC_LSM.UI.Common
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
             _apiBaseUrl = apiBaseUrl;
+            //_feedbackTitleRepository = feedbackTitleRepository;
         }
         [NonAction]
         public string ProcessUploadFile(IFormFile formFile, string path)
@@ -576,6 +579,42 @@ namespace JSC_LSM.UI.Common
         }
 
 
+        //public async Task<List<SelectListItem>> GetFeedbackTitle()
+        //{
+        //    List<SelectListItem> feedbacktitle = new List<SelectListItem>();
+        //    GetFeedbackTitleListResponseModel getFeedbackTitleListResponseModel = null;
+        //    ResponseModel responseModel = new ResponseModel();
+        //    getFeedbackTitleListResponseModel = await _feedbackTitleRepository.GetFeedbackTitleDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
+        //    if (getFeedbackTitleListResponseModel.Succeeded)
+        //    {
+        //        if (getFeedbackTitleListResponseModel == null && getFeedbackTitleListResponseModel.data == null)
+        //        {
+        //            responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
+        //            responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
+        //        }
+        //        if (getFeedbackTitleListResponseModel != null)
+        //        {
+        //            //User user = authenticationResponseModel.userDetail;
+        //            responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
+        //            responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
+        //            foreach (var item in getFeedbackTitleListResponseModel.data)
+        //            {
+        //                feedbacktitle.Add(new SelectListItem
+        //                {
+        //                    Text = item.FeedbackTitle,
+        //                    Value = Convert.ToString(item.Id)
+        //                });
+        //            }
+        //            return feedbacktitle;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
+        //        responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
+        //    }
+        //    return null;
+        //}
     }
 }

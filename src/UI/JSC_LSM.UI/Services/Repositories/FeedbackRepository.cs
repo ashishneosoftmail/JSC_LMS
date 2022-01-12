@@ -22,6 +22,7 @@ namespace JSC_LSM.UI.Services.Repositories
     public class FeedbackRepository : IFeedbackRepository
     {
         private APIRepository _aPIRepository;
+    
         private APICommunicationResponseModel<string> _oApiResponse;
         private string _sToken = string.Empty;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;

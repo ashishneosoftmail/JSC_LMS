@@ -1,4 +1,5 @@
-﻿using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
+﻿using JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback;
+using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
 using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
@@ -34,9 +35,10 @@ namespace JSC_LSM.UI.Controllers
         private readonly IEventsDetailsRepository _eventsRepository;
         private readonly IGallaryRepository _gallaryRepository;
         private readonly IFeedbackRepository _feedbackRepository;
+        private readonly IFeedbackTitleRepository _feedbackTitleRepository;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository , IFeedbackRepository feedbackRepository)
+        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository , IFeedbackRepository feedbackRepository, IFeedbackTitleRepository feedbackTitleRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -54,6 +56,7 @@ namespace JSC_LSM.UI.Controllers
             _eventsRepository = eventsRepository;
             _gallaryRepository = gallaryRepository;
             _feedbackRepository = feedbackRepository;
+            _feedbackTitleRepository = feedbackTitleRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -698,6 +701,120 @@ namespace JSC_LSM.UI.Controllers
             }
             model.GetFeedbackList = data;
             return View(model);
+        }
+
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> AddFeedback()
+        {
+            FeedbackModel feedbackModel = new FeedbackModel();
+            feedbackModel.Classes = await _common.GetClass();
+            feedbackModel.Sections = await _common.GetSection();
+            feedbackModel.Subjects = await _common.GetSubject();
+            feedbackModel.Students = await _common.GetAllsStudent();
+            feedbackModel.Parents = await _common.GetAllParents();
+            //feedbackModel.FeedbackTitles = await _common.GetFeedbackTitle();
+            
+            return View(feedbackModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFeedback(FeedbackModel feedbackModel)
+
+
+
+        {
+            ViewBag.AddFeedbackSuccess = null;
+            ViewBag.AddFeedbackError = null;
+
+            feedbackModel.Classes = await _common.GetClass();
+            feedbackModel.Sections = await _common.GetSection();
+            feedbackModel.Subjects = await _common.GetSubject();
+            feedbackModel.Students = await _common.GetAllsStudent();
+            feedbackModel.Parents = await _common.GetAllParents();
+
+            CreateFeedbackDto createNewFeedback = new CreateFeedbackDto();
+
+            if (ModelState.IsValid)
+            {
+
+                createNewFeedback.SubjectId = feedbackModel.SubjectId;
+                createNewFeedback.SectionId = feedbackModel.SubjectId;
+                createNewFeedback.ClassId = feedbackModel.SubjectId;
+                createNewFeedback.StudentId = feedbackModel.StudentId;
+                createNewFeedback.ParentId = feedbackModel.ParentId;
+                //createNewFeedback.FeedbackTitleId = feedbackModel.FeedbackTitleId;
+                createNewFeedback.FeedbackType = feedbackModel.FeedbackType;
+                createNewFeedback.IsActive = feedbackModel.IsActive;
+                createNewFeedback.FeedbackComments = feedbackModel.FeedbackComments;
+                FeedbackResponseModel feedbackResponseModel = null;
+                ViewBag.AddFeedbackSuccess = null;
+                ViewBag.AddFeedbackError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                feedbackResponseModel = await _feedbackRepository.AddNewFeedback(_apiBaseUrl.Value.LmsApiBaseUrl, createNewFeedback);
+
+
+                if (feedbackResponseModel.Succeeded)
+                {
+                    if (feedbackResponseModel == null && feedbackResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = feedbackResponseModel.message;
+                        responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                    }
+                    if (feedbackResponseModel != null)
+                    {
+                        if (feedbackResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = feedbackResponseModel.message;
+                            responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                            ViewBag.AddSectionSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            var newFeedbackModel = new FeedbackModel();
+
+                            newFeedbackModel.Students = await _common.GetAllsStudent();
+                            newFeedbackModel.Classes = await _common.GetClass();
+                            newFeedbackModel.Subjects = await _common.GetSubject();
+                            newFeedbackModel.Sections = await _common.GetSection();
+                            newFeedbackModel.Parents = await _common.GetAllParents();
+
+
+                            var page = 1;
+                            var size = 5;
+                            int recsCount = (await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
+                            if (page < 1)
+                                page = 1;
+                            ViewBag.GetFeedbackById = TempData["GetFeedbackById"] as string;
+                            var pager = new Pager(recsCount, page, size);
+                            ViewBag.Pager = pager;
+                            return View("ManageFeedback", pager);
+
+
+
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = feedbackResponseModel.message;
+                            responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                            ViewBag.AddSubjectError = feedbackResponseModel.message;
+                            return View(feedbackModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = feedbackResponseModel.message;
+                    responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                    ViewBag.AddFeedbackError = feedbackResponseModel.message;
+                }
+            }
+            return View(feedbackModel);
+
+
         }
     }
 }

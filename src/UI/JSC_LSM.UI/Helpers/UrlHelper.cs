@@ -186,6 +186,7 @@ namespace JSC_LSM.UI.Helpers
         public static string GetAllFeedbackDetails = "/api/v1/Feedback/GetFeedbackList";
         public static string GetFeedbackById = "/api/v1/Feedback/";
         public static string GetGallaryBySchoolId= "/api/v1/Gallary/GetGallaryByFilter";
+        public static string GetFeedbackTitleDetails = "/api/v1/FeedbackTitle/GetFeedbackTitleList";
 
 
     }
