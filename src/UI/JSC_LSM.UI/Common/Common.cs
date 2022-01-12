@@ -30,14 +30,15 @@ namespace JSC_LSM.UI.Common
         private readonly ITeacherRepository _teacherRepository;
         private readonly IParentsRepository _parentsRepository;
         private readonly IStudentRepository _studentRepository;
-      
+        private readonly IFeedbackTitleRepository _feedbackTitleRepository;
+
         private readonly IEventsDetailsRepository _eventRepository;
  
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
 
-        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository,IWebHostEnvironment webHostEnvironment, IConfiguration configuration, IOptions<ApiBaseUrl> apiBaseUrl)
+        public Common(ICategoryRepository categoryRepository, IStateRepository stateRepository, ICityRepository cityRepository, ISectionRepository sectionRepository, IClassRepository classRepository, IZipRepository zipRepository, ISchoolRepository schoolRepository, ISubjectRepository subjectRepository, ITeacherRepository teacherRepository, IInstituteRepository instituteRepository, IEventsDetailsRepository eventRepository, IStudentRepository studentRepository, IParentsRepository parentsRepository,IWebHostEnvironment webHostEnvironment, IConfiguration configuration,IFeedbackTitleRepository feedbackTitleRepository, IOptions<ApiBaseUrl> apiBaseUrl)
         {
             _categoryRepository = categoryRepository;
             _stateRepository = stateRepository;
@@ -56,7 +57,7 @@ namespace JSC_LSM.UI.Common
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
             _apiBaseUrl = apiBaseUrl;
-            //_feedbackTitleRepository = feedbackTitleRepository;
+            _feedbackTitleRepository = feedbackTitleRepository;
         }
         [NonAction]
         public string ProcessUploadFile(IFormFile formFile, string path)
@@ -579,42 +580,42 @@ namespace JSC_LSM.UI.Common
         }
 
 
-        //public async Task<List<SelectListItem>> GetFeedbackTitle()
-        //{
-        //    List<SelectListItem> feedbacktitle = new List<SelectListItem>();
-        //    GetFeedbackTitleListResponseModel getFeedbackTitleListResponseModel = null;
-        //    ResponseModel responseModel = new ResponseModel();
-        //    getFeedbackTitleListResponseModel = await _feedbackTitleRepository.GetFeedbackTitleDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
+        public async Task<List<SelectListItem>> GetFeedbackTitle()
+        {
+            List<SelectListItem> feedbacktitle = new List<SelectListItem>();
+            GetFeedbackTitleListResponseModel getFeedbackTitleListResponseModel = null;
+            ResponseModel responseModel = new ResponseModel();
+            getFeedbackTitleListResponseModel = await _feedbackTitleRepository.GetFeedbackTitleDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
-        //    if (getFeedbackTitleListResponseModel.Succeeded)
-        //    {
-        //        if (getFeedbackTitleListResponseModel == null && getFeedbackTitleListResponseModel.data == null)
-        //        {
-        //            responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
-        //            responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
-        //        }
-        //        if (getFeedbackTitleListResponseModel != null)
-        //        {
-        //            //User user = authenticationResponseModel.userDetail;
-        //            responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
-        //            responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
-        //            foreach (var item in getFeedbackTitleListResponseModel.data)
-        //            {
-        //                feedbacktitle.Add(new SelectListItem
-        //                {
-        //                    Text = item.FeedbackTitle,
-        //                    Value = Convert.ToString(item.Id)
-        //                });
-        //            }
-        //            return feedbacktitle;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
-        //        responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
-        //    }
-        //    return null;
-        //}
+            if (getFeedbackTitleListResponseModel.Succeeded)
+            {
+                if (getFeedbackTitleListResponseModel == null && getFeedbackTitleListResponseModel.data == null)
+                {
+                    responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
+                    responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
+                }
+                if (getFeedbackTitleListResponseModel != null)
+                {
+                    //User user = authenticationResponseModel.userDetail;
+                    responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
+                    responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
+                    foreach (var item in getFeedbackTitleListResponseModel.data)
+                    {
+                        feedbacktitle.Add(new SelectListItem
+                        {
+                            Text = item.FeedbackTitle,
+                            Value = Convert.ToString(item.Id)
+                        });
+                    }
+                    return feedbacktitle;
+                }
+            }
+            else
+            {
+                responseModel.ResponseMessage = getFeedbackTitleListResponseModel.message;
+                responseModel.IsSuccess = getFeedbackTitleListResponseModel.isSuccess;
+            }
+            return null;
+        }
     }
 }

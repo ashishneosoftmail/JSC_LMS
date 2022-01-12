@@ -97,6 +97,7 @@ namespace JSC_LSM.UI.Controllers
             feedbackModel.Subjects = await _common.GetSubject();
             feedbackModel.Students = await _common.GetAllsStudent();
             feedbackModel.Parents = await _common.GetAllParents();
+            feedbackModel.FeedbackTitles = await _common.GetFeedbackTitle();
             return View(feedbackModel);
         }
 
