@@ -744,12 +744,12 @@ namespace JSC_LSM.UI.Controllers
             {
 
                 createNewFeedback.SubjectId = feedbackModel.SubjectId;
-                createNewFeedback.SectionId = feedbackModel.SubjectId;
-                createNewFeedback.ClassId = feedbackModel.SubjectId;
+                createNewFeedback.SectionId = feedbackModel.SectionId;
+                createNewFeedback.ClassId = feedbackModel.ClassId;
                 createNewFeedback.StudentId = feedbackModel.StudentId;
                 createNewFeedback.ParentId = feedbackModel.ParentId;
-                //createNewFeedback.FeedbackTitleId = feedbackModel.FeedbackTitleId;
-                createNewFeedback.FeedbackType = feedbackModel.FeedbackType;
+                createNewFeedback.FeedbackTitleId = feedbackModel.FeedbackTitleId;
+                createNewFeedback.FeedbackType = "Student";
                 createNewFeedback.IsActive = feedbackModel.IsActive;
                 createNewFeedback.FeedbackComments = feedbackModel.FeedbackComments;
                 FeedbackResponseModel feedbackResponseModel = null;
