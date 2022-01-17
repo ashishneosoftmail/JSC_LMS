@@ -34,6 +34,7 @@ namespace JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback
 
    
         public DateTime SendDate { get; set; }
+    
         public bool IsActive { get; set; }
 
         public bool Status { get; set; }

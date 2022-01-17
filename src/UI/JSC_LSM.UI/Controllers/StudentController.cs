@@ -36,9 +36,10 @@ namespace JSC_LSM.UI.Controllers
         private readonly IGallaryRepository _gallaryRepository;
         private readonly IFeedbackRepository _feedbackRepository;
         private readonly IFeedbackTitleRepository _feedbackTitleRepository;
+        private readonly IParentsRepository _parentsRepository;
 
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository , IFeedbackRepository feedbackRepository, IFeedbackTitleRepository feedbackTitleRepository)
+        public StudentController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository, IClassRepository classRepository, ISectionRepository sectionRepository, ISubjectRepository subjectRepository, IAnnouncementRepository announcementRepository, ICircularRepository circularRepository, IStudentRepository studentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment , IEventsDetailsRepository eventsRepository, IGallaryRepository gallaryRepository , IFeedbackRepository feedbackRepository, IFeedbackTitleRepository feedbackTitleRepository , IParentsRepository parentsRepository)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
@@ -57,6 +58,7 @@ namespace JSC_LSM.UI.Controllers
             _gallaryRepository = gallaryRepository;
             _feedbackRepository = feedbackRepository;
             _feedbackTitleRepository = feedbackTitleRepository;
+            _parentsRepository = parentsRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -674,10 +676,12 @@ namespace JSC_LSM.UI.Controllers
 
 
             var dataList = await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
+
+           
             var tempstatus = "";
             foreach (var feedbackdata in dataList.data)
             {
-                if (feedbackdata.SchoolId == student.data.Schoolid)
+                if (feedbackdata.StudentId == student.data.Id)
                 {
                     data.Add(new GetAllFeedbackDetails()
                     {
@@ -691,9 +695,7 @@ namespace JSC_LSM.UI.Controllers
                         StudentName = feedbackdata.Students.StudentName,
                         ParentName = feedbackdata.Parents.ParentName,
                         FeedbackType = feedbackdata.FeedbackType,
-                        SendDate = feedbackdata.SendDate,
-
-
+                       SendDate =feedbackdata.SendDate
 
                     });
                 }
@@ -725,9 +727,6 @@ namespace JSC_LSM.UI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddFeedback(FeedbackModel feedbackModel)
-
-
-
         {
             ViewBag.AddFeedbackSuccess = null;
             ViewBag.AddFeedbackError = null;
@@ -737,21 +736,34 @@ namespace JSC_LSM.UI.Controllers
             feedbackModel.Subjects = await _common.GetSubject();
             feedbackModel.Students = await _common.GetAllsStudent();
             feedbackModel.Parents = await _common.GetAllParents();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var student = await _studentRepository.GetStudentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl, userId);
+
+            var parents = await _parentsRepository.GetAllParentsDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
 
             CreateFeedbackDto createNewFeedback = new CreateFeedbackDto();
 
             if (ModelState.IsValid)
             {
 
-                createNewFeedback.SubjectId = feedbackModel.SubjectId;
-                createNewFeedback.SectionId = feedbackModel.SectionId;
-                createNewFeedback.ClassId = feedbackModel.ClassId;
-                createNewFeedback.StudentId = feedbackModel.StudentId;
-                createNewFeedback.ParentId = feedbackModel.ParentId;
-                createNewFeedback.FeedbackTitleId = feedbackModel.FeedbackTitleId;
+                createNewFeedback.SubjectId = feedbackModel.AddNewFeedbacks.SubjectId;
+                createNewFeedback.SectionId = student.data.Sectionid;
+                createNewFeedback.ClassId = student.data.Classid;
+                createNewFeedback.SchoolId = student.data.Schoolid;
+                createNewFeedback.StudentId = student.data.Id;
+               
+                createNewFeedback.FeedbackTitleId = feedbackModel.AddNewFeedbacks.FeedbackTitleId;
                 createNewFeedback.FeedbackType = "Student";
-                createNewFeedback.IsActive = feedbackModel.IsActive;
-                createNewFeedback.FeedbackComments = feedbackModel.FeedbackComments;
+                createNewFeedback.IsActive = true;
+                createNewFeedback.FeedbackComments = feedbackModel.AddNewFeedbacks.Comments;
+                createNewFeedback.SendDate =  DateTime.Now;
+                
+                foreach (var i in parents.data)
+                {
+                    if (i.StudentName == student.data.Name)
+                        createNewFeedback.ParentId = i.Id;
+                }
+
                 FeedbackResponseModel feedbackResponseModel = null;
                 ViewBag.AddFeedbackSuccess = null;
                 ViewBag.AddFeedbackError = null;
@@ -784,15 +796,8 @@ namespace JSC_LSM.UI.Controllers
                             newFeedbackModel.Parents = await _common.GetAllParents();
 
 
-                            var page = 1;
-                            var size = 5;
-                            int recsCount = (await _feedbackRepository.GetAllFeedbackDetails(_apiBaseUrl.Value.LmsApiBaseUrl)).data.Count();
-                            if (page < 1)
-                                page = 1;
-                            ViewBag.GetFeedbackById = TempData["GetFeedbackById"] as string;
-                            var pager = new Pager(recsCount, page, size);
-                            ViewBag.Pager = pager;
-                            return View("ManageFeedback", pager);
+                            
+                            RedirectToAction("ManageFeedback");
 
 
 
