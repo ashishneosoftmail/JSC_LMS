@@ -85,6 +85,8 @@ namespace JSC_LMS.Application.Features.ParentsFeature.Queries.GetParentsById
                     SectionName = (await _sectionRepository.GetByIdAsync(parent.SectionId)).SectionName
                 },
                 Student = studentData
+              
+               
             };
             _logger.LogInformation("Hanlde Completed");
             return new Response<GetParentsByIdDto>(parentData, "success");

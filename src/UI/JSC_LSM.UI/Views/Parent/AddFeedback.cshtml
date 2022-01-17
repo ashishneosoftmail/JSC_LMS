@@ -1,0 +1,287 @@
+﻿
+@model FeedbackModel
+
+
+@{
+    ViewData["Title"] = "AddFeedback";
+    Layout = "~/Views/Shared/_ParentLayout.cshtml";
+}
+<style>
+    .ButtonDesign {
+        width: 10%;
+        margin-left: 1%;
+    }
+
+    form {
+        padding: inherit;
+        margin: 5px 5px 5px 5px;
+        border: 2px solid gray;
+        height: 80%;
+        /*  width : 100%;*/
+    }
+
+    input {
+        width: 90%;
+    }
+
+    div {
+        font-size: 16px;
+    }
+
+    #snackbar {
+        background-color: green;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+
+        #snackbar.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    #snackbardanger {
+        background-color: red;
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -113px;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 21px;
+        position: fixed;
+        z-index: 1;
+        left: 90%;
+        top: 82px;
+        font-size: 17px;
+    }
+
+        #snackbardanger.show {
+            visibility: visible;
+            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+    @@-webkit-keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadein {
+        from {
+            top: 0;
+            opacity: 0;
+        }
+
+        to {
+            top: 30px;
+            opacity: 1;
+        }
+    }
+
+    @@-webkit-keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    @@keyframes fadeout {
+        from {
+            top: 30px;
+            opacity: 1;
+        }
+
+        to {
+            top: 0;
+            opacity: 0;
+        }
+    }
+
+    .spacing {
+        margin-left: 30px;
+    }
+</style>
+
+<div class="container p-3 my-3 border fixed" id="div1">
+    <h3>Create Feedback</h3>
+    <p style="font-weight:bold; margin-top:1em;">All <span style="color:red;">*</span> fields are mandatory</p>
+    <form method="post" novalidate>
+
+
+        <div class="row">
+            <div class="col">
+                <div class="form-group row">
+                    <label for="inputSchool" class="col-sm-2 col-form-label">Feedback Title  <span class="text-danger">*</span>  </label>
+                    <div class="col-sm-4">
+                        <select class="form-control" asp-for="AddNewFeedbacks.FeedbackTitleId" asp-items="Model.FeedbackTitles" id="subject">
+                            <option disabled selected hidden>Select Feedbacktitle</option>
+                        </select>
+                        <span asp-validation-for="AddNewFeedbacks.FeedbackTitleId" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+
+                <br />
+
+                <div class="form-group row">
+                    <label for="inputClassName" class="col-sm-2 col-form-label">Subject Name  <span class="text-danger">*</span> </label>
+                    <div class="col-sm-4">
+                        <select class="form-control" asp-for="AddNewFeedbacks.SubjectId" asp-items="Model.Subjects" id="subject">
+                            <option disabled selected hidden>Select Subject</option>
+                        </select>
+                        <span asp-validation-for="AddNewFeedbacks.SubjectId" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="inputClassName" class="col-sm-2 col-form-label">Feedback Comment  <span class="text-danger">*</span> </label>
+                    <div class="col-sm-4">
+                        <textarea id="description" asp-for="AddNewFeedbacks.Comments" rows="4" cols="40"></textarea>
+                        <span asp-validation-for="AddNewFeedbacks.Comments" class="text-danger"></span>
+                     
+
+                    </div>
+                </div>
+
+                <br />
+                <br />
+
+
+            </div>
+        </div>
+
+        <a asp-action="ManageFeedback" asp-controller="Parent" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
+        <button type="submit" class="btn btn-primary pull-right m-2 ">Save</button>
+
+
+
+
+    </form>
+</div>
+
+
+
+
+
+<!--<div class="col-md-11">
+
+    <div>
+        <h4 class="modal-title text-center">Send Feedback</h4>
+    
+      
+    </div>
+    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
+
+    <div>
+        <form method="post" novalidate enctype="multipart/form-data">
+
+  
+                <tr>
+                    <th>
+                        <label>FeedbackTitle<span class="text-danger">*</span></label>
+                    </th>
+                    <td>
+
+                        <select class="form-control" asp-for="AddNewFeedbacks.FeedbackTitleId" asp-items="Model.FeedbackTitles" id="subject">
+                            <option disabled selected hidden>Select Feedbacktitle</option>
+                        </select>
+                        <span asp-validation-for="AddNewFeedbacks.FeedbackTitleId" class="text-danger"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>Select Subject<span class="text-danger">*</span></label>
+                    </th>
+                    <td>
+
+                        <select class="form-control" asp-for="AddNewFeedbacks.SubjectId" asp-items="Model.Subjects" id="subject">
+                            <option disabled selected hidden>Select Subject</option>
+                        </select>
+                        <span asp-validation-for="AddNewFeedbacks.SubjectId" class="text-danger"></span>
+                    </td>
+                </tr>
+
+
+
+                <tr>
+                    <th>
+                        <label>Comments<span class="text-danger">*</span></label>
+                    </th>
+                    <td>
+                        <textarea id="description" asp-for="AddNewFeedbacks.Comments" rows="4" cols="40"></textarea>
+                        <span asp-validation-for="AddNewFeedbacks.Comments" class="text-danger"></span>
+
+                    </td>
+                </tr>-->
+
+
+
+
+
+
+
+                @*<tr>
+            <th>
+                <label>Type<span class="text-danger">*</span></label>
+            </th>
+            <td>
+                <textarea id="description" asp-for="AddNewFeedbacks.FeedbackType" rows="4" cols="40"></textarea>
+                <span asp-validation-for="AddNewFeedbacks.FeedbackType" class="text-danger"></span>
+
+            </td>
+        </tr>*@
+
+       
+            <!--<div class="footer">
+                <button type="button" class="btn btn-primary float-lg-end ButtonDesign" onclick="window.location = '@Url.Action("AddFeedback","Student")'">Send</button>
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+        </form>
+
+
+
+
+    </div>
+</div>-->
+
+
+
+
+
+
+
+
+

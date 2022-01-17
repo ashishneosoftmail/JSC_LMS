@@ -1,4 +1,5 @@
-﻿using JSC_LSM.UI.Helpers;
+﻿using JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback;
+using JSC_LSM.UI.Helpers;
 using JSC_LSM.UI.Models;
 using JSC_LSM.UI.ResponseModels;
 using JSC_LSM.UI.Services.IRepositories;
@@ -31,7 +32,8 @@ namespace JSC_LSM.UI.Controllers
         private readonly IEventsDetailsRepository _eventsRepository;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
         private readonly IFeedbackRepository _feedbackRepository;
-        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository , IUserRepository userRepository , IEventsDetailsRepository eventsRepository,   IOptions<ApiBaseUrl> apiBaseUrl , IFeedbackRepository feedbackRepository)
+        private readonly IStudentRepository _studentRepository;
+        public ParentController(ICircularRepository circularRepository, JSC_LSM.UI.Common.Common common, IParentsRepository parentRepository, IConfiguration configuration, IWebHostEnvironment webHostEnvironment, IAnnouncementRepository announcementRepository, ITeacherRepository teacherRepository, ISchoolRepository schoolRepository, IPrincipalRepository principalRepository, ISubjectRepository subjectRepository , IUserRepository userRepository , IEventsDetailsRepository eventsRepository,   IOptions<ApiBaseUrl> apiBaseUrl , IFeedbackRepository feedbackRepository , IStudentRepository studentRepository)
         {
             _common = common;
             _circularRepository = circularRepository;
@@ -47,6 +49,7 @@ namespace JSC_LSM.UI.Controllers
             _eventsRepository = eventsRepository;
             _apiBaseUrl = apiBaseUrl;
             _feedbackRepository = feedbackRepository;
+            _studentRepository = studentRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -414,7 +417,7 @@ namespace JSC_LSM.UI.Controllers
             var tempstatus = "";
             foreach (var feedbackdata in dataList.data)
             {
-                if (feedbackdata.SchoolId == parent.data.SchoolId)
+                if (feedbackdata.ParentId == parent.data.Id)
                 {
                     data.Add(new GetAllFeedbackDetails()
                     {
@@ -440,5 +443,120 @@ namespace JSC_LSM.UI.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddFeedback()
+        {
+            FeedbackModel feedbackModel = new FeedbackModel();
+            feedbackModel.Classes = await _common.GetClass();
+            feedbackModel.Sections = await _common.GetSection();
+            feedbackModel.Subjects = await _common.GetSubject();
+            feedbackModel.Students = await _common.GetAllsStudent();
+            feedbackModel.Parents = await _common.GetAllParents();
+            feedbackModel.FeedbackTitles = await _common.GetFeedbackTitle();
+            //feedbackModel.FeedbackTitles = await _common.GetFeedbackTitle();
+
+            return View(feedbackModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddFeedback(FeedbackModel feedbackModel)
+        {
+            ViewBag.AddFeedbackSuccess = null;
+            ViewBag.AddFeedbackError = null;
+
+            feedbackModel.Classes = await _common.GetClass();
+            feedbackModel.Sections = await _common.GetSection();
+            feedbackModel.Subjects = await _common.GetSubject();
+            feedbackModel.Students = await _common.GetAllsStudent();
+            feedbackModel.Parents = await _common.GetAllParents();
+            var userId = Convert.ToString(Request.Cookies["Id"]);
+            var parent = await _parentRepository.GetParentByUserId(_apiBaseUrl.Value.LmsApiBaseUrl, userId);
+            var parentbyid = await _parentRepository.GetParentsById(_apiBaseUrl.Value.LmsApiBaseUrl , parent.data.Id);
+
+            var students = await _studentRepository.GetAllStudentDetails(_apiBaseUrl.Value.LmsApiBaseUrl);
+
+            CreateFeedbackDto createNewFeedback = new CreateFeedbackDto();
+
+            if (ModelState.IsValid)
+            {
+
+                createNewFeedback.SubjectId = feedbackModel.AddNewFeedbacks.SubjectId;
+                createNewFeedback.SectionId = parent.data.Sectionid;
+                createNewFeedback.ClassId = parent.data.Classid;
+                createNewFeedback.SchoolId = parent.data.SchoolId;
+                
+                createNewFeedback.ParentId = parent.data.Id;
+                createNewFeedback.FeedbackTitleId = feedbackModel.AddNewFeedbacks.FeedbackTitleId;
+                createNewFeedback.FeedbackType = "Parent";
+                createNewFeedback.IsActive = true;
+                createNewFeedback.FeedbackComments = feedbackModel.AddNewFeedbacks.Comments;
+                createNewFeedback.SendDate = DateTime.Now;
+                foreach (var i in students.data)
+                {
+                    if (i.StudentName == parentbyid.data.Student[0].StudentName)
+                        createNewFeedback.StudentId = i.Id;
+                }
+
+
+                FeedbackResponseModel feedbackResponseModel = null;
+                ViewBag.AddFeedbackSuccess = null;
+                ViewBag.AddFeedbackError = null;
+                ResponseModel responseModel = new ResponseModel();
+
+                feedbackResponseModel = await _feedbackRepository.AddNewFeedback(_apiBaseUrl.Value.LmsApiBaseUrl, createNewFeedback);
+
+
+                if (feedbackResponseModel.Succeeded)
+                {
+                    if (feedbackResponseModel == null && feedbackResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = feedbackResponseModel.message;
+                        responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                    }
+                    if (feedbackResponseModel != null)
+                    {
+                        if (feedbackResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = feedbackResponseModel.message;
+                            responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                            ViewBag.AddSectionSuccess = "Details Added Successfully";
+                            ModelState.Clear();
+                            var newFeedbackModel = new FeedbackModel();
+
+                            newFeedbackModel.Students = await _common.GetAllsStudent();
+                            newFeedbackModel.Classes = await _common.GetClass();
+                            newFeedbackModel.Subjects = await _common.GetSubject();
+                            newFeedbackModel.Sections = await _common.GetSection();
+                            newFeedbackModel.Parents = await _common.GetAllParents();
+
+
+
+                            RedirectToAction("ManageFeedback","Parent");
+
+
+
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = feedbackResponseModel.message;
+                            responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                            ViewBag.AddSubjectError = feedbackResponseModel.message;
+                            return View(feedbackModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = feedbackResponseModel.message;
+                    responseModel.IsSuccess = feedbackResponseModel.Succeeded;
+                    ViewBag.AddFeedbackError = feedbackResponseModel.message;
+                }
+            }
+            return View(feedbackModel);
+
+
+        }
     }
 }

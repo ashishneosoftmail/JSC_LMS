@@ -797,7 +797,7 @@ namespace JSC_LSM.UI.Controllers
 
 
                             
-                            RedirectToAction("ManageFeedback");
+                            RedirectToAction("ManageFeedback" , "Student");
 
 
 
