@@ -13,7 +13,7 @@ namespace JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback
             //   .NotEmpty().WithMessage("{PropertyName} is required.")
             //   .NotNull();
             RuleFor(p => p.createFeedbackDto.FeedbackTitleId)
-             .NotEmpty().WithMessage("{PropertyName} is required.")
+             .NotEmpty().WithMessage("Feedback Title is required.")
              .NotNull();
   
             RuleFor(p => p.createFeedbackDto.StudentId)
@@ -23,7 +23,7 @@ namespace JSC_LMS.Application.Features.Feedback.Commands.CreateFeedback
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
             RuleFor(p => p.createFeedbackDto.SubjectId)
-            .NotEmpty().WithMessage("{PropertyName} is required.")
+            .NotEmpty().WithMessage("Subject is required.")
             .NotNull();
             RuleFor(p => p.createFeedbackDto.SendDate)
              .NotEmpty().WithMessage("{PropertyName} is required.")

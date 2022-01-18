@@ -144,7 +144,7 @@
                     <label for="inputSchool" class="col-sm-2 col-form-label">Feedback Title  <span class="text-danger">*</span>  </label>
                     <div class="col-sm-4">
                         <select class="form-control" asp-for="AddNewFeedbacks.FeedbackTitleId" asp-items="Model.FeedbackTitles" id="subject">
-                            <option disabled selected hidden>Select Feedbacktitle</option>
+                            <option disabled selected hidden>Select Feedback Title</option>
                         </select>
                         <span asp-validation-for="AddNewFeedbacks.FeedbackTitleId" class="text-danger"></span>
                     </div>
@@ -163,13 +163,16 @@
 
                     </div>
                 </div>
+                <br />
+
+                <br />
 
                 <div class="form-group row">
                     <label for="inputClassName" class="col-sm-2 col-form-label">Feedback Comment  <span class="text-danger">*</span> </label>
                     <div class="col-sm-4">
-                        <textarea id="description" asp-for="AddNewFeedbacks.Comments" rows="4" cols="40"></textarea>
+                        <textarea id="description" asp-for="AddNewFeedbacks.Comments" rows="4" cols="45"></textarea>
                         <span asp-validation-for="AddNewFeedbacks.Comments" class="text-danger"></span>
-                     
+
 
                     </div>
                 </div>
@@ -181,8 +184,8 @@
             </div>
         </div>
 
-        <a asp-action="ManageFeedback" asp-controller="Student" class="btn btn-danger pull-right m-2"><span>Cancel</span>   </a>
-        <button type="submit" class="btn btn-primary pull-right m-2 ">Save</button>
+        <a asp-action="ManageFeedback" asp-controller="Student" class="btn btn-danger pull-right m-3"><span>Cancel</span>   </a>
+        <button type="submit" class="btn btn-primary pull-right m-3 ">Send</button>
 
 
 
@@ -194,88 +197,6 @@
 
 
 
-<!--<div class="col-md-11">
-
-    <div>
-        <h4 class="modal-title text-center">Send Feedback</h4>
-    
-      
-    </div>
-    <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
-
-    <div>
-        <form method="post" novalidate enctype="multipart/form-data">
-
-  
-                <tr>
-                    <th>
-                        <label>FeedbackTitle<span class="text-danger">*</span></label>
-                    </th>
-                    <td>
-
-                        <select class="form-control" asp-for="AddNewFeedbacks.FeedbackTitleId" asp-items="Model.FeedbackTitles" id="subject">
-                            <option disabled selected hidden>Select Feedbacktitle</option>
-                        </select>
-                        <span asp-validation-for="AddNewFeedbacks.FeedbackTitleId" class="text-danger"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label>Select Subject<span class="text-danger">*</span></label>
-                    </th>
-                    <td>
-
-                        <select class="form-control" asp-for="AddNewFeedbacks.SubjectId" asp-items="Model.Subjects" id="subject">
-                            <option disabled selected hidden>Select Subject</option>
-                        </select>
-                        <span asp-validation-for="AddNewFeedbacks.SubjectId" class="text-danger"></span>
-                    </td>
-                </tr>
-
-
-
-                <tr>
-                    <th>
-                        <label>Comments<span class="text-danger">*</span></label>
-                    </th>
-                    <td>
-                        <textarea id="description" asp-for="AddNewFeedbacks.Comments" rows="4" cols="40"></textarea>
-                        <span asp-validation-for="AddNewFeedbacks.Comments" class="text-danger"></span>
-
-                    </td>
-                </tr>-->
-
-
-
-
-
-
-
-                @*<tr>
-            <th>
-                <label>Type<span class="text-danger">*</span></label>
-            </th>
-            <td>
-                <textarea id="description" asp-for="AddNewFeedbacks.FeedbackType" rows="4" cols="40"></textarea>
-                <span asp-validation-for="AddNewFeedbacks.FeedbackType" class="text-danger"></span>
-
-            </td>
-        </tr>*@
-
-       
-            <!--<div class="footer">
-                <button type="button" class="btn btn-primary float-lg-end ButtonDesign" onclick="window.location = '@Url.Action("AddFeedback","Student")'">Send</button>
-
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            </div>
-
-        </form>
-
-
-
-
-    </div>
-</div>-->
 
 
 

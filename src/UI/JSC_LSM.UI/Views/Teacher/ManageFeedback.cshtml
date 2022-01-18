@@ -282,14 +282,47 @@
                 <table class="table table-borderless">
                     <tr>
                         <th>
+                            <label>Title</label>
+                        </th>
+                        <td>
+                            <span id="detailsTitle"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>Type</label>
+                        </th>
+                        <td>
+                            <span id="detailsType"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label>Class</label>
+                        </th>
+                        <td>
+                            <span id="detailsClass"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label>Section</label>
+                        </th>
+                        <td>
+                            <span id="detailsSection"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
                             <label>Subject</label>
                         </th>
                         <td>
                             <span id="detailsSubject"></span>
                         </td>
                     </tr>
-
-
 
 
                     <tr>
@@ -335,6 +368,14 @@
         $.get("/Feedback/ViewFeedbackData", { Id: id }, function (data) {
             console.log(data);
             if (data) {
+                $("#detailsTitle").text(data.data.feedbackTitle.feedback_Title);
+
+                $("#detailsType").text(data.data.type);
+
+                $("#detailsClass").text(data.data.classes.className);
+
+                $("#detailsSection").text(data.data.section.sectionName);
+
                 $("#detailsSubject").text(data.data.subject.subjectName);
 
                 $("#detailsComments").text(data.data.feedbackComments);

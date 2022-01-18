@@ -785,7 +785,7 @@ namespace JSC_LSM.UI.Controllers
                         {
                             responseModel.ResponseMessage = feedbackResponseModel.message;
                             responseModel.IsSuccess = feedbackResponseModel.Succeeded;
-                            ViewBag.AddSectionSuccess = "Details Added Successfully";
+                            ViewBag.AddFeedbackSuccess = "Details Added Successfully";
                             ModelState.Clear();
                             var newFeedbackModel = new FeedbackModel();
 

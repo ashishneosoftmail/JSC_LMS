@@ -136,6 +136,34 @@
         }
     }
 </style>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<div id="wrapper">
+    @if (ViewBag.AddFeedbackSuccess != null)
+    {
+
+        @* <script>alert("@ViewBag.AddCircularSuccess")</script>*@
+        <div id="snackbar" class="snackbar-success "><i class="fa fa-check" aria-hidden="true"></i> @ViewBag.AddFeedbackSuccess</div>
+        <script>
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+    }
+    @if (ViewBag.AddFeedbackError != null)
+    {
+        @* <script>alert("@ViewBag.AddCircularError")</script>*@
+        <div id="snackbardanger"><i class="fa fa-times" aria-hidden="true"></i> @ViewBag.AddFeedbackError</div>
+        <script>
+            var x = document.getElementById("snackbardanger");
+            x.className = "show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 5000);
+        </script>
+    }
+
+
+</div>
+
 <h3 class="p-4 mt-4">Manage Feedback</h3>
 
 
@@ -279,6 +307,50 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <table class="table table-borderless">
+
+                    <tr>
+                        <th>
+                            <label>School</label>
+                        </th>
+                        <td>
+                            <span id="detailsSchool"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>Title</label>
+                        </th>
+                        <td>
+                            <span id="detailsTitle"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label>Type</label>
+                        </th>
+                        <td>
+                            <span id="detailsType"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label>Class</label>
+                        </th>
+                        <td>
+                            <span id="detailsClass"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label>Section</label>
+                        </th>
+                        <td>
+                            <span id="detailsSection"></span>
+                        </td>
+                    </tr>
+
                     <tr>
                         <th>
                             <label>Subject</label>
@@ -335,6 +407,16 @@
         $.get("/Feedback/ViewFeedbackData", { Id: id }, function (data) {
             console.log(data);
             if (data) {
+                $("#detailsTitle").text(data.data.feedbackTitle.feedback_Title);
+
+                $("#detailsType").text(data.data.type);
+
+                $("#detailsClass").text(data.data.classes.className);
+
+                $("#detailsSchool").text(data.data.school.schoolName);
+
+                $("#detailsSection").text(data.data.section.sectionName);
+
                 $("#detailsSubject").text(data.data.subject.subjectName);
 
                 $("#detailsComments").text(data.data.feedbackComments);
