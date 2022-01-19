@@ -19,6 +19,8 @@
 
 
 <style>
+ 
+
     #borderimg1 {
         border-radius: 1em;
     }
@@ -284,28 +286,35 @@
         }
         @if (Model.GetGallaryList != null)
         {
-            foreach (var item in Model.GetGallaryList)
-            {
-                <div class="container">
-                    <div class="columns">
-                        <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" onclick="ShowEventDetail(@item.Id)">
-                            <div class="column">
 
-                                <img src="~/Upload/Gallary/@item.image" id="image" class="img-responsive" width="300" height="300" >
+                    <div class=" row">
+        @foreach (var item in Model.GetGallaryList)
+        {
+                        <div class=" col-lg-4 ">
+                            <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal" onclick="ShowEventDetail(@item.Id)">
+                                <div class="row">
 
+                                    <img src="~/Upload/Gallary/@item.image" id="image" class="img-responsive" width="300" height="300" style="border-radius: 10%; border: 5px solid goldenrod;">
+
+                                </div>
+
+                            </button>
+                            <div class="row">
+                                <button type="button" class="btn btn-danger  col-sm-3 " style="margin:auto;" data-toggle="modal" data-target="#confirmdelete" onclick="tempData(@item.Id)">
+                                    Delete
+                                </button>
                             </div>
-                        </button>
-
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmdelete" onclick="tempData(@item.Id)">
-                            Delete
-                        </button>
-                    </div>
-                </div>
 
 
 
+                        </div>
+        }
+    </div>
 
-            }
+
+
+
+           
 
         }
 

@@ -31,10 +31,10 @@
 
     <div id="btnContainer">
 
-        <button class="btn dark" onclick="location.href='@Url.Action("ListGallary","Institute")'"> <i class="fa fa-bars"></i>List</button>
+        <button class="btn dark" onclick="location.href='@Url.Action("ListGallary","Principal")'"> <i class="fa fa-bars"></i>List</button>
 
 
-        <button class="btn" onclick="location.href='@Url.Action("ManageGallary","Institute")'"> <i class="fa fa-th-large"></i>Grid</button>
+        <button class="btn" onclick="location.href='@Url.Action("ManageGallary","Principal")'"> <i class="fa fa-th-large"></i>Grid</button>
     </div>
 
 
@@ -50,7 +50,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form -->
-                    <form method="post" novalidate enctype="multipart/form-data" asp-action="UploadImage" asp-controller="Institute">
+                    <form method="post" novalidate enctype="multipart/form-data" asp-action="UploadImage" asp-controller="Principal">
 
                         <div class="form-group row col-md-12">
                             <label for="status">School Type<span class="text-danger">*</span> </label>
