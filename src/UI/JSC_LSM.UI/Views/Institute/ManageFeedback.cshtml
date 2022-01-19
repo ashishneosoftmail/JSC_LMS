@@ -224,73 +224,7 @@
     </div>
 </div>
 
-@*<div class="col-md-11">
 
-
-        <div class="container">
-             The Modal
-            <div class="modal" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-
-                         Modal Header
-                        <div class="modal-header">
-                            <h4 class="modal-title text-center">Send Feedback</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <p style="font-weight: bold; margin-left: 0.5em;">All <span style="color:red;">*</span> fields are mandatory</p>
-
-                         Modal body
-                        <div class="modal-body">
-                            <form method="post" novalidate enctype="multipart/form-data" asp-action="SendFeedbackData" asp-controller="Feedback">
-
-                                <table class="table table-borderless">
-
-
-                                    <tr>
-                                        <th>
-                                            <label>Select Subject<span class="text-danger">*</span></label>
-                                        </th>
-                                        <td>
-
-                                            <select class="form-control" asp-for="AddNewFeedbacks.SubjectId" asp-items="Model.Subjects" id="subject">
-                                                <option disabled selected hidden>Select Subject</option>
-                                            </select>
-                                            <span asp-validation-for="AddNewFeedbacks.SubjectId" class="text-danger"></span>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>
-                                            <label>Comments<span class="text-danger">*</span></label>
-                                        </th>
-                                        <td>
-                                            <textarea id="description" asp-for="AddNewFeedbacks.Comments" rows="4" cols="40"></textarea>
-                                            <span asp-validation-for="AddNewFeedbacks.Comments" class="text-danger"></span>
-
-                                        </td>
-                                    </tr>
-
-                                </table>
-                                <div class="modal-footer">
-                                    <input type="submit" class="btn btn-primary float-lg-end ButtonDesign" value="Send" name="SendFeedbackData"  />
-
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                                </div>
-
-                            </form>
-
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>*@
 <!-- The Modal -->
 <div class="modal" id="viewFeedbackData">
     <div class="modal-dialog">

@@ -1,0 +1,16 @@
+﻿<style>
+    h2 {
+        padding-top: 3%;
+    }
+
+    ::-webkit-scrollbar {
+        display: block;
+        overflow: hidden; /* Hide scrollbars */
+    }
+</style>
+@{
+    ViewData["Title"] = "GallaryList";
+    Layout = "~/Views/Shared/_TeacherLayout.cshtml";
+}
+
+@{ Html.RenderPartial("_GallaryList"); }
