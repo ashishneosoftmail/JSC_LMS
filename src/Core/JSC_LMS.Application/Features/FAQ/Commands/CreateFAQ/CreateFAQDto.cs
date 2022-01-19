@@ -16,7 +16,6 @@ namespace JSC_LMS.Application.Features.FAQ.Commands.CreateFAQ
         [StringLength(150, ErrorMessage = "Question length should not be more than 150 characters")]
         public string Question { get; set; }
         [Required(ErrorMessage = "Content is mandatory")]
-        [StringLength(150, ErrorMessage = "Content length should not be more than 350 characters")]
        
         public string Content { get; set; }
         [Required(ErrorMessage = "Status is mandatory")]
