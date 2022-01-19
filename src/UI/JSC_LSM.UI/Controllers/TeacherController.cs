@@ -15,15 +15,20 @@ using JSC_LMS.Application.Features.Teachers.Commands.UpdateTeacher;
 using System.Data;
 using ClosedXML.Excel;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using JSC_LMS.Application.Features.Announcement.Commands.CreateAnnouncement;
 using JSC_LMS.Application.Features.Announcement.Commands.UpdateAnnouncement;
+using JSC_LSM.UI.ResponseModels.GallaryResponseModel;
+using JSC_LMS.Application.Features.Gallary.Commands.UploadImage;
+
 
 namespace JSC_LSM.UI.Controllers
 {
     public class TeacherController : BaseController
     {
         private readonly IStateRepository _stateRepository;
+     
         private readonly ITeacherRepository _teacherRepository;
         private readonly JSC_LSM.UI.Common.Common _common;
         private readonly IOptions<ApiBaseUrl> _apiBaseUrl;
@@ -31,17 +36,19 @@ namespace JSC_LSM.UI.Controllers
         private readonly ISectionRepository _sectionRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IClassRepository _classRepository;
+        private readonly IConfiguration _configuration;
         private readonly IAnnouncementRepository _announcementRepository;
         private readonly IInstituteRepository _instituteRepository;
         private readonly IUserRepository _userRepository;
         private readonly IPrincipalRepository _principalRepository;
         private readonly IFeedbackRepository _feedbackRepository;
-
-        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository , IUserRepository userRepository , IPrincipalRepository principalRepository , IFeedbackRepository feedbackRepository)
+        private readonly IGallaryRepository _gallaryRepository;
+        public TeacherController(IStateRepository stateRepository, ISchoolRepository schoolRepository, JSC_LSM.UI.Common.Common common, IOptions<ApiBaseUrl> apiBaseUrl, ITeacherRepository teacherRepository , IClassRepository classRepository, ISectionRepository sectionRepository , ISubjectRepository subjectRepository , IInstituteRepository instituteRepository ,IAnnouncementRepository announcementRepository , IUserRepository userRepository , IPrincipalRepository principalRepository , IFeedbackRepository feedbackRepository, IGallaryRepository gallaryRepository, IConfiguration configuration)
         {
             _stateRepository = stateRepository;
             _teacherRepository = teacherRepository;
             _common = common;
+            _configuration = configuration;
             _apiBaseUrl = apiBaseUrl;
             _schoolRepository = schoolRepository;
             _classRepository = classRepository;
@@ -52,6 +59,8 @@ namespace JSC_LSM.UI.Controllers
             _userRepository = userRepository;
             _principalRepository = principalRepository;
             _feedbackRepository = feedbackRepository;
+            _gallaryRepository=gallaryRepository;
+
 
         }
 
@@ -1148,5 +1157,270 @@ namespace JSC_LSM.UI.Controllers
             model.GetFeedbackList = data;
             return View(model);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteGallary(int id)
+        {
+            await _gallaryRepository.DeleteGallary(_apiBaseUrl.Value.LmsApiBaseUrl, id);
+            ViewBag.DeleteGallarySuccess = "Images Deleted Successfully";
+            return RedirectToAction("ListGallary");
+        }
+        [HttpGet]
+        public async Task<GetGallaryListByIdResponseModel> ViewGallary(int Id)
+        {
+
+            var gallary = await _gallaryRepository.GetGallaryById(_apiBaseUrl.Value.LmsApiBaseUrl, Id);
+            return gallary;
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> ListGallary()
+        {
+            var data = new List<GetGallaryList>();
+            GallaryDetailsModel model = new GallaryDetailsModel();
+
+            model.Events = await _common.GetEvent();
+            model.Schools = await _common.GetSchool();
+            var dataList = await _gallaryRepository.GetGallaryList(_apiBaseUrl.Value.LmsApiBaseUrl);
+
+            foreach (var gallarydata in dataList.data)
+            {
+
+                data.Add(new GetGallaryList()
+                {
+                    Id = gallarydata.Id,
+                    EventsTableId = gallarydata.EventsTableId,
+                    EventTitle = gallarydata.EventsData.EventTitle,
+                    FileName = gallarydata.FileName,
+                    FileType = gallarydata.FileType,
+                    image = gallarydata.image,
+
+
+                });
+            }
+            model.GetGallaryList = data;
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ManageGallary()
+        {
+            var data = new List<GetGallaryList>();
+            GallaryDetailsModel model = new GallaryDetailsModel();
+
+            model.Events = await _common.GetEvent();
+            model.Schools = await _common.GetSchool();
+            var dataList = await _gallaryRepository.GetGallaryList(_apiBaseUrl.Value.LmsApiBaseUrl);
+
+            foreach (var gallarydata in dataList.data)
+            {
+
+                data.Add(new GetGallaryList()
+                {
+                    Id = gallarydata.Id,
+                    EventsTableId = gallarydata.EventsTableId,
+                    EventTitle = gallarydata.EventsData.EventTitle,
+                    FileName = gallarydata.FileName,
+                    FileType = gallarydata.FileType,
+
+                    image = gallarydata.image,
+
+
+                });
+            }
+            model.GetGallaryList = data;
+            return View(model);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteGallaryList(int id)
+        {
+            await _gallaryRepository.DeleteGallary(_apiBaseUrl.Value.LmsApiBaseUrl, id);
+            ViewBag.DeleteGallarySuccess = "Images Deleted Successfully";
+            return RedirectToAction("ManageGallary");
+        }
+
+        public async Task<IActionResult> Download(string filename)
+        {
+            if (filename == null)
+                return Content("filename is not availble");
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Upload/Gallary", filename);
+
+            var memory = new MemoryStream();
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                await stream.CopyToAsync(memory);
+            }
+            memory.Position = 0;
+            return File(memory, GetContentType(path), Path.GetFileName(path));
+        }
+
+        // Get content type
+        private string GetContentType(string path)
+        {
+            var types = GetMimeTypes();
+            var ext = Path.GetExtension(path).ToLowerInvariant();
+            return types[ext];
+        }
+
+        // Get mime types
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+    {
+        {".txt", "text/plain"},
+        {".pdf", "application/pdf"},
+        {".doc", "application/vnd.ms-word"},
+        {".docx", "application/vnd.ms-word"},
+        {".ppt","application/vnd.ms-powerpoint"},
+        {".xls", "application/vnd.ms-excel"},
+        {".xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"},
+        {".png", "image/png"},
+        {".jpg", "image/jpeg"},
+        {".jpeg", "image/jpeg"},
+        {".gif", "image/gif"},
+        {".jfif","image/jpeg" },
+        {".csv", "text/csv"}
+    };
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteAllGallary()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Upload/Gallary");
+            System.IO.DirectoryInfo di = new DirectoryInfo(path);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            await _gallaryRepository.DeleteAllGallary(_apiBaseUrl.Value.LmsApiBaseUrl);
+            ViewBag.DeleteAllGallarySuccess = "All Images Deleted Successfully";
+            return RedirectToAction("ManageGallary");
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteAllGallaryList()
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Upload/Gallary");
+            System.IO.DirectoryInfo di = new DirectoryInfo(path);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            await _gallaryRepository.DeleteAllGallary(_apiBaseUrl.Value.LmsApiBaseUrl);
+            ViewBag.DeleteAllGallarySuccess = "All Images Deleted Successfully";
+            return RedirectToAction("ListGallary");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UploadImage(GallaryDetailsModel gallaryDetailsModel)
+        {
+            ViewBag.AddGallarySuccess = null;
+            ViewBag.AddGallaryError = null;
+            gallaryDetailsModel.Events = await _common.GetEvent();
+            gallaryDetailsModel.Schools = await _common.GetSchool();
+            UploadImageDto uploadImageDto = new UploadImageDto();
+
+            if (ModelState.IsValid)
+            {
+
+                var ImagePath = _configuration["Gallary"];
+                string imagename = null;
+
+                if (gallaryDetailsModel.AddGallary.imageUpload != null)
+                {
+                    imagename = _common.ProcessUploadFile(gallaryDetailsModel.AddGallary.imageUpload, ImagePath);
+                }
+
+
+                uploadImageDto.EventsTableId = gallaryDetailsModel.AddGallary.EventsTableId;
+                uploadImageDto.FileName = gallaryDetailsModel.AddGallary.FileName;
+                uploadImageDto.FileType = gallaryDetailsModel.AddGallary.FileType;
+                uploadImageDto.IsActive = true;
+                uploadImageDto.image = imagename;
+                uploadImageDto.SchoolId = gallaryDetailsModel.AddGallary.SchoolId;
+
+                //if (Image != null)
+                //{
+                //    imagename = _common.ProcessUploadFile(Image, ImagePath);
+                //}
+                //else
+                //{
+                //    imagename = ImageName;
+                //}
+
+                AddGallaryResponseModel addGallaryResponseModel = null;
+                ViewBag.AddGallarySuccess = null;
+                ViewBag.AddGallaryError = null;
+                ResponseModel responseModel = new ResponseModel();
+                addGallaryResponseModel = await _gallaryRepository.AddGallary(_apiBaseUrl.Value.LmsApiBaseUrl, uploadImageDto);
+
+
+                if (addGallaryResponseModel.Succeeded)
+                {
+                    if (addGallaryResponseModel == null && addGallaryResponseModel.data == null)
+                    {
+                        responseModel.ResponseMessage = addGallaryResponseModel.message;
+                        responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
+                    }
+                    if (addGallaryResponseModel != null)
+                    {
+                        if (addGallaryResponseModel.data != null)
+                        {
+                            responseModel.ResponseMessage = addGallaryResponseModel.message;
+                            responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
+                            ViewBag.AddGallarySuccess = "File Added Successfully";
+                            //ModelState.Clear();
+
+                            GallaryDetailsModel model = new GallaryDetailsModel();
+
+                            var data = new List<GetGallaryList>();
+
+                            var dataList = await _gallaryRepository.GetGallaryList(_apiBaseUrl.Value.LmsApiBaseUrl);
+
+                            foreach (var gallarydata in dataList.data)
+                            {
+
+                                data.Add(new GetGallaryList()
+                                {
+
+                                    image = gallarydata.image,
+
+
+                                });
+                            }
+                            model.GetGallaryList = data;
+                            return View("ManageGallary", model);
+                        }
+                        else
+                        {
+                            responseModel.ResponseMessage = addGallaryResponseModel.message;
+                            responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
+
+
+                            ViewBag.AddGallaryError = addGallaryResponseModel.message;
+                            return View(gallaryDetailsModel);
+                        }
+                    }
+                }
+                else
+                {
+                    responseModel.ResponseMessage = addGallaryResponseModel.message;
+                    responseModel.IsSuccess = addGallaryResponseModel.Succeeded;
+                    ViewBag.AddGallaryError = addGallaryResponseModel.message;
+                }
+            }
+            return View(gallaryDetailsModel);
+        }
+
     }
 }
