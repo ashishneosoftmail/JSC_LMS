@@ -219,23 +219,29 @@
     </div>
 
 
-    <div class="col-sm-3">
-        <div class="form-group row col-sm-10">
-            <button type="button" class="btn btn-primary float-lg-end pull-right " onclick="searchParents()" style=" margin-left: 4em;">Search</button>
+   <div class="col-6 ">
+        <div class="text-right " style=" width:127%; margin-left:-81%">
+            <button type="button" class="btn btn-primary float-lg-end pull-right " onclick="searchParents()" style="width:25%; margin-left: 4em;">Search</button>
         </div>
 
     </div>
 </div>
 
-<div class="col-md-12">
+<div class="row ">
 
-
-    <a href="#" class=" btn   btn-link" style="margin-left: 30rem;">Download Sample Template</a>
+    <div class="col-7 " style="text-align:right">
+        <div class="text-lg-center ">
+    <a href="#" class=" btn   btn-link" style="margin-left: 8rem;">Download Sample Template</a>
     <button class="btn   btn-primary ">Upload</button>
+      </div>
+    </div>
+     <div class="col-5 pull-right">
+        <div class=" text-right ">
     <a asp-action="AddParents" asp-controller="User" class="btn btn-primary" style="margin-left: 7rem;"><span>Add New</span>   </a>
     <a asp-controller="User" asp-action="DownloadExcelParents" class="btn   btn-primary " download>Export</a>
 
-
+       </div>
+    </div>
 </div>
 
 <div id="wrap" class="m-3">
