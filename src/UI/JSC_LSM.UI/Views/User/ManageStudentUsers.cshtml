@@ -219,13 +219,21 @@
     </div>
 </div>
 
-<div class="col-md-12">
-    <a href="#" class=" btn   btn-link " style="margin-left: 27rem;">Download Sample Template</a>
-    <button class="btn   btn-primary ">Upload</button>
-    <a asp-action="AddStudent" asp-controller="User" class="btn btn-primary   " style="margin-left: 6rem;"><span>Add New</span>   </a>
-    <a asp-controller="User" asp-action="DownloadExcel" class="btn   btn-primary " download>Export</a>
 
-</div>
+<div class="row">
+    <div class="col-6 ">
+        <div class="text-lg-center " style="text-align:right">
+            <a href="#" class=" btn   btn-link " style="margin-left: 18%;">Download Sample Template</a>
+            <button class="btn   btn-primary " style="width: 33%;">Upload</button>
+        </div>
+        </div>
+    <div class="col-6 pull-right">
+        <div class=" text-right ">
+            <a asp-action="AddStudent" asp-controller="User" class="btn btn-primary"><span>Add New</span>   </a>
+            <a asp-controller="User" asp-action="DownloadExcel" class="btn   btn-primary " download>Export</a>
+        </div>
+        </div>
+    </div>
 
 <div id="wrap" class="m-3">
     <div class="container">
