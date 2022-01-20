@@ -191,11 +191,19 @@
        
     </div>
 </div>
-<div class="row" >
-    <button type="button" style="margin-left: 5em; width: 9em;" class="btn btn-primary " onclick="searchClass()">Search</button>
-    <a asp-action="AddClass" asp-controller="Class" class="btn btn-primary " style="width: 9rem; margin-left: 35rem; "><span>Create New</span>   </a>
 
-</div>
+<div class="row" style="margin-left:-10%;">
+    <div class="col-6 ">
+        <div class="text-right " style=" width:109%;">
+            <button type="button" style=" width:26%;" class="btn btn-primary " onclick="searchClass()">Search</button>
+            </div>
+        </div>
+    <div class="col-6 ">
+        <div class=" text-right ">
+            <a asp-action="AddClass" asp-controller="Class" class="btn btn-primary " style=" width:30%;"><span >Create New</span>   </a>
+        </div>
+        </div>
+    </div>
 
 <div id="wrap" class="mt-3">
     <div class="container">
